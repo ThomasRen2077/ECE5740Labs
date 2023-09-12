@@ -105,7 +105,7 @@ module lab1_imul_IntMulBase
         next_ostream_msg = 0;
         next_ostream_val = 0;
       end 
-      else if(counter != 32)begin
+      else if(counter != 33)begin
         next_a = a << 1;
         next_b = b >> 1;
         if(b[0]) begin
