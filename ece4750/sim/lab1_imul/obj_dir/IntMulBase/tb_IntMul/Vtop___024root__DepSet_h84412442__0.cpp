@@ -4286,14 +4286,11 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
             vlSelf->top__DOT__imul__DOT__a = vlSelf->top__DOT__imul__DOT__next_a;
             vlSelf->top__DOT__imul__DOT__b = vlSelf->top__DOT__imul__DOT__next_b;
             vlSelf->top__DOT__ostream_msg = vlSelf->top__DOT__imul__DOT__next_ostream_msg;
-            if (vlSelf->top__DOT__imul__DOT__next_ostream_val) {
-                vlSelf->top__DOT__ostream_val = 1U;
-                vlSelf->top__DOT__istream_rdy = 0U;
-            } else {
-                vlSelf->top__DOT__ostream_val = 0U;
-            }
+            vlSelf->top__DOT__ostream_val = vlSelf->top__DOT__imul__DOT__next_ostream_val;
+            vlSelf->top__DOT__istream_rdy = 0U;
         } else if ((2U == (IData)(vlSelf->top__DOT__imul__DOT__state))) {
             vlSelf->top__DOT__ostream_val = vlSelf->top__DOT__imul__DOT__next_ostream_val;
+            vlSelf->top__DOT__istream_rdy = 0U;
         }
     }
     if (vlSelf->top__DOT__reset) {

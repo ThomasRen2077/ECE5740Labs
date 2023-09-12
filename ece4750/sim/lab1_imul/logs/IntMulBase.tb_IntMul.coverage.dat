@@ -104,7 +104,7 @@ C 'f../vc/trace.vl49n15pagev_toggle/vc_Traceolevel[3]hTOP.top.imul.v
 C 'fIntMulBase.vl23n23pagev_toggle/lab1_imul_IntMulBaseoclkhTOP.top.imul' 2097
 C 'fIntMulBase.vl24n23pagev_toggle/lab1_imul_IntMulBaseoresethTOP.top.imul' 1
 C 'fIntMulBase.vl26n23pagev_toggle/lab1_imul_IntMulBaseoistream_valhTOP.top.imul' 56
-C 'fIntMulBase.vl27n23pagev_toggle/lab1_imul_IntMulBaseoistream_rdyhTOP.top.imul' 1
+C 'fIntMulBase.vl27n23pagev_toggle/lab1_imul_IntMulBaseoistream_rdyhTOP.top.imul' 57
 C 'fIntMulBase.vl28n23pagev_toggle/lab1_imul_IntMulBaseoistream_msg[0]hTOP.top.imul' 13
 C 'fIntMulBase.vl28n23pagev_toggle/lab1_imul_IntMulBaseoistream_msg[10]hTOP.top.imul' 8
 C 'fIntMulBase.vl28n23pagev_toggle/lab1_imul_IntMulBaseoistream_msg[11]hTOP.top.imul' 4
@@ -409,10 +409,10 @@ C 'fIntMulBase.vl49n16pagev_toggle/lab1_imul_IntMulBaseoadd_result[7]
 C 'fIntMulBase.vl49n16pagev_toggle/lab1_imul_IntMulBaseoadd_result[8]hTOP.top.imul' 70
 C 'fIntMulBase.vl49n16pagev_toggle/lab1_imul_IntMulBaseoadd_result[9]hTOP.top.imul' 66
 C 'ftb_IntMul.vl20n26pagev_toggle/topoclkhTOP.top' 2097
-C 'ftb_IntMul.vl20n43pagev_toggle/topolinetracehTOP.top' 0
+C 'ftb_IntMul.vl20n43pagev_toggle/topolinetracehTOP.top' 1
 C 'ftb_IntMul.vl23n16pagev_toggle/toporesethTOP.top' 1
 C 'ftb_IntMul.vl25n16pagev_toggle/topoistream_valhTOP.top' 56
-C 'ftb_IntMul.vl26n16pagev_toggle/topoistream_rdyhTOP.top' 1
+C 'ftb_IntMul.vl26n16pagev_toggle/topoistream_rdyhTOP.top' 57
 C 'ftb_IntMul.vl27n16pagev_toggle/topoistream_msg[0]hTOP.top' 13
 C 'ftb_IntMul.vl27n16pagev_toggle/topoistream_msg[10]hTOP.top' 8
 C 'ftb_IntMul.vl27n16pagev_toggle/topoistream_msg[11]hTOP.top' 4

@@ -20,14 +20,14 @@
         
         module lab1_imul_IntMulAlt
         (
- 000949   input  logic        clk,
+ 000993   input  logic        clk,
  000001   input  logic        reset,
         
  000056   input  logic        istream_val,
  000057   output logic        istream_rdy,
  000004   input  logic [63:0] istream_msg,
         
- 000070   output logic        ostream_val,
+ 000114   output logic        ostream_val,
  000049   input  logic        ostream_rdy,
  000013   output logic [31:0] ostream_msg
         );
@@ -84,11 +84,11 @@
                   ostream_val <= next_ostream_val;
                   finish <= next_finish;
                   //counter <= counter + 1;
-                  if(next_ostream_val) istream_rdy <= 0;
+                  istream_rdy <= 0;
               end
               else if(state == DONE) begin
                 ostream_val <= next_ostream_val;
-                istream_rdy <= 1;
+                istream_rdy <= 0;
               end
               state <= nextstate;
             end

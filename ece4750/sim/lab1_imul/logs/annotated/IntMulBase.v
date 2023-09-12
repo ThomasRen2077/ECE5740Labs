@@ -25,7 +25,7 @@
  000001   input  logic        reset,
         
  000056   input  logic        istream_val,
- 000001   output logic        istream_rdy,
+ 000057   output logic        istream_rdy,
  000004   input  logic [63:0] istream_msg,
         
  000056   output logic        ostream_val,
@@ -71,10 +71,11 @@
                   ostream_msg <= next_ostream_msg;
                   ostream_val <= next_ostream_val;
                   counter <= counter + 1;
-                  if(next_ostream_val) istream_rdy <= 0;
+                  istream_rdy <= 0;
               end
               else if(state == DONE) begin
                 ostream_val <= next_ostream_val;
+                istream_rdy <= 0;
               end
               state <= nextstate;
             end
@@ -87,7 +88,7 @@
                     else                            nextstate = IDLE;
               CALC: if(counter == 8'd32)            nextstate = DONE;
                     else                            nextstate = CALC;
-              DONE: if(ostream_rdy)  nextstate = IDLE;
+              DONE: if(ostream_rdy)                 nextstate = IDLE;
                     else                            nextstate = DONE;
               default:                              nextstate = IDLE;
             endcase
@@ -136,7 +137,7 @@
           `VC_TRACE_BEGIN
           begin
         
-            $sformat( str, "%x", istream_msg );
+            $sformat( str, "%x", istream_msg);
             vc_trace.append_val_rdy_str( trace_str, istream_val, istream_rdy, str );
         
             vc_trace.append_str( trace_str, "(" );

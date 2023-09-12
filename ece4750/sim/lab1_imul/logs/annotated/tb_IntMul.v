@@ -18,17 +18,17 @@
         // Top-level module
         //------------------------------------------------------------------------
         
-%000000 module top(  input logic clk, input logic linetrace );
+ 000003 module top(  input logic clk, input logic linetrace );
         
           // DUT signals
  000003   logic        reset;
         
  000168   logic        istream_val;
- 000114   logic        istream_rdy;
+ 000170   logic        istream_rdy;
  000012   logic [63:0] istream_msg;
         
  000147   logic        ostream_rdy;
- 000182   logic        ostream_val;
+ 000226   logic        ostream_val;
  000037   logic signed [31:0] ostream_msg;
         
           // Testbench signals

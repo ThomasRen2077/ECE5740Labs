@@ -95,13 +95,13 @@ C 'f../vc/arithmetic.vl36n30pagev_toggle/vc_SimpleAdder__P20oout[6]h
 C 'f../vc/arithmetic.vl36n30pagev_toggle/vc_SimpleAdder__P20oout[7]hTOP.top.imul.Add' 44
 C 'f../vc/arithmetic.vl36n30pagev_toggle/vc_SimpleAdder__P20oout[8]hTOP.top.imul.Add' 48
 C 'f../vc/arithmetic.vl36n30pagev_toggle/vc_SimpleAdder__P20oout[9]hTOP.top.imul.Add' 40
-C 'f../vc/trace.vl20n15pagev_toggle/vc_TraceoclkhTOP.top.imul.vc_trace' 949
+C 'f../vc/trace.vl20n15pagev_toggle/vc_TraceoclkhTOP.top.imul.vc_trace' 993
 C 'f../vc/trace.vl21n15pagev_toggle/vc_TraceoresethTOP.top.imul.vc_trace' 1
 C 'f../vc/trace.vl49n15pagev_toggle/vc_Traceolevel[0]hTOP.top.imul.vc_trace' 0
 C 'f../vc/trace.vl49n15pagev_toggle/vc_Traceolevel[1]hTOP.top.imul.vc_trace' 0
 C 'f../vc/trace.vl49n15pagev_toggle/vc_Traceolevel[2]hTOP.top.imul.vc_trace' 0
 C 'f../vc/trace.vl49n15pagev_toggle/vc_Traceolevel[3]hTOP.top.imul.vc_trace' 0
-C 'fIntMulAlt.vl22n23pagev_toggle/lab1_imul_IntMulAltoclkhTOP.top.imul' 949
+C 'fIntMulAlt.vl22n23pagev_toggle/lab1_imul_IntMulAltoclkhTOP.top.imul' 993
 C 'fIntMulAlt.vl23n23pagev_toggle/lab1_imul_IntMulAltoresethTOP.top.imul' 1
 C 'fIntMulAlt.vl25n23pagev_toggle/lab1_imul_IntMulAltoistream_valhTOP.top.imul' 56
 C 'fIntMulAlt.vl26n23pagev_toggle/lab1_imul_IntMulAltoistream_rdyhTOP.top.imul' 57
@@ -169,7 +169,7 @@ C 'fIntMulAlt.vl27n23pagev_toggle/lab1_imul_IntMulAltoistream_msg[6]h
 C 'fIntMulAlt.vl27n23pagev_toggle/lab1_imul_IntMulAltoistream_msg[7]hTOP.top.imul' 6
 C 'fIntMulAlt.vl27n23pagev_toggle/lab1_imul_IntMulAltoistream_msg[8]hTOP.top.imul' 6
 C 'fIntMulAlt.vl27n23pagev_toggle/lab1_imul_IntMulAltoistream_msg[9]hTOP.top.imul' 6
-C 'fIntMulAlt.vl29n23pagev_toggle/lab1_imul_IntMulAltoostream_valhTOP.top.imul' 70
+C 'fIntMulAlt.vl29n23pagev_toggle/lab1_imul_IntMulAltoostream_valhTOP.top.imul' 114
 C 'fIntMulAlt.vl30n23pagev_toggle/lab1_imul_IntMulAltoostream_rdyhTOP.top.imul' 49
 C 'fIntMulAlt.vl31n23pagev_toggle/lab1_imul_IntMulAltoostream_msg[0]hTOP.top.imul' 13
 C 'fIntMulAlt.vl31n23pagev_toggle/lab1_imul_IntMulAltoostream_msg[10]hTOP.top.imul' 34
@@ -413,8 +413,8 @@ C 'fIntMulAlt.vl53n14pagev_toggle/lab1_imul_IntMulAltoshifts[1]hTOP.
 C 'fIntMulAlt.vl53n14pagev_toggle/lab1_imul_IntMulAltoshifts[2]hTOP.top.imul' 14
 C 'fIntMulAlt.vl53n14pagev_toggle/lab1_imul_IntMulAltoshifts[3]hTOP.top.imul' 10
 C 'fIntMulAlt.vl53n14pagev_toggle/lab1_imul_IntMulAltoshifts[4]hTOP.top.imul' 14
-C 'ftb_IntMul.vl20n26pagev_toggle/topoclkhTOP.top' 949
-C 'ftb_IntMul.vl20n43pagev_toggle/topolinetracehTOP.top' 0
+C 'ftb_IntMul.vl20n26pagev_toggle/topoclkhTOP.top' 993
+C 'ftb_IntMul.vl20n43pagev_toggle/topolinetracehTOP.top' 1
 C 'ftb_IntMul.vl23n16pagev_toggle/toporesethTOP.top' 1
 C 'ftb_IntMul.vl25n16pagev_toggle/topoistream_valhTOP.top' 56
 C 'ftb_IntMul.vl26n16pagev_toggle/topoistream_rdyhTOP.top' 57
@@ -483,7 +483,7 @@ C 'ftb_IntMul.vl27n16pagev_toggle/topoistream_msg[7]hTOP.top' 6
 C 'ftb_IntMul.vl27n16pagev_toggle/topoistream_msg[8]hTOP.top' 6
 C 'ftb_IntMul.vl27n16pagev_toggle/topoistream_msg[9]hTOP.top' 6
 C 'ftb_IntMul.vl29n16pagev_toggle/topoostream_rdyhTOP.top' 49
-C 'ftb_IntMul.vl30n16pagev_toggle/topoostream_valhTOP.top' 70
+C 'ftb_IntMul.vl30n16pagev_toggle/topoostream_valhTOP.top' 114
 C 'ftb_IntMul.vl31n23pagev_toggle/topoostream_msg[0]hTOP.top' 13
 C 'ftb_IntMul.vl31n23pagev_toggle/topoostream_msg[10]hTOP.top' 34
 C 'ftb_IntMul.vl31n23pagev_toggle/topoostream_msg[11]hTOP.top' 26
