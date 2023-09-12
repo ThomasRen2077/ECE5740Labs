@@ -68,26 +68,28 @@ typedef enum logic [1:0] {IDLE, CALC, DONE} statetype;
     end
     else      begin 
       if(state == IDLE) begin
-          istream_rdy <= 1;
           a <= next_a;
           b <= next_b;
           ostream_msg <= next_ostream_msg;
           ostream_val <= next_ostream_val;
+
           finish <= 0;
-          //counter <= 0;
+          istream_rdy <= 1;
+          if(istream_val) istream_rdy <= 0;
       end
       else if(state == CALC) begin     
           a <= next_a;
           b <= next_b;
           ostream_msg <= next_ostream_msg;
           ostream_val <= next_ostream_val;
+
           finish <= next_finish;
-          //counter <= counter + 1;
           istream_rdy <= 0;
+          
       end
       else if(state == DONE) begin
         ostream_val <= next_ostream_val;
-        istream_rdy <= 0;
+        istream_rdy <= 1;
       end
       state <= nextstate;
     end

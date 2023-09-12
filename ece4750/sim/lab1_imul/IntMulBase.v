@@ -57,12 +57,15 @@ module lab1_imul_IntMulBase
     end
     else      begin 
       if(state == IDLE) begin
-          istream_rdy <= 1;
+          
           a <= next_a;
           b <= next_b;
           ostream_msg <= next_ostream_msg;
           ostream_val <= next_ostream_val;
           counter <= 0;
+
+          istream_rdy <= 1;
+          if(istream_val) istream_rdy <= 0;
       end
       else if(state == CALC) begin     
           a <= next_a;
@@ -74,7 +77,8 @@ module lab1_imul_IntMulBase
       end
       else if(state == DONE) begin
         ostream_val <= next_ostream_val;
-        istream_rdy <= 0;
+        istream_rdy <= 1;
+        if(ostream_val && ostream_rdy) counter <= 0;
       end
       state <= nextstate;
     end
@@ -98,15 +102,13 @@ module lab1_imul_IntMulBase
         next_a = a;
         next_b = b;
         next_ostream_msg = ostream_msg;
-        next_ostream_val = ostream_val;
 
       if(istream_val && istream_rdy) begin
         next_a = istream_msg[63:32];
         next_b = istream_msg[31:0];
         next_ostream_msg = 0;
-        next_ostream_val = 0;
       end 
-      else if(counter != 33)begin
+      else if(counter != 32)begin
         next_a = a << 1;
         next_b = b >> 1;
         if(b[0]) begin
@@ -115,13 +117,15 @@ module lab1_imul_IntMulBase
         else begin
           next_ostream_msg = ostream_msg;
         end
-          next_ostream_val = 0;
       end
-      else if(!(ostream_val && ostream_rdy))
-          next_ostream_val = 1;
-      else 
-          next_ostream_val = 0;
-   end
+
+      if(counter >= 32 && !(ostream_val && ostream_rdy)) begin
+        next_ostream_val = 1;
+      end
+      else begin
+        next_ostream_val = 0;
+      end
+  end
 
 
   // '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
