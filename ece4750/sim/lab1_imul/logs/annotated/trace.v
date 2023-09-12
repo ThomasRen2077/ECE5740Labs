@@ -18,8 +18,8 @@
         
         module vc_Trace
         (
- 000249   input logic clk,
- 000001   input logic reset
+ 003295   input logic clk,
+ 000003   input logic reset
         );
         
           integer len0;

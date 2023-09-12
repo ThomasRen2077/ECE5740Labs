@@ -21,25 +21,25 @@
 %000000 module top(  input logic clk, input logic linetrace );
         
           // DUT signals
- 000001   logic        reset;
+ 000003   logic        reset;
         
- 000056   logic        istream_val;
- 000056   logic        istream_rdy;
- 000004   logic [63:0] istream_msg;
+ 000168   logic        istream_val;
+ 000114   logic        istream_rdy;
+ 000012   logic [63:0] istream_msg;
         
- 000049   logic        ostream_rdy;
- 000056   logic        ostream_val;
- 000008   logic signed [31:0] ostream_msg;
+ 000147   logic        ostream_rdy;
+ 000182   logic        ostream_val;
+ 000037   logic signed [31:0] ostream_msg;
         
           // Testbench signals
 %000000   logic        istream_val_f;
 %000000   logic        ostream_rdy_f;
         
- 000006   logic signed [31:0] istream_msg_a;
- 000004   logic signed [31:0] istream_msg_b;
+ 000018   logic signed [31:0] istream_msg_a;
+ 000012   logic signed [31:0] istream_msg_b;
         
- 000004   logic signed [31:0] a;
- 000002   logic signed [31:0] b;
+ 000012   logic signed [31:0] a;
+ 000006   logic signed [31:0] b;
         
         
           // Form istream_msg
