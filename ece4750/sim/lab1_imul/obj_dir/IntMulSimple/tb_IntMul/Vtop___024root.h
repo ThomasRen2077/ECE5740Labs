@@ -26,8 +26,6 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule
     CData/*0:0*/ top__DOT__istream_val;
     CData/*0:0*/ top__DOT__istream_rdy;
     CData/*0:0*/ top__DOT__ostream_rdy;
-    CData/*0:0*/ top__DOT__istream_val_f;
-    CData/*0:0*/ top__DOT__ostream_rdy_f;
     CData/*0:0*/ top__DOT____Vtogcov__clk;
     CData/*0:0*/ top__DOT____Vtogcov__linetrace;
     CData/*0:0*/ top__DOT____Vtogcov__reset;
@@ -35,8 +33,6 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule
     CData/*0:0*/ top__DOT____Vtogcov__istream_rdy;
     CData/*0:0*/ top__DOT____Vtogcov__ostream_rdy;
     CData/*0:0*/ top__DOT____Vtogcov__ostream_val;
-    CData/*0:0*/ top__DOT____Vtogcov__istream_val_f;
-    CData/*0:0*/ top__DOT____Vtogcov__ostream_rdy_f;
     CData/*0:0*/ top__DOT__imul__DOT__next_ostream_val;
     CData/*0:0*/ top__DOT__imul__DOT____Vtogcov__next_ostream_val;
     CData/*3:0*/ top__DOT__imul__DOT__vc_trace__DOT__level;

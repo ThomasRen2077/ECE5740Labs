@@ -32,8 +32,8 @@
  000037   logic signed [31:0] ostream_msg;
         
           // Testbench signals
-%000000   logic        istream_val_f;
-%000000   logic        ostream_rdy_f;
+          // logic        istream_val_f;
+          // logic        ostream_rdy_f;
         
  000018   logic signed [31:0] istream_msg_a;
  000012   logic signed [31:0] istream_msg_b;

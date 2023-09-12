@@ -28,8 +28,6 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule
         CData/*0:0*/ top__DOT__istream_val;
         CData/*0:0*/ top__DOT__istream_rdy;
         CData/*0:0*/ top__DOT__ostream_rdy;
-        CData/*0:0*/ top__DOT__istream_val_f;
-        CData/*0:0*/ top__DOT__ostream_rdy_f;
         CData/*0:0*/ top__DOT____Vtogcov__clk;
         CData/*0:0*/ top__DOT____Vtogcov__linetrace;
         CData/*0:0*/ top__DOT____Vtogcov__reset;
@@ -37,8 +35,6 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule
         CData/*0:0*/ top__DOT____Vtogcov__istream_rdy;
         CData/*0:0*/ top__DOT____Vtogcov__ostream_rdy;
         CData/*0:0*/ top__DOT____Vtogcov__ostream_val;
-        CData/*0:0*/ top__DOT____Vtogcov__istream_val_f;
-        CData/*0:0*/ top__DOT____Vtogcov__ostream_rdy_f;
         CData/*1:0*/ top__DOT__imul__DOT__state;
         CData/*1:0*/ top__DOT__imul__DOT__nextstate;
         CData/*0:0*/ top__DOT__imul__DOT__next_ostream_val;
@@ -85,12 +81,12 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule
         VlWide<128>/*4095:0*/ top__DOT__imul__DOT__str;
         IData/*31:0*/ top__DOT__imul__DOT__idx1;
         IData/*31:0*/ top__DOT__imul__DOT__idx0;
-    };
-    struct {
         IData/*31:0*/ top__DOT__imul__DOT____Vtogcov__a;
         IData/*31:0*/ top__DOT__imul__DOT____Vtogcov__b;
         IData/*31:0*/ top__DOT__imul__DOT____Vtogcov__next_a;
         IData/*31:0*/ top__DOT__imul__DOT____Vtogcov__next_b;
+    };
+    struct {
         IData/*31:0*/ top__DOT__imul__DOT____Vtogcov__next_ostream_msg;
         IData/*31:0*/ top__DOT__imul__DOT____Vtogcov__add_result;
         IData/*31:0*/ top__DOT__imul__DOT__Add__DOT____Vtogcov__in1;

@@ -31,8 +31,8 @@ module top(  input logic clk, input logic linetrace );
   logic signed [31:0] ostream_msg;
 
   // Testbench signals
-  logic        istream_val_f;
-  logic        ostream_rdy_f;
+  // logic        istream_val_f;
+  // logic        ostream_rdy_f;
 
   logic signed [31:0] istream_msg_a;
   logic signed [31:0] istream_msg_b;

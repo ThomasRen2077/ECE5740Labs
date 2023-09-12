@@ -28,8 +28,6 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule
         CData/*0:0*/ top__DOT__istream_val;
         CData/*0:0*/ top__DOT__istream_rdy;
         CData/*0:0*/ top__DOT__ostream_rdy;
-        CData/*0:0*/ top__DOT__istream_val_f;
-        CData/*0:0*/ top__DOT__ostream_rdy_f;
         CData/*0:0*/ top__DOT____Vtogcov__clk;
         CData/*0:0*/ top__DOT____Vtogcov__linetrace;
         CData/*0:0*/ top__DOT____Vtogcov__reset;
@@ -37,8 +35,6 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule
         CData/*0:0*/ top__DOT____Vtogcov__istream_rdy;
         CData/*0:0*/ top__DOT____Vtogcov__ostream_rdy;
         CData/*0:0*/ top__DOT____Vtogcov__ostream_val;
-        CData/*0:0*/ top__DOT____Vtogcov__istream_val_f;
-        CData/*0:0*/ top__DOT____Vtogcov__ostream_rdy_f;
         CData/*1:0*/ top__DOT__imul__DOT__state;
         CData/*1:0*/ top__DOT__imul__DOT__nextstate;
         CData/*7:0*/ top__DOT__imul__DOT__counter;
@@ -85,12 +81,12 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule
         IData/*31:0*/ top__DOT__imul__DOT__vc_trace__DOT__idx1;
         VlWide<128>/*4095:0*/ top__DOT__imul__DOT__vc_trace__DOT__storage;
         IData/*31:0*/ top__DOT__imul__DOT__vc_trace__DOT__cycles_next;
-    };
-    struct {
         IData/*31:0*/ top__DOT__imul__DOT__vc_trace__DOT__cycles;
         IData/*31:0*/ __VstlIterCount;
         IData/*31:0*/ __VicoIterCount;
         IData/*31:0*/ __VactIterCount;
+    };
+    struct {
         QData/*63:0*/ top__DOT__istream_msg;
         QData/*63:0*/ top__DOT____Vtogcov__istream_msg;
         VlUnpacked<CData/*0:0*/, 7> __Vm_traceActivity;

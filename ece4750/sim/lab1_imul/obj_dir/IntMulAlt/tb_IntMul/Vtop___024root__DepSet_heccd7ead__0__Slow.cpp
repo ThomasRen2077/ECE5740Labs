@@ -207,8 +207,6 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__ostream_rdy = VL_RAND_RESET_I(1);
     vlSelf->top__DOT__ostream_val = VL_RAND_RESET_I(1);
     vlSelf->top__DOT__ostream_msg = VL_RAND_RESET_I(32);
-    vlSelf->top__DOT__istream_val_f = VL_RAND_RESET_I(1);
-    vlSelf->top__DOT__ostream_rdy_f = VL_RAND_RESET_I(1);
     vlSelf->top__DOT__istream_msg_a = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__istream_msg_b = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__a = VL_RAND_RESET_I(32);
@@ -222,8 +220,6 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->top__DOT____Vtogcov__ostream_rdy = VL_RAND_RESET_I(1);
     vlSelf->top__DOT____Vtogcov__ostream_val = VL_RAND_RESET_I(1);
     vlSelf->top__DOT____Vtogcov__ostream_msg = VL_RAND_RESET_I(32);
-    vlSelf->top__DOT____Vtogcov__istream_val_f = VL_RAND_RESET_I(1);
-    vlSelf->top__DOT____Vtogcov__ostream_rdy_f = VL_RAND_RESET_I(1);
     vlSelf->top__DOT____Vtogcov__istream_msg_a = VL_RAND_RESET_I(32);
     vlSelf->top__DOT____Vtogcov__istream_msg_b = VL_RAND_RESET_I(32);
     vlSelf->top__DOT____Vtogcov__a = VL_RAND_RESET_I(32);

@@ -511,8 +511,6 @@ C 'ftb_IntMul.vl31n23pagev_toggle/topoostream_msg[6]hTOP.top' 28
 C 'ftb_IntMul.vl31n23pagev_toggle/topoostream_msg[7]hTOP.top' 28
 C 'ftb_IntMul.vl31n23pagev_toggle/topoostream_msg[8]hTOP.top' 28
 C 'ftb_IntMul.vl31n23pagev_toggle/topoostream_msg[9]hTOP.top' 32
-C 'ftb_IntMul.vl34n16pagev_toggle/topoistream_val_fhTOP.top' 0
-C 'ftb_IntMul.vl35n16pagev_toggle/topoostream_rdy_fhTOP.top' 0
 C 'ftb_IntMul.vl37n23pagev_toggle/topoistream_msg_a[0]hTOP.top' 13
 C 'ftb_IntMul.vl37n23pagev_toggle/topoistream_msg_a[10]hTOP.top' 10
 C 'ftb_IntMul.vl37n23pagev_toggle/topoistream_msg_a[11]hTOP.top' 10
