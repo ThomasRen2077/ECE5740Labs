@@ -6,10 +6,6 @@
 `define LAB1_IMUL_INT_MUL_SIMPLE_V
 
 `include "vc/trace.v"
-`include "vc/counters.v"
-`include "vc/muxes.v"
-`include "vc/regs.v"
-`include "vc/arithmetic.v"
 
 module lab1_imul_IntMulSimple
 (
