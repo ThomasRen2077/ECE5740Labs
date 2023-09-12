@@ -55,9 +55,12 @@ void Vtop___024root__trace_chg_sub_0(Vtop___024root* vlSelf, VerilatedFst::Buffe
     bufp->chgBit(oldp+275,(vlSelf->clk));
     bufp->chgBit(oldp+276,(vlSelf->linetrace));
     bufp->chgQData(oldp+277,(vlSelf->top__DOT__istream_msg),64);
-    bufp->chgBit(oldp+279,(vlSelf->top__DOT__imul__DOT__next_ostream_val));
-    bufp->chgIData(oldp+280,(vlSelf->top__DOT__imul__DOT__next_ostream_msg),32);
-    bufp->chgCData(oldp+281,(vlSelf->top__DOT__imul__DOT__vc_trace__DOT__level),4);
+    bufp->chgIData(oldp+279,((IData)((vlSelf->top__DOT__istream_msg 
+                                      >> 0x20U))),32);
+    bufp->chgIData(oldp+280,((IData)(vlSelf->top__DOT__istream_msg)),32);
+    bufp->chgBit(oldp+281,(vlSelf->top__DOT__imul__DOT__next_ostream_val));
+    bufp->chgIData(oldp+282,(vlSelf->top__DOT__imul__DOT__next_ostream_msg),32);
+    bufp->chgCData(oldp+283,(vlSelf->top__DOT__imul__DOT__vc_trace__DOT__level),4);
 }
 
 void Vtop___024root__trace_cleanup(void* voidSelf, VerilatedFst* /*unused*/) {

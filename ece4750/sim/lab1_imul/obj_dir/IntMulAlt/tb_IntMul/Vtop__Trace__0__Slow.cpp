@@ -162,8 +162,11 @@ VL_ATTR_COLD void Vtop___024root__trace_full_sub_0(Vtop___024root* vlSelf, Veril
     bufp->fullBit(oldp+289,(vlSelf->linetrace));
     bufp->fullQData(oldp+290,(vlSelf->top__DOT__istream_msg),64);
     bufp->fullCData(oldp+292,(vlSelf->top__DOT__imul__DOT__nextstate),2);
-    bufp->fullIData(oldp+293,(vlSelf->top__DOT__imul__DOT__add_result),32);
-    bufp->fullIData(oldp+294,(vlSelf->top__DOT__imul__DOT____Vcellinp__Add____pinNumber2),32);
+    bufp->fullIData(oldp+293,((vlSelf->top__DOT__ostream_msg 
+                               + (vlSelf->top__DOT__imul__DOT__a 
+                                  << (IData)(vlSelf->top__DOT__imul__DOT__shifts)))),32);
+    bufp->fullIData(oldp+294,((vlSelf->top__DOT__imul__DOT__a 
+                               << (IData)(vlSelf->top__DOT__imul__DOT__shifts))),32);
     bufp->fullCData(oldp+295,(vlSelf->top__DOT__imul__DOT__vc_trace__DOT__level),4);
     bufp->fullIData(oldp+296,(0x20U),32);
     bufp->fullIData(oldp+297,(0x200U),32);

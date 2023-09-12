@@ -25,25 +25,6 @@ VL_ATTR_COLD void Vtop___024root___eval_static(Vtop___024root* vlSelf) {
     vlSelf->__Vm_traceActivity[0U] = 1U;
 }
 
-VL_ATTR_COLD void Vtop___024root___eval_static__TOP(Vtop___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_static__TOP\n"); );
-    // Body
-    vlSelf->top__DOT__imul__DOT__vc_trace__DOT__cycles_next = 0U;
-    vlSelf->top__DOT__imul__DOT__vc_trace__DOT__cycles = 0U;
-}
-
-VL_ATTR_COLD void Vtop___024root___eval_initial__TOP(Vtop___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_initial__TOP\n"); );
-    // Body
-    VL_CONST_W_1X(4096,vlSelf->top__DOT__imul__DOT__vc_trace__DOT__storage,0x00000000);
-    vlSelf->top__DOT__imul__DOT__vc_trace__DOT__storage[0U] = 0x1ffU;
-    vlSelf->top__DOT__imul__DOT__vc_trace__DOT__level = 1U;
-}
-
 VL_ATTR_COLD void Vtop___024root___eval_final(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
@@ -125,21 +106,6 @@ VL_ATTR_COLD void Vtop___024root___eval_stl(Vtop___024root* vlSelf) {
 }
 
 #ifdef VL_DEBUG
-VL_ATTR_COLD void Vtop___024root___dump_triggers__ico(Vtop___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___dump_triggers__ico\n"); );
-    // Body
-    if ((1U & (~ (IData)(vlSelf->__VicoTriggered.any())))) {
-        VL_DBG_MSGF("         No triggers active\n");
-    }
-    if ((1ULL & vlSelf->__VicoTriggered.word(0U))) {
-        VL_DBG_MSGF("         'ico' region trigger index 0 is active: Internal 'ico' trigger - first iteration\n");
-    }
-}
-#endif  // VL_DEBUG
-
-#ifdef VL_DEBUG
 VL_ATTR_COLD void Vtop___024root___dump_triggers__act(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
@@ -211,19 +177,6 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__istream_msg_b = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__a = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__b = VL_RAND_RESET_I(32);
-    vlSelf->top__DOT____Vtogcov__clk = VL_RAND_RESET_I(1);
-    vlSelf->top__DOT____Vtogcov__linetrace = VL_RAND_RESET_I(1);
-    vlSelf->top__DOT____Vtogcov__reset = VL_RAND_RESET_I(1);
-    vlSelf->top__DOT____Vtogcov__istream_val = VL_RAND_RESET_I(1);
-    vlSelf->top__DOT____Vtogcov__istream_rdy = VL_RAND_RESET_I(1);
-    vlSelf->top__DOT____Vtogcov__istream_msg = VL_RAND_RESET_Q(64);
-    vlSelf->top__DOT____Vtogcov__ostream_rdy = VL_RAND_RESET_I(1);
-    vlSelf->top__DOT____Vtogcov__ostream_val = VL_RAND_RESET_I(1);
-    vlSelf->top__DOT____Vtogcov__ostream_msg = VL_RAND_RESET_I(32);
-    vlSelf->top__DOT____Vtogcov__istream_msg_a = VL_RAND_RESET_I(32);
-    vlSelf->top__DOT____Vtogcov__istream_msg_b = VL_RAND_RESET_I(32);
-    vlSelf->top__DOT____Vtogcov__a = VL_RAND_RESET_I(32);
-    vlSelf->top__DOT____Vtogcov__b = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__unnamedblk1__DOT__x = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__imul__DOT__state = VL_RAND_RESET_I(2);
     vlSelf->top__DOT__imul__DOT__nextstate = VL_RAND_RESET_I(2);
@@ -233,7 +186,6 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__imul__DOT__next_b = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__imul__DOT__next_ostream_msg = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__imul__DOT__next_ostream_val = VL_RAND_RESET_I(1);
-    vlSelf->top__DOT__imul__DOT__add_result = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__imul__DOT__finish = VL_RAND_RESET_I(1);
     vlSelf->top__DOT__imul__DOT__next_finish = VL_RAND_RESET_I(1);
     vlSelf->top__DOT__imul__DOT__checkone = VL_RAND_RESET_I(1);
@@ -243,21 +195,6 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     VL_RAND_RESET_W(4096, vlSelf->top__DOT__imul__DOT__str);
     vlSelf->top__DOT__imul__DOT__idx1 = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__imul__DOT__idx0 = VL_RAND_RESET_I(32);
-    vlSelf->top__DOT__imul__DOT____Vtogcov__state = VL_RAND_RESET_I(2);
-    vlSelf->top__DOT__imul__DOT____Vtogcov__nextstate = VL_RAND_RESET_I(2);
-    vlSelf->top__DOT__imul__DOT____Vtogcov__a = VL_RAND_RESET_I(32);
-    vlSelf->top__DOT__imul__DOT____Vtogcov__b = VL_RAND_RESET_I(32);
-    vlSelf->top__DOT__imul__DOT____Vtogcov__next_a = VL_RAND_RESET_I(32);
-    vlSelf->top__DOT__imul__DOT____Vtogcov__next_b = VL_RAND_RESET_I(32);
-    vlSelf->top__DOT__imul__DOT____Vtogcov__next_ostream_msg = VL_RAND_RESET_I(32);
-    vlSelf->top__DOT__imul__DOT____Vtogcov__next_ostream_val = VL_RAND_RESET_I(1);
-    vlSelf->top__DOT__imul__DOT____Vtogcov__add_result = VL_RAND_RESET_I(32);
-    vlSelf->top__DOT__imul__DOT____Vtogcov__finish = VL_RAND_RESET_I(1);
-    vlSelf->top__DOT__imul__DOT____Vtogcov__next_finish = VL_RAND_RESET_I(1);
-    vlSelf->top__DOT__imul__DOT____Vtogcov__checkone = VL_RAND_RESET_I(1);
-    vlSelf->top__DOT__imul__DOT____Vtogcov__i = VL_RAND_RESET_I(5);
-    vlSelf->top__DOT__imul__DOT____Vtogcov__shifts = VL_RAND_RESET_I(5);
-    vlSelf->top__DOT__imul__DOT__Add__DOT____Vtogcov__in1 = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__imul__DOT__vc_trace__DOT__len0 = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__imul__DOT__vc_trace__DOT__len1 = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__imul__DOT__vc_trace__DOT__idx0 = VL_RAND_RESET_I(32);
@@ -266,7 +203,6 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__imul__DOT__vc_trace__DOT__cycles_next = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__imul__DOT__vc_trace__DOT__cycles = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__imul__DOT__vc_trace__DOT__level = VL_RAND_RESET_I(4);
-    vlSelf->top__DOT__imul__DOT__vc_trace__DOT____Vtogcov__level = VL_RAND_RESET_I(4);
     vlSelf->__Vtrigprevexpr___TOP__top__DOT__imul__DOT__shifts__0 = VL_RAND_RESET_I(5);
     vlSelf->__VstlDidInit = 0;
     vlSelf->__Vtrigprevexpr___TOP__top__DOT__imul__DOT__shifts__1 = VL_RAND_RESET_I(5);
