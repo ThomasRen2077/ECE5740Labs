@@ -1,0 +1,6 @@
+Issues needed to fix:
+1. Add random Delay test case
+2. Line coverage rate == 72.0%
+3. val/rdy signal reimplementation
+4. Toggle coverage rate == 97.1%
+5. Write Lab report
