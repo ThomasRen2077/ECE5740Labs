@@ -31,13 +31,13 @@
             <td class="headerValue">coverage.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">48</td>
             <td class="headerCovTableEntry">52</td>
-            <td class="headerCovTableEntryHi">92.3 %</td>
+            <td class="headerCovTableEntry">53</td>
+            <td class="headerCovTableEntryHi">98.1 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-09-12 23:54:11</td>
+            <td class="headerValue">2023-09-13 17:02:48</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -129,7 +129,7 @@
 <a name="67"><span class="lineNum">      67 </span><span class="lineCov">         65 :           istream_rdy &lt;= 1;</span></a>
 <a name="68"><span class="lineNum">      68 </span><span class="lineCov">         28 :           if(istream_val) istream_rdy &lt;= 0;</span></a>
 <a name="69"><span class="lineNum">      69 </span>            :       end</a>
-<a name="70"><span class="lineNum">      70 </span><span class="lineCov">        924 :       else if(state == CALC) begin     </span></a>
+<a name="70"><span class="lineNum">      70 </span><span class="lineCov">         28 :       else if(state == CALC) begin     </span></a>
 <a name="71"><span class="lineNum">      71 </span><span class="lineCov">        924 :           a &lt;= next_a;</span></a>
 <a name="72"><span class="lineNum">      72 </span><span class="lineCov">        924 :           b &lt;= next_b;</span></a>
 <a name="73"><span class="lineNum">      73 </span><span class="lineCov">        924 :           ostream_msg &lt;= next_ostream_msg;</span></a>
@@ -137,7 +137,7 @@
 <a name="75"><span class="lineNum">      75 </span><span class="lineCov">        924 :           counter &lt;= counter + 1;</span></a>
 <a name="76"><span class="lineNum">      76 </span><span class="lineCov">        924 :           istream_rdy &lt;= 0;</span></a>
 <a name="77"><span class="lineNum">      77 </span>            :       end</a>
-<a name="78"><span class="lineNum">      78 </span><span class="lineNoCov">          0 :       else if(state == DONE) begin</span></a>
+<a name="78"><span class="lineNum">      78 </span><span class="lineCov">         28 :       else begin</span></a>
 <a name="79"><span class="lineNum">      79 </span><span class="lineCov">         28 :         ostream_val &lt;= next_ostream_val;</span></a>
 <a name="80"><span class="lineNum">      80 </span><span class="lineCov">         28 :         istream_rdy &lt;= 1;</span></a>
 <a name="81"><span class="lineNum">      81 </span><span class="lineCov">         28 :         if(ostream_val &amp;&amp; ostream_rdy) counter &lt;= 0;</span></a>
@@ -146,91 +146,107 @@
 <a name="84"><span class="lineNum">      84 </span>            :     end</a>
 <a name="85"><span class="lineNum">      85 </span>            :   end</a>
 <a name="86"><span class="lineNum">      86 </span>            : </a>
-<a name="87"><span class="lineNum">      87 </span>            :   //next_state_logic</a>
-<a name="88"><span class="lineNum">      88 </span><span class="lineCov">       3176 :   always_comb</span></a>
-<a name="89"><span class="lineNum">      89 </span><span class="lineCov">       3176 :     case(state)</span></a>
-<a name="90"><span class="lineNum">      90 </span><span class="lineCov">         56 :       IDLE: if(istream_val)                 nextstate = CALC;</span></a>
-<a name="91"><span class="lineNum">      91 </span><span class="lineCov">        208 :             else                            nextstate = IDLE;</span></a>
-<a name="92"><span class="lineNum">      92 </span><span class="lineCov">         84 :       CALC: if(counter == 8'd32)            nextstate = DONE;</span></a>
-<a name="93"><span class="lineNum">      93 </span><span class="lineCov">       2688 :             else                            nextstate = CALC;</span></a>
-<a name="94"><span class="lineNum">      94 </span><span class="lineNoCov">          0 :       DONE: if(ostream_rdy)                 nextstate = IDLE;</span></a>
-<a name="95"><span class="lineNum">      95 </span><span class="lineNoCov">          0 :             else                            nextstate = DONE;</span></a>
-<a name="96"><span class="lineNum">      96 </span><span class="lineNoCov">          0 :       default:                              nextstate = IDLE;</span></a>
-<a name="97"><span class="lineNum">      97 </span>            :     endcase</a>
-<a name="98"><span class="lineNum">      98 </span>            : </a>
-<a name="99"><span class="lineNum">      99 </span>            :   //output_logic</a>
-<a name="100"><span class="lineNum">     100 </span>            : </a>
-<a name="101"><span class="lineNum">     101 </span><span class="lineCov">       3176 :   always_comb begin</span></a>
-<a name="102"><span class="lineNum">     102 </span><span class="lineCov">       3176 :         next_a = a;</span></a>
-<a name="103"><span class="lineNum">     103 </span><span class="lineCov">       3176 :         next_b = b;</span></a>
-<a name="104"><span class="lineNum">     104 </span><span class="lineCov">       3176 :         next_ostream_msg = ostream_msg;</span></a>
-<a name="105"><span class="lineNum">     105 </span>            : </a>
-<a name="106"><span class="lineNum">     106 </span><span class="lineCov">         56 :       if(istream_val &amp;&amp; istream_rdy) begin</span></a>
-<a name="107"><span class="lineNum">     107 </span><span class="lineCov">         56 :         next_a = istream_msg[63:32];</span></a>
-<a name="108"><span class="lineNum">     108 </span><span class="lineCov">         56 :         next_b = istream_msg[31:0];</span></a>
-<a name="109"><span class="lineNum">     109 </span><span class="lineCov">         56 :         next_ostream_msg = 0;</span></a>
-<a name="110"><span class="lineNum">     110 </span>            :       end </a>
-<a name="111"><span class="lineNum">     111 </span><span class="lineCov">         84 :       else if(counter != 32)begin</span></a>
-<a name="112"><span class="lineNum">     112 </span><span class="lineCov">       3036 :         next_a = a &lt;&lt; 1;</span></a>
-<a name="113"><span class="lineNum">     113 </span><span class="lineCov">       3036 :         next_b = b &gt;&gt; 1;</span></a>
-<a name="114"><span class="lineNum">     114 </span><span class="lineCov">        966 :         if(b[0]) begin</span></a>
-<a name="115"><span class="lineNum">     115 </span><span class="lineCov">        966 :           next_ostream_msg = add_result;</span></a>
-<a name="116"><span class="lineNum">     116 </span>            :         end</a>
-<a name="117"><span class="lineNum">     117 </span><span class="lineCov">       2070 :         else begin</span></a>
-<a name="118"><span class="lineNum">     118 </span><span class="lineCov">       2070 :           next_ostream_msg = ostream_msg;</span></a>
-<a name="119"><span class="lineNum">     119 </span>            :         end</a>
-<a name="120"><span class="lineNum">     120 </span>            :       end</a>
+<a name="87"><span class="lineNum">      87 </span>            :   //next_state_logic_using_case</a>
+<a name="88"><span class="lineNum">      88 </span>            : </a>
+<a name="89"><span class="lineNum">      89 </span>            :   // always_comb</a>
+<a name="90"><span class="lineNum">      90 </span>            :   //   case(state)</a>
+<a name="91"><span class="lineNum">      91 </span>            :   //     IDLE: if(istream_val)                 nextstate = CALC;</a>
+<a name="92"><span class="lineNum">      92 </span>            :   //           else                            nextstate = IDLE;</a>
+<a name="93"><span class="lineNum">      93 </span>            :   //     CALC: if(counter == 8'd32)            nextstate = DONE;</a>
+<a name="94"><span class="lineNum">      94 </span>            :   //           else                            nextstate = CALC;</a>
+<a name="95"><span class="lineNum">      95 </span>            :   //     DONE: if(ostream_rdy)                 nextstate = IDLE;</a>
+<a name="96"><span class="lineNum">      96 </span>            :   //           else                            nextstate = DONE;</a>
+<a name="97"><span class="lineNum">      97 </span>            :   //     default:                              nextstate = IDLE;</a>
+<a name="98"><span class="lineNum">      98 </span>            :   //   endcase</a>
+<a name="99"><span class="lineNum">      99 </span>            : </a>
+<a name="100"><span class="lineNum">     100 </span>            : // next_state_logic_using_if_else</a>
+<a name="101"><span class="lineNum">     101 </span><span class="lineCov">       3176 :       always_comb</span></a>
+<a name="102"><span class="lineNum">     102 </span><span class="lineCov">        264 :       if(state == IDLE) begin</span></a>
+<a name="103"><span class="lineNum">     103 </span><span class="lineCov">         56 :         if(istream_val)                 nextstate = CALC;</span></a>
+<a name="104"><span class="lineNum">     104 </span><span class="lineCov">        208 :         else                            nextstate = IDLE;</span></a>
+<a name="105"><span class="lineNum">     105 </span>            :       end</a>
+<a name="106"><span class="lineNum">     106 </span><span class="lineCov">        140 :       else if(state == CALC) begin</span></a>
+<a name="107"><span class="lineNum">     107 </span><span class="lineCov">         84 :         if(counter == 8'd32)            nextstate = DONE;</span></a>
+<a name="108"><span class="lineNum">     108 </span><span class="lineCov">       2688 :         else                            nextstate = CALC;</span></a>
+<a name="109"><span class="lineNum">     109 </span>            :       end</a>
+<a name="110"><span class="lineNum">     110 </span><span class="lineCov">        140 :       else begin</span></a>
+<a name="111"><span class="lineNum">     111 </span><span class="lineCov">        140 :         if(ostream_rdy)                 nextstate = IDLE;</span></a>
+<a name="112"><span class="lineNum">     112 </span><span class="lineNoCov">          0 :         else                            nextstate = DONE;</span></a>
+<a name="113"><span class="lineNum">     113 </span>            :       end</a>
+<a name="114"><span class="lineNum">     114 </span>            : </a>
+<a name="115"><span class="lineNum">     115 </span>            :   //output_logic</a>
+<a name="116"><span class="lineNum">     116 </span>            : </a>
+<a name="117"><span class="lineNum">     117 </span><span class="lineCov">       3176 :   always_comb begin</span></a>
+<a name="118"><span class="lineNum">     118 </span><span class="lineCov">       3176 :         next_a = a;</span></a>
+<a name="119"><span class="lineNum">     119 </span><span class="lineCov">       3176 :         next_b = b;</span></a>
+<a name="120"><span class="lineNum">     120 </span><span class="lineCov">       3176 :         next_ostream_msg = ostream_msg;</span></a>
 <a name="121"><span class="lineNum">     121 </span>            : </a>
-<a name="122"><span class="lineNum">     122 </span><span class="lineCov">         84 :       if(counter &gt;= 32 &amp;&amp; !(ostream_val &amp;&amp; ostream_rdy)) begin</span></a>
-<a name="123"><span class="lineNum">     123 </span><span class="lineCov">         84 :         next_ostream_val = 1;</span></a>
-<a name="124"><span class="lineNum">     124 </span>            :       end</a>
-<a name="125"><span class="lineNum">     125 </span><span class="lineCov">       3092 :       else begin</span></a>
-<a name="126"><span class="lineNum">     126 </span><span class="lineCov">       3092 :         next_ostream_val = 0;</span></a>
-<a name="127"><span class="lineNum">     127 </span>            :       end</a>
-<a name="128"><span class="lineNum">     128 </span>            :   end</a>
-<a name="129"><span class="lineNum">     129 </span>            : </a>
-<a name="130"><span class="lineNum">     130 </span>            : </a>
-<a name="131"><span class="lineNum">     131 </span>            :   // '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''</a>
-<a name="132"><span class="lineNum">     132 </span>            : </a>
-<a name="133"><span class="lineNum">     133 </span>            :   //----------------------------------------------------------------------</a>
-<a name="134"><span class="lineNum">     134 </span>            :   // Line Tracing</a>
-<a name="135"><span class="lineNum">     135 </span>            :   //----------------------------------------------------------------------</a>
-<a name="136"><span class="lineNum">     136 </span>            : </a>
-<a name="137"><span class="lineNum">     137 </span>            :   `ifndef SYNTHESIS</a>
-<a name="138"><span class="lineNum">     138 </span>            : </a>
-<a name="139"><span class="lineNum">     139 </span>            :   logic [`VC_TRACE_NBITS-1:0] str;</a>
-<a name="140"><span class="lineNum">     140 </span>            :   `VC_TRACE_BEGIN</a>
-<a name="141"><span class="lineNum">     141 </span>            :   begin</a>
-<a name="142"><span class="lineNum">     142 </span>            : </a>
-<a name="143"><span class="lineNum">     143 </span>            :     $sformat( str, &quot;%x&quot;, istream_msg);</a>
-<a name="144"><span class="lineNum">     144 </span>            :     vc_trace.append_val_rdy_str( trace_str, istream_val, istream_rdy, str );</a>
+<a name="122"><span class="lineNum">     122 </span><span class="lineCov">         56 :       if(istream_val &amp;&amp; istream_rdy) begin</span></a>
+<a name="123"><span class="lineNum">     123 </span><span class="lineCov">         56 :         next_a = istream_msg[63:32];</span></a>
+<a name="124"><span class="lineNum">     124 </span><span class="lineCov">         56 :         next_b = istream_msg[31:0];</span></a>
+<a name="125"><span class="lineNum">     125 </span><span class="lineCov">         56 :         next_ostream_msg = 0;</span></a>
+<a name="126"><span class="lineNum">     126 </span>            :       end </a>
+<a name="127"><span class="lineNum">     127 </span><span class="lineCov">         84 :       else if(counter != 32)begin</span></a>
+<a name="128"><span class="lineNum">     128 </span><span class="lineCov">       3036 :         next_a = a &lt;&lt; 1;</span></a>
+<a name="129"><span class="lineNum">     129 </span><span class="lineCov">       3036 :         next_b = b &gt;&gt; 1;</span></a>
+<a name="130"><span class="lineNum">     130 </span><span class="lineCov">        966 :         if(b[0]) begin</span></a>
+<a name="131"><span class="lineNum">     131 </span><span class="lineCov">        966 :           next_ostream_msg = add_result;</span></a>
+<a name="132"><span class="lineNum">     132 </span>            :         end</a>
+<a name="133"><span class="lineNum">     133 </span><span class="lineCov">       2070 :         else begin</span></a>
+<a name="134"><span class="lineNum">     134 </span><span class="lineCov">       2070 :           next_ostream_msg = ostream_msg;</span></a>
+<a name="135"><span class="lineNum">     135 </span>            :         end</a>
+<a name="136"><span class="lineNum">     136 </span>            :       end</a>
+<a name="137"><span class="lineNum">     137 </span>            : </a>
+<a name="138"><span class="lineNum">     138 </span><span class="lineCov">         84 :       if(counter &gt;= 32 &amp;&amp; !(ostream_val &amp;&amp; ostream_rdy)) begin</span></a>
+<a name="139"><span class="lineNum">     139 </span><span class="lineCov">         84 :         next_ostream_val = 1;</span></a>
+<a name="140"><span class="lineNum">     140 </span>            :       end</a>
+<a name="141"><span class="lineNum">     141 </span><span class="lineCov">       3092 :       else begin</span></a>
+<a name="142"><span class="lineNum">     142 </span><span class="lineCov">       3092 :         next_ostream_val = 0;</span></a>
+<a name="143"><span class="lineNum">     143 </span>            :       end</a>
+<a name="144"><span class="lineNum">     144 </span>            :   end</a>
 <a name="145"><span class="lineNum">     145 </span>            : </a>
-<a name="146"><span class="lineNum">     146 </span>            :     vc_trace.append_str( trace_str, &quot;(&quot; );</a>
-<a name="147"><span class="lineNum">     147 </span>            : </a>
-<a name="148"><span class="lineNum">     148 </span>            :     // ''' LAB TASK ''''''''''''''''''''''''''''''''''''''''''''''''''''''</a>
-<a name="149"><span class="lineNum">     149 </span>            :     // Add additional line tracing using the helper tasks for</a>
-<a name="150"><span class="lineNum">     150 </span>            :     if(state == 0) $sformat(str, &quot;IDLE&quot;);</a>
-<a name="151"><span class="lineNum">     151 </span>            :     else if(state == 1) $sformat(str, &quot;CALC&quot;);</a>
-<a name="152"><span class="lineNum">     152 </span>            :     else if(state == 2) $sformat(str, &quot;DONE&quot;);</a>
-<a name="153"><span class="lineNum">     153 </span>            :     else $sformat(str, &quot;UNKNOWN&quot;);</a>
-<a name="154"><span class="lineNum">     154 </span>            :     vc_trace.append_str( trace_str, str);</a>
-<a name="155"><span class="lineNum">     155 </span>            : </a>
-<a name="156"><span class="lineNum">     156 </span>            :     // internal state including the current FSM state.</a>
-<a name="157"><span class="lineNum">     157 </span>            :     // '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''</a>
+<a name="146"><span class="lineNum">     146 </span>            : </a>
+<a name="147"><span class="lineNum">     147 </span>            :   // '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''</a>
+<a name="148"><span class="lineNum">     148 </span>            : </a>
+<a name="149"><span class="lineNum">     149 </span>            :   //----------------------------------------------------------------------</a>
+<a name="150"><span class="lineNum">     150 </span>            :   // Line Tracing</a>
+<a name="151"><span class="lineNum">     151 </span>            :   //----------------------------------------------------------------------</a>
+<a name="152"><span class="lineNum">     152 </span>            : </a>
+<a name="153"><span class="lineNum">     153 </span>            :   `ifndef SYNTHESIS</a>
+<a name="154"><span class="lineNum">     154 </span>            : </a>
+<a name="155"><span class="lineNum">     155 </span>            :   logic [`VC_TRACE_NBITS-1:0] str;</a>
+<a name="156"><span class="lineNum">     156 </span>            :   `VC_TRACE_BEGIN</a>
+<a name="157"><span class="lineNum">     157 </span>            :   begin</a>
 <a name="158"><span class="lineNum">     158 </span>            : </a>
-<a name="159"><span class="lineNum">     159 </span>            :     vc_trace.append_str( trace_str, &quot;)&quot; );</a>
-<a name="160"><span class="lineNum">     160 </span>            : </a>
-<a name="161"><span class="lineNum">     161 </span>            :     $sformat( str, &quot;%x&quot;, ostream_msg );</a>
-<a name="162"><span class="lineNum">     162 </span>            :     vc_trace.append_val_rdy_str( trace_str, ostream_val, ostream_rdy, str );</a>
+<a name="159"><span class="lineNum">     159 </span>            :     $sformat( str, &quot;%x&quot;, istream_msg);</a>
+<a name="160"><span class="lineNum">     160 </span>            :     vc_trace.append_val_rdy_str( trace_str, istream_val, istream_rdy, str );</a>
+<a name="161"><span class="lineNum">     161 </span>            : </a>
+<a name="162"><span class="lineNum">     162 </span>            :     vc_trace.append_str( trace_str, &quot;(&quot; );</a>
 <a name="163"><span class="lineNum">     163 </span>            : </a>
-<a name="164"><span class="lineNum">     164 </span>            :   end</a>
-<a name="165"><span class="lineNum">     165 </span>            :   `VC_TRACE_END</a>
-<a name="166"><span class="lineNum">     166 </span>            : </a>
-<a name="167"><span class="lineNum">     167 </span>            :   `endif /* SYNTHESIS */</a>
-<a name="168"><span class="lineNum">     168 </span>            : </a>
-<a name="169"><span class="lineNum">     169 </span>            : endmodule</a>
-<a name="170"><span class="lineNum">     170 </span>            : </a>
-<a name="171"><span class="lineNum">     171 </span>            : `endif /* LAB1_IMUL_INT_MUL_BASE_V */</a>
+<a name="164"><span class="lineNum">     164 </span>            :     // ''' LAB TASK ''''''''''''''''''''''''''''''''''''''''''''''''''''''</a>
+<a name="165"><span class="lineNum">     165 </span>            :     // Add additional line tracing using the helper tasks for</a>
+<a name="166"><span class="lineNum">     166 </span>            :     if(state == 0) $sformat(str, &quot;IDLE&quot;);</a>
+<a name="167"><span class="lineNum">     167 </span>            :     else if(state == 1) $sformat(str, &quot;CALC&quot;);</a>
+<a name="168"><span class="lineNum">     168 </span>            :     else if(state == 2) $sformat(str, &quot;DONE&quot;);</a>
+<a name="169"><span class="lineNum">     169 </span>            :     else $sformat(str, &quot;UNKNOWN&quot;);</a>
+<a name="170"><span class="lineNum">     170 </span>            :     vc_trace.append_str( trace_str, str);</a>
+<a name="171"><span class="lineNum">     171 </span>            : </a>
+<a name="172"><span class="lineNum">     172 </span>            :     // internal state including the current FSM state.</a>
+<a name="173"><span class="lineNum">     173 </span>            :     // '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''</a>
+<a name="174"><span class="lineNum">     174 </span>            : </a>
+<a name="175"><span class="lineNum">     175 </span>            :     vc_trace.append_str( trace_str, &quot;)&quot; );</a>
+<a name="176"><span class="lineNum">     176 </span>            : </a>
+<a name="177"><span class="lineNum">     177 </span>            :     $sformat( str, &quot;%x&quot;, ostream_msg );</a>
+<a name="178"><span class="lineNum">     178 </span>            :     vc_trace.append_val_rdy_str( trace_str, ostream_val, ostream_rdy, str );</a>
+<a name="179"><span class="lineNum">     179 </span>            : </a>
+<a name="180"><span class="lineNum">     180 </span>            :   end</a>
+<a name="181"><span class="lineNum">     181 </span>            :   `VC_TRACE_END</a>
+<a name="182"><span class="lineNum">     182 </span>            : </a>
+<a name="183"><span class="lineNum">     183 </span>            :   `endif /* SYNTHESIS */</a>
+<a name="184"><span class="lineNum">     184 </span>            : </a>
+<a name="185"><span class="lineNum">     185 </span>            : endmodule</a>
+<a name="186"><span class="lineNum">     186 </span>            : </a>
+<a name="187"><span class="lineNum">     187 </span>            : `endif /* LAB1_IMUL_INT_MUL_BASE_V */</a>
 </pre>
       </td>
     </tr>

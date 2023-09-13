@@ -87,7 +87,7 @@ typedef enum logic [1:0] {IDLE, CALC, DONE} statetype;
 
           istream_rdy <= 0;
       end
-      else if(state == DONE) begin
+      else begin
 
         ostream_val <= next_ostream_val;
 
@@ -101,18 +101,33 @@ typedef enum logic [1:0] {IDLE, CALC, DONE} statetype;
   end
 
   //next_state_logic
-  always_comb
-    case(state)
-      IDLE: if(istream_val)                 nextstate = CALC;
-            else                            nextstate = IDLE;
-      CALC: if(finish)                      nextstate = DONE;
-            else                            nextstate = CALC;
-      DONE: if(ostream_rdy)                 nextstate = IDLE;
-            else                            nextstate = DONE;
-      default:                              nextstate = IDLE;
-    endcase
+  // always_comb
+  //   case(state)
+  //     IDLE: if(istream_val)                 nextstate = CALC;
+  //           else                            nextstate = IDLE;
+  //     CALC: if(finish)                      nextstate = DONE;
+  //           else                            nextstate = CALC;
+  //     DONE: if(ostream_rdy)                 nextstate = IDLE;
+  //           else                            nextstate = DONE;
+  //     default:                              nextstate = IDLE;
+  //   endcase
 
   //output_logic
+
+// next_state_logic_using_if_else
+      always_comb
+      if(state == IDLE) begin
+        if(istream_val)                 nextstate = CALC;
+        else                            nextstate = IDLE;
+      end
+      else if(state == CALC) begin
+        if(finish)                      nextstate = DONE;
+        else                            nextstate = CALC;
+      end
+      else begin
+        if(ostream_rdy)                 nextstate = IDLE;
+        else                            nextstate = DONE;
+      end
 
   always_comb begin
 

@@ -75,7 +75,7 @@ module lab1_imul_IntMulBase
           counter <= counter + 1;
           istream_rdy <= 0;
       end
-      else if(state == DONE) begin
+      else begin
         ostream_val <= next_ostream_val;
         istream_rdy <= 1;
         if(ostream_val && ostream_rdy) counter <= 0;
@@ -84,17 +84,33 @@ module lab1_imul_IntMulBase
     end
   end
 
-  //next_state_logic
-  always_comb
-    case(state)
-      IDLE: if(istream_val)                 nextstate = CALC;
-            else                            nextstate = IDLE;
-      CALC: if(counter == 8'd32)            nextstate = DONE;
-            else                            nextstate = CALC;
-      DONE: if(ostream_rdy)                 nextstate = IDLE;
-            else                            nextstate = DONE;
-      default:                              nextstate = IDLE;
-    endcase
+  //next_state_logic_using_case
+
+  // always_comb
+  //   case(state)
+  //     IDLE: if(istream_val)                 nextstate = CALC;
+  //           else                            nextstate = IDLE;
+  //     CALC: if(counter == 8'd32)            nextstate = DONE;
+  //           else                            nextstate = CALC;
+  //     DONE: if(ostream_rdy)                 nextstate = IDLE;
+  //           else                            nextstate = DONE;
+  //     default:                              nextstate = IDLE;
+  //   endcase
+
+// next_state_logic_using_if_else
+      always_comb
+      if(state == IDLE) begin
+        if(istream_val)                 nextstate = CALC;
+        else                            nextstate = IDLE;
+      end
+      else if(state == CALC) begin
+        if(counter == 8'd32)            nextstate = DONE;
+        else                            nextstate = CALC;
+      end
+      else begin
+        if(ostream_rdy)                 nextstate = IDLE;
+        else                            nextstate = DONE;
+      end
 
   //output_logic
 

@@ -70,8 +70,8 @@
           initial begin 
  001621     while(1) begin
  001621       @(negedge clk);  
- 000003       if (linetrace) begin
- 001618            imul.display_trace;
+ 001621       if (linetrace) begin
+%000000            imul.display_trace;
               end
             end 
             $stop;

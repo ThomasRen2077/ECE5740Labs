@@ -17,7 +17,7 @@ VL_INLINE_OPT void Vtop_vc_Trace___eval_initial__TOP__top__imul__vc_trace(Vtop_v
     VL_CONST_W_1X(4096,vlSelf->__PVT__storage,0x00000000);
     VL_ASSIGNSEL_WI(4096,32,0U, vlSelf->__PVT__storage, 0x1ffU);
     vlSelf->__PVT__level = 1U;
-    vlSymsp->__Vcoverage[51].fetch_add(1, std::memory_order_relaxed);
+    vlSymsp->__Vcoverage[49].fetch_add(1, std::memory_order_relaxed);
 }
 
 VL_INLINE_OPT void Vtop_vc_Trace___nba_sequent__TOP__top__imul__vc_trace__0(Vtop_vc_Trace* vlSelf) {
@@ -28,6 +28,6 @@ VL_INLINE_OPT void Vtop_vc_Trace___nba_sequent__TOP__top__imul__vc_trace__0(Vtop
     vlSelf->__Vdly__cycles = vlSelf->__PVT__cycles;
     vlSelf->__Vdly__cycles = ((IData)(vlSelf->__PVT__reset)
                                ? 0U : vlSelf->__PVT__cycles_next);
-    vlSymsp->__Vcoverage[52].fetch_add(1, std::memory_order_relaxed);
+    vlSymsp->__Vcoverage[50].fetch_add(1, std::memory_order_relaxed);
     vlSelf->__PVT__cycles = vlSelf->__Vdly__cycles;
 }

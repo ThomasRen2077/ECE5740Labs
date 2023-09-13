@@ -68,7 +68,7 @@
  000065           istream_rdy <= 1;
  000028           if(istream_val) istream_rdy <= 0;
               end
- 000924       else if(state == CALC) begin     
+ 000028       else if(state == CALC) begin     
  000924           a <= next_a;
  000924           b <= next_b;
  000924           ostream_msg <= next_ostream_msg;
@@ -76,7 +76,7 @@
  000924           counter <= counter + 1;
  000924           istream_rdy <= 0;
               end
-%000000       else if(state == DONE) begin
+ 000028       else begin
  000028         ostream_val <= next_ostream_val;
  000028         istream_rdy <= 1;
  000028         if(ostream_val && ostream_rdy) counter <= 0;
@@ -85,17 +85,33 @@
             end
           end
         
-          //next_state_logic
- 003176   always_comb
- 003176     case(state)
- 000056       IDLE: if(istream_val)                 nextstate = CALC;
- 000208             else                            nextstate = IDLE;
- 000084       CALC: if(counter == 8'd32)            nextstate = DONE;
- 002688             else                            nextstate = CALC;
-%000000       DONE: if(ostream_rdy)                 nextstate = IDLE;
-%000000             else                            nextstate = DONE;
-%000000       default:                              nextstate = IDLE;
-            endcase
+          //next_state_logic_using_case
+        
+          // always_comb
+          //   case(state)
+          //     IDLE: if(istream_val)                 nextstate = CALC;
+          //           else                            nextstate = IDLE;
+          //     CALC: if(counter == 8'd32)            nextstate = DONE;
+          //           else                            nextstate = CALC;
+          //     DONE: if(ostream_rdy)                 nextstate = IDLE;
+          //           else                            nextstate = DONE;
+          //     default:                              nextstate = IDLE;
+          //   endcase
+        
+        // next_state_logic_using_if_else
+ 003176       always_comb
+ 000264       if(state == IDLE) begin
+ 000056         if(istream_val)                 nextstate = CALC;
+ 000208         else                            nextstate = IDLE;
+              end
+ 000140       else if(state == CALC) begin
+ 000084         if(counter == 8'd32)            nextstate = DONE;
+ 002688         else                            nextstate = CALC;
+              end
+ 000140       else begin
+ 000140         if(ostream_rdy)                 nextstate = IDLE;
+%000000         else                            nextstate = DONE;
+              end
         
           //output_logic
         

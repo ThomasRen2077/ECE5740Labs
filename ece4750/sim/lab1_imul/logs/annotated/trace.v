@@ -78,30 +78,30 @@
           //----------------------------------------------------------------------
           // Appends a string to the trace.
         
- 007025   task append_str
+%000000   task append_str
           (
             inout logic [nbits-1:0] trace,
             input logic [nbits-1:0] str
           );
- 007025   begin
- 007025     trace=trace;
+%000000   begin
+%000000     trace=trace;
         
- 007025     len0 = 1;
- 006638     while ( str[len0*8+:8] != 0 ) begin
- 006638       len0 = len0 + 1;
+%000000     len0 = 1;
+%000000     while ( str[len0*8+:8] != 0 ) begin
+%000000       len0 = len0 + 1;
             end
         
- 007025     idx0 = trace[31:0];
+%000000     idx0 = trace[31:0];
         
- 007025     for ( idx1 = len0-1; idx1 >= 0; idx1 = idx1 - 1 )
- 013663     begin
- 013663       trace[ idx0*8 +: 8 ] = str[ idx1*8 +: 8 ];
+%000000     for ( idx1 = len0-1; idx1 >= 0; idx1 = idx1 - 1 )
+%000000     begin
+%000000       trace[ idx0*8 +: 8 ] = str[ idx1*8 +: 8 ];
               //$display("Storing %d at %d",str[ idx1*8 +: 8 ],idx0);
- 013663       $write("%c",str[ idx1*8 +: 8 ]);
- 013663       idx0 = idx0 - 1;
+%000000       $write("%c",str[ idx1*8 +: 8 ]);
+%000000       idx0 = idx0 - 1;
             end
         
- 007025     trace[31:0] = idx0;
+%000000     trace[31:0] = idx0;
         
           end
           endtask
@@ -137,27 +137,27 @@
           //----------------------------------------------------------------------
           // Appends the given number of characters to the trace.
         
- 003176   task append_chars
+%000000   task append_chars
           (
             inout logic   [nbits-1:0] trace,
             input logic         [7:0] char,
             input integer             num
           );
- 003176   begin
- 003176     trace=trace;
- 003176     idx0 = trace[31:0];
+%000000   begin
+%000000     trace=trace;
+%000000     idx0 = trace[31:0];
         
- 003176     for ( idx1 = 0;
- 036861           idx1 < num;
- 036861           idx1 = idx1 + 1 )
- 036861     begin
- 036861       trace[idx0*8+:8] = char;
+%000000     for ( idx1 = 0;
+%000000           idx1 < num;
+%000000           idx1 = idx1 + 1 )
+%000000     begin
+%000000       trace[idx0*8+:8] = char;
               //$display("Storing %d at %d",char,idx0);
- 036861       $write("%c",char);
- 036861       idx0 = idx0 - 1;
+%000000       $write("%c",char);
+%000000       idx0 = idx0 - 1;
             end
         
- 003176     trace[31:0] = idx0;
+%000000     trace[31:0] = idx0;
         
           end
           endtask
@@ -197,33 +197,33 @@
           //----------------------------------------------------------------------
           // Append a string modified by val/rdy signals.
         
- 003236   task append_val_rdy_str
+%000000   task append_val_rdy_str
           (
             inout logic [nbits-1:0] trace,
             input logic             val,
             input logic             rdy,
             input logic [nbits-1:0] str
           );
- 003236   begin
+%000000   begin
         
- 003236     len1 = 0;
- 038832     while ( str[len1*8+:8] != 0 ) begin
- 038832       len1 = len1 + 1;
+%000000     len1 = 0;
+%000000     while ( str[len1*8+:8] != 0 ) begin
+%000000       len1 = len1 + 1;
             end
         
- 000060     if ( rdy && val ) begin
- 000060       append_str( trace, str );
+%000000     if ( rdy && val ) begin
+%000000       append_str( trace, str );
             end
- 001685     else if ( rdy && !val ) begin
- 001685       append_chars( trace, " ", len1 );
+%000000     else if ( rdy && !val ) begin
+%000000       append_chars( trace, " ", len1 );
             end
- 000108     else if ( !rdy && val ) begin
- 000108       append_str( trace, "#" );
- 000108       append_chars( trace, " ", len1-1 );
+%000000     else if ( !rdy && val ) begin
+%000000       append_str( trace, "#" );
+%000000       append_chars( trace, " ", len1-1 );
             end
 %000000     else if ( !rdy && !val ) begin
- 001383       append_str( trace, "." );
- 001383       append_chars( trace, " ", len1-1 );
+%000000       append_str( trace, "." );
+%000000       append_chars( trace, " ", len1-1 );
             end
 %000000     else begin
 %000000       append_str( trace, "x" );
