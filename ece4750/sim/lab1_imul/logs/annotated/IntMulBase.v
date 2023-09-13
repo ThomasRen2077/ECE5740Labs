@@ -21,51 +21,51 @@
         
         module lab1_imul_IntMulBase
         (
- 002041   input  logic        clk,
- 000001   input  logic        reset,
+          input  logic        clk,
+          input  logic        reset,
         
- 000056   input  logic        istream_val,
- 000057   output logic        istream_rdy,
- 000004   input  logic [63:0] istream_msg,
+          input  logic        istream_val,
+          output logic        istream_rdy,
+          input  logic [63:0] istream_msg,
         
- 000056   output logic        ostream_val,
- 000049   input  logic        ostream_rdy,
- 000013   output logic [31:0] ostream_msg
+          output logic        ostream_val,
+          input  logic        ostream_rdy,
+          output logic [31:0] ostream_msg
         );
         
           // ''' LAB TASK ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
           // Instantiate datapath and control models here and then connect them
           // together.
           typedef enum logic [1:0] {IDLE, CALC, DONE} statetype;
- 000056   statetype state, nextstate;
+          statetype state, nextstate;
         
- 000024   logic [31:0] a;
- 000022   logic [31:0] b;
-%000000   logic [7:0]  counter;
- 000024   logic [31:0] next_a;
- 000022   logic [31:0] next_b;
- 000013   logic [31:0] next_ostream_msg;
- 000056   logic        next_ostream_val;
+          logic [31:0] a;
+          logic [31:0] b;
+          logic [7:0]  counter;
+          logic [31:0] next_a;
+          logic [31:0] next_b;
+          logic [31:0] next_ostream_msg;
+          logic        next_ostream_val;
         
- 000019   logic [31:0] add_result;
+          logic [31:0] add_result;
           vc_SimpleAdder #(32) Add(ostream_msg, a, add_result);
           
         
           //state_register
- 001035   always_ff@(posedge clk) begin
- 000004     if(reset) begin
- 000004       state <= IDLE;
+ 001020   always_ff@(posedge clk) begin
+ 000003     if(reset) begin
+ 000003       state <= IDLE;
             end
- 001031     else      begin 
- 000079       if(state == IDLE) begin
+ 001017     else      begin 
+ 000065       if(state == IDLE) begin
                   
- 000079           a <= next_a;
- 000079           b <= next_b;
- 000079           ostream_msg <= next_ostream_msg;
- 000079           ostream_val <= next_ostream_val;
- 000079           counter <= 0;
+ 000065           a <= next_a;
+ 000065           b <= next_b;
+ 000065           ostream_msg <= next_ostream_msg;
+ 000065           ostream_val <= next_ostream_val;
+ 000065           counter <= 0;
         
- 000079           istream_rdy <= 1;
+ 000065           istream_rdy <= 1;
  000028           if(istream_val) istream_rdy <= 0;
               end
  000924       else if(state == CALC) begin     
@@ -81,17 +81,17 @@
  000028         istream_rdy <= 1;
  000028         if(ostream_val && ostream_rdy) counter <= 0;
               end
- 001031       state <= nextstate;
+ 001017       state <= nextstate;
             end
           end
         
           //next_state_logic
-%000000   always_comb
-%000000     case(state)
- 000028       IDLE: if(istream_val)                 nextstate = CALC;
- 000055             else                            nextstate = IDLE;
- 000028       CALC: if(counter == 8'd32)            nextstate = DONE;
- 000896             else                            nextstate = CALC;
+ 003176   always_comb
+ 003176     case(state)
+ 000056       IDLE: if(istream_val)                 nextstate = CALC;
+ 000208             else                            nextstate = IDLE;
+ 000084       CALC: if(counter == 8'd32)            nextstate = DONE;
+ 002688             else                            nextstate = CALC;
 %000000       DONE: if(ostream_rdy)                 nextstate = IDLE;
 %000000             else                            nextstate = DONE;
 %000000       default:                              nextstate = IDLE;
@@ -99,32 +99,32 @@
         
           //output_logic
         
-%000000   always_comb begin
-%000000         next_a = a;
-%000000         next_b = b;
-%000000         next_ostream_msg = ostream_msg;
+ 003176   always_comb begin
+ 003176         next_a = a;
+ 003176         next_b = b;
+ 003176         next_ostream_msg = ostream_msg;
         
- 000028       if(istream_val && istream_rdy) begin
- 000028         next_a = istream_msg[63:32];
- 000028         next_b = istream_msg[31:0];
- 000028         next_ostream_msg = 0;
+ 000056       if(istream_val && istream_rdy) begin
+ 000056         next_a = istream_msg[63:32];
+ 000056         next_b = istream_msg[31:0];
+ 000056         next_ostream_msg = 0;
               end 
- 000028       else if(counter != 32)begin
- 000979         next_a = a << 1;
- 000979         next_b = b >> 1;
- 000311         if(b[0]) begin
- 000311           next_ostream_msg = add_result;
+ 000084       else if(counter != 32)begin
+ 003036         next_a = a << 1;
+ 003036         next_b = b >> 1;
+ 000966         if(b[0]) begin
+ 000966           next_ostream_msg = add_result;
                 end
- 000668         else begin
- 000668           next_ostream_msg = ostream_msg;
+ 002070         else begin
+ 002070           next_ostream_msg = ostream_msg;
                 end
               end
         
- 000028       if(counter >= 32 && !(ostream_val && ostream_rdy)) begin
- 000028         next_ostream_val = 1;
+ 000084       if(counter >= 32 && !(ostream_val && ostream_rdy)) begin
+ 000084         next_ostream_val = 1;
               end
- 001007       else begin
- 001007         next_ostream_val = 0;
+ 003092       else begin
+ 003092         next_ostream_val = 0;
               end
           end
         

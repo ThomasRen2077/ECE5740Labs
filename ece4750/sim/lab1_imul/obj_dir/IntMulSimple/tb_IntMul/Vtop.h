@@ -15,6 +15,7 @@
 class Vtop__Syms;
 class Vtop___024root;
 class VerilatedFstC;
+class Vtop_top;
 class Vtop___024unit;
 
 
@@ -35,6 +36,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop VL_NOT_FINAL : public VerilatedModel {
     // CELLS
     // Public to allow access to /* verilator public */ items.
     // Otherwise the application code can consider these internals.
+    Vtop_top* const __PVT__top;
     Vtop___024unit* const __PVT____024unit;
 
     // Root instance pointer to allow access to model internals,

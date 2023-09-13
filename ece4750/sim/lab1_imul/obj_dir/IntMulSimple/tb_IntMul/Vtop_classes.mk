@@ -26,15 +26,28 @@ VM_CLASSES_FAST += \
 	Vtop \
 	Vtop___024root__DepSet_h84412442__0 \
 	Vtop___024root__DepSet_heccd7ead__0 \
+	Vtop_top__DepSet_h0f993197__0 \
 	Vtop___024unit__DepSet_hab9af801__0 \
+	Vtop_lab1_imul_IntMulSimple__DepSet_h50bfba88__0 \
+	Vtop_lab1_imul_IntMulSimple__DepSet_h97f30873__0 \
+	Vtop_vc_Trace__DepSet_h6a05a281__0 \
 
 # Generated module classes, non-fast-path, compile with low/medium optimization
 VM_CLASSES_SLOW += \
 	Vtop___024root__Slow \
 	Vtop___024root__DepSet_h84412442__0__Slow \
 	Vtop___024root__DepSet_heccd7ead__0__Slow \
+	Vtop_top__Slow \
+	Vtop_top__DepSet_h0f993197__0__Slow \
+	Vtop_top__DepSet_h6315917a__0__Slow \
 	Vtop___024unit__Slow \
 	Vtop___024unit__DepSet_hff17caec__0__Slow \
+	Vtop_lab1_imul_IntMulSimple__Slow \
+	Vtop_lab1_imul_IntMulSimple__DepSet_h50bfba88__0__Slow \
+	Vtop_lab1_imul_IntMulSimple__DepSet_h97f30873__0__Slow \
+	Vtop_vc_Trace__Slow \
+	Vtop_vc_Trace__DepSet_h6a05a281__0__Slow \
+	Vtop_vc_Trace__DepSet_hbe89006c__0__Slow \
 
 # Generated support classes, fast-path, compile with highest optimization
 VM_SUPPORT_FAST += \

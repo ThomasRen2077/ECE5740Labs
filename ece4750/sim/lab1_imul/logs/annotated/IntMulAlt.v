@@ -20,16 +20,16 @@
         
         module lab1_imul_IntMulAlt
         (
- 000949   input  logic        clk,
- 000001   input  logic        reset,
+          input  logic        clk,
+          input  logic        reset,
         
- 000056   input  logic        istream_val,
- 000057   output logic        istream_rdy,
- 000004   input  logic [63:0] istream_msg,
+          input  logic        istream_val,
+          output logic        istream_rdy,
+          input  logic [63:0] istream_msg,
         
- 000056   output logic        ostream_val,
- 000049   input  logic        ostream_rdy,
- 000013   output logic [31:0] ostream_msg
+          output logic        ostream_val,
+          input  logic        ostream_rdy,
+          output logic [31:0] ostream_msg
         );
         
           // ''' LAB TASK ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -37,133 +37,133 @@
           // together.
           // '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
         typedef enum logic [1:0] {IDLE, CALC, DONE} statetype;
- 000056   statetype state, nextstate;
+          statetype state, nextstate;
         
- 000024   logic [31:0] a;
- 000018   logic [31:0] b;
+          logic [31:0] a;
+          logic [31:0] b;
           //logic [7:0]  counter;
- 000024   logic [31:0] next_a;
- 000018   logic [31:0] next_b;
- 000023   logic [31:0] next_ostream_msg;
- 000056   logic        next_ostream_val;
- 000019   logic [31:0] add_result;
- 000056   logic        finish;
- 000056   logic        next_finish;
- 000056   logic        checkone;
- 000052   logic[4:0] i;
- 000010   logic[4:0] shifts;
+          logic [31:0] next_a;
+          logic [31:0] next_b;
+          logic [31:0] next_ostream_msg;
+          logic        next_ostream_val;
+          logic [31:0] add_result;
+          logic        finish;
+          logic        next_finish;
+          logic        checkone;
+          logic[4:0] i;
+          logic[4:0] shifts;
         
           vc_SimpleAdder #(32) Add(ostream_msg, a << shifts, add_result);
         
           
         
           //state_register
-          always_ff@(posedge clk) begin
-            if(reset) begin
-              state <= IDLE;
+ 000474   always_ff@(posedge clk) begin
+ 000003     if(reset) begin
+ 000003       state <= IDLE;
         
             end
-            else      begin 
-              if(state == IDLE) begin
+ 000471     else      begin 
+ 000065       if(state == IDLE) begin
         
-                  a <= next_a;
-                  b <= next_b;
-                  ostream_msg <= next_ostream_msg;
-                  ostream_val <= next_ostream_val;
+ 000065           a <= next_a;
+ 000065           b <= next_b;
+ 000065           ostream_msg <= next_ostream_msg;
+ 000065           ostream_val <= next_ostream_val;
         
-                  finish <= 0;
+ 000065           finish <= 0;
         
-                  istream_rdy <= 1;
-                  if(istream_val) istream_rdy <= 0;
+ 000065           istream_rdy <= 1;
+ 000028           if(istream_val) istream_rdy <= 0;
         
               end
-              else if(state == CALC) begin  
+ 000378       else if(state == CALC) begin  
         
-                  a <= next_a;
-                  b <= next_b;
-                  ostream_msg <= next_ostream_msg;
-                  ostream_val <= next_ostream_val;
+ 000378           a <= next_a;
+ 000378           b <= next_b;
+ 000378           ostream_msg <= next_ostream_msg;
+ 000378           ostream_val <= next_ostream_val;
         
-                  finish <= next_finish;
+ 000378           finish <= next_finish;
         
-                  istream_rdy <= 0;
+ 000378           istream_rdy <= 0;
               end
-              else if(state == DONE) begin
+%000000       else if(state == DONE) begin
         
-                ostream_val <= next_ostream_val;
+ 000028         ostream_val <= next_ostream_val;
         
-                istream_rdy <= 1;
+ 000028         istream_rdy <= 1;
         
-                if(ostream_val && ostream_rdy) finish <= 0;
+ 000028         if(ostream_val && ostream_rdy) finish <= 0;
               end
         
-              state <= nextstate;
+ 000471       state <= nextstate;
             end
           end
         
           //next_state_logic
-          always_comb
-            case(state)
-              IDLE: if(istream_val)                 nextstate = CALC;
-                    else                            nextstate = IDLE;
-              CALC: if(finish)                      nextstate = DONE;
-                    else                            nextstate = CALC;
-              DONE: if(ostream_rdy)                 nextstate = IDLE;
-                    else                            nextstate = DONE;
-              default:                              nextstate = IDLE;
+ 001007   always_comb
+ 001007     case(state)
+ 000028       IDLE: if(istream_val)                 nextstate = CALC;
+ 000139             else                            nextstate = IDLE;
+ 000056       CALC: if(finish)                      nextstate = DONE;
+ 000700             else                            nextstate = CALC;
+%000000       DONE: if(ostream_rdy)                 nextstate = IDLE;
+%000000             else                            nextstate = DONE;
+%000000       default:                              nextstate = IDLE;
             endcase
         
           //output_logic
         
-          always_comb begin
+ 001239   always_comb begin
         
-              next_a = a;
-              next_b = b;
-              next_ostream_msg = ostream_msg;
+ 001239       next_a = a;
+ 001239       next_b = b;
+ 001239       next_ostream_msg = ostream_msg;
         
-              next_finish = finish;
-              shifts = 0;
-              checkone = 0;
+ 001239       next_finish = finish;
+ 001239       shifts = 0;
+ 001239       checkone = 0;
               
-              if(istream_val && istream_rdy) begin
+ 000028       if(istream_val && istream_rdy) begin
         
-                next_a = istream_msg[63:32];
-                next_b = istream_msg[31:0];
-                next_ostream_msg = 0;
+ 000028         next_a = istream_msg[63:32];
+ 000028         next_b = istream_msg[31:0];
+ 000028         next_ostream_msg = 0;
               end 
-              else if(!finish)begin
+ 000140       else if(!finish)begin
                 //checkone = 0;
-                for (i = 0; i <= 31; i = i + 1) begin
+ 001071         for (i = 0; i <= 31; i = i + 1) begin
         
-                  if (b[i] == 1) begin
-                    checkone = 1;
-                    shifts = i;
-                    break;
+ 008380           if (b[i] == 1) begin
+%000000             checkone = 1;
+%000000             shifts = i;
+%000000             break;
                   end
                 //in case overflow of i
-                  if(i == 31) break;
+ 008157           if(i == 31) break;
                 end
         
-                if(checkone) begin
+ 000223         if(checkone) begin
         
-                  next_ostream_msg = add_result;
-                  next_a = a << (shifts+1);
-                  next_b = b >> (shifts+1);
+ 000848           next_ostream_msg = add_result;
+ 000848           next_a = a << (shifts+1);
+ 000848           next_b = b >> (shifts+1);
         
                 end
-                else begin
+ 000223         else begin
         
-                  next_ostream_msg = ostream_msg;
-                  next_finish = 1;
+ 000223           next_ostream_msg = ostream_msg;
+ 000223           next_finish = 1;
         
                 end
               end
         
-              if(finish && !(ostream_val && ostream_rdy)) begin
-                next_ostream_val = 1;
+ 000056       if(finish && !(ostream_val && ostream_rdy)) begin
+ 000056         next_ostream_val = 1;
               end
-              else begin
-                next_ostream_val = 0;
+ 001183       else begin
+ 001183         next_ostream_val = 0;
               end
         
         

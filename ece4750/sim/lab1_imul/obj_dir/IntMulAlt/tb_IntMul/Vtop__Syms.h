@@ -15,7 +15,11 @@
 
 // INCLUDE MODULE CLASSES
 #include "Vtop___024root.h"
+#include "Vtop_top.h"
 #include "Vtop___024unit.h"
+#include "Vtop_lab1_imul_IntMulAlt.h"
+#include "Vtop_vc_Trace.h"
+#include "Vtop_vc_SimpleAdder__P20.h"
 
 // DPI TYPES for DPI Export callbacks (Internal use)
 
@@ -32,9 +36,13 @@ class alignas(VL_CACHE_LINE_BYTES)Vtop__Syms final : public VerilatedSyms {
     // MODULE INSTANCE STATE
     Vtop___024root                 TOP;
     Vtop___024unit                 TOP____024unit;
+    Vtop_top                       TOP__top;
+    Vtop_lab1_imul_IntMulAlt       TOP__top__imul;
+    Vtop_vc_SimpleAdder__P20       TOP__top__imul__Add;
+    Vtop_vc_Trace                  TOP__top__imul__vc_trace;
 
     // COVERAGE
-    std::atomic<uint32_t> __Vcoverage[477];
+    std::atomic<uint32_t> __Vcoverage[72];
 
     // SCOPE NAMES
     VerilatedScope __Vscope_top;

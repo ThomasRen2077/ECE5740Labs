@@ -9,6 +9,7 @@
 #include "verilated_cov.h"
 #include "verilated_timing.h"
 class Vtop___024unit;
+class Vtop_top;
 
 
 class Vtop__Syms;
@@ -16,67 +17,34 @@ class Vtop__Syms;
 class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule {
   public:
     // CELLS
+    Vtop_top* __PVT__top;
     Vtop___024unit* __PVT____024unit;
 
     // DESIGN SPECIFIC STATE
     VL_IN8(clk,0,0);
-    CData/*0:0*/ top__DOT__ostream_val;
     VL_IN8(linetrace,0,0);
-    CData/*0:0*/ top__DOT__reset;
-    CData/*0:0*/ top__DOT__istream_val;
-    CData/*0:0*/ top__DOT__istream_rdy;
-    CData/*0:0*/ top__DOT__ostream_rdy;
-    CData/*0:0*/ top__DOT____Vtogcov__clk;
-    CData/*0:0*/ top__DOT____Vtogcov__linetrace;
-    CData/*0:0*/ top__DOT____Vtogcov__reset;
-    CData/*0:0*/ top__DOT____Vtogcov__istream_val;
-    CData/*0:0*/ top__DOT____Vtogcov__istream_rdy;
-    CData/*0:0*/ top__DOT____Vtogcov__ostream_rdy;
-    CData/*0:0*/ top__DOT____Vtogcov__ostream_val;
-    CData/*0:0*/ top__DOT__imul__DOT__next_ostream_val;
-    CData/*0:0*/ top__DOT__imul__DOT____Vtogcov__next_ostream_val;
-    CData/*3:0*/ top__DOT__imul__DOT__vc_trace__DOT__level;
-    CData/*3:0*/ top__DOT__imul__DOT__vc_trace__DOT____Vtogcov__level;
-    CData/*0:0*/ __Vtrigprevexpr___TOP__clk__0;
-    CData/*0:0*/ __Vtrigprevexpr___TOP__top__DOT__ostream_val__0;
+    CData/*0:0*/ __VstlContinue;
+    CData/*0:0*/ __VicoContinue;
+    CData/*0:0*/ __Vtrigprevexpr___TOP__top__imul____PVT__clk__0;
+    CData/*0:0*/ __Vtrigprevexpr___TOP__top__imul__vc_trace____PVT__clk__0;
+    CData/*0:0*/ __Vtrigprevexpr___TOP__top__clk__0;
+    CData/*0:0*/ __Vtrigprevexpr___TOP__top____PVT__ostream_val__0;
     CData/*0:0*/ __VactDidInit;
     CData/*0:0*/ __VactContinue;
-    IData/*31:0*/ top__DOT__ostream_msg;
-    IData/*31:0*/ top__DOT__istream_msg_a;
-    IData/*31:0*/ top__DOT__istream_msg_b;
-    IData/*31:0*/ top__DOT__a;
-    IData/*31:0*/ top__DOT__b;
-    IData/*31:0*/ top__DOT____Vtogcov__ostream_msg;
-    IData/*31:0*/ top__DOT____Vtogcov__istream_msg_a;
-    IData/*31:0*/ top__DOT____Vtogcov__istream_msg_b;
-    IData/*31:0*/ top__DOT____Vtogcov__a;
-    IData/*31:0*/ top__DOT____Vtogcov__b;
-    IData/*31:0*/ top__DOT__unnamedblk1__DOT__x;
-    IData/*31:0*/ top__DOT__imul__DOT__next_ostream_msg;
-    VlWide<128>/*4095:0*/ top__DOT__imul__DOT__str;
-    IData/*31:0*/ top__DOT__imul__DOT__idx1;
-    IData/*31:0*/ top__DOT__imul__DOT__idx0;
-    IData/*31:0*/ top__DOT__imul__DOT____Vtogcov__next_ostream_msg;
-    IData/*31:0*/ top__DOT__imul__DOT__vc_trace__DOT__len0;
-    IData/*31:0*/ top__DOT__imul__DOT__vc_trace__DOT__len1;
-    IData/*31:0*/ top__DOT__imul__DOT__vc_trace__DOT__idx0;
-    IData/*31:0*/ top__DOT__imul__DOT__vc_trace__DOT__idx1;
-    VlWide<128>/*4095:0*/ top__DOT__imul__DOT__vc_trace__DOT__storage;
-    IData/*31:0*/ top__DOT__imul__DOT__vc_trace__DOT__cycles_next;
-    IData/*31:0*/ top__DOT__imul__DOT__vc_trace__DOT__cycles;
+    CData/*0:0*/ __VnbaContinue;
     IData/*31:0*/ __VstlIterCount;
     IData/*31:0*/ __VicoIterCount;
     IData/*31:0*/ __VactIterCount;
-    QData/*63:0*/ top__DOT__istream_msg;
-    QData/*63:0*/ top__DOT____Vtogcov__istream_msg;
-    VlUnpacked<CData/*0:0*/, 5> __Vm_traceActivity;
-    VlTriggerScheduler __VtrigSched_h3cadd47d__0;
+    IData/*31:0*/ __VnbaIterCount;
+    VlUnpacked<CData/*0:0*/, 8> __Vm_traceActivity;
+    VlTriggerScheduler __VtrigSched_h3ebd0ccf__0;
     VlDelayScheduler __VdlySched;
-    VlTriggerScheduler __VtrigSched_hb9476d33__0;
+    VlTriggerScheduler __VtrigSched_h87bdc05d__0;
     VlTriggerVec<1> __VstlTriggered;
     VlTriggerVec<1> __VicoTriggered;
-    VlTriggerVec<4> __VactTriggered;
-    VlTriggerVec<4> __VnbaTriggered;
+    VlTriggerVec<5> __VactTriggered;
+    VlTriggerVec<5> __VpreTriggered;
+    VlTriggerVec<5> __VnbaTriggered;
 
     // INTERNAL VARIABLES
     Vtop__Syms* const vlSymsp;
