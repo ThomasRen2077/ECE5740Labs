@@ -65,6 +65,7 @@ VL_INLINE_OPT void Vtop___024root___ico_sequent__TOP__0(Vtop___024root* vlSelf) 
 
 void Vtop_top___ico_sequent__TOP__top__0(Vtop_top* vlSelf);
 void Vtop_lab1_imul_IntMulAlt___ico_sequent__TOP__top__imul__0(Vtop_lab1_imul_IntMulAlt* vlSelf);
+void Vtop_vc_Trace___ico_sequent__TOP__top__imul__vc_trace__0(Vtop_vc_Trace* vlSelf);
 
 void Vtop___024root___eval_ico(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
@@ -76,6 +77,7 @@ void Vtop___024root___eval_ico(Vtop___024root* vlSelf) {
         vlSelf->__Vm_traceActivity[2U] = 1U;
         Vtop_top___ico_sequent__TOP__top__0((&vlSymsp->TOP__top));
         Vtop_lab1_imul_IntMulAlt___ico_sequent__TOP__top__imul__0((&vlSymsp->TOP__top__imul));
+        Vtop_vc_Trace___ico_sequent__TOP__top__imul__vc_trace__0((&vlSymsp->TOP__top__imul__vc_trace));
     }
 }
 
@@ -122,6 +124,7 @@ void Vtop___024root___eval_triggers__act(Vtop___024root* vlSelf) {
 
 void Vtop_top___act_comb__TOP__top__0(Vtop_top* vlSelf);
 void Vtop_lab1_imul_IntMulAlt___act_comb__TOP__top__imul__0(Vtop_lab1_imul_IntMulAlt* vlSelf);
+void Vtop_vc_Trace___act_comb__TOP__top__imul__vc_trace__0(Vtop_vc_Trace* vlSelf);
 void Vtop_lab1_imul_IntMulAlt___act_sequent__TOP__top__imul__0(Vtop_lab1_imul_IntMulAlt* vlSelf);
 void Vtop_vc_SimpleAdder__P20___act_sequent__TOP__top__imul__Add__0(Vtop_vc_SimpleAdder__P20* vlSelf);
 void Vtop_lab1_imul_IntMulAlt___act_sequent__TOP__top__imul__1(Vtop_lab1_imul_IntMulAlt* vlSelf);
@@ -136,6 +139,7 @@ void Vtop___024root___eval_act(Vtop___024root* vlSelf) {
         Vtop_top___act_comb__TOP__top__0((&vlSymsp->TOP__top));
         vlSelf->__Vm_traceActivity[3U] = 1U;
         Vtop_lab1_imul_IntMulAlt___act_comb__TOP__top__imul__0((&vlSymsp->TOP__top__imul));
+        Vtop_vc_Trace___act_comb__TOP__top__imul__vc_trace__0((&vlSymsp->TOP__top__imul__vc_trace));
     }
     if ((1ULL & vlSelf->__VactTriggered.word(0U))) {
         Vtop_lab1_imul_IntMulAlt___act_sequent__TOP__top__imul__0((&vlSymsp->TOP__top__imul));
@@ -150,12 +154,15 @@ void Vtop___024root___eval_act(Vtop___024root* vlSelf) {
 
 void Vtop_lab1_imul_IntMulAlt___nba_sequent__TOP__top__imul__0(Vtop_lab1_imul_IntMulAlt* vlSelf);
 void Vtop_top___nba_sequent__TOP__top__0(Vtop_top* vlSelf);
-void Vtop_vc_Trace___nba_sequent__TOP__top__imul__vc_trace__0(Vtop_vc_Trace* vlSelf);
+void Vtop_vc_SimpleAdder__P20___nba_sequent__TOP__top__imul__Add__0(Vtop_vc_SimpleAdder__P20* vlSelf);
 void Vtop_top___nba_comb__TOP__top__0(Vtop_top* vlSelf);
 void Vtop_lab1_imul_IntMulAlt___nba_comb__TOP__top__imul__0(Vtop_lab1_imul_IntMulAlt* vlSelf);
+void Vtop_vc_Trace___nba_sequent__TOP__top__imul__vc_trace__0(Vtop_vc_Trace* vlSelf);
 void Vtop_lab1_imul_IntMulAlt___nba_comb__TOP__top__imul__1(Vtop_lab1_imul_IntMulAlt* vlSelf);
 void Vtop_vc_SimpleAdder__P20___nba_comb__TOP__top__imul__Add__0(Vtop_vc_SimpleAdder__P20* vlSelf);
 void Vtop_lab1_imul_IntMulAlt___nba_comb__TOP__top__imul__2(Vtop_lab1_imul_IntMulAlt* vlSelf);
+void Vtop_lab1_imul_IntMulAlt___nba_comb__TOP__top__imul__3(Vtop_lab1_imul_IntMulAlt* vlSelf);
+void Vtop_vc_Trace___nba_comb__TOP__top__imul__vc_trace__0(Vtop_vc_Trace* vlSelf);
 
 void Vtop___024root___eval_nba(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
@@ -166,18 +173,23 @@ void Vtop___024root___eval_nba(Vtop___024root* vlSelf) {
         Vtop_lab1_imul_IntMulAlt___nba_sequent__TOP__top__imul__0((&vlSymsp->TOP__top__imul));
         vlSelf->__Vm_traceActivity[5U] = 1U;
         Vtop_top___nba_sequent__TOP__top__0((&vlSymsp->TOP__top));
-    }
-    if ((4ULL & vlSelf->__VnbaTriggered.word(0U))) {
-        Vtop_vc_Trace___nba_sequent__TOP__top__imul__vc_trace__0((&vlSymsp->TOP__top__imul__vc_trace));
+        Vtop_vc_SimpleAdder__P20___nba_sequent__TOP__top__imul__Add__0((&vlSymsp->TOP__top__imul__Add));
     }
     if ((0x38ULL & vlSelf->__VnbaTriggered.word(0U))) {
         Vtop_top___nba_comb__TOP__top__0((&vlSymsp->TOP__top));
         Vtop_lab1_imul_IntMulAlt___nba_comb__TOP__top__imul__0((&vlSymsp->TOP__top__imul));
+    }
+    if ((4ULL & vlSelf->__VnbaTriggered.word(0U))) {
+        Vtop_vc_Trace___nba_sequent__TOP__top__imul__vc_trace__0((&vlSymsp->TOP__top__imul__vc_trace));
     }
     if ((3ULL & vlSelf->__VnbaTriggered.word(0U))) {
         Vtop_lab1_imul_IntMulAlt___nba_comb__TOP__top__imul__1((&vlSymsp->TOP__top__imul));
         vlSelf->__Vm_traceActivity[6U] = 1U;
         Vtop_vc_SimpleAdder__P20___nba_comb__TOP__top__imul__Add__0((&vlSymsp->TOP__top__imul__Add));
         Vtop_lab1_imul_IntMulAlt___nba_comb__TOP__top__imul__2((&vlSymsp->TOP__top__imul));
+    }
+    if ((0x38ULL & vlSelf->__VnbaTriggered.word(0U))) {
+        Vtop_lab1_imul_IntMulAlt___nba_comb__TOP__top__imul__3((&vlSymsp->TOP__top__imul));
+        Vtop_vc_Trace___nba_comb__TOP__top__imul__vc_trace__0((&vlSymsp->TOP__top__imul__vc_trace));
     }
 }

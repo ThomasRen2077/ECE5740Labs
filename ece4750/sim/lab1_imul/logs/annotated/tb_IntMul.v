@@ -18,34 +18,34 @@
         // Top-level module
         //------------------------------------------------------------------------
         
-        module top(  input logic clk, input logic linetrace );
+ 000003 module top(  input logic clk, input logic linetrace );
         
           // DUT signals
-          logic        reset;
+ 000003   logic        reset;
         
-          logic        istream_val;
-          logic        istream_rdy;
-          logic [63:0] istream_msg;
+ 000168   logic        istream_val;
+ 000170   logic        istream_rdy;
+ 000012   logic [63:0] istream_msg;
         
-          logic        ostream_rdy;
-          logic        ostream_val;
-          logic signed [31:0] ostream_msg;
+ 000147   logic        ostream_rdy;
+ 000168   logic        ostream_val;
+ 000037   logic signed [31:0] ostream_msg;
         
           // Testbench signals
           // logic        istream_val_f;
           // logic        ostream_rdy_f;
         
-          logic signed [31:0] istream_msg_a;
-          logic signed [31:0] istream_msg_b;
+ 000018   logic signed [31:0] istream_msg_a;
+ 000012   logic signed [31:0] istream_msg_b;
         
-          logic signed [31:0] a;
-          logic signed [31:0] b;
+ 000012   logic signed [31:0] a;
+ 000006   logic signed [31:0] b;
         
         
           // Form istream_msg
- 003057   always_comb begin
- 003057     istream_msg[63:32] = istream_msg_a;
- 003057     istream_msg[31: 0] = istream_msg_b;
+          always_comb begin
+            istream_msg[63:32] = istream_msg_a;
+            istream_msg[31: 0] = istream_msg_b;
           end
         
           //----------------------------------------------------------------------
@@ -68,10 +68,10 @@
         
         
           initial begin 
- 001621     while(1) begin
- 001621       @(negedge clk);  
- 001621       if (linetrace) begin
-%000000            imul.display_trace;
+            while(1) begin
+              @(negedge clk);  
+              if (linetrace) begin
+                   imul.display_trace;
               end
             end 
             $stop;
@@ -114,11 +114,11 @@
             istream_val   =  1'b1;
             ostream_rdy   =  1'b1;
         
-%000000     while(!istream_rdy) @(negedge clk); // Wait until ready is asserted
+            while(!istream_rdy) @(negedge clk); // Wait until ready is asserted
             @(negedge clk); // Move to next cycle.
             
             istream_val = 1'b0; // Deassert ready input
- 000001     if(!ostream_val) @(ostream_val);// Wait for response
+            if(!ostream_val) @(ostream_val);// Wait for response
             @(negedge clk); // read at low clk
             
             // Check the result
@@ -148,7 +148,7 @@
             istream_val   =  1'b1;
             ostream_rdy   =  1'b1;
         
-%000000     while(!istream_rdy) @(negedge clk); // Wait until ready is asserted
+            while(!istream_rdy) @(negedge clk); // Wait until ready is asserted
             @(negedge clk); // Move to next cycle.
             
             istream_val = 1'b0; // Deassert ready input
@@ -182,7 +182,7 @@
             istream_val   =  1'b1;
             ostream_rdy   =  1'b1;
             
-%000000     while(!istream_rdy) @(negedge clk); // Wait until ready is asserted
+            while(!istream_rdy) @(negedge clk); // Wait until ready is asserted
             @(negedge clk); // Move to next cycle.
             
             istream_val = 1'b0; // Deassert ready input
@@ -216,7 +216,7 @@
             istream_val   =  1'b1;
             ostream_rdy   =  1'b1;
             
-%000000     while(!istream_rdy) @(negedge clk); // Wait until ready is asserted
+            while(!istream_rdy) @(negedge clk); // Wait until ready is asserted
             
             @(negedge clk); // Move to next cycle.
             // This is the place the ostream_msg value changes
@@ -257,8 +257,8 @@
             //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
             
             $display("Random Test");
- 000015     for( integer x = 0; x < 5; x++ ) begin
- 000015       test_task( $random, $random );
+            for( integer x = 0; x < 5; x++ ) begin
+              test_task( $random, $random );
             end
         
             //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -370,13 +370,13 @@
             istream_val   = 1'b1;
             ostream_rdy   = 1'b0;
         
-%000000     while(!istream_rdy) @(negedge clk); // Wait until ready is asserted
+            while(!istream_rdy) @(negedge clk); // Wait until ready is asserted
             @(negedge clk); // Move to next cycle.
         
             istream_val = 1'b0; // No more ready input
             ostream_rdy = 1'b1; // Ready for output
         
- 000024     if(!ostream_val) @(ostream_val);// Wait for response
+            if(!ostream_val) @(ostream_val);// Wait for response
             
             // Check the result
             assert ( (input_a * input_b) == ostream_msg) begin

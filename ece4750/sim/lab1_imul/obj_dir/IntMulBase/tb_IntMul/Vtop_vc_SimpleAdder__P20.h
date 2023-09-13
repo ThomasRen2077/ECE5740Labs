@@ -19,6 +19,9 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop_vc_SimpleAdder__P20 final : public Veril
     VL_IN(__PVT__in0,31,0);
     VL_IN(__PVT__in1,31,0);
     VL_OUT(__PVT__out,31,0);
+    IData/*31:0*/ __Vtogcov__in0;
+    IData/*31:0*/ __Vtogcov__in1;
+    IData/*31:0*/ __Vtogcov__out;
 
     // INTERNAL VARIABLES
     Vtop__Syms* const vlSymsp;

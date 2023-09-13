@@ -28,6 +28,18 @@ VL_ATTR_COLD void Vtop_lab1_imul_IntMulSimple___ctor_var_reset(Vtop_lab1_imul_In
     VL_RAND_RESET_W(4096, vlSelf->__PVT__str);
     vlSelf->__PVT__idx1 = VL_RAND_RESET_I(32);
     vlSelf->__PVT__idx0 = VL_RAND_RESET_I(32);
+    vlSelf->__Vtogcov__clk = VL_RAND_RESET_I(1);
+    vlSelf->__Vtogcov__reset = VL_RAND_RESET_I(1);
+    vlSelf->__Vtogcov__istream_val = VL_RAND_RESET_I(1);
+    vlSelf->__Vtogcov__istream_rdy = VL_RAND_RESET_I(1);
+    vlSelf->__Vtogcov__istream_msg = VL_RAND_RESET_Q(64);
+    vlSelf->__Vtogcov__ostream_val = VL_RAND_RESET_I(1);
+    vlSelf->__Vtogcov__ostream_rdy = VL_RAND_RESET_I(1);
+    vlSelf->__Vtogcov__ostream_msg = VL_RAND_RESET_I(32);
+    vlSelf->__Vtogcov__a = VL_RAND_RESET_I(32);
+    vlSelf->__Vtogcov__b = VL_RAND_RESET_I(32);
+    vlSelf->__Vtogcov__next_ostream_val = VL_RAND_RESET_I(1);
+    vlSelf->__Vtogcov__next_ostream_msg = VL_RAND_RESET_I(32);
     vlSelf->__Vdly__istream_rdy = VL_RAND_RESET_I(1);
     vlSelf->__Vdly__ostream_val = VL_RAND_RESET_I(1);
     vlSelf->__Vdly__ostream_msg = VL_RAND_RESET_I(32);

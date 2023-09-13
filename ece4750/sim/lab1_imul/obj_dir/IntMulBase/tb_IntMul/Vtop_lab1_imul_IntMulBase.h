@@ -31,6 +31,16 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop_lab1_imul_IntMulBase final : public Veri
     CData/*1:0*/ __PVT__nextstate;
     CData/*7:0*/ __PVT__counter;
     CData/*0:0*/ __PVT__next_ostream_val;
+    CData/*0:0*/ __Vtogcov__clk;
+    CData/*0:0*/ __Vtogcov__reset;
+    CData/*0:0*/ __Vtogcov__istream_val;
+    CData/*0:0*/ __Vtogcov__istream_rdy;
+    CData/*0:0*/ __Vtogcov__ostream_val;
+    CData/*0:0*/ __Vtogcov__ostream_rdy;
+    CData/*1:0*/ __Vtogcov__state;
+    CData/*1:0*/ __Vtogcov__nextstate;
+    CData/*7:0*/ __Vtogcov__counter;
+    CData/*0:0*/ __Vtogcov__next_ostream_val;
     CData/*1:0*/ __Vdly__state;
     CData/*0:0*/ __Vdly__ostream_val;
     CData/*7:0*/ __Vdly__counter;
@@ -45,10 +55,18 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop_lab1_imul_IntMulBase final : public Veri
     VlWide<128>/*4095:0*/ __PVT__str;
     IData/*31:0*/ __PVT__idx1;
     IData/*31:0*/ __PVT__idx0;
+    IData/*31:0*/ __Vtogcov__ostream_msg;
+    IData/*31:0*/ __Vtogcov__a;
+    IData/*31:0*/ __Vtogcov__b;
+    IData/*31:0*/ __Vtogcov__next_a;
+    IData/*31:0*/ __Vtogcov__next_b;
+    IData/*31:0*/ __Vtogcov__next_ostream_msg;
+    IData/*31:0*/ __Vtogcov__add_result;
     IData/*31:0*/ __Vdly__a;
     IData/*31:0*/ __Vdly__b;
     IData/*31:0*/ __Vdly__ostream_msg;
     VL_IN64(__PVT__istream_msg,63,0);
+    QData/*63:0*/ __Vtogcov__istream_msg;
 
     // INTERNAL VARIABLES
     Vtop__Syms* const vlSymsp;

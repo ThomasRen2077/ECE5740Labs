@@ -28,6 +28,13 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop_top final : public VerilatedModule {
         CData/*0:0*/ __PVT__istream_val;
         CData/*0:0*/ __PVT__istream_rdy;
         CData/*0:0*/ __PVT__ostream_rdy;
+        CData/*0:0*/ __Vtogcov__clk;
+        CData/*0:0*/ __Vtogcov__linetrace;
+        CData/*0:0*/ __Vtogcov__reset;
+        CData/*0:0*/ __Vtogcov__istream_val;
+        CData/*0:0*/ __Vtogcov__istream_rdy;
+        CData/*0:0*/ __Vtogcov__ostream_rdy;
+        CData/*0:0*/ __Vtogcov__ostream_val;
         CData/*0:0*/ __Vtask_append_val_rdy_str__2__val;
         CData/*0:0*/ __Vtask_append_val_rdy_str__2__rdy;
         CData/*7:0*/ __Vtask_append_chars__4__char;
@@ -45,6 +52,11 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop_top final : public VerilatedModule {
         IData/*31:0*/ __PVT__istream_msg_b;
         IData/*31:0*/ __PVT__a;
         IData/*31:0*/ __PVT__b;
+        IData/*31:0*/ __Vtogcov__ostream_msg;
+        IData/*31:0*/ __Vtogcov__istream_msg_a;
+        IData/*31:0*/ __Vtogcov__istream_msg_b;
+        IData/*31:0*/ __Vtogcov__a;
+        IData/*31:0*/ __Vtogcov__b;
         IData/*31:0*/ __PVT__unnamedblk1__DOT__x;
         VlWide<128>/*4095:0*/ __Vtask_append_val_rdy_str__2__str;
         VlWide<128>/*4095:0*/ __Vtask_append_str__3__str;
@@ -73,6 +85,8 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop_top final : public VerilatedModule {
         IData/*31:0*/ __Vtask_test_task__34__input_b;
         IData/*31:0*/ __Vtask_test_task__37__input_a;
         IData/*31:0*/ __Vtask_test_task__37__input_b;
+    };
+    struct {
         IData/*31:0*/ __Vtask_test_task__40__input_a;
         IData/*31:0*/ __Vtask_test_task__40__input_b;
         IData/*31:0*/ __Vtask_test_task__43__input_a;
@@ -85,8 +99,6 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop_top final : public VerilatedModule {
         IData/*31:0*/ __Vtask_test_task__52__input_b;
         IData/*31:0*/ __Vtask_test_task__55__input_a;
         IData/*31:0*/ __Vtask_test_task__55__input_b;
-    };
-    struct {
         IData/*31:0*/ __Vtask_test_task__58__input_a;
         IData/*31:0*/ __Vtask_test_task__58__input_b;
         IData/*31:0*/ __Vtask_test_task__61__input_a;
@@ -110,6 +122,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop_top final : public VerilatedModule {
         IData/*31:0*/ __Vtask_test_task__88__input_a;
         IData/*31:0*/ __Vtask_test_task__88__input_b;
         QData/*63:0*/ __PVT__istream_msg;
+        QData/*63:0*/ __Vtogcov__istream_msg;
     };
 
     // INTERNAL VARIABLES
