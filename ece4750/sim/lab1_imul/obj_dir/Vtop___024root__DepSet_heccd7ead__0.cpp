@@ -11,6 +11,7 @@
 VL_ATTR_COLD void Vtop___024root___eval_initial__TOP(Vtop___024root* vlSelf);
 VlCoroutine Vtop___024root___eval_initial__TOP__0(Vtop___024root* vlSelf);
 VlCoroutine Vtop___024root___eval_initial__TOP__1(Vtop___024root* vlSelf);
+VlCoroutine Vtop___024root___eval_initial__TOP__2(Vtop___024root* vlSelf);
 
 void Vtop___024root___eval_initial(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
@@ -21,81 +22,55 @@ void Vtop___024root___eval_initial(Vtop___024root* vlSelf) {
     vlSelf->__Vm_traceActivity[1U] = 1U;
     Vtop___024root___eval_initial__TOP__0(vlSelf);
     Vtop___024root___eval_initial__TOP__1(vlSelf);
-    vlSelf->__Vtrigprevexpr___TOP__top__DOT__imul__DOT__shifts__0 
-        = vlSelf->top__DOT__imul__DOT__shifts;
-    vlSelf->__Vtrigprevexpr___TOP__top__DOT__imul__DOT__shifts__1 
-        = vlSelf->top__DOT__imul__DOT__shifts;
+    Vtop___024root___eval_initial__TOP__2(vlSelf);
     vlSelf->__Vtrigprevexpr___TOP__clk__0 = vlSelf->clk;
-    vlSelf->__Vtrigprevexpr___TOP__top__DOT__ostream_val__0 
-        = vlSelf->top__DOT__ostream_val;
 }
-
-void Vtop___024root___ico_sequent__TOP__0(Vtop___024root* vlSelf);
-
-void Vtop___024root___eval_ico(Vtop___024root* vlSelf) {
-    if (false && vlSelf) {}  // Prevent unused
-    Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
-    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_ico\n"); );
-    // Body
-    if ((1ULL & vlSelf->__VicoTriggered.word(0U))) {
-        Vtop___024root___ico_sequent__TOP__0(vlSelf);
-    }
-}
-
-void Vtop___024root___act_comb__TOP__0(Vtop___024root* vlSelf);
-void Vtop___024root___act_sequent__TOP__0(Vtop___024root* vlSelf);
-void Vtop___024root___act_comb__TOP__1(Vtop___024root* vlSelf);
 
 void Vtop___024root___eval_act(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_act\n"); );
+}
+
+VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__1(Vtop___024root* vlSelf) {
+    if (false && vlSelf) {}  // Prevent unused
+    Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___nba_sequent__TOP__1\n"); );
     // Body
-    if ((0x1cULL & vlSelf->__VactTriggered.word(0U))) {
-        Vtop___024root___act_comb__TOP__0(vlSelf);
-    }
-    if ((1ULL & vlSelf->__VactTriggered.word(0U))) {
-        Vtop___024root___act_sequent__TOP__0(vlSelf);
-    }
-    if ((0x1dULL & vlSelf->__VactTriggered.word(0U))) {
-        Vtop___024root___act_comb__TOP__1(vlSelf);
-        vlSelf->__Vm_traceActivity[4U] = 1U;
+    vlSelf->top__DOT__istream_msg = ((IData)(vlSelf->top__DOT__istream_val)
+                                      ? ((0x1bU >= (IData)(vlSelf->top__DOT__src__DOT__src__DOT__index))
+                                          ? vlSelf->top__DOT__src__DOT__src__DOT__m
+                                         [vlSelf->top__DOT__src__DOT__src__DOT__index]
+                                          : 0ULL) : 0ULL);
+    vlSelf->top__DOT__imul__DOT__next_b = vlSelf->top__DOT__imul__DOT__b;
+    vlSelf->top__DOT__imul__DOT__next_a = vlSelf->top__DOT__imul__DOT__a;
+    if (((IData)(vlSelf->top__DOT__istream_val) & (IData)(vlSelf->top__DOT__istream_rdy))) {
+        vlSelf->top__DOT__imul__DOT__next_b = (IData)(vlSelf->top__DOT__istream_msg);
+        vlSelf->top__DOT__imul__DOT__next_a = (IData)(
+                                                      (vlSelf->top__DOT__istream_msg 
+                                                       >> 0x20U));
+    } else if ((0x20U != (IData)(vlSelf->top__DOT__imul__DOT__counter))) {
+        vlSelf->top__DOT__imul__DOT__next_b = (vlSelf->top__DOT__imul__DOT__b 
+                                               >> 1U);
+        vlSelf->top__DOT__imul__DOT__next_a = (vlSelf->top__DOT__imul__DOT__a 
+                                               << 1U);
     }
 }
 
 void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf);
-void Vtop___024root___nba_comb__TOP__0(Vtop___024root* vlSelf);
-void Vtop___024root___nba_comb__TOP__2(Vtop___024root* vlSelf);
-void Vtop___024root___nba_comb__TOP__3(Vtop___024root* vlSelf);
 
 void Vtop___024root___eval_nba(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_nba\n"); );
     // Body
-    if ((2ULL & vlSelf->__VnbaTriggered.word(0U))) {
+    if ((1ULL & vlSelf->__VnbaTriggered.word(0U))) {
         Vtop___024root___nba_sequent__TOP__0(vlSelf);
-        vlSelf->__Vm_traceActivity[5U] = 1U;
-    }
-    if ((0x1cULL & vlSelf->__VnbaTriggered.word(0U))) {
-        Vtop___024root___nba_comb__TOP__0(vlSelf);
-    }
-    if ((3ULL & vlSelf->__VnbaTriggered.word(0U))) {
-        Vtop___024root___act_sequent__TOP__0(vlSelf);
-    }
-    if ((0x1eULL & vlSelf->__VnbaTriggered.word(0U))) {
-        Vtop___024root___nba_comb__TOP__2(vlSelf);
-    }
-    if ((0x1fULL & vlSelf->__VnbaTriggered.word(0U))) {
-        Vtop___024root___nba_comb__TOP__3(vlSelf);
-        vlSelf->__Vm_traceActivity[6U] = 1U;
+        vlSelf->__Vm_traceActivity[3U] = 1U;
+        Vtop___024root___nba_sequent__TOP__1(vlSelf);
     }
 }
 
-void Vtop___024root___eval_triggers__ico(Vtop___024root* vlSelf);
-#ifdef VL_DEBUG
-VL_ATTR_COLD void Vtop___024root___dump_triggers__ico(Vtop___024root* vlSelf);
-#endif  // VL_DEBUG
 void Vtop___024root___eval_triggers__act(Vtop___024root* vlSelf);
 void Vtop___024root___timing_commit(Vtop___024root* vlSelf);
 #ifdef VL_DEBUG
@@ -111,29 +86,10 @@ void Vtop___024root___eval(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval\n"); );
     // Init
-    CData/*0:0*/ __VicoContinue;
-    VlTriggerVec<5> __VpreTriggered;
+    VlTriggerVec<3> __VpreTriggered;
     IData/*31:0*/ __VnbaIterCount;
     CData/*0:0*/ __VnbaContinue;
     // Body
-    vlSelf->__VicoIterCount = 0U;
-    __VicoContinue = 1U;
-    while (__VicoContinue) {
-        __VicoContinue = 0U;
-        Vtop___024root___eval_triggers__ico(vlSelf);
-        if (vlSelf->__VicoTriggered.any()) {
-            __VicoContinue = 1U;
-            if (VL_UNLIKELY((0x64U < vlSelf->__VicoIterCount))) {
-#ifdef VL_DEBUG
-                Vtop___024root___dump_triggers__ico(vlSelf);
-#endif
-                VL_FATAL_MT("tb_IntMul.v", 20, "", "Input combinational region did not converge.");
-            }
-            vlSelf->__VicoIterCount = ((IData)(1U) 
-                                       + vlSelf->__VicoIterCount);
-            Vtop___024root___eval_ico(vlSelf);
-        }
-    }
     __VnbaIterCount = 0U;
     __VnbaContinue = 1U;
     while (__VnbaContinue) {
@@ -151,7 +107,7 @@ void Vtop___024root___eval(Vtop___024root* vlSelf) {
 #ifdef VL_DEBUG
                     Vtop___024root___dump_triggers__act(vlSelf);
 #endif
-                    VL_FATAL_MT("tb_IntMul.v", 20, "", "Active region did not converge.");
+                    VL_FATAL_MT("tb_IntMul_RandDelay.v", 35, "", "Active region did not converge.");
                 }
                 vlSelf->__VactIterCount = ((IData)(1U) 
                                            + vlSelf->__VactIterCount);
@@ -167,7 +123,7 @@ void Vtop___024root___eval(Vtop___024root* vlSelf) {
 #ifdef VL_DEBUG
                 Vtop___024root___dump_triggers__nba(vlSelf);
 #endif
-                VL_FATAL_MT("tb_IntMul.v", 20, "", "NBA region did not converge.");
+                VL_FATAL_MT("tb_IntMul_RandDelay.v", 35, "", "NBA region did not converge.");
             }
             __VnbaIterCount = ((IData)(1U) + __VnbaIterCount);
             Vtop___024root___eval_nba(vlSelf);
@@ -180,11 +136,8 @@ void Vtop___024root___timing_commit(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___timing_commit\n"); );
     // Body
-    if ((! (4ULL & vlSelf->__VactTriggered.word(0U)))) {
+    if ((! (2ULL & vlSelf->__VactTriggered.word(0U)))) {
         vlSelf->__VtrigSched_h3cadd47d__0.commit("@(negedge clk)");
-    }
-    if ((! (0x10ULL & vlSelf->__VactTriggered.word(0U)))) {
-        vlSelf->__VtrigSched_hb9476d33__0.commit("@([changed] top.ostream_val)");
     }
 }
 
@@ -193,14 +146,11 @@ void Vtop___024root___timing_resume(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___timing_resume\n"); );
     // Body
-    if ((4ULL & vlSelf->__VactTriggered.word(0U))) {
+    if ((2ULL & vlSelf->__VactTriggered.word(0U))) {
         vlSelf->__VtrigSched_h3cadd47d__0.resume("@(negedge clk)");
     }
-    if ((8ULL & vlSelf->__VactTriggered.word(0U))) {
+    if ((4ULL & vlSelf->__VactTriggered.word(0U))) {
         vlSelf->__VdlySched.resume();
-    }
-    if ((0x10ULL & vlSelf->__VactTriggered.word(0U))) {
-        vlSelf->__VtrigSched_hb9476d33__0.resume("@([changed] top.ostream_val)");
     }
 }
 

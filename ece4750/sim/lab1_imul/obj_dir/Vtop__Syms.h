@@ -34,11 +34,10 @@ class alignas(VL_CACHE_LINE_BYTES)Vtop__Syms final : public VerilatedSyms {
     Vtop___024unit                 TOP____024unit;
 
     // COVERAGE
-    std::atomic<uint32_t> __Vcoverage[549];
+    std::atomic<uint32_t> __Vcoverage[194];
 
     // SCOPE NAMES
     VerilatedScope __Vscope_top;
-    VerilatedScope __Vscope_top__test_task;
 
     // CONSTRUCTORS
     Vtop__Syms(VerilatedContext* contextp, const char* namep, Vtop* modelp);
