@@ -28,14 +28,18 @@ module top(  input logic clk, input logic linetrace );
 
   logic        ostream_rdy;
   logic        ostream_val;
-  logic [31:0] ostream_msg;
+  logic signed [31:0] ostream_msg;
 
   // Testbench signals
-  logic        istream_val_f;
-  logic        ostream_rdy_f;
+  // logic        istream_val_f;
+  // logic        ostream_rdy_f;
 
-  logic [31:0] istream_msg_a;
-  logic [31:0] istream_msg_b;
+  logic signed [31:0] istream_msg_a;
+  logic signed [31:0] istream_msg_b;
+
+  logic signed [31:0] a;
+  logic signed [31:0] b;
+
 
   // Form istream_msg
   always_comb begin
@@ -60,6 +64,7 @@ module top(  input logic clk, input logic linetrace );
     .ostream_rdy   (ostream_rdy),
     .ostream_msg   (ostream_msg)
   );
+
 
   initial begin 
     while(1) begin
@@ -119,7 +124,7 @@ module top(  input logic clk, input logic linetrace );
     assert ( 6 == ostream_msg) begin
       pass(); // Book keeping
       $display( "OK: in0 = %d, in1 = %d, out = %d", 
-                istream_msg_a, istream_msg_b, ostream_msg );
+                istream_msg_a, istream_msg_b, ostream_msg);
     end
     else begin
       fail(); // Book keeping
@@ -211,11 +216,14 @@ module top(  input logic clk, input logic linetrace );
     ostream_rdy   =  1'b1;
     
     while(!istream_rdy) @(negedge clk); // Wait until ready is asserted
+    
     @(negedge clk); // Move to next cycle.
+    // This is the place the ostream_msg value changes
     
     istream_val = 1'b0; // Deassert ready input
     if(!ostream_val) @(ostream_val);// Wait for response
     @(negedge clk); // read at low clk
+    
     
     // Check the result
     assert ( 130 == ostream_msg) begin
@@ -252,10 +260,89 @@ module top(  input logic clk, input logic linetrace );
       test_task( $random, $random );
     end
 
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // Student Tests
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    // Multiply by zero
+    $display("Multiply by zero");
+    a = 32'h00000000; b = 32'h12345678; 
+    test_task(a,b);
+
+    // Multiply by one
+    $display("Multiply by one");
+    a = 32'h00000001; b = 32'h12345678; 
+    test_task(a,b);
+
+    // Multiply by negative one
+    $display("Multiply by negative one");
+    a = 32'hFFFFFFFF; b = 32'h12345678; 
+    test_task(a,b);
+
+    // Mask off the low 16 bits of a and b
+    $display("Mask off the low 16 bits of a and b");
+    a = 32'h12340000; b = 32'h56780000;
+    test_task(a,b);
+
+    // Mask off the middle 16 bits of a and b
+    $display("Mask off the middle 16 bits of a and b");
+    a = 32'h34000056; b = 32'h12000034;
+    test_task(a,b);
+
+    // Sparse numbers
+    $display("Sparse numbers");
+    a = 32'h10000001; b = 32'h80000001;
+    test_task(a,b);
+
+    a = 32'h10010001; b = 32'h80001001;
+    test_task(a,b);
+
+
+    // Dense numbers
+    $display("Dense numbers");
+    a = 32'hFFFFFFFE; b = 32'h7FFFFFFF;
+    test_task(a,b);
+
+    a = 32'hFFFCFFFE; b = 32'h7FFBFFFF;
+    test_task(a,b);
+
+    //Corner Case
+    $display("Corner Case");
+    a = 32'h00000001; b = 32'hFFFFFFFF;
+    test_task(a,b);
+
+    a = 32'h80000000; b = 32'hFFFFFFFF;
+    test_task(a,b);
+
+    a = 32'hFFFFFFFF; b = 32'hFFFFFFFF;
+    test_task(a,b);
+
+    a = 32'hFFFFFFFF; b = 32'h80000000;
+    test_task(a,b);
+
+    a = 32'hFFFFFFFF; b = 32'h00000001;
+    test_task(a,b);
+
+    a = 32'h80000000; b = 32'h80000000;
+    test_task(a,b);
+
+    a = 32'h80000000; b = 32'h00000001;
+    test_task(a,b);
+
+    a = 32'h00000001; b = 32'h80000000;
+    test_task(a,b);
+
+    a = 32'h00000001; b = 32'h00000001;
+    test_task(a,b);
+
+
+
+
+
     // Finish the testbench
     
     @(negedge clk);
-    $display("Testbench finished at %d cycles", ($time()-10)/2 );
+    $display("Testbench finished at %d cycles", ($time()-17)/2 );
     
     // Delay for a better waveform
     #10;
@@ -270,34 +357,34 @@ module top(  input logic clk, input logic linetrace );
   //
   // Notice that the functionality is identical to the examples above
 
-  task test_task( [31:0] a,  [31:0] b );
+  task test_task( signed [31:0] input_a,  signed [31:0] input_b );
   begin
 
     // Change inputs at the negedge
     @(negedge clk);
 
     // Set inputs
-    istream_msg_a = a;
-    istream_msg_b = b;
+    istream_msg_a = input_a;
+    istream_msg_b = input_b;
     istream_val   = 1'b1;
     ostream_rdy   = 1'b0;
 
     while(!istream_rdy) @(negedge clk); // Wait until ready is asserted
     @(negedge clk); // Move to next cycle.
-    
+
     istream_val = 1'b0; // No more ready input
     ostream_rdy = 1'b1; // Ready for output
 
     if(!ostream_val) @(ostream_val);// Wait for response
     
     // Check the result
-    assert ( (a * b) == ostream_msg) begin
+    assert ( (input_a * input_b) == ostream_msg) begin
       pass(); // Book keeping
-      $display( "OK: in0 = %d, in1 = %d, out = %d", a, b, ostream_msg );
+      $display( "OK: in0 = %d, in1 = %d, out = %d", input_a, input_b, ostream_msg );
     end
     else begin
       fail(); // Book keeping
-      $error( "Failed: in0 = %d, in1 = %d, out = %d", a, b, ostream_msg );
+      $error( "Failed: in0 = %d, in1 = %d, out = %d", input_a, input_b, ostream_msg );
     end
 
     @(negedge clk);
