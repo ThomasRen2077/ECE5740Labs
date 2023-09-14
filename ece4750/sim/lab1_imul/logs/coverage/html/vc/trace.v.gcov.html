@@ -31,13 +31,13 @@
             <td class="headerValue">coverage.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntry">2</td>
-            <td class="headerCovTableEntry">72</td>
-            <td class="headerCovTableEntryLo">2.8 %</td>
+            <td class="headerCovTableEntry">4</td>
+            <td class="headerCovTableEntry">75</td>
+            <td class="headerCovTableEntryLo">5.3 %</td>
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-09-13 22:19:31</td>
+            <td class="headerValue">2023-09-13 22:35:48</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -79,8 +79,8 @@
 <a name="17"><span class="lineNum">      17 </span>            : </a>
 <a name="18"><span class="lineNum">      18 </span>            : module vc_Trace</a>
 <a name="19"><span class="lineNum">      19 </span>            : (</a>
-<a name="20"><span class="lineNum">      20 </span>            :   input logic clk,</a>
-<a name="21"><span class="lineNum">      21 </span>            :   input logic reset</a>
+<a name="20"><span class="lineNum">      20 </span><span class="lineCov">       3239 :   input logic clk,</span></a>
+<a name="21"><span class="lineNum">      21 </span><span class="lineCov">          3 :   input logic reset</span></a>
 <a name="22"><span class="lineNum">      22 </span>            : );</a>
 <a name="23"><span class="lineNum">      23 </span>            : </a>
 <a name="24"><span class="lineNum">      24 </span>            :   integer len0;</a>
@@ -108,7 +108,7 @@
 <a name="46"><span class="lineNum">      46 </span>            : </a>
 <a name="47"><span class="lineNum">      47 </span>            :   // Get trace level from command line</a>
 <a name="48"><span class="lineNum">      48 </span>            : </a>
-<a name="49"><span class="lineNum">      49 </span>            :   logic [3:0] level;</a>
+<a name="49"><span class="lineNum">      49 </span><span class="lineNoCov">          0 :   logic [3:0] level;</span></a>
 <a name="50"><span class="lineNum">      50 </span>            : </a>
 <a name="51"><span class="lineNum">      51 </span>            : `ifndef VERILATOR</a>
 <a name="52"><span class="lineNum">      52 </span>            :   initial begin</a>
@@ -130,8 +130,8 @@
 <a name="68"><span class="lineNum">      68 </span>            : </a>
 <a name="69"><span class="lineNum">      69 </span>            :   // Track cycle count</a>
 <a name="70"><span class="lineNum">      70 </span>            : </a>
-<a name="71"><span class="lineNum">      71 </span><span class="lineCov">       1002 :   always_ff @( posedge clk ) begin</span></a>
-<a name="72"><span class="lineNum">      72 </span><span class="lineCov">       1002 :     cycles &lt;= ( reset ) ? 0 : cycles_next;</span></a>
+<a name="71"><span class="lineNum">      71 </span><span class="lineCov">       1622 :   always_ff @( posedge clk ) begin</span></a>
+<a name="72"><span class="lineNum">      72 </span><span class="lineCov">       1622 :     cycles &lt;= ( reset ) ? 0 : cycles_next;</span></a>
 <a name="73"><span class="lineNum">      73 </span>            :   end</a>
 <a name="74"><span class="lineNum">      74 </span>            : </a>
 <a name="75"><span class="lineNum">      75 </span>            :   //----------------------------------------------------------------------</a>

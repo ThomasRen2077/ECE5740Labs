@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-09-13 22:19:31</td>
+            <td class="headerValue">2023-09-13 22:35:48</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -172,9 +172,9 @@
 <a name="110"><span class="lineNum">     110 </span>            :   );</a>
 <a name="111"><span class="lineNum">     111 </span>            : </a>
 <a name="112"><span class="lineNum">     112 </span>            :   initial begin </a>
-<a name="113"><span class="lineNum">     113 </span><span class="lineCov">        529 :     while( 1 ) begin</span></a>
-<a name="114"><span class="lineNum">     114 </span><span class="lineCov">        529 :       @( negedge clk );  </span></a>
-<a name="115"><span class="lineNum">     115 </span><span class="lineCov">        529 :       if( linetrace ) imul.display_trace;</span></a>
+<a name="113"><span class="lineNum">     113 </span><span class="lineCov">       1624 :     while( 1 ) begin</span></a>
+<a name="114"><span class="lineNum">     114 </span><span class="lineCov">       1624 :       @( negedge clk );  </span></a>
+<a name="115"><span class="lineNum">     115 </span><span class="lineCov">       1624 :       if( linetrace ) imul.display_trace;</span></a>
 <a name="116"><span class="lineNum">     116 </span>            :     end </a>
 <a name="117"><span class="lineNum">     117 </span>            :     $stop;</a>
 <a name="118"><span class="lineNum">     118 </span>            :    end</a>
@@ -324,28 +324,28 @@
 <a name="262"><span class="lineNum">     262 </span>            :   // Run the Test Bench</a>
 <a name="263"><span class="lineNum">     263 </span>            :   //----------------------------------------------------------------------</a>
 <a name="264"><span class="lineNum">     264 </span>            : </a>
-<a name="265"><span class="lineNum">     265 </span><span class="lineCov">          1 :   initial begin</span></a>
+<a name="265"><span class="lineNum">     265 </span><span class="lineCov">          2 :   initial begin</span></a>
 <a name="266"><span class="lineNum">     266 </span>            : </a>
-<a name="267"><span class="lineNum">     267 </span><span class="lineCov">          1 :     $display( &quot;Starting tb_IntMul...&quot; );</span></a>
-<a name="268"><span class="lineNum">     268 </span><span class="lineCov">          1 :     reset = 1;</span></a>
+<a name="267"><span class="lineNum">     267 </span><span class="lineCov">          2 :     $display( &quot;Starting tb_IntMul...&quot; );</span></a>
+<a name="268"><span class="lineNum">     268 </span><span class="lineCov">          2 :     reset = 1;</span></a>
 <a name="269"><span class="lineNum">     269 </span>            :     </a>
 <a name="270"><span class="lineNum">     270 </span>            :     // Wait a bit, then de-assert reset on negedge</a>
-<a name="271"><span class="lineNum">     271 </span><span class="lineCov">          1 :     #10 </span></a>
-<a name="272"><span class="lineNum">     272 </span><span class="lineCov">          1 :     @( negedge clk );</span></a>
-<a name="273"><span class="lineNum">     273 </span><span class="lineCov">          1 :     reset = 0;</span></a>
+<a name="271"><span class="lineNum">     271 </span><span class="lineCov">          2 :     #10 </span></a>
+<a name="272"><span class="lineNum">     272 </span><span class="lineCov">          2 :     @( negedge clk );</span></a>
+<a name="273"><span class="lineNum">     273 </span><span class="lineCov">          2 :     reset = 0;</span></a>
 <a name="274"><span class="lineNum">     274 </span>            : </a>
 <a name="275"><span class="lineNum">     275 </span>            :     // Wait for the test to finish</a>
-<a name="276"><span class="lineNum">     276 </span><span class="lineCov">        474 :     while( !snk_done ) @( negedge clk );</span></a>
+<a name="276"><span class="lineNum">     276 </span><span class="lineCov">       1514 :     while( !snk_done ) @( negedge clk );</span></a>
 <a name="277"><span class="lineNum">     277 </span>            : </a>
 <a name="278"><span class="lineNum">     278 </span>            :     // Check that the source is also done</a>
-<a name="279"><span class="lineNum">     279 </span><span class="lineCov">          1 :     if( !src_done )</span></a>
+<a name="279"><span class="lineNum">     279 </span><span class="lineCov">          2 :     if( !src_done )</span></a>
 <a name="280"><span class="lineNum">     280 </span>            :       $error( &quot;[ FAILED ] Our sink received more messages than our source has!&quot; );</a>
 <a name="281"><span class="lineNum">     281 </span>            :     else</a>
-<a name="282"><span class="lineNum">     282 </span><span class="lineCov">          1 :       $display( &quot;The testbench has finished&quot; );</span></a>
+<a name="282"><span class="lineNum">     282 </span><span class="lineCov">          2 :       $display( &quot;The testbench has finished&quot; );</span></a>
 <a name="283"><span class="lineNum">     283 </span>            : </a>
 <a name="284"><span class="lineNum">     284 </span>            :     // Delay for a bit for a better waveform</a>
-<a name="285"><span class="lineNum">     285 </span><span class="lineCov">          1 :     #100</span></a>
-<a name="286"><span class="lineNum">     286 </span><span class="lineCov">          1 :     $finish;</span></a>
+<a name="285"><span class="lineNum">     285 </span><span class="lineCov">          2 :     #100</span></a>
+<a name="286"><span class="lineNum">     286 </span><span class="lineCov">          2 :     $finish;</span></a>
 <a name="287"><span class="lineNum">     287 </span>            :   end</a>
 <a name="288"><span class="lineNum">     288 </span>            : </a>
 <a name="289"><span class="lineNum">     289 </span>            :   //----------------------------------------------------------------------</a>
@@ -355,8 +355,8 @@
 <a name="293"><span class="lineNum">     293 </span>            :   // isn't receiving messages</a>
 <a name="294"><span class="lineNum">     294 </span>            : </a>
 <a name="295"><span class="lineNum">     295 </span>            :   initial begin</a>
-<a name="296"><span class="lineNum">     296 </span><span class="lineCov">        529 :     for( integer i = 0; i &lt; 1000000; i = i + 1 ) begin</span></a>
-<a name="297"><span class="lineNum">     297 </span><span class="lineCov">        529 :       @( negedge clk );</span></a>
+<a name="296"><span class="lineNum">     296 </span><span class="lineCov">       1624 :     for( integer i = 0; i &lt; 1000000; i = i + 1 ) begin</span></a>
+<a name="297"><span class="lineNum">     297 </span><span class="lineCov">       1624 :       @( negedge clk );</span></a>
 <a name="298"><span class="lineNum">     298 </span>            :     end</a>
 <a name="299"><span class="lineNum">     299 </span>            : </a>
 <a name="300"><span class="lineNum">     300 </span>            :     $error( &quot;TIMEOUT: Testbench didn't finish in time&quot; );</a>

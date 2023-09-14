@@ -8,7 +8,7 @@
 #include "verilated.h"
 #include "verilated_cov.h"
 #include "verilated_timing.h"
-class Vtop_lab1_imul_IntMulAlt;
+class Vtop_lab1_imul_IntMulBase;
 class Vtop_vc_TestRandDelaySink__P20_PB1c;
 class Vtop_vc_TestRandDelaySource__pi1;
 
@@ -19,7 +19,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop_top final : public VerilatedModule {
   public:
     // CELLS
     Vtop_vc_TestRandDelaySource__pi1* __PVT__src;
-    Vtop_lab1_imul_IntMulAlt* __PVT__imul;
+    Vtop_lab1_imul_IntMulBase* __PVT__imul;
     Vtop_vc_TestRandDelaySink__P20_PB1c* __PVT__sink;
 
     // DESIGN SPECIFIC STATE

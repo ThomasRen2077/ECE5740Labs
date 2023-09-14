@@ -18,11 +18,11 @@ VL_INLINE_OPT void Vtop_vc_EnResetReg__P5_PBz1___nba_sequent__TOP__top__src__src
     if (((IData)(vlSelf->__PVT__reset) | (IData)(vlSelf->__PVT__en))) {
         vlSelf->__Vdly__q = ((IData)(vlSelf->__PVT__reset)
                               ? 0U : (IData)(vlSelf->__PVT__d));
-        vlSymsp->__Vcoverage[185].fetch_add(1, std::memory_order_relaxed);
+        vlSymsp->__Vcoverage[180].fetch_add(1, std::memory_order_relaxed);
     } else {
-        vlSymsp->__Vcoverage[186].fetch_add(1, std::memory_order_relaxed);
+        vlSymsp->__Vcoverage[181].fetch_add(1, std::memory_order_relaxed);
     }
-    vlSymsp->__Vcoverage[187].fetch_add(1, std::memory_order_relaxed);
+    vlSymsp->__Vcoverage[182].fetch_add(1, std::memory_order_relaxed);
     vlSelf->__PVT__q = vlSelf->__Vdly__q;
 }
 
@@ -35,10 +35,10 @@ VL_INLINE_OPT void Vtop_vc_EnResetReg__P5_PBz1___nba_sequent__TOP__top__sink__si
     if (((IData)(vlSelf->__PVT__reset) | (IData)(vlSelf->__PVT__en))) {
         vlSelf->__Vdly__q = ((IData)(vlSelf->__PVT__reset)
                               ? 0U : (IData)(vlSelf->__PVT__d));
-        vlSymsp->__Vcoverage[185].fetch_add(1, std::memory_order_relaxed);
+        vlSymsp->__Vcoverage[180].fetch_add(1, std::memory_order_relaxed);
     } else {
-        vlSymsp->__Vcoverage[186].fetch_add(1, std::memory_order_relaxed);
+        vlSymsp->__Vcoverage[181].fetch_add(1, std::memory_order_relaxed);
     }
-    vlSymsp->__Vcoverage[187].fetch_add(1, std::memory_order_relaxed);
+    vlSymsp->__Vcoverage[182].fetch_add(1, std::memory_order_relaxed);
     vlSelf->__PVT__q = vlSelf->__Vdly__q;
 }

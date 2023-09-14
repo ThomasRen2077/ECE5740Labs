@@ -19,9 +19,6 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop_vc_Trace final : public VerilatedModule 
     VL_IN8(__PVT__clk,0,0);
     VL_IN8(__PVT__reset,0,0);
     CData/*3:0*/ __PVT__level;
-    CData/*0:0*/ __Vtogcov__clk;
-    CData/*0:0*/ __Vtogcov__reset;
-    CData/*3:0*/ __Vtogcov__level;
     IData/*31:0*/ __PVT__len0;
     IData/*31:0*/ __PVT__len1;
     IData/*31:0*/ __PVT__idx0;

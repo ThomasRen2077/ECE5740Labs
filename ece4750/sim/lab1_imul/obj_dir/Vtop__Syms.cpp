@@ -6,7 +6,7 @@
 #include "Vtop___024root.h"
 #include "Vtop_top.h"
 #include "Vtop___024unit.h"
-#include "Vtop_lab1_imul_IntMulAlt.h"
+#include "Vtop_lab1_imul_IntMulBase.h"
 #include "Vtop_vc_TestRandDelaySource__pi1.h"
 #include "Vtop_vc_TestRandDelaySink__P20_PB1c.h"
 #include "Vtop_vc_Trace.h"

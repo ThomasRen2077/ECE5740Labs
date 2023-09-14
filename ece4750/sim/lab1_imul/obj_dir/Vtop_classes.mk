@@ -28,7 +28,7 @@ VM_CLASSES_FAST += \
 	Vtop___024root__DepSet_heccd7ead__0 \
 	Vtop_top__DepSet_h0f993197__0 \
 	Vtop___024unit__DepSet_hab9af801__0 \
-	Vtop_lab1_imul_IntMulAlt__DepSet_hbe2ca4b0__0 \
+	Vtop_lab1_imul_IntMulBase__DepSet_h29e679ba__0 \
 	Vtop_vc_TestRandDelaySource__pi1__DepSet_h566f7225__0 \
 	Vtop_vc_TestRandDelaySink__P20_PB1c__DepSet_hd24f7eab__0 \
 	Vtop_vc_Trace__DepSet_h6a05a281__0 \
@@ -54,9 +54,9 @@ VM_CLASSES_SLOW += \
 	Vtop_top__DepSet_h6315917a__0__Slow \
 	Vtop___024unit__Slow \
 	Vtop___024unit__DepSet_hff17caec__0__Slow \
-	Vtop_lab1_imul_IntMulAlt__Slow \
-	Vtop_lab1_imul_IntMulAlt__DepSet_hbe2ca4b0__0__Slow \
-	Vtop_lab1_imul_IntMulAlt__DepSet_hf261fe5b__0__Slow \
+	Vtop_lab1_imul_IntMulBase__Slow \
+	Vtop_lab1_imul_IntMulBase__DepSet_h29e679ba__0__Slow \
+	Vtop_lab1_imul_IntMulBase__DepSet_h812c4965__0__Slow \
 	Vtop_vc_TestRandDelaySource__pi1__Slow \
 	Vtop_vc_TestRandDelaySource__pi1__DepSet_h566f7225__0__Slow \
 	Vtop_vc_TestRandDelaySource__pi1__DepSet_h9aa350c8__0__Slow \

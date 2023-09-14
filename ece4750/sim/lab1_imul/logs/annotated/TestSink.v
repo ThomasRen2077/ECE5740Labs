@@ -66,8 +66,8 @@
           // Register reset
         
           logic reset_reg;
- 000528   always_ff @( posedge clk )
- 000528     reset_reg <= reset;
+ 001622   always_ff @( posedge clk )
+ 001622     reset_reg <= reset;
         
           //----------------------------------------------------------------------
           // Combinational logic
@@ -76,8 +76,8 @@
           logic done_next;
           assign done_next = !reset_reg && ( index == ( p_num_msgs - 1 ) );
         
- 000528   always_ff @( posedge clk ) begin
- 000028     if( val && rdy ) done <= done_next;
+ 001622   always_ff @( posedge clk ) begin
+ 000056     if( val && rdy ) done <= done_next;
           end
         
           // Sink message interface is ready as long as we are not done
@@ -105,17 +105,17 @@
           logic  [p_msg_nbits-1:0] m_curr;
           assign m_curr = m[index];
         
- 000528   always_ff @( posedge clk ) begin
- 000004     if ( reset ) begin
- 000004       failed <= 0;
+ 001622   always_ff @( posedge clk ) begin
+ 000008     if ( reset ) begin
+ 000008       failed <= 0;
             end
- 000028     else if ( !reset && go ) begin
+ 000056     else if ( !reset && go ) begin
         
- 000028       casez ( msg )
- 000028         m_curr :begin
- 000028           pass();
- 000028           $display( "     [ passed ] expected = %x, actual = %x",
- 000028                     m[index], msg );
+ 000056       casez ( msg )
+ 000056         m_curr :begin
+ 000056           pass();
+ 000056           $display( "     [ passed ] expected = %x, actual = %x",
+ 000056                     m[index], msg );
                 end
 %000000         default : begin
 %000000           fail();
@@ -146,8 +146,8 @@
           // Assertions
           //----------------------------------------------------------------------
         
- 000528   always_ff @( posedge clk ) begin
- 000004     if ( !reset ) begin
+ 001622   always_ff @( posedge clk ) begin
+ 000008     if ( !reset ) begin
 %000000       `VC_ASSERT_NOT_X( val );
 %000000       `VC_ASSERT_NOT_X( rdy );
             end

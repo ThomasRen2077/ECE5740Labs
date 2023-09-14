@@ -44,11 +44,11 @@
         
           logic [31:0] rand_num;
         
- 000528   always_ff @( posedge clk ) begin
- 000528     if ( max_delay == 0 )
+ 001622   always_ff @( posedge clk ) begin
+ 001622     if ( max_delay == 0 )
 %000000       rand_num <= 0;
             else
- 000528       rand_num <= {$random} % max_delay;
+ 001622       rand_num <= {$random} % max_delay;
           end
         
           // Random delay counter
@@ -89,12 +89,12 @@
           logic [c_state_sz-1:0] state_next;
           logic [c_state_sz-1:0] state;
         
- 000528   always_ff @( posedge clk ) begin
- 000004     if ( reset ) begin
- 000004       state <= c_state_idle;
+ 001622   always_ff @( posedge clk ) begin
+ 000008     if ( reset ) begin
+ 000008       state <= c_state_idle;
             end
- 000524     else begin
- 000524       state <= state_next;
+ 001614     else begin
+ 001614       state <= state_next;
             end
           end
         
@@ -102,30 +102,30 @@
           // State transitions
           //----------------------------------------------------------------------
         
- 000528   always_comb begin
+ 001622   always_comb begin
         
             // Default is to stay in the same state
         
- 000528     state_next = state;
+ 001622     state_next = state;
         
- 000528     case ( state )
+ 001622     case ( state )
         
               // Move into delay state if a message arrives on the input
               // interface, except in the case when there is a zero cycle delay
               // (see definition of zero_cycle_delay signal above).
         
- 000087       c_state_idle:
- 000021         if ( in_val && !zero_cycle_delay ) begin
- 000021           state_next = c_state_delay;
+ 000206       c_state_idle:
+ 000043         if ( in_val && !zero_cycle_delay ) begin
+ 000043           state_next = c_state_delay;
                 end
         
               // Move back into idle state once we have waited the correct number
               // of cycles and the output interface is ready so that we can
               // actually transfer the message.
         
- 000048       c_state_delay:
- 000021         if ( in_val && out_rdy && (rand_delay == 0) ) begin
- 000021           state_next = c_state_idle;
+ 000105       c_state_delay:
+ 000043         if ( in_val && out_rdy && (rand_delay == 0) ) begin
+ 000043           state_next = c_state_idle;
                 end
         
             endcase
@@ -136,24 +136,24 @@
           // State output
           //----------------------------------------------------------------------
         
- 000528   always_comb begin
+ 001622   always_comb begin
         
- 000528     case ( state )
+ 001622     case ( state )
         
- 000087       c_state_idle:
- 000087       begin
- 000087         rand_delay_en   = in_val && !zero_cycle_delay;
- 000087         rand_delay_next = (rand_num > 0) ? rand_num - 1 : rand_num;
- 000087         in_rdy          = out_rdy && (rand_num == 0);
- 000087         out_val         = in_val  && (rand_num == 0);
+ 000206       c_state_idle:
+ 000206       begin
+ 000206         rand_delay_en   = in_val && !zero_cycle_delay;
+ 000206         rand_delay_next = (rand_num > 0) ? rand_num - 1 : rand_num;
+ 000206         in_rdy          = out_rdy && (rand_num == 0);
+ 000206         out_val         = in_val  && (rand_num == 0);
               end
         
- 000048       c_state_delay:
- 000048       begin
- 000048         rand_delay_en   = (rand_delay > 0);
- 000048         rand_delay_next = rand_delay - 1;
- 000048         in_rdy          = out_rdy && (rand_delay == 0);
- 000048         out_val         = in_val  && (rand_delay == 0);
+ 000105       c_state_delay:
+ 000105       begin
+ 000105         rand_delay_en   = (rand_delay > 0);
+ 000105         rand_delay_next = rand_delay - 1;
+ 000105         in_rdy          = out_rdy && (rand_delay == 0);
+ 000105         out_val         = in_val  && (rand_delay == 0);
               end
         
 %000000       default:
@@ -181,8 +181,8 @@
           // Assertions
           //----------------------------------------------------------------------
         
- 000528   always_ff @( posedge clk ) begin
- 000004     if ( !reset ) begin
+ 001622   always_ff @( posedge clk ) begin
+ 000008     if ( !reset ) begin
 %000000       `VC_ASSERT_NOT_X( max_delay );
 %000000       `VC_ASSERT_NOT_X( in_val    );
 %000000       `VC_ASSERT_NOT_X( in_rdy    );

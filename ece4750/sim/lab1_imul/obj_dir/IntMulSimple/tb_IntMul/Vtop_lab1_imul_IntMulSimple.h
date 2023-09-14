@@ -26,13 +26,6 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop_lab1_imul_IntMulSimple final : public Ve
     VL_OUT8(__PVT__ostream_val,0,0);
     VL_IN8(__PVT__ostream_rdy,0,0);
     CData/*0:0*/ __PVT__next_ostream_val;
-    CData/*0:0*/ __Vtogcov__clk;
-    CData/*0:0*/ __Vtogcov__reset;
-    CData/*0:0*/ __Vtogcov__istream_val;
-    CData/*0:0*/ __Vtogcov__istream_rdy;
-    CData/*0:0*/ __Vtogcov__ostream_val;
-    CData/*0:0*/ __Vtogcov__ostream_rdy;
-    CData/*0:0*/ __Vtogcov__next_ostream_val;
     CData/*0:0*/ __Vdly__istream_rdy;
     CData/*0:0*/ __Vdly__ostream_val;
     VL_OUT(__PVT__ostream_msg,31,0);
@@ -42,13 +35,8 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop_lab1_imul_IntMulSimple final : public Ve
     VlWide<128>/*4095:0*/ __PVT__str;
     IData/*31:0*/ __PVT__idx1;
     IData/*31:0*/ __PVT__idx0;
-    IData/*31:0*/ __Vtogcov__ostream_msg;
-    IData/*31:0*/ __Vtogcov__a;
-    IData/*31:0*/ __Vtogcov__b;
-    IData/*31:0*/ __Vtogcov__next_ostream_msg;
     IData/*31:0*/ __Vdly__ostream_msg;
     VL_IN64(__PVT__istream_msg,63,0);
-    QData/*63:0*/ __Vtogcov__istream_msg;
 
     // INTERNAL VARIABLES
     Vtop__Syms* const vlSymsp;

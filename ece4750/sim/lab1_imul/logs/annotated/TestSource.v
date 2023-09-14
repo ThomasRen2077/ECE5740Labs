@@ -62,8 +62,8 @@
           // Register reset
         
           logic reset_reg;
- 000528   always_ff @( posedge clk )
- 000528     reset_reg <= reset;
+ 001622   always_ff @( posedge clk )
+ 001622     reset_reg <= reset;
         
           //----------------------------------------------------------------------
           // Combinational logic
@@ -94,8 +94,8 @@
           logic done_next;
           assign done_next = !reset_reg && ( index == ( p_num_msgs - 1 ) );
         
- 000528   always_ff @( posedge clk ) begin
- 000028     if( val && rdy ) done <= done_next;
+ 001622   always_ff @( posedge clk ) begin
+ 000056     if( val && rdy ) done <= done_next;
           end
         
           // Set the source message appropriately
@@ -121,8 +121,8 @@
           // Assertions
           //----------------------------------------------------------------------
         
- 000528   always_ff @( posedge clk ) begin
- 000004     if ( !reset ) begin
+ 001622   always_ff @( posedge clk ) begin
+ 000008     if ( !reset ) begin
 %000000       `VC_ASSERT_NOT_X( val );
 %000000       `VC_ASSERT_NOT_X( rdy );
             end

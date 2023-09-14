@@ -111,9 +111,9 @@
           );
         
           initial begin 
- 000529     while( 1 ) begin
- 000529       @( negedge clk );  
- 000529       if( linetrace ) imul.display_trace;
+ 001624     while( 1 ) begin
+ 001624       @( negedge clk );  
+ 001624       if( linetrace ) imul.display_trace;
             end 
             $stop;
            end
@@ -263,28 +263,28 @@
           // Run the Test Bench
           //----------------------------------------------------------------------
         
- 000001   initial begin
+ 000002   initial begin
         
- 000001     $display( "Starting tb_IntMul..." );
- 000001     reset = 1;
+ 000002     $display( "Starting tb_IntMul..." );
+ 000002     reset = 1;
             
             // Wait a bit, then de-assert reset on negedge
- 000001     #10 
- 000001     @( negedge clk );
- 000001     reset = 0;
+ 000002     #10 
+ 000002     @( negedge clk );
+ 000002     reset = 0;
         
             // Wait for the test to finish
- 000474     while( !snk_done ) @( negedge clk );
+ 001514     while( !snk_done ) @( negedge clk );
         
             // Check that the source is also done
- 000001     if( !src_done )
+ 000002     if( !src_done )
               $error( "[ FAILED ] Our sink received more messages than our source has!" );
             else
- 000001       $display( "The testbench has finished" );
+ 000002       $display( "The testbench has finished" );
         
             // Delay for a bit for a better waveform
- 000001     #100
- 000001     $finish;
+ 000002     #100
+ 000002     $finish;
           end
         
           //----------------------------------------------------------------------
@@ -294,8 +294,8 @@
           // isn't receiving messages
         
           initial begin
- 000529     for( integer i = 0; i < 1000000; i = i + 1 ) begin
- 000529       @( negedge clk );
+ 001624     for( integer i = 0; i < 1000000; i = i + 1 ) begin
+ 001624       @( negedge clk );
             end
         
             $error( "TIMEOUT: Testbench didn't finish in time" );

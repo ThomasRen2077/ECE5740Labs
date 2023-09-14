@@ -18,8 +18,8 @@
         
         module vc_Trace
         (
- 003239   input logic clk,
- 000003   input logic reset
+          input logic clk,
+          input logic reset
         );
         
           integer len0;
@@ -47,7 +47,7 @@
         
           // Get trace level from command line
         
-%000000   logic [3:0] level;
+          logic [3:0] level;
         
         `ifndef VERILATOR
           initial begin
@@ -69,8 +69,8 @@
         
           // Track cycle count
         
- 000528   always_ff @( posedge clk ) begin
- 000528     cycles <= ( reset ) ? 0 : cycles_next;
+ 003240   always_ff @( posedge clk ) begin
+ 003240     cycles <= ( reset ) ? 0 : cycles_next;
           end
         
           //----------------------------------------------------------------------

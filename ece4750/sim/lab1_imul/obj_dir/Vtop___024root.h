@@ -23,11 +23,8 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule
     // DESIGN SPECIFIC STATE
     VL_IN8(clk,0,0);
     VL_IN8(linetrace,0,0);
-    CData/*4:0*/ __Vtrigprevexpr___TOP__top__imul____PVT__i__0;
-    CData/*0:0*/ __VstlDidInit;
     CData/*0:0*/ __VstlContinue;
     CData/*0:0*/ __VicoContinue;
-    CData/*4:0*/ __Vtrigprevexpr___TOP__top__imul____PVT__i__1;
     CData/*0:0*/ __Vtrigprevexpr___TOP__top__imul____PVT__clk__0;
     CData/*0:0*/ __Vtrigprevexpr___TOP__top__imul__vc_trace____PVT__clk__0;
     CData/*0:0*/ __Vtrigprevexpr___TOP__top__src__src____PVT__clk__0;
@@ -39,21 +36,20 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule
     CData/*0:0*/ __Vtrigprevexpr___TOP__top__src__msg_delay__rand_delay_reg____PVT__clk__0;
     CData/*0:0*/ __Vtrigprevexpr___TOP__top__sink__msg_delay__rand_delay_reg____PVT__clk__0;
     CData/*0:0*/ __Vtrigprevexpr___TOP__top__clk__0;
-    CData/*0:0*/ __VactDidInit;
     CData/*0:0*/ __VactContinue;
     CData/*0:0*/ __VnbaContinue;
     IData/*31:0*/ __VstlIterCount;
     IData/*31:0*/ __VicoIterCount;
     IData/*31:0*/ __VactIterCount;
     IData/*31:0*/ __VnbaIterCount;
-    VlUnpacked<CData/*0:0*/, 17> __Vm_traceActivity;
+    VlUnpacked<CData/*0:0*/, 16> __Vm_traceActivity;
     VlTriggerScheduler __VtrigSched_h3ebd0ccf__0;
     VlDelayScheduler __VdlySched;
-    VlTriggerVec<2> __VstlTriggered;
+    VlTriggerVec<1> __VstlTriggered;
     VlTriggerVec<1> __VicoTriggered;
-    VlTriggerVec<13> __VactTriggered;
-    VlTriggerVec<13> __VpreTriggered;
-    VlTriggerVec<13> __VnbaTriggered;
+    VlTriggerVec<12> __VactTriggered;
+    VlTriggerVec<12> __VpreTriggered;
+    VlTriggerVec<12> __VnbaTriggered;
 
     // INTERNAL VARIABLES
     Vtop__Syms* const vlSymsp;

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-09-13 22:23:14</td>
+            <td class="headerValue">2023-09-13 22:37:40</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -127,8 +127,8 @@
 <a name="65"><span class="lineNum">      65 </span>            :   // Register reset</a>
 <a name="66"><span class="lineNum">      66 </span>            : </a>
 <a name="67"><span class="lineNum">      67 </span>            :   logic reset_reg;</a>
-<a name="68"><span class="lineNum">      68 </span><span class="lineCov">        528 :   always_ff @( posedge clk )</span></a>
-<a name="69"><span class="lineNum">      69 </span><span class="lineCov">        528 :     reset_reg &lt;= reset;</span></a>
+<a name="68"><span class="lineNum">      68 </span><span class="lineCov">       1622 :   always_ff @( posedge clk )</span></a>
+<a name="69"><span class="lineNum">      69 </span><span class="lineCov">       1622 :     reset_reg &lt;= reset;</span></a>
 <a name="70"><span class="lineNum">      70 </span>            : </a>
 <a name="71"><span class="lineNum">      71 </span>            :   //----------------------------------------------------------------------</a>
 <a name="72"><span class="lineNum">      72 </span>            :   // Combinational logic</a>
@@ -137,8 +137,8 @@
 <a name="75"><span class="lineNum">      75 </span>            :   logic done_next;</a>
 <a name="76"><span class="lineNum">      76 </span>            :   assign done_next = !reset_reg &amp;&amp; ( index == ( p_num_msgs - 1 ) );</a>
 <a name="77"><span class="lineNum">      77 </span>            : </a>
-<a name="78"><span class="lineNum">      78 </span><span class="lineCov">        528 :   always_ff @( posedge clk ) begin</span></a>
-<a name="79"><span class="lineNum">      79 </span><span class="lineCov">         28 :     if( val &amp;&amp; rdy ) done &lt;= done_next;</span></a>
+<a name="78"><span class="lineNum">      78 </span><span class="lineCov">       1622 :   always_ff @( posedge clk ) begin</span></a>
+<a name="79"><span class="lineNum">      79 </span><span class="lineCov">         56 :     if( val &amp;&amp; rdy ) done &lt;= done_next;</span></a>
 <a name="80"><span class="lineNum">      80 </span>            :   end</a>
 <a name="81"><span class="lineNum">      81 </span>            : </a>
 <a name="82"><span class="lineNum">      82 </span>            :   // Sink message interface is ready as long as we are not done</a>
@@ -166,17 +166,17 @@
 <a name="104"><span class="lineNum">     104 </span>            :   logic  [p_msg_nbits-1:0] m_curr;</a>
 <a name="105"><span class="lineNum">     105 </span>            :   assign m_curr = m[index];</a>
 <a name="106"><span class="lineNum">     106 </span>            : </a>
-<a name="107"><span class="lineNum">     107 </span><span class="lineCov">        528 :   always_ff @( posedge clk ) begin</span></a>
-<a name="108"><span class="lineNum">     108 </span><span class="lineCov">          4 :     if ( reset ) begin</span></a>
-<a name="109"><span class="lineNum">     109 </span><span class="lineCov">          4 :       failed &lt;= 0;</span></a>
+<a name="107"><span class="lineNum">     107 </span><span class="lineCov">       1622 :   always_ff @( posedge clk ) begin</span></a>
+<a name="108"><span class="lineNum">     108 </span><span class="lineCov">          8 :     if ( reset ) begin</span></a>
+<a name="109"><span class="lineNum">     109 </span><span class="lineCov">          8 :       failed &lt;= 0;</span></a>
 <a name="110"><span class="lineNum">     110 </span>            :     end</a>
-<a name="111"><span class="lineNum">     111 </span><span class="lineCov">         28 :     else if ( !reset &amp;&amp; go ) begin</span></a>
+<a name="111"><span class="lineNum">     111 </span><span class="lineCov">         56 :     else if ( !reset &amp;&amp; go ) begin</span></a>
 <a name="112"><span class="lineNum">     112 </span>            : </a>
-<a name="113"><span class="lineNum">     113 </span><span class="lineCov">         28 :       casez ( msg )</span></a>
-<a name="114"><span class="lineNum">     114 </span><span class="lineCov">         28 :         m_curr :begin</span></a>
-<a name="115"><span class="lineNum">     115 </span><span class="lineCov">         28 :           pass();</span></a>
-<a name="116"><span class="lineNum">     116 </span><span class="lineCov">         28 :           $display( &quot;     [ passed ] expected = %x, actual = %x&quot;,</span></a>
-<a name="117"><span class="lineNum">     117 </span><span class="lineCov">         28 :                     m[index], msg );</span></a>
+<a name="113"><span class="lineNum">     113 </span><span class="lineCov">         56 :       casez ( msg )</span></a>
+<a name="114"><span class="lineNum">     114 </span><span class="lineCov">         56 :         m_curr :begin</span></a>
+<a name="115"><span class="lineNum">     115 </span><span class="lineCov">         56 :           pass();</span></a>
+<a name="116"><span class="lineNum">     116 </span><span class="lineCov">         56 :           $display( &quot;     [ passed ] expected = %x, actual = %x&quot;,</span></a>
+<a name="117"><span class="lineNum">     117 </span><span class="lineCov">         56 :                     m[index], msg );</span></a>
 <a name="118"><span class="lineNum">     118 </span>            :         end</a>
 <a name="119"><span class="lineNum">     119 </span><span class="lineNoCov">          0 :         default : begin</span></a>
 <a name="120"><span class="lineNum">     120 </span><span class="lineNoCov">          0 :           fail();</span></a>
@@ -207,8 +207,8 @@
 <a name="145"><span class="lineNum">     145 </span>            :   // Assertions</a>
 <a name="146"><span class="lineNum">     146 </span>            :   //----------------------------------------------------------------------</a>
 <a name="147"><span class="lineNum">     147 </span>            : </a>
-<a name="148"><span class="lineNum">     148 </span><span class="lineCov">        528 :   always_ff @( posedge clk ) begin</span></a>
-<a name="149"><span class="lineNum">     149 </span><span class="lineCov">          4 :     if ( !reset ) begin</span></a>
+<a name="148"><span class="lineNum">     148 </span><span class="lineCov">       1622 :   always_ff @( posedge clk ) begin</span></a>
+<a name="149"><span class="lineNum">     149 </span><span class="lineCov">          8 :     if ( !reset ) begin</span></a>
 <a name="150"><span class="lineNum">     150 </span><span class="lineNoCov">          0 :       `VC_ASSERT_NOT_X( val );</span></a>
 <a name="151"><span class="lineNum">     151 </span><span class="lineNoCov">          0 :       `VC_ASSERT_NOT_X( rdy );</span></a>
 <a name="152"><span class="lineNum">     152 </span>            :     end</a>

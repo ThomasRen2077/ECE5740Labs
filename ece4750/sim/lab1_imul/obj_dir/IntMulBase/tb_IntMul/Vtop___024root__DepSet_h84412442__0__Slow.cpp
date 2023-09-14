@@ -56,11 +56,8 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
 
 VL_ATTR_COLD void Vtop_top___stl_sequent__TOP__top__0(Vtop_top* vlSelf);
 VL_ATTR_COLD void Vtop_lab1_imul_IntMulBase___stl_sequent__TOP__top__imul__0(Vtop_lab1_imul_IntMulBase* vlSelf);
-VL_ATTR_COLD void Vtop_vc_Trace___stl_sequent__TOP__top__imul__vc_trace__0(Vtop_vc_Trace* vlSelf);
 VL_ATTR_COLD void Vtop_vc_SimpleAdder__P20___stl_sequent__TOP__top__imul__Add__0(Vtop_vc_SimpleAdder__P20* vlSelf);
-VL_ATTR_COLD void Vtop_top___stl_sequent__TOP__top__1(Vtop_top* vlSelf);
 VL_ATTR_COLD void Vtop_lab1_imul_IntMulBase___stl_sequent__TOP__top__imul__1(Vtop_lab1_imul_IntMulBase* vlSelf);
-VL_ATTR_COLD void Vtop_vc_Trace___stl_sequent__TOP__top__imul__vc_trace__1(Vtop_vc_Trace* vlSelf);
 
 VL_ATTR_COLD void Vtop___024root___eval_stl(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
@@ -68,7 +65,7 @@ VL_ATTR_COLD void Vtop___024root___eval_stl(Vtop___024root* vlSelf) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_stl\n"); );
     // Body
     if ((1ULL & vlSelf->__VstlTriggered.word(0U))) {
-        Vtop_top___stl_sequent__TOP__top__0((&vlSymsp->TOP__top));
+        Vtop___024root___stl_sequent__TOP__0(vlSelf);
         vlSelf->__Vm_traceActivity[8U] = 1U;
         vlSelf->__Vm_traceActivity[7U] = 1U;
         vlSelf->__Vm_traceActivity[6U] = 1U;
@@ -78,12 +75,9 @@ VL_ATTR_COLD void Vtop___024root___eval_stl(Vtop___024root* vlSelf) {
         vlSelf->__Vm_traceActivity[2U] = 1U;
         vlSelf->__Vm_traceActivity[1U] = 1U;
         vlSelf->__Vm_traceActivity[0U] = 1U;
+        Vtop_top___stl_sequent__TOP__top__0((&vlSymsp->TOP__top));
         Vtop_lab1_imul_IntMulBase___stl_sequent__TOP__top__imul__0((&vlSymsp->TOP__top__imul));
-        Vtop___024root___stl_sequent__TOP__0(vlSelf);
-        Vtop_vc_Trace___stl_sequent__TOP__top__imul__vc_trace__0((&vlSymsp->TOP__top__imul__vc_trace));
         Vtop_vc_SimpleAdder__P20___stl_sequent__TOP__top__imul__Add__0((&vlSymsp->TOP__top__imul__Add));
-        Vtop_top___stl_sequent__TOP__top__1((&vlSymsp->TOP__top));
         Vtop_lab1_imul_IntMulBase___stl_sequent__TOP__top__imul__1((&vlSymsp->TOP__top__imul));
-        Vtop_vc_Trace___stl_sequent__TOP__top__imul__vc_trace__1((&vlSymsp->TOP__top__imul__vc_trace));
     }
 }

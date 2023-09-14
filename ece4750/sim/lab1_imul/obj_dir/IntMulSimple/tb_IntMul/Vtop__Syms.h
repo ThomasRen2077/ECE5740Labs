@@ -40,7 +40,7 @@ class alignas(VL_CACHE_LINE_BYTES)Vtop__Syms final : public VerilatedSyms {
     Vtop_vc_Trace                  TOP__top__imul__vc_trace;
 
     // COVERAGE
-    std::atomic<uint32_t> __Vcoverage[436];
+    std::atomic<uint32_t> __Vcoverage[45];
 
     // SCOPE NAMES
     VerilatedScope __Vscope_top;

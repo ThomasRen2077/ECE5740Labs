@@ -100,7 +100,7 @@ void Vtop___024root___timing_commit(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___timing_commit\n"); );
     // Body
-    if ((! (0x800ULL & vlSelf->__VactTriggered.word(0U)))) {
+    if ((! (0x400ULL & vlSelf->__VactTriggered.word(0U)))) {
         vlSelf->__VtrigSched_h3ebd0ccf__0.commit("@(negedge top.clk)");
     }
 }
@@ -110,10 +110,10 @@ void Vtop___024root___timing_resume(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___timing_resume\n"); );
     // Body
-    if ((0x800ULL & vlSelf->__VactTriggered.word(0U))) {
+    if ((0x400ULL & vlSelf->__VactTriggered.word(0U))) {
         vlSelf->__VtrigSched_h3ebd0ccf__0.resume("@(negedge top.clk)");
     }
-    if ((0x1000ULL & vlSelf->__VactTriggered.word(0U))) {
+    if ((0x800ULL & vlSelf->__VactTriggered.word(0U))) {
         vlSelf->__VdlySched.resume();
     }
 }

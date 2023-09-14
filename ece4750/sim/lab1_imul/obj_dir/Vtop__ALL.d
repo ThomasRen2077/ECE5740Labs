@@ -9,7 +9,7 @@ Vtop__ALL.o: Vtop__ALL.cpp Vtop.cpp Vtop.h \
  /classes/ece4750/2023.07-2/share/verilator/include/vltstd/svdpi.h \
  Vtop__Syms.h Vtop___024root.h \
  /classes/ece4750/2023.07-2/share/verilator/include/verilated_timing.h \
- Vtop_top.h Vtop___024unit.h Vtop_lab1_imul_IntMulAlt.h \
+ Vtop_top.h Vtop___024unit.h Vtop_lab1_imul_IntMulBase.h \
  Vtop_vc_TestRandDelaySource__pi1.h Vtop_vc_TestRandDelaySink__P20_PB1c.h \
  Vtop_vc_Trace.h Vtop_vc_TestSource__P40_PB1c.h \
  Vtop_vc_TestRandDelay__P40.h Vtop_vc_SimpleAdder__P20.h \
@@ -25,7 +25,7 @@ Vtop__ALL.o: Vtop__ALL.cpp Vtop.cpp Vtop.h \
  Vtop___024root__DepSet_heccd7ead__0.cpp \
  Vtop_top__DepSet_h0f993197__0.cpp \
  Vtop___024unit__DepSet_hab9af801__0.cpp \
- Vtop_lab1_imul_IntMulAlt__DepSet_hbe2ca4b0__0.cpp \
+ Vtop_lab1_imul_IntMulBase__DepSet_h29e679ba__0.cpp \
  Vtop_vc_TestRandDelaySource__pi1__DepSet_h566f7225__0.cpp \
  Vtop_vc_TestRandDelaySink__P20_PB1c__DepSet_hd24f7eab__0.cpp \
  Vtop_vc_Trace__DepSet_h6a05a281__0.cpp \
@@ -46,9 +46,9 @@ Vtop__ALL.o: Vtop__ALL.cpp Vtop.cpp Vtop.h \
  Vtop_top__DepSet_h0f993197__0__Slow.cpp \
  Vtop_top__DepSet_h6315917a__0__Slow.cpp Vtop___024unit__Slow.cpp \
  Vtop___024unit__DepSet_hff17caec__0__Slow.cpp \
- Vtop_lab1_imul_IntMulAlt__Slow.cpp \
- Vtop_lab1_imul_IntMulAlt__DepSet_hbe2ca4b0__0__Slow.cpp \
- Vtop_lab1_imul_IntMulAlt__DepSet_hf261fe5b__0__Slow.cpp \
+ Vtop_lab1_imul_IntMulBase__Slow.cpp \
+ Vtop_lab1_imul_IntMulBase__DepSet_h29e679ba__0__Slow.cpp \
+ Vtop_lab1_imul_IntMulBase__DepSet_h812c4965__0__Slow.cpp \
  Vtop_vc_TestRandDelaySource__pi1__Slow.cpp \
  Vtop_vc_TestRandDelaySource__pi1__DepSet_h566f7225__0__Slow.cpp \
  Vtop_vc_TestRandDelaySource__pi1__DepSet_h9aa350c8__0__Slow.cpp \

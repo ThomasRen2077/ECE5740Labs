@@ -100,9 +100,9 @@
           input  logic               en     // Enable input
         );
         
- 001056   always_ff @( posedge clk )
- 000064     if ( reset || en )
- 000064       q <= reset ? p_reset_value : d;
+ 003244   always_ff @( posedge clk )
+ 000128     if ( reset || en )
+ 000128       q <= reset ? p_reset_value : d;
         
           // Assertions
         

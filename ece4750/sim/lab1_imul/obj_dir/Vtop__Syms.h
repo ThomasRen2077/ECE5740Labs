@@ -17,7 +17,7 @@
 #include "Vtop___024root.h"
 #include "Vtop_top.h"
 #include "Vtop___024unit.h"
-#include "Vtop_lab1_imul_IntMulAlt.h"
+#include "Vtop_lab1_imul_IntMulBase.h"
 #include "Vtop_vc_TestRandDelaySource__pi1.h"
 #include "Vtop_vc_TestRandDelaySink__P20_PB1c.h"
 #include "Vtop_vc_Trace.h"
@@ -45,7 +45,7 @@ class alignas(VL_CACHE_LINE_BYTES)Vtop__Syms final : public VerilatedSyms {
     Vtop___024root                 TOP;
     Vtop___024unit                 TOP____024unit;
     Vtop_top                       TOP__top;
-    Vtop_lab1_imul_IntMulAlt       TOP__top__imul;
+    Vtop_lab1_imul_IntMulBase      TOP__top__imul;
     Vtop_vc_SimpleAdder__P20       TOP__top__imul__Add;
     Vtop_vc_Trace                  TOP__top__imul__vc_trace;
     Vtop_vc_TestRandDelaySink__P20_PB1c TOP__top__sink;
@@ -60,7 +60,7 @@ class alignas(VL_CACHE_LINE_BYTES)Vtop__Syms final : public VerilatedSyms {
     Vtop_vc_EnResetReg__P5_PBz1    TOP__top__src__src__index_reg;
 
     // COVERAGE
-    std::atomic<uint32_t> __Vcoverage[191];
+    std::atomic<uint32_t> __Vcoverage[186];
 
     // SCOPE NAMES
     VerilatedScope __Vscope_top;
