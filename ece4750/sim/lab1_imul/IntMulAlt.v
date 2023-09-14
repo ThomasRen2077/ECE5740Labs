@@ -48,11 +48,9 @@ typedef enum logic [1:0] {IDLE, CALC, DONE} statetype;
   logic [31:0] add_result;
   logic        finish;
   logic        next_finish;
-  logic        checkone;
   logic[4:0] i;
-  logic[4:0] shifts;
 
-  vc_SimpleAdder #(32) Add(ostream_msg, a << shifts, add_result);
+  vc_SimpleAdder #(32) Add(ostream_msg, a << i, add_result);
 
   
 
@@ -91,9 +89,11 @@ typedef enum logic [1:0] {IDLE, CALC, DONE} statetype;
 
         ostream_val <= next_ostream_val;
 
-        istream_rdy <= 1;
 
-        if(ostream_val && ostream_rdy) finish <= 0;
+        if(ostream_val && ostream_rdy) begin
+          finish <= 0;
+          istream_rdy <= 1;
+        end
       end
 
       state <= nextstate;
@@ -112,7 +112,6 @@ typedef enum logic [1:0] {IDLE, CALC, DONE} statetype;
   //     default:                              nextstate = IDLE;
   //   endcase
 
-  //output_logic
 
 // next_state_logic_using_if_else
       always_comb
@@ -129,6 +128,10 @@ typedef enum logic [1:0] {IDLE, CALC, DONE} statetype;
         else                            nextstate = DONE;
       end
 
+
+
+  //output_logic
+
   always_comb begin
 
       next_a = a;
@@ -136,8 +139,6 @@ typedef enum logic [1:0] {IDLE, CALC, DONE} statetype;
       next_ostream_msg = ostream_msg;
 
       next_finish = finish;
-      shifts = 0;
-      checkone = 0;
       
       if(istream_val && istream_rdy) begin
 
@@ -146,23 +147,20 @@ typedef enum logic [1:0] {IDLE, CALC, DONE} statetype;
         next_ostream_msg = 0;
       end 
       else if(!finish)begin
-        //checkone = 0;
+
         for (i = 0; i <= 31; i = i + 1) begin
 
-          if (b[i] == 1) begin
-            checkone = 1;
-            shifts = i;
-            break;
-          end
-        //in case overflow of i
+          if (b[i] == 1) break;
+
           if(i == 31) break;
+          
         end
 
-        if(checkone) begin
+        if(b[i] == 1) begin
 
           next_ostream_msg = add_result;
-          next_a = a << (shifts+1);
-          next_b = b >> (shifts+1);
+          next_a = a << (i + 1);
+          next_b = b >> (i + 1);
 
         end
         else begin

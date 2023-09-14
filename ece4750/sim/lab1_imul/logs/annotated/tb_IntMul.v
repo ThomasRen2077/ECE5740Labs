@@ -18,7 +18,7 @@
         // Top-level module
         //------------------------------------------------------------------------
         
- 000003 module top(  input logic clk, input logic linetrace );
+%000000 module top(  input logic clk, input logic linetrace );
         
           // DUT signals
  000003   logic        reset;

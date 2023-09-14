@@ -60,7 +60,7 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__stl(Vtop___024root* vlSelf) {
         VL_DBG_MSGF("         'stl' region trigger index 0 is active: Internal 'stl' trigger - first iteration\n");
     }
     if ((2ULL & vlSelf->__VstlTriggered.word(0U))) {
-        VL_DBG_MSGF("         'stl' region trigger index 1 is active: @([hybrid] top.imul.shifts)\n");
+        VL_DBG_MSGF("         'stl' region trigger index 1 is active: @([hybrid] top.imul.i)\n");
     }
 }
 #endif  // VL_DEBUG
@@ -90,7 +90,7 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__act(Vtop___024root* vlSelf) {
         VL_DBG_MSGF("         No triggers active\n");
     }
     if ((1ULL & vlSelf->__VactTriggered.word(0U))) {
-        VL_DBG_MSGF("         'act' region trigger index 0 is active: @([hybrid] top.imul.shifts)\n");
+        VL_DBG_MSGF("         'act' region trigger index 0 is active: @([hybrid] top.imul.i)\n");
     }
     if ((2ULL & vlSelf->__VactTriggered.word(0U))) {
         VL_DBG_MSGF("         'act' region trigger index 1 is active: @(posedge top.imul.clk)\n");
@@ -120,7 +120,7 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__nba(Vtop___024root* vlSelf) {
         VL_DBG_MSGF("         No triggers active\n");
     }
     if ((1ULL & vlSelf->__VnbaTriggered.word(0U))) {
-        VL_DBG_MSGF("         'nba' region trigger index 0 is active: @([hybrid] top.imul.shifts)\n");
+        VL_DBG_MSGF("         'nba' region trigger index 0 is active: @([hybrid] top.imul.i)\n");
     }
     if ((2ULL & vlSelf->__VnbaTriggered.word(0U))) {
         VL_DBG_MSGF("         'nba' region trigger index 1 is active: @(posedge top.imul.clk)\n");
@@ -147,9 +147,9 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     // Body
     vlSelf->clk = VL_RAND_RESET_I(1);
     vlSelf->linetrace = VL_RAND_RESET_I(1);
-    vlSelf->__Vtrigprevexpr___TOP__top__imul____PVT__shifts__0 = VL_RAND_RESET_I(5);
+    vlSelf->__Vtrigprevexpr___TOP__top__imul____PVT__i__0 = VL_RAND_RESET_I(5);
     vlSelf->__VstlDidInit = 0;
-    vlSelf->__Vtrigprevexpr___TOP__top__imul____PVT__shifts__1 = VL_RAND_RESET_I(5);
+    vlSelf->__Vtrigprevexpr___TOP__top__imul____PVT__i__1 = VL_RAND_RESET_I(5);
     vlSelf->__Vtrigprevexpr___TOP__top__imul____PVT__clk__0 = VL_RAND_RESET_I(1);
     vlSelf->__Vtrigprevexpr___TOP__top__imul__vc_trace____PVT__clk__0 = VL_RAND_RESET_I(1);
     vlSelf->__Vtrigprevexpr___TOP__top__clk__0 = VL_RAND_RESET_I(1);

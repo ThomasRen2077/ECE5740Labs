@@ -32,9 +32,7 @@ VL_ATTR_COLD void Vtop_lab1_imul_IntMulAlt___ctor_var_reset(Vtop_lab1_imul_IntMu
     vlSelf->__PVT__add_result = VL_RAND_RESET_I(32);
     vlSelf->__PVT__finish = VL_RAND_RESET_I(1);
     vlSelf->__PVT__next_finish = VL_RAND_RESET_I(1);
-    vlSelf->__PVT__checkone = VL_RAND_RESET_I(1);
     vlSelf->__PVT__i = VL_RAND_RESET_I(5);
-    vlSelf->__PVT__shifts = VL_RAND_RESET_I(5);
     vlSelf->__Vcellinp__Add____pinNumber2 = VL_RAND_RESET_I(32);
     VL_RAND_RESET_W(4096, vlSelf->__PVT__str);
     vlSelf->__PVT__idx1 = VL_RAND_RESET_I(32);
@@ -58,9 +56,7 @@ VL_ATTR_COLD void Vtop_lab1_imul_IntMulAlt___ctor_var_reset(Vtop_lab1_imul_IntMu
     vlSelf->__Vtogcov__add_result = VL_RAND_RESET_I(32);
     vlSelf->__Vtogcov__finish = VL_RAND_RESET_I(1);
     vlSelf->__Vtogcov__next_finish = VL_RAND_RESET_I(1);
-    vlSelf->__Vtogcov__checkone = VL_RAND_RESET_I(1);
     vlSelf->__Vtogcov__i = VL_RAND_RESET_I(5);
-    vlSelf->__Vtogcov__shifts = VL_RAND_RESET_I(5);
     vlSelf->__Vdly__state = VL_RAND_RESET_I(2);
     vlSelf->__Vdly__a = VL_RAND_RESET_I(32);
     vlSelf->__Vdly__b = VL_RAND_RESET_I(32);

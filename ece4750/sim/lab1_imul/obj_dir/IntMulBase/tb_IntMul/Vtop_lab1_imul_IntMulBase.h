@@ -29,7 +29,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop_lab1_imul_IntMulBase final : public Veri
     VL_IN8(__PVT__ostream_rdy,0,0);
     CData/*1:0*/ __PVT__state;
     CData/*1:0*/ __PVT__nextstate;
-    CData/*7:0*/ __PVT__counter;
+    CData/*5:0*/ __PVT__counter;
     CData/*0:0*/ __PVT__next_ostream_val;
     CData/*0:0*/ __Vtogcov__clk;
     CData/*0:0*/ __Vtogcov__reset;
@@ -39,11 +39,11 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop_lab1_imul_IntMulBase final : public Veri
     CData/*0:0*/ __Vtogcov__ostream_rdy;
     CData/*1:0*/ __Vtogcov__state;
     CData/*1:0*/ __Vtogcov__nextstate;
-    CData/*7:0*/ __Vtogcov__counter;
+    CData/*5:0*/ __Vtogcov__counter;
     CData/*0:0*/ __Vtogcov__next_ostream_val;
     CData/*1:0*/ __Vdly__state;
     CData/*0:0*/ __Vdly__ostream_val;
-    CData/*7:0*/ __Vdly__counter;
+    CData/*5:0*/ __Vdly__counter;
     CData/*0:0*/ __Vdly__istream_rdy;
     VL_OUT(__PVT__ostream_msg,31,0);
     IData/*31:0*/ __PVT__a;

@@ -66,7 +66,7 @@ VL_ATTR_COLD void Vtop___024root__trace_init_sub__TOP__top__imul__0(Vtop___024ro
     tracep->declBus(c+283,"nextstate",1, FST_VD_IMPLICIT,FST_VT_SV_LOGIC, false,-1, 1,0);
     tracep->declBus(c+295,"a",-1, FST_VD_IMPLICIT,FST_VT_SV_LOGIC, false,-1, 31,0);
     tracep->declBus(c+296,"b",-1, FST_VD_IMPLICIT,FST_VT_SV_LOGIC, false,-1, 31,0);
-    tracep->declBus(c+297,"counter",-1, FST_VD_IMPLICIT,FST_VT_SV_LOGIC, false,-1, 7,0);
+    tracep->declBus(c+297,"counter",-1, FST_VD_IMPLICIT,FST_VT_SV_LOGIC, false,-1, 5,0);
     tracep->declBus(c+284,"next_a",-1, FST_VD_IMPLICIT,FST_VT_SV_LOGIC, false,-1, 31,0);
     tracep->declBus(c+285,"next_b",-1, FST_VD_IMPLICIT,FST_VT_SV_LOGIC, false,-1, 31,0);
     tracep->declBus(c+286,"next_ostream_msg",-1, FST_VD_IMPLICIT,FST_VT_SV_LOGIC, false,-1, 31,0);
@@ -201,7 +201,7 @@ VL_ATTR_COLD void Vtop___024root__trace_full_sub_0(Vtop___024root* vlSelf, Veril
     bufp->fullCData(oldp+294,(vlSymsp->TOP__top__imul.__PVT__state),2);
     bufp->fullIData(oldp+295,(vlSymsp->TOP__top__imul.__PVT__a),32);
     bufp->fullIData(oldp+296,(vlSymsp->TOP__top__imul.__PVT__b),32);
-    bufp->fullCData(oldp+297,(vlSymsp->TOP__top__imul.__PVT__counter),8);
+    bufp->fullCData(oldp+297,(vlSymsp->TOP__top__imul.__PVT__counter),6);
     bufp->fullIData(oldp+298,(vlSymsp->TOP__top__imul.__PVT__add_result),32);
     bufp->fullIData(oldp+299,(vlSymsp->TOP__top__imul__Add.__PVT__in0),32);
     bufp->fullIData(oldp+300,(vlSymsp->TOP__top__imul__Add.__PVT__in1),32);

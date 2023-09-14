@@ -40,7 +40,7 @@ module lab1_imul_IntMulBase
 
   logic [31:0] a;
   logic [31:0] b;
-  logic [7:0]  counter;
+  logic [5:0]  counter;
   logic [31:0] next_a;
   logic [31:0] next_b;
   logic [31:0] next_ostream_msg;
@@ -77,8 +77,11 @@ module lab1_imul_IntMulBase
       end
       else begin
         ostream_val <= next_ostream_val;
-        istream_rdy <= 1;
-        if(ostream_val && ostream_rdy) counter <= 0;
+        
+        if(ostream_val && ostream_rdy) begin 
+          counter <= 0;
+          istream_rdy <= 1;
+        end
       end
       state <= nextstate;
     end

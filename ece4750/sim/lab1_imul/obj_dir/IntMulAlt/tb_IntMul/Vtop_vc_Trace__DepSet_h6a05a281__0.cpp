@@ -15,7 +15,7 @@ VL_INLINE_OPT void Vtop_vc_Trace___ico_sequent__TOP__top__imul__vc_trace__0(Vtop
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vtop_vc_Trace___ico_sequent__TOP__top__imul__vc_trace__0\n"); );
     // Body
     if (((IData)(vlSelf->__PVT__clk) ^ (IData)(vlSelf->__Vtogcov__clk))) {
-        vlSymsp->__Vcoverage[543].fetch_add(1, std::memory_order_relaxed);
+        vlSymsp->__Vcoverage[537].fetch_add(1, std::memory_order_relaxed);
         vlSelf->__Vtogcov__clk = vlSelf->__PVT__clk;
     }
 }
@@ -26,7 +26,7 @@ VL_INLINE_OPT void Vtop_vc_Trace___act_comb__TOP__top__imul__vc_trace__0(Vtop_vc
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vtop_vc_Trace___act_comb__TOP__top__imul__vc_trace__0\n"); );
     // Body
     if (((IData)(vlSelf->__PVT__reset) ^ (IData)(vlSelf->__Vtogcov__reset))) {
-        vlSymsp->__Vcoverage[544].fetch_add(1, std::memory_order_relaxed);
+        vlSymsp->__Vcoverage[538].fetch_add(1, std::memory_order_relaxed);
         vlSelf->__Vtogcov__reset = vlSelf->__PVT__reset;
     }
 }
@@ -37,7 +37,7 @@ VL_INLINE_OPT void Vtop_vc_Trace___nba_comb__TOP__top__imul__vc_trace__0(Vtop_vc
     VL_DEBUG_IF(VL_DBG_MSGF("+          Vtop_vc_Trace___nba_comb__TOP__top__imul__vc_trace__0\n"); );
     // Body
     if (((IData)(vlSelf->__PVT__reset) ^ (IData)(vlSelf->__Vtogcov__reset))) {
-        vlSymsp->__Vcoverage[544].fetch_add(1, std::memory_order_relaxed);
+        vlSymsp->__Vcoverage[538].fetch_add(1, std::memory_order_relaxed);
         vlSelf->__Vtogcov__reset = vlSelf->__PVT__reset;
     }
 }

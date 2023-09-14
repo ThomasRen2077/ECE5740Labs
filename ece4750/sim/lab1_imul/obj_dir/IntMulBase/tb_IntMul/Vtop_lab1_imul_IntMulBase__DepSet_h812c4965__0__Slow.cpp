@@ -25,7 +25,7 @@ VL_ATTR_COLD void Vtop_lab1_imul_IntMulBase___ctor_var_reset(Vtop_lab1_imul_IntM
     vlSelf->__PVT__nextstate = VL_RAND_RESET_I(2);
     vlSelf->__PVT__a = VL_RAND_RESET_I(32);
     vlSelf->__PVT__b = VL_RAND_RESET_I(32);
-    vlSelf->__PVT__counter = VL_RAND_RESET_I(8);
+    vlSelf->__PVT__counter = VL_RAND_RESET_I(6);
     vlSelf->__PVT__next_a = VL_RAND_RESET_I(32);
     vlSelf->__PVT__next_b = VL_RAND_RESET_I(32);
     vlSelf->__PVT__next_ostream_msg = VL_RAND_RESET_I(32);
@@ -46,7 +46,7 @@ VL_ATTR_COLD void Vtop_lab1_imul_IntMulBase___ctor_var_reset(Vtop_lab1_imul_IntM
     vlSelf->__Vtogcov__nextstate = VL_RAND_RESET_I(2);
     vlSelf->__Vtogcov__a = VL_RAND_RESET_I(32);
     vlSelf->__Vtogcov__b = VL_RAND_RESET_I(32);
-    vlSelf->__Vtogcov__counter = VL_RAND_RESET_I(8);
+    vlSelf->__Vtogcov__counter = VL_RAND_RESET_I(6);
     vlSelf->__Vtogcov__next_a = VL_RAND_RESET_I(32);
     vlSelf->__Vtogcov__next_b = VL_RAND_RESET_I(32);
     vlSelf->__Vtogcov__next_ostream_msg = VL_RAND_RESET_I(32);
@@ -57,6 +57,6 @@ VL_ATTR_COLD void Vtop_lab1_imul_IntMulBase___ctor_var_reset(Vtop_lab1_imul_IntM
     vlSelf->__Vdly__b = VL_RAND_RESET_I(32);
     vlSelf->__Vdly__ostream_msg = VL_RAND_RESET_I(32);
     vlSelf->__Vdly__ostream_val = VL_RAND_RESET_I(1);
-    vlSelf->__Vdly__counter = VL_RAND_RESET_I(8);
+    vlSelf->__Vdly__counter = VL_RAND_RESET_I(6);
     vlSelf->__Vdly__istream_rdy = VL_RAND_RESET_I(1);
 }

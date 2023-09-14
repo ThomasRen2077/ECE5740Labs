@@ -32,9 +32,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop_lab1_imul_IntMulAlt final : public Veril
     CData/*0:0*/ __PVT__next_ostream_val;
     CData/*0:0*/ __PVT__finish;
     CData/*0:0*/ __PVT__next_finish;
-    CData/*0:0*/ __PVT__checkone;
     CData/*4:0*/ __PVT__i;
-    CData/*4:0*/ __PVT__shifts;
     CData/*0:0*/ __Vtogcov__clk;
     CData/*0:0*/ __Vtogcov__reset;
     CData/*0:0*/ __Vtogcov__istream_val;
@@ -46,9 +44,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop_lab1_imul_IntMulAlt final : public Veril
     CData/*0:0*/ __Vtogcov__next_ostream_val;
     CData/*0:0*/ __Vtogcov__finish;
     CData/*0:0*/ __Vtogcov__next_finish;
-    CData/*0:0*/ __Vtogcov__checkone;
     CData/*4:0*/ __Vtogcov__i;
-    CData/*4:0*/ __Vtogcov__shifts;
     CData/*1:0*/ __Vdly__state;
     CData/*0:0*/ __Vdly__ostream_val;
     CData/*0:0*/ __Vdly__finish;

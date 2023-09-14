@@ -78,7 +78,7 @@ void Vtop___024root__trace_chg_sub_0(Vtop___024root* vlSelf, VerilatedFst::Buffe
         bufp->chgCData(oldp+293,(vlSymsp->TOP__top__imul.__PVT__state),2);
         bufp->chgIData(oldp+294,(vlSymsp->TOP__top__imul.__PVT__a),32);
         bufp->chgIData(oldp+295,(vlSymsp->TOP__top__imul.__PVT__b),32);
-        bufp->chgCData(oldp+296,(vlSymsp->TOP__top__imul.__PVT__counter),8);
+        bufp->chgCData(oldp+296,(vlSymsp->TOP__top__imul.__PVT__counter),6);
         bufp->chgIData(oldp+297,(vlSymsp->TOP__top__imul.__PVT__add_result),32);
         bufp->chgIData(oldp+298,(vlSymsp->TOP__top__imul__Add.__PVT__in0),32);
         bufp->chgIData(oldp+299,(vlSymsp->TOP__top__imul__Add.__PVT__in1),32);

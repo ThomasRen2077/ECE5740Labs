@@ -38,10 +38,10 @@ VL_ATTR_COLD void Vtop___024root___eval_triggers__stl(Vtop___024root* vlSelf) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_triggers__stl\n"); );
     // Body
     vlSelf->__VstlTriggered.set(0U, (0U == vlSelf->__VstlIterCount));
-    vlSelf->__VstlTriggered.set(1U, ((IData)(vlSymsp->TOP__top__imul.__PVT__shifts) 
-                                     != (IData)(vlSelf->__Vtrigprevexpr___TOP__top__imul____PVT__shifts__0)));
-    vlSelf->__Vtrigprevexpr___TOP__top__imul____PVT__shifts__0 
-        = vlSymsp->TOP__top__imul.__PVT__shifts;
+    vlSelf->__VstlTriggered.set(1U, ((IData)(vlSymsp->TOP__top__imul.__PVT__i) 
+                                     != (IData)(vlSelf->__Vtrigprevexpr___TOP__top__imul____PVT__i__0)));
+    vlSelf->__Vtrigprevexpr___TOP__top__imul____PVT__i__0 
+        = vlSymsp->TOP__top__imul.__PVT__i;
     if (VL_UNLIKELY((1U & (~ (IData)(vlSelf->__VstlDidInit))))) {
         vlSelf->__VstlDidInit = 1U;
         vlSelf->__VstlTriggered.set(1U, 1U);

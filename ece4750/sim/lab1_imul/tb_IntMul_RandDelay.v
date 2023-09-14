@@ -25,8 +25,8 @@ localparam NUM_TESTS = 28;
 localparam INPUT_TEST_SIZE = 64;
 localparam OUTPUT_TEST_SIZE = 32;
 
-localparam MAX_SRC_DELAY = 32'b0;
-localparam MAX_SNK_DELAY = 32'b0;
+localparam MAX_SRC_DELAY = 32'd5;
+localparam MAX_SNK_DELAY = 32'd5;
 
 //------------------------------------------------------------------------
 // Top-level module

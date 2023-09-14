@@ -205,7 +205,7 @@ C 'fIntMulSimple.vl26n16pagev_toggle/lab1_imul_IntMulSimpleonext_ostre
 C 'fIntMulSimple.vl26n16pagev_toggle/lab1_imul_IntMulSimpleonext_ostream_msg[8]hTOP.top.imul' 12
 C 'fIntMulSimple.vl26n16pagev_toggle/lab1_imul_IntMulSimpleonext_ostream_msg[9]hTOP.top.imul' 10
 C 'ftb_IntMul.vl20n26pagev_toggle/topoclkhTOP.top' 249
-C 'ftb_IntMul.vl20n43pagev_toggle/topolinetracehTOP.top' 1
+C 'ftb_IntMul.vl20n43pagev_toggle/topolinetracehTOP.top' 0
 C 'ftb_IntMul.vl23n16pagev_toggle/toporesethTOP.top' 1
 C 'ftb_IntMul.vl25n16pagev_toggle/topoistream_valhTOP.top' 56
 C 'ftb_IntMul.vl26n16pagev_toggle/topoistream_rdyhTOP.top' 56

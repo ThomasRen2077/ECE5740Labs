@@ -1058,7 +1058,7 @@ VL_ATTR_COLD void Vtop_lab1_imul_IntMulAlt___stl_comb__TOP__top__imul__0(Vtop_la
     VL_DEBUG_IF(VL_DBG_MSGF("+        Vtop_lab1_imul_IntMulAlt___stl_comb__TOP__top__imul__0\n"); );
     // Body
     vlSelf->__Vcellinp__Add____pinNumber2 = (vlSelf->__PVT__a 
-                                             << (IData)(vlSelf->__PVT__shifts));
+                                             << (IData)(vlSelf->__PVT__i));
     vlSymsp->TOP__top__imul__Add.__PVT__in1 = vlSelf->__Vcellinp__Add____pinNumber2;
 }
 
@@ -1266,8 +1266,6 @@ VL_ATTR_COLD void Vtop_lab1_imul_IntMulAlt___stl_comb__TOP__top__imul__1(Vtop_la
     vlSelf->__PVT__next_b = vlSelf->__PVT__b;
     vlSelf->__PVT__next_ostream_msg = vlSelf->__PVT__ostream_msg;
     vlSelf->__PVT__next_finish = vlSelf->__PVT__finish;
-    vlSelf->__PVT__shifts = 0U;
-    vlSelf->__PVT__checkone = 0U;
     if (((IData)(vlSelf->__PVT__istream_val) & (IData)(vlSelf->__PVT__istream_rdy))) {
         vlSelf->__PVT__next_a = VL_SEL_IQII(64, vlSelf->__PVT__istream_msg, 0x20U, 0x20U);
         vlSelf->__PVT__next_b = VL_SEL_IQII(64, vlSelf->__PVT__istream_msg, 0U, 0x20U);
@@ -1277,8 +1275,6 @@ VL_ATTR_COLD void Vtop_lab1_imul_IntMulAlt___stl_comb__TOP__top__imul__1(Vtop_la
         {
             while (1U) {
                 if ((1U & VL_BITSEL_IIII(32, vlSelf->__PVT__b, (IData)(vlSelf->__PVT__i)))) {
-                    vlSelf->__PVT__checkone = 1U;
-                    vlSelf->__PVT__shifts = vlSelf->__PVT__i;
                     goto __Vlabel1;
                 }
                 if ((0x1fU == (IData)(vlSelf->__PVT__i))) {
@@ -1290,19 +1286,19 @@ VL_ATTR_COLD void Vtop_lab1_imul_IntMulAlt___stl_comb__TOP__top__imul__1(Vtop_la
             }
             __Vlabel1: ;
         }
-        if (vlSelf->__PVT__checkone) {
+        if ((1U & VL_BITSEL_IIII(32, vlSelf->__PVT__b, (IData)(vlSelf->__PVT__i)))) {
             vlSelf->__PVT__next_ostream_msg = vlSelf->__PVT__add_result;
             vlSelf->__PVT__next_a = ((0x1fU >= ((IData)(1U) 
-                                                + VL_EXTEND_II(32,5, (IData)(vlSelf->__PVT__shifts))))
+                                                + VL_EXTEND_II(32,5, (IData)(vlSelf->__PVT__i))))
                                       ? (vlSelf->__PVT__a 
                                          << ((IData)(1U) 
-                                             + VL_EXTEND_II(32,5, (IData)(vlSelf->__PVT__shifts))))
+                                             + VL_EXTEND_II(32,5, (IData)(vlSelf->__PVT__i))))
                                       : 0U);
             vlSelf->__PVT__next_b = ((0x1fU >= ((IData)(1U) 
-                                                + VL_EXTEND_II(32,5, (IData)(vlSelf->__PVT__shifts))))
+                                                + VL_EXTEND_II(32,5, (IData)(vlSelf->__PVT__i))))
                                       ? (vlSelf->__PVT__b 
                                          >> ((IData)(1U) 
-                                             + VL_EXTEND_II(32,5, (IData)(vlSelf->__PVT__shifts))))
+                                             + VL_EXTEND_II(32,5, (IData)(vlSelf->__PVT__i))))
                                       : 0U);
         } else {
             vlSelf->__PVT__next_ostream_msg = vlSelf->__PVT__ostream_msg;
@@ -1316,71 +1312,37 @@ VL_ATTR_COLD void Vtop_lab1_imul_IntMulAlt___stl_comb__TOP__top__imul__1(Vtop_la
         vlSymsp->__Vcoverage[531].fetch_add(1, std::memory_order_relaxed);
         vlSelf->__Vtogcov__next_finish = vlSelf->__PVT__next_finish;
     }
-    if (((IData)(vlSelf->__PVT__checkone) ^ (IData)(vlSelf->__Vtogcov__checkone))) {
-        vlSymsp->__Vcoverage[532].fetch_add(1, std::memory_order_relaxed);
-        vlSelf->__Vtogcov__checkone = vlSelf->__PVT__checkone;
-    }
     if (((IData)(vlSelf->__PVT__next_ostream_val) ^ (IData)(vlSelf->__Vtogcov__next_ostream_val))) {
         vlSymsp->__Vcoverage[497].fetch_add(1, std::memory_order_relaxed);
         vlSelf->__Vtogcov__next_ostream_val = vlSelf->__PVT__next_ostream_val;
     }
-    if ((1U & (VL_BITSEL_IIII(5, (IData)(vlSelf->__PVT__shifts), 0U) 
-               ^ VL_BITSEL_IIII(5, (IData)(vlSelf->__Vtogcov__shifts), 0U)))) {
-        vlSymsp->__Vcoverage[538].fetch_add(1, std::memory_order_relaxed);
-        VL_ASSIGNBIT_II(0U, vlSelf->__Vtogcov__shifts, 
-                        (1U & VL_BITSEL_IIII(5, (IData)(vlSelf->__PVT__shifts), 0U)));
-    }
-    if ((1U & (VL_BITSEL_IIII(5, (IData)(vlSelf->__PVT__shifts), 1U) 
-               ^ VL_BITSEL_IIII(5, (IData)(vlSelf->__Vtogcov__shifts), 1U)))) {
-        vlSymsp->__Vcoverage[539].fetch_add(1, std::memory_order_relaxed);
-        VL_ASSIGNBIT_II(1U, vlSelf->__Vtogcov__shifts, 
-                        (1U & VL_BITSEL_IIII(5, (IData)(vlSelf->__PVT__shifts), 1U)));
-    }
-    if ((1U & (VL_BITSEL_IIII(5, (IData)(vlSelf->__PVT__shifts), 2U) 
-               ^ VL_BITSEL_IIII(5, (IData)(vlSelf->__Vtogcov__shifts), 2U)))) {
-        vlSymsp->__Vcoverage[540].fetch_add(1, std::memory_order_relaxed);
-        VL_ASSIGNBIT_II(2U, vlSelf->__Vtogcov__shifts, 
-                        (1U & VL_BITSEL_IIII(5, (IData)(vlSelf->__PVT__shifts), 2U)));
-    }
-    if ((1U & (VL_BITSEL_IIII(5, (IData)(vlSelf->__PVT__shifts), 3U) 
-               ^ VL_BITSEL_IIII(5, (IData)(vlSelf->__Vtogcov__shifts), 3U)))) {
-        vlSymsp->__Vcoverage[541].fetch_add(1, std::memory_order_relaxed);
-        VL_ASSIGNBIT_II(3U, vlSelf->__Vtogcov__shifts, 
-                        (1U & VL_BITSEL_IIII(5, (IData)(vlSelf->__PVT__shifts), 3U)));
-    }
-    if ((1U & (VL_BITSEL_IIII(5, (IData)(vlSelf->__PVT__shifts), 4U) 
-               ^ VL_BITSEL_IIII(5, (IData)(vlSelf->__Vtogcov__shifts), 4U)))) {
-        vlSymsp->__Vcoverage[542].fetch_add(1, std::memory_order_relaxed);
-        VL_ASSIGNBIT_II(4U, vlSelf->__Vtogcov__shifts, 
-                        (1U & VL_BITSEL_IIII(5, (IData)(vlSelf->__PVT__shifts), 4U)));
-    }
     if ((1U & (VL_BITSEL_IIII(5, (IData)(vlSelf->__PVT__i), 0U) 
                ^ VL_BITSEL_IIII(5, (IData)(vlSelf->__Vtogcov__i), 0U)))) {
-        vlSymsp->__Vcoverage[533].fetch_add(1, std::memory_order_relaxed);
+        vlSymsp->__Vcoverage[532].fetch_add(1, std::memory_order_relaxed);
         VL_ASSIGNBIT_II(0U, vlSelf->__Vtogcov__i, (1U 
                                                    & VL_BITSEL_IIII(5, (IData)(vlSelf->__PVT__i), 0U)));
     }
     if ((1U & (VL_BITSEL_IIII(5, (IData)(vlSelf->__PVT__i), 1U) 
                ^ VL_BITSEL_IIII(5, (IData)(vlSelf->__Vtogcov__i), 1U)))) {
-        vlSymsp->__Vcoverage[534].fetch_add(1, std::memory_order_relaxed);
+        vlSymsp->__Vcoverage[533].fetch_add(1, std::memory_order_relaxed);
         VL_ASSIGNBIT_II(1U, vlSelf->__Vtogcov__i, (1U 
                                                    & VL_BITSEL_IIII(5, (IData)(vlSelf->__PVT__i), 1U)));
     }
     if ((1U & (VL_BITSEL_IIII(5, (IData)(vlSelf->__PVT__i), 2U) 
                ^ VL_BITSEL_IIII(5, (IData)(vlSelf->__Vtogcov__i), 2U)))) {
-        vlSymsp->__Vcoverage[535].fetch_add(1, std::memory_order_relaxed);
+        vlSymsp->__Vcoverage[534].fetch_add(1, std::memory_order_relaxed);
         VL_ASSIGNBIT_II(2U, vlSelf->__Vtogcov__i, (1U 
                                                    & VL_BITSEL_IIII(5, (IData)(vlSelf->__PVT__i), 2U)));
     }
     if ((1U & (VL_BITSEL_IIII(5, (IData)(vlSelf->__PVT__i), 3U) 
                ^ VL_BITSEL_IIII(5, (IData)(vlSelf->__Vtogcov__i), 3U)))) {
-        vlSymsp->__Vcoverage[536].fetch_add(1, std::memory_order_relaxed);
+        vlSymsp->__Vcoverage[535].fetch_add(1, std::memory_order_relaxed);
         VL_ASSIGNBIT_II(3U, vlSelf->__Vtogcov__i, (1U 
                                                    & VL_BITSEL_IIII(5, (IData)(vlSelf->__PVT__i), 3U)));
     }
     if ((1U & (VL_BITSEL_IIII(5, (IData)(vlSelf->__PVT__i), 4U) 
                ^ VL_BITSEL_IIII(5, (IData)(vlSelf->__Vtogcov__i), 4U)))) {
-        vlSymsp->__Vcoverage[537].fetch_add(1, std::memory_order_relaxed);
+        vlSymsp->__Vcoverage[536].fetch_add(1, std::memory_order_relaxed);
         VL_ASSIGNBIT_II(4U, vlSelf->__Vtogcov__i, (1U 
                                                    & VL_BITSEL_IIII(5, (IData)(vlSelf->__PVT__i), 4U)));
     }
@@ -2269,15 +2231,9 @@ VL_ATTR_COLD void Vtop_lab1_imul_IntMulAlt___configure_coverage(Vtop_lab1_imul_I
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[529]), first, "IntMulAlt.v", 48, 16, "", "v_toggle/lab1_imul_IntMulAlt", "add_result[31]", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[530]), first, "IntMulAlt.v", 49, 16, "", "v_toggle/lab1_imul_IntMulAlt", "finish", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[531]), first, "IntMulAlt.v", 50, 16, "", "v_toggle/lab1_imul_IntMulAlt", "next_finish", "");
-    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[532]), first, "IntMulAlt.v", 51, 16, "", "v_toggle/lab1_imul_IntMulAlt", "checkone", "");
-    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[533]), first, "IntMulAlt.v", 52, 14, "", "v_toggle/lab1_imul_IntMulAlt", "i[0]", "");
-    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[534]), first, "IntMulAlt.v", 52, 14, "", "v_toggle/lab1_imul_IntMulAlt", "i[1]", "");
-    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[535]), first, "IntMulAlt.v", 52, 14, "", "v_toggle/lab1_imul_IntMulAlt", "i[2]", "");
-    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[536]), first, "IntMulAlt.v", 52, 14, "", "v_toggle/lab1_imul_IntMulAlt", "i[3]", "");
-    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[537]), first, "IntMulAlt.v", 52, 14, "", "v_toggle/lab1_imul_IntMulAlt", "i[4]", "");
-    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[538]), first, "IntMulAlt.v", 53, 14, "", "v_toggle/lab1_imul_IntMulAlt", "shifts[0]", "");
-    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[539]), first, "IntMulAlt.v", 53, 14, "", "v_toggle/lab1_imul_IntMulAlt", "shifts[1]", "");
-    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[540]), first, "IntMulAlt.v", 53, 14, "", "v_toggle/lab1_imul_IntMulAlt", "shifts[2]", "");
-    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[541]), first, "IntMulAlt.v", 53, 14, "", "v_toggle/lab1_imul_IntMulAlt", "shifts[3]", "");
-    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[542]), first, "IntMulAlt.v", 53, 14, "", "v_toggle/lab1_imul_IntMulAlt", "shifts[4]", "");
+    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[532]), first, "IntMulAlt.v", 51, 14, "", "v_toggle/lab1_imul_IntMulAlt", "i[0]", "");
+    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[533]), first, "IntMulAlt.v", 51, 14, "", "v_toggle/lab1_imul_IntMulAlt", "i[1]", "");
+    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[534]), first, "IntMulAlt.v", 51, 14, "", "v_toggle/lab1_imul_IntMulAlt", "i[2]", "");
+    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[535]), first, "IntMulAlt.v", 51, 14, "", "v_toggle/lab1_imul_IntMulAlt", "i[3]", "");
+    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[536]), first, "IntMulAlt.v", 51, 14, "", "v_toggle/lab1_imul_IntMulAlt", "i[4]", "");
 }

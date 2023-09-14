@@ -41,7 +41,7 @@
         
  000024   logic [31:0] a;
  000022   logic [31:0] b;
-%000000   logic [7:0]  counter;
+ 000056   logic [5:0]  counter;
  000024   logic [31:0] next_a;
  000022   logic [31:0] next_b;
  000013   logic [31:0] next_ostream_msg;
@@ -78,8 +78,11 @@
               end
               else begin
                 ostream_val <= next_ostream_val;
-                istream_rdy <= 1;
-                if(ostream_val && ostream_rdy) counter <= 0;
+                
+                if(ostream_val && ostream_rdy) begin 
+                  counter <= 0;
+                  istream_rdy <= 1;
+                end
               end
               state <= nextstate;
             end

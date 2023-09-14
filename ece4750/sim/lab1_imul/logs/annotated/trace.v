@@ -42,8 +42,8 @@
         
           // Meant to be accesible from outside module
         
-          integer cycles_next = 0;
-          integer cycles      = 0;
+%000000   integer cycles_next = 0;
+%000000   integer cycles      = 0;
         
           // Get trace level from command line
         
@@ -60,17 +60,17 @@
             end
           end
         `else
-          initial begin
-              storage = '0;
-              storage[31:0] = 511; 
-            level = 1;
+%000000   initial begin
+%000000       storage = '0;
+%000000       storage[31:0] = 511; 
+%000000     level = 1;
           end
         `endif // !`ifndef VERILATOR
         
           // Track cycle count
         
-          always_ff @( posedge clk ) begin
-            cycles <= ( reset ) ? 0 : cycles_next;
+ 000528   always_ff @( posedge clk ) begin
+ 000528     cycles <= ( reset ) ? 0 : cycles_next;
           end
         
           //----------------------------------------------------------------------
@@ -78,30 +78,30 @@
           //----------------------------------------------------------------------
           // Appends a string to the trace.
         
-          task append_str
+%000000   task append_str
           (
             inout logic [nbits-1:0] trace,
             input logic [nbits-1:0] str
           );
-          begin
-            trace=trace;
+%000000   begin
+%000000     trace=trace;
         
-            len0 = 1;
-            while ( str[len0*8+:8] != 0 ) begin
-              len0 = len0 + 1;
+%000000     len0 = 1;
+%000000     while ( str[len0*8+:8] != 0 ) begin
+%000000       len0 = len0 + 1;
             end
         
-            idx0 = trace[31:0];
+%000000     idx0 = trace[31:0];
         
-            for ( idx1 = len0-1; idx1 >= 0; idx1 = idx1 - 1 )
-            begin
-              trace[ idx0*8 +: 8 ] = str[ idx1*8 +: 8 ];
+%000000     for ( idx1 = len0-1; idx1 >= 0; idx1 = idx1 - 1 )
+%000000     begin
+%000000       trace[ idx0*8 +: 8 ] = str[ idx1*8 +: 8 ];
               //$display("Storing %d at %d",str[ idx1*8 +: 8 ],idx0);
-              $write("%c",str[ idx1*8 +: 8 ]);
-              idx0 = idx0 - 1;
+%000000       $write("%c",str[ idx1*8 +: 8 ]);
+%000000       idx0 = idx0 - 1;
             end
         
-            trace[31:0] = idx0;
+%000000     trace[31:0] = idx0;
         
           end
           endtask
@@ -111,23 +111,23 @@
           //----------------------------------------------------------------------
           // Appends a left-justified string to the trace.
         
-          task append_str_ljust
+%000000   task append_str_ljust
           (
             inout logic [nbits-1:0] trace,
             input logic [nbits-1:0] str
           );
-          begin
+%000000   begin
         
-            idx0 = trace[31:0];
-            idx1 = nchars;
+%000000     idx0 = trace[31:0];
+%000000     idx1 = nchars;
         
-            while ( str[ idx1*8-1 -: 8 ] != 0 ) begin
-              trace[ idx0*8 +: 8 ] = str[ idx1*8-1 -: 8 ];
-              idx0 = idx0 - 1;
-              idx1 = idx1 - 1;
+%000000     while ( str[ idx1*8-1 -: 8 ] != 0 ) begin
+%000000       trace[ idx0*8 +: 8 ] = str[ idx1*8-1 -: 8 ];
+%000000       idx0 = idx0 - 1;
+%000000       idx1 = idx1 - 1;
             end
         
-            trace[31:0] = idx0;
+%000000     trace[31:0] = idx0;
         
           end
           endtask
@@ -137,27 +137,27 @@
           //----------------------------------------------------------------------
           // Appends the given number of characters to the trace.
         
-          task append_chars
+%000000   task append_chars
           (
             inout logic   [nbits-1:0] trace,
             input logic         [7:0] char,
             input integer             num
           );
-          begin
-            trace=trace;
-            idx0 = trace[31:0];
+%000000   begin
+%000000     trace=trace;
+%000000     idx0 = trace[31:0];
         
-            for ( idx1 = 0;
-                  idx1 < num;
-                  idx1 = idx1 + 1 )
-            begin
-              trace[idx0*8+:8] = char;
+%000000     for ( idx1 = 0;
+%000000           idx1 < num;
+%000000           idx1 = idx1 + 1 )
+%000000     begin
+%000000       trace[idx0*8+:8] = char;
               //$display("Storing %d at %d",char,idx0);
-              $write("%c",char);
-              idx0 = idx0 - 1;
+%000000       $write("%c",char);
+%000000       idx0 = idx0 - 1;
             end
         
-            trace[31:0] = idx0;
+%000000     trace[31:0] = idx0;
         
           end
           endtask
@@ -167,26 +167,26 @@
           //----------------------------------------------------------------------
           // Append a string modified by val signal.
         
-          task append_val_str
+%000000   task append_val_str
           (
             inout logic [nbits-1:0] trace,
             input logic             val,
             input logic [nbits-1:0] str
           );
-          begin
+%000000   begin
         
-            len1 = 0;
-            while ( str[len1*8+:8] != 0 ) begin
-              len1 = len1 + 1;
+%000000     len1 = 0;
+%000000     while ( str[len1*8+:8] != 0 ) begin
+%000000       len1 = len1 + 1;
             end
         
-            if ( val )
-              append_str( trace, str );
-            else if ( !val )
-              append_chars( trace, " ", len1 );
-            else begin
-              append_str( trace, "x" );
-              append_chars( trace, " ", len1-1 );
+%000000     if ( val )
+%000000       append_str( trace, str );
+%000000     else if ( !val )
+%000000       append_chars( trace, " ", len1 );
+%000000     else begin
+%000000       append_str( trace, "x" );
+%000000       append_chars( trace, " ", len1-1 );
             end
         
           end
@@ -197,37 +197,37 @@
           //----------------------------------------------------------------------
           // Append a string modified by val/rdy signals.
         
-          task append_val_rdy_str
+%000000   task append_val_rdy_str
           (
             inout logic [nbits-1:0] trace,
             input logic             val,
             input logic             rdy,
             input logic [nbits-1:0] str
           );
-          begin
+%000000   begin
         
-            len1 = 0;
-            while ( str[len1*8+:8] != 0 ) begin
-              len1 = len1 + 1;
+%000000     len1 = 0;
+%000000     while ( str[len1*8+:8] != 0 ) begin
+%000000       len1 = len1 + 1;
             end
         
-            if ( rdy && val ) begin
-              append_str( trace, str );
+%000000     if ( rdy && val ) begin
+%000000       append_str( trace, str );
             end
-            else if ( rdy && !val ) begin
-              append_chars( trace, " ", len1 );
+%000000     else if ( rdy && !val ) begin
+%000000       append_chars( trace, " ", len1 );
             end
-            else if ( !rdy && val ) begin
-              append_str( trace, "#" );
-              append_chars( trace, " ", len1-1 );
+%000000     else if ( !rdy && val ) begin
+%000000       append_str( trace, "#" );
+%000000       append_chars( trace, " ", len1-1 );
             end
-            else if ( !rdy && !val ) begin
-              append_str( trace, "." );
-              append_chars( trace, " ", len1-1 );
+%000000     else if ( !rdy && !val ) begin
+%000000       append_str( trace, "." );
+%000000       append_chars( trace, " ", len1-1 );
             end
-            else begin
-              append_str( trace, "x" );
-              append_chars( trace, " ", len1-1 );
+%000000     else begin
+%000000       append_str( trace, "x" );
+%000000       append_chars( trace, " ", len1-1 );
             end
         
           end

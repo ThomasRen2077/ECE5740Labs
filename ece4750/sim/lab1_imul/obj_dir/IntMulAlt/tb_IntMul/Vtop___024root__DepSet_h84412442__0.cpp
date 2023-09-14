@@ -24,10 +24,10 @@ void Vtop___024root___eval_initial(Vtop___024root* vlSelf) {
     Vtop_top___eval_initial__TOP__top__0((&vlSymsp->TOP__top));
     Vtop_top___eval_initial__TOP__top__1((&vlSymsp->TOP__top));
     Vtop_vc_Trace___eval_initial__TOP__top__imul__vc_trace((&vlSymsp->TOP__top__imul__vc_trace));
-    vlSelf->__Vtrigprevexpr___TOP__top__imul____PVT__shifts__0 
-        = vlSymsp->TOP__top__imul.__PVT__shifts;
-    vlSelf->__Vtrigprevexpr___TOP__top__imul____PVT__shifts__1 
-        = vlSymsp->TOP__top__imul.__PVT__shifts;
+    vlSelf->__Vtrigprevexpr___TOP__top__imul____PVT__i__0 
+        = vlSymsp->TOP__top__imul.__PVT__i;
+    vlSelf->__Vtrigprevexpr___TOP__top__imul____PVT__i__1 
+        = vlSymsp->TOP__top__imul.__PVT__i;
     vlSelf->__Vtrigprevexpr___TOP__top__imul____PVT__clk__0 
         = vlSymsp->TOP__top__imul.__PVT__clk;
     vlSelf->__Vtrigprevexpr___TOP__top__imul__vc_trace____PVT__clk__0 
@@ -90,8 +90,8 @@ void Vtop___024root___eval_triggers__act(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_triggers__act\n"); );
     // Body
-    vlSelf->__VactTriggered.set(0U, ((IData)(vlSymsp->TOP__top__imul.__PVT__shifts) 
-                                     != (IData)(vlSelf->__Vtrigprevexpr___TOP__top__imul____PVT__shifts__1)));
+    vlSelf->__VactTriggered.set(0U, ((IData)(vlSymsp->TOP__top__imul.__PVT__i) 
+                                     != (IData)(vlSelf->__Vtrigprevexpr___TOP__top__imul____PVT__i__1)));
     vlSelf->__VactTriggered.set(1U, ((IData)(vlSymsp->TOP__top__imul.__PVT__clk) 
                                      & (~ (IData)(vlSelf->__Vtrigprevexpr___TOP__top__imul____PVT__clk__0))));
     vlSelf->__VactTriggered.set(2U, ((IData)(vlSymsp->TOP__top__imul__vc_trace.__PVT__clk) 
@@ -101,8 +101,8 @@ void Vtop___024root___eval_triggers__act(Vtop___024root* vlSelf) {
     vlSelf->__VactTriggered.set(4U, vlSelf->__VdlySched.awaitingCurrentTime());
     vlSelf->__VactTriggered.set(5U, ((IData)(vlSymsp->TOP__top.__PVT__ostream_val) 
                                      != (IData)(vlSelf->__Vtrigprevexpr___TOP__top____PVT__ostream_val__0)));
-    vlSelf->__Vtrigprevexpr___TOP__top__imul____PVT__shifts__1 
-        = vlSymsp->TOP__top__imul.__PVT__shifts;
+    vlSelf->__Vtrigprevexpr___TOP__top__imul____PVT__i__1 
+        = vlSymsp->TOP__top__imul.__PVT__i;
     vlSelf->__Vtrigprevexpr___TOP__top__imul____PVT__clk__0 
         = vlSymsp->TOP__top__imul.__PVT__clk;
     vlSelf->__Vtrigprevexpr___TOP__top__imul__vc_trace____PVT__clk__0 

@@ -33,8 +33,8 @@
           parameter p_nbits = 1
         )(
  000026   input  logic [p_nbits-1:0] in0,
- 000048   input  logic [p_nbits-1:0] in1,
- 000038   output logic [p_nbits-1:0] out
+ 000038   input  logic [p_nbits-1:0] in1,
+ 000032   output logic [p_nbits-1:0] out
         );
         
           assign out = in0 + in1;

@@ -23,11 +23,11 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule
     // DESIGN SPECIFIC STATE
     VL_IN8(clk,0,0);
     VL_IN8(linetrace,0,0);
-    CData/*4:0*/ __Vtrigprevexpr___TOP__top__imul____PVT__shifts__0;
+    CData/*4:0*/ __Vtrigprevexpr___TOP__top__imul____PVT__i__0;
     CData/*0:0*/ __VstlDidInit;
     CData/*0:0*/ __VstlContinue;
     CData/*0:0*/ __VicoContinue;
-    CData/*4:0*/ __Vtrigprevexpr___TOP__top__imul____PVT__shifts__1;
+    CData/*4:0*/ __Vtrigprevexpr___TOP__top__imul____PVT__i__1;
     CData/*0:0*/ __Vtrigprevexpr___TOP__top__imul____PVT__clk__0;
     CData/*0:0*/ __Vtrigprevexpr___TOP__top__imul__vc_trace____PVT__clk__0;
     CData/*0:0*/ __Vtrigprevexpr___TOP__top__clk__0;
