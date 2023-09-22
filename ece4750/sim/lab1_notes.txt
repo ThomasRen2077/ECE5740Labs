@@ -1,3 +1,0 @@
-Issues needed to fix:
-1. Draw graphs of circuit connections 
-2. Write Lab report
