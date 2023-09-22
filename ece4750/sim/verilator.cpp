@@ -8,7 +8,6 @@
 #include <fstream>
 #include "svdpi.h"
 #include "Vtop__Dpi.h"
-#include "verilated_vcd_c.h"
 
 
 
