@@ -1,3 +1,3 @@
 # ECE5740Labs
-lab1 finished
+lab2 ongoing
 
