@@ -1,9 +1,7 @@
 # ECE5740Labs
-<<<<<<< HEAD
-=======
-lab2 ongoing
->>>>>>> lab2
 
-Lab1 finished
+Lab2 ongoing
 
 Created a new branch lab2
+
+Lab1 finished
