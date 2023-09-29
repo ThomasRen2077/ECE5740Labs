@@ -1,7 +1,3 @@
-//=========================================================================
-// Functional Level MultiCycle Processor
-//=========================================================================
-
 `ifndef LAB2_PROC_PROC_BASE_V
 `define LAB2_PROC_PROC_BASE_V
 
@@ -535,5 +531,5 @@ module lab2_proc_ProcFLMultiCycle
 
 endmodule
 
-`endif /* LAB2_PROC_PROC_BASE_V */
+`endif
 
