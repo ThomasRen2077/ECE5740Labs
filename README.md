@@ -38,15 +38,15 @@ Perform an evaluation comparing the two implementations.
 The processor is integrated with a test source, test sink, and test memory for testing and evaluation.
 
 
-__Multi-cycle, baseline, and alternative designs are identical.__
+Multi-cycle, baseline, and alternative designs are identical.
 
-__We will load a program (and potentially some data) into the test memory before resetting the processor.__ 
+We will load a program (and potentially some data) into the test memory before resetting the processor. 
 
-__Once the processor starts execution,we can send test data into the processor using the test source and the csrr instruction, and we can have the processor verify data using the test sink and the csrw instruction.__
+Once the processor starts execution,we can send test data into the processor using the test source and the csrr instruction, and we can have the processor verify data using the test sink and the csrw instruction.
 
 
 
-__Make extensive use of the latency insensitive val/rdy microprotocol__
+Make extensive use of the latency insensitive val/rdy microprotocol.
 
 >• __mngr2proc__ : from test source to processor
 >• __proc2mngr__ : from processor to test sink
@@ -57,10 +57,10 @@ __Make extensive use of the latency insensitive val/rdy microprotocol__
 
 Verilog *structs* are defined in *vc/mem-msgs.v* 
 
-__Memory requests use fields to encode the type (read or write), the address, the length of data in bytes, and the data.__
+Memory requests use fields to encode the type (read or write), the address, the length of data in bytes, and the data.
 
 
-__Memory responses use fields to encode the type (read or write), the length of data in bytes, and the data. The data field is fixed at 32-bits or four bytes.__
+Memory responses use fields to encode the type (read or write), the length of data in bytes, and the data. The data field is fixed at 32-bits or four bytes.
 
 If the length field is one then only the least significant byte of the data field is valid. 
 
@@ -72,7 +72,7 @@ Both memory requests and responses have an eight-bit opaque field. For now you s
 
 For now you can ignore the test field of memory response messages.
 
-Between when the request is sent and when the response is received,   you can assume that the memory will always take at least one cycle. The response could return in one cycle or 100 cycles. You must also correctly deal with situations where __the memory is not ready to accept a request (val/rdy signals)__.
+Between when the request is sent and when the response is received,   you can assume that the memory will always take at least one cycle. The response could return in one cycle or 100 cycles. You must also correctly deal with situations where the memory is not ready to accept a request (val/rdy signals).
 
 ## Baseline Design
 
@@ -82,37 +82,37 @@ Decompose the baseline design into two separate modules: __Datapath and Control 
 
 Control unit will not use an FSM but will instead use __pipelined control logic__.
 
-Provided Lab code has placed the datapath module, control unit module, and the parent module that connects the datapath and control unit together in __three different files__.
+Provided Lab code has placed the datapath module, control unit module, and the parent module that connects the datapath and control unit together in three different files.
 
-Provided Lab code have already implemented three primary instructions __(add, lw, bne)__.
+Provided Lab code have already implemented three primary instructions (__add, lw, bne__).
 
 Provided Lab code have also implemented the __csrr__ (move from the test manager) and __csrw__ (move to the test manager) instructions which are used for testing.
 
-Your datapath module should __instantiate a child module__ for each of the blocks in the datapath diagram.
+Your datapath module should instantiate a child module for each of the blocks in the datapath diagram.
 
 Add or modify datapath components to support more TinyRV2 instructions.
 
-Use modules in *vclib*.
+Use modules in __*vclib*__.
 
-Provided the __initial implementations__ of the immediate generator unit and the ALU. 
+Provided the initial implementations of the immediate generator unit and the ALU. 
 
-__As you add or modify datapath components, add another row to the control signal table in the control unit and potentially more columns in the control signal table to handle new control signals.__
+As you add or modify datapath components, add another row to the control signal table in the control unit and potentially more columns in the control signal table to handle new control signals.
 
-__The address for a data request (due to a load/store instruction) is sent into the memory system at the end of the X stage, not the beginning of the M stage. This allows the read data to be returned at the end of the M stage.__
+The address for a data request (due to a load/store instruction) is sent into the memory system at the end of the X stage, not the beginning of the M stage. This allows the read data to be returned at the end of the M stage.
 
-__Similarly, the instruction address is sent into the memory system before the F stage. This allows the instruction to be returned at the end of the F stage.__
+Similarly, the instruction address is sent into the memory system before the F stage. This allows the instruction to be returned at the end of the F stage.
 
-<!-- __Include bypass queues on output val/rdy interfaces.__
+Include bypass queues on output val/rdy interfaces.
 
 If a bypass queue is empty, then the message “bypasses” the queue and is immediately sent out the corresponding val/rdy interface. If the val/rdy interface is not ready, then we can buffer the message in the bypass queue.
 
-__Note that the queue on the imemreq interface actually requires two elements of buffering__.
+Note that the queue on the imemreq interface actually requires two elements of buffering.
 
-__For control hazard, insert a special drop unit where the instruction memory response comes back into the processor.__
+For control hazard, insert a special __drop unit__ where the instruction memory response comes back into the processor.
 
-When we squash an instruction, we also tell the drop unit to remember to drop the next instruction that is returned from the memory system. -->
+When we squash an instruction, we also tell the __drop unit__ to remember to drop the next instruction that is returned from the memory system.
 
-__The provided baseline processor already correctly interacts with the memory system.__
+The provided baseline processor already correctly interacts with the memory system.
 
 
 ### Implementation
