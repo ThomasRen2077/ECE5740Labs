@@ -12,13 +12,6 @@ Verify the designs using an effective testing strategy.
 
 Perform an evaluation comparing the two implementations.
 
-<!-- ## Table of Contents
-
-- [Section 1](#section-1)
-- [Section 2](#section-2)
-- [Section 3](#section-3)
-  - [Subsection 3.1](#subsection-31)
-  - [Subsection 3.2](#subsection-32) -->
 
 ## TinyRV2 instrcuctions
     CSR: csrr(done), csrw(done)
