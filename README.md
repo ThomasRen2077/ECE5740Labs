@@ -35,10 +35,7 @@ Perform an evaluation comparing the two implementations.
 
 ## General Concepts
 
-The processor is integrated with a test source, test sink, and test memory for testing and evaluation.
-
-
-Multi-cycle, baseline, and alternative designs are identical.
+The processor is integrated with a test source, test sink, and test memory.
 
 We will load a program (and potentially some data) into the test memory before resetting the processor. 
 
@@ -49,10 +46,15 @@ Once the processor starts execution,we can send test data into the processor usi
 Make extensive use of the latency insensitive val/rdy microprotocol.
 
 >• __mngr2proc__ : from test source to processor
+
 >• __proc2mngr__ : from processor to test sink
+
 >• __imemreq__ : instruction memory request
+
 >• __imemresp__ : instruction memory response
+
 >• __dmemreq__ : data memory request
+
 >• __dmemresp__ : data memory response
 
 Verilog *structs* are defined in *vc/mem-msgs.v* 
