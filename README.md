@@ -133,13 +133,13 @@ __Carefully manage the val/rdy signals for requests to the multiplier and for re
 
 __Use an incremental development design methodology.__ Add one instruction at a time to baseline processor, test that instruction, ensure it is working, and then move onto the next instruction.
 
-__Implementing the instructions in the following order:__ register-register arithmetic instructions, register-immediate instructions, memory instructions, jump instructions, branch instructions.
+__TO-DO__: __Implementing the instructions in the following order:__ register-register arithmetic instructions, register-immediate instructions, memory instructions, jump instructions, branch instructions.
 
 __Do not waiting until the end to add the mul instruction.__
 
 To add a new instruction to the baseline design, first update DataPath Figure with any changes you need to support the new instruction, update the code for the datapath, update the control signal table in the control unit, update the top-level module, and thoroughly test your instruction before moving onto the next instruction.
 
-__Achieve around 13 or so different operations in your ALU.__
+__TO-DO__: __Achieve around 13 or so different operations in your ALU.__
 
 __All of these operators are agnostic to whether the inputs are signed or unsigned.__
 
@@ -192,6 +192,12 @@ __TO-DO__: In addition to the assembly tests, you __must__ also add unit tests f
 
 
 ## Evaluation
+
+__TO-DO__: Use the provided simulator to evaluate two designs.
+
+Use a systematic __testing__ strategy to ensure your design is fully functional __before attempting to use the simulator__.
+
+__TO-DO__: Writing micro benchmarks to evaluate the performance of the processor.
 
 
 
