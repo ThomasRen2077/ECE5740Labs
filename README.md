@@ -33,7 +33,7 @@ Perform an evaluation comparing the two implementations.
 
     Branch: bne(done), beq, blt, bltu, bge, bgeu
 
-## General
+## General Concepts
 
 The processor is integrated with a test source, test sink, and test memory for testing and evaluation.
 
@@ -74,30 +74,6 @@ For now you can ignore the test field of memory response messages.
 
 Between when the request is sent and when the response is received,   you can assume that the memory will always take at least one cycle. The response could return in one cycle or 100 cycles. You must also correctly deal with situations where the memory is not ready to accept a request (val/rdy signals).
 
-## Baseline Design
-
-### Concepts
-
-Decompose the baseline design into two separate modules: __Datapath and Control unit__.
-
-Control unit will not use an FSM but will instead use __pipelined control logic__.
-
-Provided Lab code has placed the datapath module, control unit module, and the parent module that connects the datapath and control unit together in three different files.
-
-Provided Lab code have already implemented three primary instructions (__add, lw, bne__).
-
-Provided Lab code have also implemented the __csrr__ (move from the test manager) and __csrw__ (move to the test manager) instructions which are used for testing.
-
-Your datapath module should instantiate a child module for each of the blocks in the datapath diagram.
-
-Add or modify datapath components to support more TinyRV2 instructions.
-
-Use modules in __*vclib*__.
-
-Provided the initial implementations of the immediate generator unit and the ALU. 
-
-As you add or modify datapath components, add another row to the control signal table in the control unit and potentially more columns in the control signal table to handle new control signals.
-
 The address for a data request (due to a load/store instruction) is sent into the memory system at the end of the X stage, not the beginning of the M stage. This allows the read data to be returned at the end of the M stage.
 
 Similarly, the instruction address is sent into the memory system before the F stage. This allows the instruction to be returned at the end of the F stage.
@@ -113,6 +89,26 @@ For control hazard, insert a special __drop unit__ where the instruction memory 
 When we squash an instruction, we also tell the __drop unit__ to remember to drop the next instruction that is returned from the memory system.
 
 The provided baseline processor already correctly interacts with the memory system.
+
+## Baseline Design
+
+### Setup
+
+Decompose the baseline design into two separate modules: __Datapath and Control unit__.
+
+Control unit will not use an FSM but will instead use __pipelined control logic__.
+
+Provided Lab code has placed the datapath module, control unit module, and the parent module that connects the datapath and control unit together in three different files.
+
+Provided Lab code have already implemented three primary instructions (__add, lw, bne__).
+
+Provided Lab code have also implemented the __csrr__ (move from the test manager) and __csrw__ (move to the test manager) instructions which are used for testing.
+
+Use modules in __*vclib*__.
+
+Provided the initial implementations of the __immediate generator unit__ and the __ALU__. 
+
+As you add or modify datapath components, add another row to the control signal table in the control unit and potentially more columns in the control signal table to handle new control signals.
 
 
 ### Implementation
@@ -137,8 +133,6 @@ Carefully manage the val/rdy signals for requests to the multiplier and for resp
 Use an incremental development design methodology. Add one instruction at a time to baseline processor, test that instruction, ensure it is working, and then move onto the next instruction.
 
 __TO-DO: Implementing the instructions in the following order: register-register arithmetic instructions, register-immediate instructions, memory instructions, jump instructions, branch instructions.__
-
-Do not waiting until the end to add the mul instruction.
 
 To add a new instruction to the baseline design, first update DataPath Figure with any changes you need to support the new instruction, update the code for the datapath, update the control signal table in the control unit, update the top-level module, and thoroughly test your instruction before moving onto the next instruction.
 
