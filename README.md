@@ -57,38 +57,26 @@ Make extensive use of the latency insensitive val/rdy microprotocol.
 
 >• __dmemresp__ : data memory response
 
-Verilog *structs* are defined in *vc/mem-msgs.v* 
+*Verilog structs are defined in vc/mem-msgs.v* 
 
-Memory requests use fields to encode the type (read or write), the address, the length of data in bytes, and the data.
+Memory requests and memory responses use fields to encode the type (read or write), the address, the length of data in bytes, and the data.
 
 
-Memory responses use fields to encode the type (read or write), the length of data in bytes, and the data. The data field is fixed at 32-bits or four bytes.
-
-If the length field is one then only the least significant byte of the data field is valid. 
-
-If the length field is two then only the least significant two bytes of the data field are valid. 
-
-If the length field is zero then all four bytes are valid. 
+The data field is fixed at 32-bits or four bytes. If the length field is one then only the least significant byte of the data field is valid. If the length field is two then only the least significant two bytes of the data field are valid. If the length field is zero then all four bytes are valid. 
 
 Both memory requests and responses have an eight-bit opaque field. For now you should always set the opaque field to zeros. 
 
-For now you can ignore the test field of memory response messages.
+Memory response messages have a test field, for now you can ignore the test field.
 
-Between when the request is sent and when the response is received,   you can assume that the memory will always take at least one cycle. The response could return in one cycle or 100 cycles. You must also correctly deal with situations where the memory is not ready to accept a request (val/rdy signals).
+Between when the request is sent and when the response is received,   you can assume that the memory will always take at least one cycle, which means the response could return in one cycle or 100 cycles. You must correctly deal with situations where the memory is not ready to accept a request (val/rdy signals).
 
 The address for a data request (due to a load/store instruction) is sent into the memory system at the end of the X stage, not the beginning of the M stage. This allows the read data to be returned at the end of the M stage.
 
 Similarly, the instruction address is sent into the memory system before the F stage. This allows the instruction to be returned at the end of the F stage.
 
-Include bypass queues on output val/rdy interfaces.
+Bypass queues are included on output val/rdy interfaces. If a bypass queue is empty, then the message “bypasses” the queue and is immediately sent out the corresponding val/rdy interface. If the val/rdy interface is not ready, then we can buffer the message in the bypass queue. Note that the queue on the imemreq interface actually requires two elements of buffering.
 
-If a bypass queue is empty, then the message “bypasses” the queue and is immediately sent out the corresponding val/rdy interface. If the val/rdy interface is not ready, then we can buffer the message in the bypass queue.
-
-Note that the queue on the imemreq interface actually requires two elements of buffering.
-
-For control hazard, insert a special __drop unit__ where the instruction memory response comes back into the processor.
-
-When we squash an instruction, we also tell the __drop unit__ to remember to drop the next instruction that is returned from the memory system.
+For control hazard,  a __drop unit__ is inserted where the instruction memory response comes back into the processor. When we squash an instruction, we also tell the __drop unit__ to remember to drop the next instruction that is returned from the memory system.
 
 The provided baseline processor already correctly interacts with the memory system.
 
@@ -110,8 +98,9 @@ Use modules in __*vclib*__.
 
 Provided the initial implementations of the __immediate generator unit__ and the __ALU__. 
 
-As you add or modify datapath components, add another row to the control signal table in the control unit and potentially more columns in the control signal table to handle new control signals.
+As you add or modify datapath components, add another row to the __control signal table__ in the control unit and potentially more columns in the control signal table to handle new control signals.
 
+Use an __incremental development design methodology__. Add one instruction at a time to baseline processor, test that instruction, ensure it is working, and then move onto the next instruction.
 
 ### Implementation
 Use the variable-latency integer multiplier in the first lab to implement the mul instruction. You can import your multiplier like this:
@@ -132,7 +121,7 @@ Carefully manage the val/rdy signals for requests to the multiplier and for resp
 
 >• __imul.resp.rdy__: This signal is sent from the X stage of the processor to the multiplier. You should factor the X stage’s stall signal into the logic for setting the multiplier’s response rdy signal, since if the X stage is stalling we do not want to accept a response from the multiplier.
 
-Use an incremental development design methodology. Add one instruction at a time to baseline processor, test that instruction, ensure it is working, and then move onto the next instruction.
+
 
 __TO-DO: Implementing the instructions in the following order: register-register arithmetic instructions, register-immediate instructions, memory instructions, jump instructions, branch instructions.__
 
@@ -149,11 +138,13 @@ The *$signed* system task indicates that a value should be treated as a signed v
 ## Alternative Design
 Once you get your baseline design working and passing all of your tests, you should copy your baseline processor design into ProcAltDpath.v, ProcAltCtrl.v, and ProcAlt.v, and then start working on the alternative design.
 
-__TO-DO: To add bypassing to the processor, you will need to add bypass muxes to the datapath.__
-
-The goal is not just to pass the tests, but to pass the tests with a fully bypassed datapath.
+Pass the tests with __a fully bypassed datapath__.
 
 Implementing bypassing does not remove the need to stall in some cases.
+
+__TO-DO: To add bypassing to the processor, you will need to add bypass muxes to the datapath.__
+
+
 
 ## Testing Strategy
 Provided one very basic test for one instruction in TinyRV2. Writing tests for this lab will be very challenging due to both the number of instructions and the number of cases we need to test for each instruction.
@@ -174,6 +165,8 @@ __TO-DO: Write the assembly tests for each instruction.__
 
 Be careful that the data is in little endian.
 
+Take an incremental, test-driven design approach.
+
 ### Testing with Sink and Sources
 __TO-DO: Learn the special syntax for specifying the values that should be retrieved from a test source, or the values expected in a test sink.__
 
@@ -185,16 +178,14 @@ __TO-DO: Need to add random delay testing for each instruction you implement.__
 
 __TO-DO: Use line tracing to visualize instructions moving through the pipeline.__
 
-Take an incremental, test-driven design approach.
-
 __TO-DO: In addition to the assembly tests, you must also add unit tests for any datapath components you add or modify. So when you add new operations to the ALU, you must add corresponding unit tests to a unit testbench.__
 
 
 ## Evaluation
 
-__TO-DO: Use the provided simulator to evaluate two designs.__
+Your design should be fully tested before evaluation.
 
-Use a systematic testing strategy to ensure your design is fully functional before attempting to use the simulator.
+__TO-DO: Use the provided simulator to evaluate two designs.__
 
 __TO-DO: Writing micro benchmarks to evaluate the performance of the processor.__
 
