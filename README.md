@@ -174,6 +174,10 @@ __TO-DO: Use line tracing to visualize instructions moving through the pipeline.
 __TO-DO: In addition to the assembly tests, you must also add unit tests for any datapath components you add or modify. So when you add new operations to the ALU, you must add corresponding unit tests to a unit testbench.__
 
 
+__Question: How to add random-delay testing to each instruction?__
+__Question: How to write unit test code for added/modified unit?__
+
+
 ## Evaluation
 
 Your design should be fully tested before evaluation.
@@ -181,6 +185,9 @@ Your design should be fully tested before evaluation.
 __TO-DO: Use the provided simulator to evaluate two designs.__
 
 __TO-DO: Writing micro benchmarks to evaluate the performance of the processor.__
+
+__Question1: What is benchmark and microbenchmark? (.hex machine code?)__
+__Question2: What should be write in both of them?__
 
 
 
