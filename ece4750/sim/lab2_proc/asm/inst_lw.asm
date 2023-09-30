@@ -17,6 +17,14 @@ nop
 nop
 nop
 csrw proc2mngr, x2 > 0x01020304
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
 
 .data
 .word 0x01020304
