@@ -1,4 +1,4 @@
-csrr x1, mngr2proc < 0x00008000
+csrr x1, mngr2proc < 0x00004000
 nop
 nop
 nop
@@ -7,7 +7,7 @@ nop
 nop
 nop
 nop
-srli x3, x1, 0x03
+srli x3, x1, 0x02
 nop
 nop
 nop

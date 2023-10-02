@@ -1,4 +1,4 @@
-csrr x1, mngr2proc < 5
+csrr x1, mngr2proc < 8
 nop
 nop
 nop
@@ -7,7 +7,7 @@ nop
 nop
 nop
 nop
-slti x3, x1, 6
+slti x3, x1, 9
 nop
 nop
 nop

@@ -1,5 +1,5 @@
-csrr x1, mngr2proc < 0x0f0f0f0f
-csrr x2, mngr2proc < 0x00ff00ff
+csrr x1, mngr2proc < 0x1a1a1a1a
+csrr x2, mngr2proc < 0x05af05af
 nop
 nop
 nop
@@ -17,7 +17,7 @@ nop
 nop
 nop
 nop
-csrw proc2mngr, x3 > 0x0ff00ff0
+csrw proc2mngr, x3 > 0x1fb51fb5
 nop
 nop
 nop

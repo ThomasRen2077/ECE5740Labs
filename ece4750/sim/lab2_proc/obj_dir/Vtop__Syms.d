@@ -1,11 +1,12 @@
 Vtop__Syms.o: Vtop__Syms.cpp Vtop__Syms.h \
- /home/thomasyyyy2077/verilator/include/verilated.h \
- /home/thomasyyyy2077/verilator/include/verilatedos.h \
- /home/thomasyyyy2077/verilator/include/verilated_config.h \
- /home/thomasyyyy2077/verilator/include/verilated_types.h \
- /home/thomasyyyy2077/verilator/include/verilated_funcs.h Vtop.h \
- /home/thomasyyyy2077/verilator/include/verilated_cov.h \
- /home/thomasyyyy2077/verilator/include/verilated.h \
- /home/thomasyyyy2077/verilator/include/vltstd/svdpi.h Vtop___024root.h \
- /home/thomasyyyy2077/verilator/include/verilated_timing.h \
- Vtop___024unit.h
+  /opt/homebrew/Cellar/verilator/5.016/share/verilator/include/verilated.h \
+  /opt/homebrew/Cellar/verilator/5.016/share/verilator/include/verilatedos.h \
+  /opt/homebrew/Cellar/verilator/5.016/share/verilator/include/verilated_config.h \
+  /opt/homebrew/Cellar/verilator/5.016/share/verilator/include/verilated_types.h \
+  /opt/homebrew/Cellar/verilator/5.016/share/verilator/include/verilated_funcs.h \
+  Vtop.h \
+  /opt/homebrew/Cellar/verilator/5.016/share/verilator/include/verilated_cov.h \
+  /opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd/svdpi.h \
+  Vtop___024root.h \
+  /opt/homebrew/Cellar/verilator/5.016/share/verilator/include/verilated_timing.h \
+  Vtop___024unit.h

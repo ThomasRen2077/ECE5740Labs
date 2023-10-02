@@ -1,8 +1,9 @@
-verilated_cov.o: /home/thomasyyyy2077/verilator/include/verilated_cov.cpp \
- /home/thomasyyyy2077/verilator/include/verilatedos.h \
- /home/thomasyyyy2077/verilator/include/verilated_cov.h \
- /home/thomasyyyy2077/verilator/include/verilated.h \
- /home/thomasyyyy2077/verilator/include/verilated_config.h \
- /home/thomasyyyy2077/verilator/include/verilated_types.h \
- /home/thomasyyyy2077/verilator/include/verilated_funcs.h \
- /home/thomasyyyy2077/verilator/include/verilated_cov_key.h
+verilated_cov.o: \
+  /opt/homebrew/Cellar/verilator/5.016/share/verilator/include/verilated_cov.cpp \
+  /opt/homebrew/Cellar/verilator/5.016/share/verilator/include/verilatedos.h \
+  /opt/homebrew/Cellar/verilator/5.016/share/verilator/include/verilated_cov.h \
+  /opt/homebrew/Cellar/verilator/5.016/share/verilator/include/verilated.h \
+  /opt/homebrew/Cellar/verilator/5.016/share/verilator/include/verilated_config.h \
+  /opt/homebrew/Cellar/verilator/5.016/share/verilator/include/verilated_types.h \
+  /opt/homebrew/Cellar/verilator/5.016/share/verilator/include/verilated_funcs.h \
+  /opt/homebrew/Cellar/verilator/5.016/share/verilator/include/verilated_cov_key.h

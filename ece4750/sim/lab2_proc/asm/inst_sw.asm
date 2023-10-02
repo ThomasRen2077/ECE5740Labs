@@ -1,5 +1,5 @@
-csrr x1, mngr2proc < 0x00002000
-csrr x2, mngr2proc < 0xdeadbeef
+csrr x1, mngr2proc < 0x00003000
+csrr x2, mngr2proc < 0xcafebabe
 nop
 nop
 nop
@@ -18,7 +18,7 @@ nop
 nop
 nop
 lw   x3, 0(x1)
-csrw proc2mngr, x3 > 0xdeadbeef
+csrw proc2mngr, x3 > 0xcafebabe
 
 .data
-.word 0x01020304
+.word 0x05060708
