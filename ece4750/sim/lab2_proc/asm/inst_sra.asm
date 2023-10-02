@@ -1,4 +1,12 @@
 csrr x1, mngr2proc < 0x00004000
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
 csrr x2, mngr2proc < 0x00000002
 nop
 nop

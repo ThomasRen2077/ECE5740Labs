@@ -1,4 +1,12 @@
 csrr x1, mngr2proc < 8
+nop
+nop
+nop
+nop
+nop
+nop
+nop
+nop
 csrr x2, mngr2proc < 7
 nop
 nop

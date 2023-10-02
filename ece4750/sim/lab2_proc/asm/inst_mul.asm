@@ -1,4 +1,4 @@
-csrr x1, mngr2proc < 8
+csrr x1, mngr2proc < -8
 nop
 nop
 nop
@@ -25,7 +25,7 @@ nop
 nop
 nop
 nop
-csrw proc2mngr, x3 > 72
+csrw proc2mngr, x3 > -72
 nop
 nop
 nop
