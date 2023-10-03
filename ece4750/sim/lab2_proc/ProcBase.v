@@ -1,7 +1,3 @@
-//=========================================================================
-// 5-Stage Simple Pipelined Processor
-//=========================================================================
-
 `ifndef LAB2_PROC_PROC_BASE_V
 `define LAB2_PROC_PROC_BASE_V
 
@@ -14,6 +10,13 @@
 `include "ProcBaseDpath.v"
 `include "DropUnit.v"
 
+
+
+
+
+
+
+
 module lab2_proc_ProcBase
 #(
   parameter p_num_cores = 1
@@ -22,56 +25,66 @@ module lab2_proc_ProcBase
   input  logic         clk,
   input  logic         reset,
 
-  // From mngr streaming port
 
+
+  // From mngr streaming port
   input  logic [31:0]  mngr2proc_msg,
   input  logic         mngr2proc_val,
   output logic         mngr2proc_rdy,
 
-  // To mngr streaming port
 
+
+  // To mngr streaming port
   output logic [31:0]  proc2mngr_msg,
   output logic         proc2mngr_val,
   input  logic         proc2mngr_rdy,
 
-  // Instruction Memory Request Port
 
+
+  // Instruction Memory Request Port
   output mem_req_4B_t  imem_reqstream_msg,
   output logic         imem_reqstream_val,
   input  logic         imem_reqstream_rdy,
 
-  // Instruction Memory Response Port
 
+
+  // Instruction Memory Response Port
   input  mem_resp_4B_t imem_respstream_msg,
   input  logic         imem_respstream_val,
   output logic         imem_respstream_rdy,
 
-  // Data Memory Request Port
 
+
+  // Data Memory Request Port
   output mem_req_4B_t  dmem_reqstream_msg,
   output logic         dmem_reqstream_val,
   input  logic         dmem_reqstream_rdy,
 
-  // Data Memory Response Port
 
+
+
+  // Data Memory Response Port
   input  mem_resp_4B_t dmem_respstream_msg,
   input  logic         dmem_respstream_val,
   output logic         dmem_respstream_rdy,
 
-  // extra ports; note that core_id is an input port rather than a
-  // parameter so that the module only needs to be compiled once. If it
-  // were a parameter, each core would be compiled separately.
 
+
+  // Extra Port
   input  logic [31:0]  core_id,
   output logic         commit_inst,
   output logic         stats_en
-
 );
 
-  //----------------------------------------------------------------------
-  // Instruction Memory Request Bypass Queue
-  //----------------------------------------------------------------------
 
+
+
+
+
+
+
+
+  // Instruction Memory Request Bypass Queue
   logic [1:0]  imem_queue_num_free_entries;
   mem_req_4B_t imem_reqstream_enq_msg;
   logic        imem_reqstream_enq_val;
@@ -100,10 +113,10 @@ module lab2_proc_ProcBase
     .deq_rdy (imem_reqstream_rdy)
   );
 
-  //----------------------------------------------------------------------
-  // Imem Drop Unit
-  //----------------------------------------------------------------------
 
+
+
+  // Imem Drop Unit
   logic         imem_respstream_drop;
   mem_resp_4B_t imem_respstream_drop_msg;
   logic         imem_respstream_drop_val;
@@ -125,10 +138,9 @@ module lab2_proc_ProcBase
     .ostream_rdy (imem_respstream_drop_rdy)
   );
 
-  //----------------------------------------------------------------------
-  // Data Memory Request Bypass Queue
-  //----------------------------------------------------------------------
 
+
+  // Data Memory Request Bypass Queue
   logic        dmem_queue_num_free_entries;
   mem_req_4B_t dmem_reqstream_enq_msg;
   logic        dmem_reqstream_enq_val;
@@ -157,10 +169,10 @@ module lab2_proc_ProcBase
     .deq_rdy (dmem_reqstream_rdy)
   );
 
-  //----------------------------------------------------------------------
-  // proc2mngr Bypass Queue
-  //----------------------------------------------------------------------
 
+
+
+  // proc2mngr Bypass Queue
   logic        proc2mngr_queue_num_free_entries;
   logic [31:0] proc2mngr_enq_msg;
   logic        proc2mngr_enq_val;
@@ -181,12 +193,13 @@ module lab2_proc_ProcBase
     .deq_rdy (proc2mngr_rdy)
   );
 
-  //----------------------------------------------------------------------
+
+
+
+
   // Control/Status Signals
-  //----------------------------------------------------------------------
 
   // control signals (ctrl->dpath)
-
   logic        reg_en_F;
   logic [1:0]  pc_sel_F;
 
@@ -206,15 +219,18 @@ module lab2_proc_ProcBase
   logic        rf_wen_W;
   logic        stats_en_wen_W;
 
-  // status signals (dpath->ctrl)
 
+
+
+
+  // status signals (dpath->ctrl)
   logic [31:0] inst_D;
   logic        br_cond_eq_X;
 
-  //----------------------------------------------------------------------
-  // Control Unit
-  //----------------------------------------------------------------------
 
+
+
+  // Control Unit
   lab2_proc_ProcBaseCtrl ctrl
   (
     // Instruction Memory Port
@@ -239,8 +255,8 @@ module lab2_proc_ProcBase
     .proc2mngr_rdy            (proc2mngr_enq_rdy),
 
     // clk/reset/control/status signals
-
     .*
+    
   );
 
   //----------------------------------------------------------------------

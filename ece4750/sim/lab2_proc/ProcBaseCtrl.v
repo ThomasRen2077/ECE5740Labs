@@ -1,7 +1,3 @@
-//=========================================================================
-// 5-Stage Simple Pipelined Processor Control
-//=========================================================================
-
 `ifndef LAB2_PROC_PROC_BASE_CTRL_V
 `define LAB2_PROC_PROC_BASE_CTRL_V
 
@@ -9,35 +5,45 @@
 
 `include "tinyrv2_encoding.v"
 
+
+
+
 module lab2_proc_ProcBaseCtrl
 (
   input  logic        clk,
   input  logic        reset,
 
-  // Instruction Memory Port
 
+
+
+  // Instruction Memory Port
   output logic        imem_reqstream_val,
   input  logic        imem_reqstream_rdy,
   input  logic        imem_respstream_val,
   output logic        imem_respstream_rdy,
   output logic        imem_respstream_drop,
 
-  // Data Memory Port
 
+
+  // Data Memory Port
   output logic        dmem_reqstream_val,
   input  logic        dmem_reqstream_rdy,
   input  logic        dmem_respstream_val,
   output logic        dmem_respstream_rdy,
 
-  // mngr communication port
 
+
+
+  // mngr communication port
   input  logic        mngr2proc_val,
   output logic        mngr2proc_rdy,
   output logic        proc2mngr_val,
   input  logic        proc2mngr_rdy,
 
-  // control signals (ctrl->dpath)
 
+
+
+  // control signals (ctrl->dpath)
   output logic        reg_en_F,
   output logic [1:0]  pc_sel_F,
 
@@ -57,15 +63,20 @@ module lab2_proc_ProcBaseCtrl
   output logic        rf_wen_W,
   output logic        stats_en_wen_W,
 
-  // status signals (dpath->ctrl)
 
+
+  // status signals (dpath->ctrl)
   input  logic [31:0] inst_D,
   input  logic        br_cond_eq_X,
 
-  // extra ports
 
+
+  // extra ports
   output logic        commit_inst
 );
+
+
+
 
   //----------------------------------------------------------------------
   // Notes

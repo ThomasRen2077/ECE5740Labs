@@ -14,6 +14,9 @@
 `include "tinyrv2_encoding.v"
 `include "ProcDpathImmGen.v"
 `include "ProcDpathAlu.v"
+`include "lab1_imul/IntMulAlt.v"
+
+
 
 module lab2_proc_ProcBaseDpath
 #(
@@ -266,6 +269,19 @@ module lab2_proc_ProcBaseDpath
   assign ex_result_X = alu_result_X;
 
   assign dmem_reqstream_msg_addr = alu_result_X;
+
+
+  logic [31:0] mul_result_X;
+
+  // Add Multiplier module
+  // lab1_imul_IntMulAlt mul
+  // (
+  //   .clk                (clk),
+  //   .reset              (reset),
+
+  //   .istream_msg        (op1 + op2),
+  //   .out                (mul_result_X)
+  // );
 
   //--------------------------------------------------------------------
   // M stage
