@@ -378,7 +378,15 @@ module lab2_proc_ProcBaseCtrl
       //Reg-Imm Instruction
       `TINYRV2_INST_LUI     :cs( y, br_na,  imm_u, y, bm_imm, n, alu_cp1,  nr, wm_a, y,  n,   n    );
       // `TINYRV2_INST_AUIPC   :cs( y, br_na,  imm_u, n, bm_imm, n, alu_add,  nr, wm_a, y,  n,   n    );
-
+      `TINYRV2_INST_ANDI     :cs( y, br_na,  imm_i, y, bm_imm,  n, alu_and, nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_ORI     :cs( y, br_na,  imm_i, y, bm_imm,  n, alu_or, nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_XORI     :cs( y, br_na,  imm_i, y, bm_imm,  n, alu_xor, nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SLTI     :cs( y, br_na,  imm_i, y, bm_imm,  n, alu_slt, nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SLTIU     :cs( y, br_na,  imm_i, y, bm_imm,  n, alu_sltu, nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SRAI     :cs( y, br_na,  imm_i, y, bm_imm,  n, alu_sra, nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SRLI     :cs( y, br_na,  imm_i, y, bm_imm,  n, alu_srl, nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SLLI     :cs( y, br_na,  imm_i, y, bm_imm,  n, alu_sll, nr, wm_a, y,  n,   n    );
+      
 
       default               :cs( n, br_x,  imm_x, n, bm_x,    n, alu_x,    nr, wm_x, n,  n,   n    );
 
