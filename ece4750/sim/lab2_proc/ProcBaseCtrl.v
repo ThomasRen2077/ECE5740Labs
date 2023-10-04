@@ -48,6 +48,9 @@ module lab2_proc_ProcBaseCtrl
   output logic [1:0]  pc_sel_F,
 
   output logic        reg_en_D,
+  // Add op1_sel Mux signal
+  output logic        op1_sel_D,
+
   output logic [1:0]  op2_sel_D,
   output logic [1:0]  csrr_sel_D,
   output logic [2:0]  imm_type_D,
@@ -265,6 +268,12 @@ module lab2_proc_ProcBaseCtrl
   localparam br_bge   = 3'd5; // bne
   localparam br_bgeu   = 3'd6; // bne
 
+  // Operand 0 Mux Select 
+  localparam am_x     = 1'bx; // Don't care
+  localparam am_rf    = 1'd0; // Use data from register file
+  localparam am_pc    = 1'd1; // Use data from register pc
+
+
   // Operand 1 Mux Select
 
   localparam bm_x     = 2'bx; // Don't care
@@ -331,6 +340,7 @@ module lab2_proc_ProcBaseCtrl
     input logic       cs_inst_val,
     input logic [2:0] cs_br_type,
     input logic [2:0] cs_imm_type,
+    input logic       cs_op1_sel,
     input logic       cs_rs1_en,
     input logic [1:0] cs_op2_sel,
     input logic       cs_rs2_en,
@@ -346,6 +356,7 @@ module lab2_proc_ProcBaseCtrl
     br_type_D             = cs_br_type;
     imm_type_D            = cs_imm_type;
     rs1_en_D              = cs_rs1_en;
+    op1_sel_D             = cs_op1_sel;
     op2_sel_D             = cs_op2_sel;
     rs2_en_D              = cs_rs2_en;
     alu_fn_D              = cs_alu_fn;
@@ -363,42 +374,52 @@ module lab2_proc_ProcBaseCtrl
 
     casez ( inst_D )
 
-      //                            br      imm   rs1 op2    rs2 alu      dmm wbmux rf
-      //                       val  type    type   en muxsel  en fn       typ sel   wen csrr csrw
-      `TINYRV2_INST_NOP     :cs( y, br_na,  imm_x, n, bm_x,   n, alu_x,   nr, wm_a, n,  n,   n    );
-      `TINYRV2_INST_ADD     :cs( y, br_na,  imm_x, y, bm_rf,  y, alu_add, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_LW      :cs( y, br_na,  imm_i, y, bm_imm, n, alu_add, ld, wm_m, y,  n,   n    );
-      `TINYRV2_INST_SW      :cs( y, br_na,  imm_is, y, bm_imm, y, alu_add, st, wm_m, n,  n,   n    );
-      `TINYRV2_INST_BNE     :cs( y, br_bne, imm_b, y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
-      `TINYRV2_INST_BEQ     :cs( y, br_beq, imm_b, y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
-      `TINYRV2_INST_BLT     :cs( y, br_blt, imm_b, y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
-      `TINYRV2_INST_BLTU     :cs( y, br_bltu, imm_b, y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
-      `TINYRV2_INST_BGE     :cs( y, br_bge, imm_b, y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
-      `TINYRV2_INST_BGEU     :cs( y, br_bgeu, imm_b, y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
-      `TINYRV2_INST_CSRR    :cs( y, br_na,  imm_i, n, bm_csr, n, alu_cp1, nr, wm_a, y,  y,   n    );
-      `TINYRV2_INST_CSRW    :cs( y, br_na,  imm_i, y, bm_rf,  n, alu_cp0, nr, wm_a, n,  n,   y    );
+      //                            br      imm     op1     rs1 op2    rs2 alu      dmm wbmux rf
+      //                       val  type    type    muxsel   en muxsel  en fn       typ sel   wen csrr csrw
+      `TINYRV2_INST_NOP     :cs( y, br_na,  imm_x,  am_x,    n, bm_x,   n, alu_x,   nr, wm_a, n,  n,   n    );
+      `TINYRV2_INST_ADD     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_add, nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_LW      :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_add, ld, wm_m, y,  n,   n    );
+      `TINYRV2_INST_BNE     :cs( y, br_bne, imm_b,  am_rf,   y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
+      `TINYRV2_INST_CSRR    :cs( y, br_na,  imm_i,  am_x,    n, bm_csr, n, alu_cp1, nr, wm_a, y,  y,   n    );
+      `TINYRV2_INST_CSRW    :cs( y, br_na,  imm_i,  am_rf,   y, bm_rf,  n, alu_cp0, nr, wm_a, n,  n,   y    );
 
       //Add Row to Control Signal
-      `TINYRV2_INST_ADDI    :cs( y, br_na,  imm_i, y, bm_imm, n, alu_add, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SUB     :cs( y, br_na,  imm_x, y, bm_rf,  y, alu_sub, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_AND     :cs( y, br_na,  imm_x, y, bm_rf,  y, alu_and, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_OR     :cs( y, br_na,  imm_x, y, bm_rf,  y, alu_or, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_XOR     :cs( y, br_na,  imm_x, y, bm_rf,  y, alu_xor, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SLT     :cs( y, br_na,  imm_x, y, bm_rf,  y, alu_slt, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SLTU     :cs( y, br_na,  imm_x, y, bm_rf,  y, alu_sltu, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SRA     :cs( y, br_na,  imm_x, y, bm_rf,  y, alu_sra, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SRL     :cs( y, br_na,  imm_x, y, bm_rf,  y, alu_srl, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SLL     :cs( y, br_na,  imm_x, y, bm_rf,  y, alu_sll, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_ANDI     :cs( y, br_na,  imm_i, y, bm_imm,  n, alu_and, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_ORI     :cs( y, br_na,  imm_i, y, bm_imm,  n, alu_or, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_XORI     :cs( y, br_na,  imm_i, y, bm_imm,  n, alu_xor, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SLTI     :cs( y, br_na,  imm_i, y, bm_imm,  n, alu_slt, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SLTIU     :cs( y, br_na,  imm_i, y, bm_imm,  n, alu_sltu, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SRAI     :cs( y, br_na,  imm_iv, y, bm_imm,  n, alu_sra, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SRLI     :cs( y, br_na,  imm_iv, y, bm_imm,  n, alu_srl, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SLLI     :cs( y, br_na,  imm_iv, y, bm_imm,  n, alu_sll, nr, wm_a, y,  n,   n    );
+      //Reg-Reg Instruction
+      `TINYRV2_INST_SUB     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_sub,  nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_AND     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_and,  nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_OR      :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_or,   nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_XOR     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_xor,  nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SLT     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_slt,  nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SLTU    :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_sltu, nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SRA     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_sra,  nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SRL     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_srl,  nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SLL     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_sll,  nr, wm_a, y,  n,   n    );
+
+      //Reg-Imm Instruction
+      `TINYRV2_INST_ANDI    :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_and,  nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_ORI     :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_or,   nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_XORI    :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_xor,  nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SLTI    :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_slt,  nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SLTIU   :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_sltu, nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SRAI    :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_sra,  nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SRLI    :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_srl,  nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SLLI    :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_sll,  nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_LUI     :cs( y, br_na,  imm_u,  am_rf,   y, bm_imm, n, alu_cp1,  nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_AUIPC   :cs( y, br_na,  imm_u,  am_pc,   n, bm_imm, n, alu_add,  nr, wm_a, y,  n,   n    );
+
+      //Jump Instruction
+      // `TINYRV2_INST_JAL   :cs( y, br_jal, imm_x,  am_pc,   n, bm_x,   n, alu_cp0,  nr, wm_a, y,  n,   n    );
+  
+      //Branch Instruction
+      `TINYRV2_INST_BEQ     :cs( y, br_beq,  imm_b, am_rf,   y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
+      `TINYRV2_INST_BLT     :cs( y, br_blt,  imm_b, am_rf,   y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
+      `TINYRV2_INST_BLTU    :cs( y, br_bltu, imm_b, am_rf,   y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
+      `TINYRV2_INST_BGE     :cs( y, br_bge,  imm_b, am_rf,   y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
+      `TINYRV2_INST_BGEU    :cs( y, br_bgeu, imm_b, am_rf,   y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
+
       
-      default              :cs( n, br_x,  imm_x, n, bm_x,    n, alu_x,   nr, wm_x, n,  n,   n    );
+
+      default               :cs( n, br_x,  imm_x,   am_x,    n, bm_x,    n, alu_x,    nr, wm_x, n,  n,   n    );
 
     endcase
   end // always_comb

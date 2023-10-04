@@ -1,4 +1,4 @@
-csrr x1, mngr2proc < 7
+csrr x1, mngr2proc < -7
 nop
 nop
 nop
