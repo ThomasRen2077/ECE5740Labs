@@ -288,6 +288,7 @@ module lab2_proc_ProcBaseCtrl
   localparam imm_b    = 3'd2;
   localparam imm_u    = 3'd3;
   localparam imm_j    = 3'd4;
+  localparam imm_iv    = 3'd5;
 
   // Memory Request Type
 
@@ -379,9 +380,9 @@ module lab2_proc_ProcBaseCtrl
       `TINYRV2_INST_XORI     :cs( y, br_na,  imm_i, y, bm_imm,  n, alu_xor, nr, wm_a, y,  n,   n    );
       `TINYRV2_INST_SLTI     :cs( y, br_na,  imm_i, y, bm_imm,  n, alu_slt, nr, wm_a, y,  n,   n    );
       `TINYRV2_INST_SLTIU     :cs( y, br_na,  imm_i, y, bm_imm,  n, alu_sltu, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SRAI     :cs( y, br_na,  imm_i, y, bm_imm,  n, alu_sra, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SRLI     :cs( y, br_na,  imm_i, y, bm_imm,  n, alu_srl, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SLLI     :cs( y, br_na,  imm_i, y, bm_imm,  n, alu_sll, nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SRAI     :cs( y, br_na,  imm_iv, y, bm_imm,  n, alu_sra, nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SRLI     :cs( y, br_na,  imm_iv, y, bm_imm,  n, alu_srl, nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SLLI     :cs( y, br_na,  imm_iv, y, bm_imm,  n, alu_sll, nr, wm_a, y,  n,   n    );
       
       default              :cs( n, br_x,  imm_x, n, bm_x,    n, alu_x,   nr, wm_x, n,  n,   n    );
 

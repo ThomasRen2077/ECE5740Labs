@@ -24,6 +24,9 @@ module lab2_proc_ProcDpathImmGen
       //''' LAB TASK '''''''''''''''''''''''''''''''''''''''''''''''''''''
       // Add more immediate types
       //''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+      3'd5: // I-type - variant 
+        imm = { {27{1'b0}}, inst[24:20] };
+
 
       default:
         imm = 32'bx;
