@@ -16,7 +16,7 @@ Perform an evaluation comparing the two implementations.
 ## TinyRV2 instrcuctions
     CSR: csrr(done), csrw(done)
 
-    Reg-Reg: add(done), sub(done), mul(difficult), and(done), or, xor, slt, sltu, sra, srl, sll
+    Reg-Reg: add(done), sub(done), mul(difficult), and(done), or(done), xor(done), slt(done), sltu(done), sra(done), srl(done), sll(done)
 
     Reg-Imm: addi(done), ori, andi(done), xori, slti, sltiu, srai, srli, slli, lui, auipc
 
