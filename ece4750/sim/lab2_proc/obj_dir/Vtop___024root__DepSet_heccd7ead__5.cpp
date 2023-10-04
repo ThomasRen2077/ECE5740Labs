@@ -18,6 +18,7 @@ void Vtop___024root___nba_sequent__TOP__6(Vtop___024root* vlSelf);
 void Vtop___024root___nba_sequent__TOP__7(Vtop___024root* vlSelf);
 void Vtop___024root___nba_sequent__TOP__8(Vtop___024root* vlSelf);
 void Vtop___024root___nba_sequent__TOP__9(Vtop___024root* vlSelf);
+void Vtop___024root___nba_sequent__TOP__10(Vtop___024root* vlSelf);
 void Vtop___024root___nba_comb__TOP__0(Vtop___024root* vlSelf);
 void Vtop___024root___nba_comb__TOP__1(Vtop___024root* vlSelf);
 void Vtop___024root___nba_comb__TOP__2(Vtop___024root* vlSelf);
@@ -41,9 +42,10 @@ void Vtop___024root___eval_nba(Vtop___024root* vlSelf) {
         Vtop___024root___nba_sequent__TOP__6(vlSelf);
         Vtop___024root___nba_sequent__TOP__7(vlSelf);
         Vtop___024root___nba_sequent__TOP__8(vlSelf);
+        Vtop___024root___nba_sequent__TOP__9(vlSelf);
     }
     if ((2ULL & vlSelf->__VnbaTriggered.word(0U))) {
-        Vtop___024root___nba_sequent__TOP__9(vlSelf);
+        Vtop___024root___nba_sequent__TOP__10(vlSelf);
     }
     if ((6ULL & vlSelf->__VnbaTriggered.word(0U))) {
         Vtop___024root___nba_comb__TOP__0(vlSelf);

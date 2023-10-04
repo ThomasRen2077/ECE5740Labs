@@ -49,6 +49,10 @@ module lab2_proc_ProcBaseDpath
   input  logic [1:0]   pc_sel_F,
 
   input  logic         reg_en_D,
+
+  //add op1_sel Mux signal
+  input  logic         op1_sel_D,
+
   input  logic [1:0]   op2_sel_D,
   input  logic [1:0]   csrr_sel_D,
   input  logic [2:0]   imm_type_D,
@@ -180,6 +184,9 @@ module lab2_proc_ProcBaseDpath
     .wr_data  (rf_wdata_W)
   );
 
+// Add op1_data
+  logic [31:0] op1_D;
+
   logic [31:0] op2_D;
 
   logic [31:0] csrr_data_D;
@@ -197,9 +204,18 @@ module lab2_proc_ProcBaseDpath
    .out  (csrr_data_D)
   );
 
+  // op1 select mux
+  // This mux selects pc data or R[rs1] to ALU operand 0
+  vc_Mux2#(32) op1_sel_mux_D
+  (
+    .in0  (rf_rdata0_D),
+    .in1  (pc_D),
+    .sel  (op1_sel_D),
+    .out  (op1_D)
+  );
+
+
   // op2 select mux
-  // This mux chooses among RS2, imm, and the output of the above csrr
-  // csrr sel mux. Basically we are using two muxes here for pedagogy.
   vc_Mux3#(32) op2_sel_mux_D
   (
     .in0  (rf_rdata1_D),
@@ -230,7 +246,7 @@ module lab2_proc_ProcBaseDpath
     .clk   (clk),
     .reset (reset),
     .en    (reg_en_X),
-    .d     (rf_rdata0_D),
+    .d     (op1_D),
     .q     (op1_X)
   );
 
@@ -274,15 +290,6 @@ module lab2_proc_ProcBaseDpath
 
   logic [31:0] mul_result_X;
 
-  // Add Multiplier module
-  // lab1_imul_IntMulAlt mul
-  // (
-  //   .clk                (clk),
-  //   .reset              (reset),
-
-  //   .istream_msg        (op1 + op2),
-  //   .out                (mul_result_X)
-  // );
 
   //--------------------------------------------------------------------
   // M stage

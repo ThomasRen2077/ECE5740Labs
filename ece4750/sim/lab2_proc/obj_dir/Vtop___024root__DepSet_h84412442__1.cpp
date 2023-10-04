@@ -269,7 +269,7 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__1(Vtop___024root* vlSelf) 
             vlSelf->top__DOT__DUT__DOT__dpath__DOT__br_target_X 
                 = vlSelf->top__DOT__DUT__DOT__dpath__DOT__jal_target_D;
             vlSelf->top__DOT__DUT__DOT__dpath__DOT__op1_X 
-                = vlSelf->top__DOT__DUT__DOT__dpath__DOT__rf_rdata0_D;
+                = vlSelf->top__DOT__DUT__DOT__dpath__DOT__op1_D;
             vlSelf->top__DOT__DUT__DOT__dpath__DOT__op2_X 
                 = vlSelf->top__DOT__DUT__DOT__dpath__DOT__op2_D;
         }
