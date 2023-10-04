@@ -396,19 +396,20 @@ module lab2_proc_ProcBaseCtrl
       `TINYRV2_INST_SLL     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_sll,  nr, wm_a, y,  n,   n    );
 
       //Reg-Imm Instruction
+      `TINYRV2_INST_ADDI    :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_add,  nr, wm_a, y,  n,   n    );
       `TINYRV2_INST_ANDI    :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_and,  nr, wm_a, y,  n,   n    );
       `TINYRV2_INST_ORI     :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_or,   nr, wm_a, y,  n,   n    );
       `TINYRV2_INST_XORI    :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_xor,  nr, wm_a, y,  n,   n    );
       `TINYRV2_INST_SLTI    :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_slt,  nr, wm_a, y,  n,   n    );
       `TINYRV2_INST_SLTIU   :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_sltu, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SRAI    :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_sra,  nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SRLI    :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_srl,  nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SLLI    :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_sll,  nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SRAI    :cs( y, br_na,  imm_iv, am_rf,   y, bm_imm, n, alu_sra,  nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SRLI    :cs( y, br_na,  imm_iv, am_rf,   y, bm_imm, n, alu_srl,  nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SLLI    :cs( y, br_na,  imm_iv, am_rf,   y, bm_imm, n, alu_sll,  nr, wm_a, y,  n,   n    );
       `TINYRV2_INST_LUI     :cs( y, br_na,  imm_u,  am_rf,   y, bm_imm, n, alu_cp1,  nr, wm_a, y,  n,   n    );
       `TINYRV2_INST_AUIPC   :cs( y, br_na,  imm_u,  am_pc,   n, bm_imm, n, alu_add,  nr, wm_a, y,  n,   n    );
 
       //Jump Instruction
-      // `TINYRV2_INST_JAL   :cs( y, br_jal, imm_x,  am_pc,   n, bm_x,   n, alu_cp0,  nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_JAL     :cs( y, br_jal, imm_j,  am_pc,   n, bm_x,   n, alu_cp0,  nr, wm_a, y,  n,   n    );
   
       //Branch Instruction
       `TINYRV2_INST_BEQ     :cs( y, br_beq,  imm_b, am_rf,   y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
@@ -587,6 +588,13 @@ module lab2_proc_ProcBaseCtrl
     else begin
       pc_redirect_X = 1'b0;
       pc_sel_X      = 2'b0; // use pc+4
+    end
+  end
+
+  always_comb begin
+    if ( val_D && ( br_type_X == jal ) ) begin
+      pc_redirect_X = br_cond_geu_X;
+      pc_sel_X      = 2'b1; // use branch target
     end
   end
 
