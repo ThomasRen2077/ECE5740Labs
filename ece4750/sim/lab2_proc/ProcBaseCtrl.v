@@ -71,7 +71,10 @@ module lab2_proc_ProcBaseCtrl
   // status signals (dpath->ctrl)
   input  logic [31:0] inst_D,
   input  logic        br_cond_eq_X,
-
+  input  logic        br_cond_lt_X,
+  input  logic        br_cond_ltu_X,
+  input  logic        br_cond_ge_X,
+  input  logic        br_cond_geu_X,
 
 
   // extra ports
@@ -259,6 +262,11 @@ module lab2_proc_ProcBaseCtrl
   localparam br_x     = 3'bx; // Don't care
   localparam br_na    = 3'b0; // No branch
   localparam br_bne   = 3'b1; // bne
+  localparam br_beq   = 3'd2; // bne
+  localparam br_blt   = 3'd3; // bne
+  localparam br_bltu   = 3'd4; // bne
+  localparam br_bge   = 3'd5; // bne
+  localparam br_bgeu   = 3'd6; // bne
 
   // Operand 0 Mux Select 
   localparam am_x     = 1'bx; // Don't care
@@ -297,6 +305,7 @@ module lab2_proc_ProcBaseCtrl
   localparam imm_b    = 3'd2;
   localparam imm_u    = 3'd3;
   localparam imm_j    = 3'd4;
+  localparam imm_iv    = 3'd5;
 
   // Memory Request Type
 
@@ -371,6 +380,11 @@ module lab2_proc_ProcBaseCtrl
       `TINYRV2_INST_ADD     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_add, nr, wm_a, y,  n,   n    );
       `TINYRV2_INST_LW      :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_add, ld, wm_m, y,  n,   n    );
       `TINYRV2_INST_BNE     :cs( y, br_bne, imm_b,  am_rf,   y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
+      `TINYRV2_INST_BEQ     :cs( y, br_beq, imm_b, y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
+      `TINYRV2_INST_BLT     :cs( y, br_blt, imm_b, y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
+      `TINYRV2_INST_BLTU     :cs( y, br_bltu, imm_b, y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
+      `TINYRV2_INST_BGE     :cs( y, br_bge, imm_b, y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
+      `TINYRV2_INST_BGEU     :cs( y, br_bgeu, imm_b, y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
       `TINYRV2_INST_CSRR    :cs( y, br_na,  imm_i,  am_x,    n, bm_csr, n, alu_cp1, nr, wm_a, y,  y,   n    );
       `TINYRV2_INST_CSRW    :cs( y, br_na,  imm_i,  am_rf,   y, bm_rf,  n, alu_cp0, nr, wm_a, n,  n,   y    );
 
@@ -547,6 +561,26 @@ module lab2_proc_ProcBaseCtrl
   always_comb begin
     if ( val_X && ( br_type_X == br_bne ) ) begin
       pc_redirect_X = !br_cond_eq_X;
+      pc_sel_X      = 2'b1; // use branch target
+    end
+    else if ( val_X && ( br_type_X == br_beq ) ) begin
+      pc_redirect_X = br_cond_eq_X;
+      pc_sel_X      = 2'b1; // use branch target
+    end
+    else if ( val_X && ( br_type_X == br_blt ) ) begin
+      pc_redirect_X = br_cond_lt_X;
+      pc_sel_X      = 2'b1; // use branch target
+    end
+    else if ( val_X && ( br_type_X == br_bltu ) ) begin
+      pc_redirect_X = br_cond_ltu_X;
+      pc_sel_X      = 2'b1; // use branch target
+    end
+    else if ( val_X && ( br_type_X == br_bge ) ) begin
+      pc_redirect_X = br_cond_ge_X;
+      pc_sel_X      = 2'b1; // use branch target
+    end
+    else if ( val_X && ( br_type_X == br_bgeu ) ) begin
+      pc_redirect_X = br_cond_geu_X;
       pc_sel_X      = 2'b1; // use branch target
     end
     else begin
