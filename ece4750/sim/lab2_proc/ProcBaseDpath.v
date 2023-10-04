@@ -266,6 +266,7 @@ module lab2_proc_ProcBaseDpath
     .ops_ltu  ()
   );
 
+// Needs to be modified
   assign ex_result_X = alu_result_X;
 
   assign dmem_reqstream_msg_addr = alu_result_X;

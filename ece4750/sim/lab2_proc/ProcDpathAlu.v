@@ -24,8 +24,13 @@ module lab2_proc_ProcDpathAlu
       // Added ALU Function
       4'd1    : out = in0 - in1;                                // SUB
       4'd2    : out = in0 & in1;                                // AND
-
-      
+      4'd3    : out = in0 | in1;                                // OR
+      4'd4    : out = in0 ^ in1;                                // XOR
+      4'd5    : out = $signed(in0) < $signed(in1);                   // SLT
+      4'd6    : out = in0 < in1;                                     // SLTU
+      4'd7    : out = $signed(in0) >>> $signed(in1);                                  // SRA
+      4'd8    : out = in0 >> in1;                                  // SRL
+      4'd9    : out = in0 << in1;                                  // SLL
       default : out = 32'b0;
     endcase
 
