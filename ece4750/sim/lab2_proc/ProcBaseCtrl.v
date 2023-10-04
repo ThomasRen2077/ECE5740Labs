@@ -375,6 +375,11 @@ module lab2_proc_ProcBaseCtrl
       `TINYRV2_INST_SRL     :cs( y, br_na,  imm_x, y, bm_rf,  y, alu_srl,  nr, wm_a, y,  n,   n    );
       `TINYRV2_INST_SLL     :cs( y, br_na,  imm_x, y, bm_rf,  y, alu_sll,  nr, wm_a, y,  n,   n    );
 
+      //Reg-Imm Instruction
+      `TINYRV2_INST_LUI     :cs( y, br_na,  imm_u, y, bm_imm, n, alu_cp1,  nr, wm_a, y,  n,   n    );
+      // `TINYRV2_INST_AUIPC   :cs( y, br_na,  imm_u, n, bm_imm, n, alu_add,  nr, wm_a, y,  n,   n    );
+
+
       default               :cs( n, br_x,  imm_x, n, bm_x,    n, alu_x,    nr, wm_x, n,  n,   n    );
 
     endcase
