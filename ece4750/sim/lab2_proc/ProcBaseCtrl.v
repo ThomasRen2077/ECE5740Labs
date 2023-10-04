@@ -380,11 +380,6 @@ module lab2_proc_ProcBaseCtrl
       `TINYRV2_INST_ADD     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_add, nr, wm_a, y,  n,   n    );
       `TINYRV2_INST_LW      :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_add, ld, wm_m, y,  n,   n    );
       `TINYRV2_INST_BNE     :cs( y, br_bne, imm_b,  am_rf,   y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
-      `TINYRV2_INST_BEQ     :cs( y, br_beq, imm_b, y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
-      `TINYRV2_INST_BLT     :cs( y, br_blt, imm_b, y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
-      `TINYRV2_INST_BLTU     :cs( y, br_bltu, imm_b, y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
-      `TINYRV2_INST_BGE     :cs( y, br_bge, imm_b, y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
-      `TINYRV2_INST_BGEU     :cs( y, br_bgeu, imm_b, y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
       `TINYRV2_INST_CSRR    :cs( y, br_na,  imm_i,  am_x,    n, bm_csr, n, alu_cp1, nr, wm_a, y,  y,   n    );
       `TINYRV2_INST_CSRW    :cs( y, br_na,  imm_i,  am_rf,   y, bm_rf,  n, alu_cp0, nr, wm_a, n,  n,   y    );
 
@@ -413,8 +408,14 @@ module lab2_proc_ProcBaseCtrl
       `TINYRV2_INST_AUIPC   :cs( y, br_na,  imm_u,  am_pc,   n, bm_imm, n, alu_add,  nr, wm_a, y,  n,   n    );
 
       //Jump Instruction
-      `TINYRV2_INST_AUIPC   :cs( y, br_jal, imm_x,  am_pc,   n, bm_x,   n, alu_cp0,  nr, wm_a, y,  n,   n    );
+      // `TINYRV2_INST_JAL   :cs( y, br_jal, imm_x,  am_pc,   n, bm_x,   n, alu_cp0,  nr, wm_a, y,  n,   n    );
   
+      //Branch Instruction
+      `TINYRV2_INST_BEQ     :cs( y, br_beq,  imm_b, am_rf,   y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
+      `TINYRV2_INST_BLT     :cs( y, br_blt,  imm_b, am_rf,   y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
+      `TINYRV2_INST_BLTU    :cs( y, br_bltu, imm_b, am_rf,   y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
+      `TINYRV2_INST_BGE     :cs( y, br_bge,  imm_b, am_rf,   y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
+      `TINYRV2_INST_BGEU    :cs( y, br_bgeu, imm_b, am_rf,   y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
 
       
 
