@@ -226,6 +226,11 @@ module lab2_proc_ProcBase
   // status signals (dpath->ctrl)
   logic [31:0] inst_D;
   logic        br_cond_eq_X;
+  logic        br_cond_lt_X;
+  logic        br_cond_ltu_X;
+  logic        br_cond_ge_X;
+  logic        br_cond_geu_X;
+
 
 
 
