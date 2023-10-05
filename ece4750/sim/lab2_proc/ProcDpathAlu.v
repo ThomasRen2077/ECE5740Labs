@@ -11,10 +11,7 @@ module lab2_proc_ProcDpathAlu
   output logic [31:0] out,
   output logic        ops_eq,
   output logic        ops_lt,
-  output logic        ops_ltu,
-  output logic        ops_ge,
-  output logic        ops_geu
-
+  output logic        ops_ltu
 );
 
   always_comb begin
@@ -55,12 +52,6 @@ module lab2_proc_ProcDpathAlu
 
   // Calculate unsigned less than flags
   assign ops_ltu = in0 < in1;
-
-  // Calculate signed greater equal flags
-  assign ops_ge = $signed(in0) >= $signed(in1);
-
-  // Calculate unsigned greater equal flags
-  assign ops_geu = in0 >= in1;
 
 endmodule
 

@@ -14,7 +14,6 @@
 `include "tinyrv2_encoding.v"
 `include "ProcDpathImmGen.v"
 `include "ProcDpathAlu.v"
-`include "lab1_imul/IntMulAlt.v"
 
 
 
@@ -27,19 +26,22 @@ module lab2_proc_ProcBaseDpath
   input  logic         reset,
 
   // Instruction Memory Port
-
   output logic [31:0]  imem_reqstream_msg_addr,
   input  mem_resp_4B_t imem_respstream_msg,
 
   // Data Memory Port
-
-  output logic [31:0]  dmem_reqstream_msg_addr,
-  input  logic [31:0]  dmem_respstream_msg_data,
+  output logic [31:0]  dmem_reqstream_msg_addr,   // Address of data
+  output logic [31:0]  dmem_reqstream_msg_data,   // Data sent to memory
+  input  logic [31:0]  dmem_respstream_msg_data,  // Data received from memory
 
   // mngr communication ports
-
   input  logic [31:0]  mngr2proc_data,
   output logic [31:0]  proc2mngr_data,
+
+  // Multiplier Port
+  output logic [63:0]  IntMulAlt_reqstream_msg,   // Data sent to multiplier
+  input  logic [31:0]  IntMulAlt_respstream_msg,  // Data received from multiplier
+
 
   // control signals (ctrl->dpath)
 
@@ -59,6 +61,8 @@ module lab2_proc_ProcBaseDpath
 
   input  logic         reg_en_X,
   input  logic [3:0]   alu_fn_X,
+ //add ex_result_sel Mux signal 
+  input  logic         ex_result_sel_X,
 
   input  logic         reg_en_M,
   input  logic         wb_result_sel_M,
@@ -74,8 +78,6 @@ module lab2_proc_ProcBaseDpath
   output logic         br_cond_eq_X,
   output logic         br_cond_lt_X,
   output logic         br_cond_ltu_X,
-  output logic         br_cond_ge_X,
-  output logic         br_cond_geu_X,
 
   // extra ports
 
@@ -188,13 +190,9 @@ module lab2_proc_ProcBaseDpath
     .wr_data  (rf_wdata_W)
   );
 
-// Add op1_data
-  logic [31:0] op1_D;
-
+  logic [31:0] op1_D;  
   logic [31:0] op2_D;
-
   logic [31:0] csrr_data_D;
-
   logic [31:0] num_cores;
   assign num_cores = p_num_cores;
 
@@ -228,6 +226,8 @@ module lab2_proc_ProcBaseDpath
     .sel  (op2_sel_D),
     .out  (op2_D)
   );
+
+  assign IntMulAlt_reqstream_msg = {op1_D, op2_D};
 
   vc_Adder#(32) pc_plus_imm_D
   (
@@ -272,9 +272,20 @@ module lab2_proc_ProcBaseDpath
     .q     (br_target_X)
   );
 
+  logic [31:0] rf_rdata1_X;
+  vc_EnResetReg#(32, 0) dmem_write_data_reg_X
+  (
+    .clk   (clk),
+    .reset (reset),
+    .en    (reg_en_X),
+    .d     (rf_rdata1_D),
+    .q     (rf_rdata1_X)
+  );
+  assign dmem_reqstream_msg_data = rf_rdata1_X;
+
+
   logic [31:0] alu_result_X;
   logic [31:0] ex_result_X;
-
   lab2_proc_ProcDpathAlu alu
   (
     .in0      (op1_X),
@@ -283,15 +294,18 @@ module lab2_proc_ProcBaseDpath
     .out      (alu_result_X),
     .ops_eq   (br_cond_eq_X),
     .ops_lt   (br_cond_lt_X),
-    .ops_ltu  (br_cond_ltu_X),
-    .ops_ge   (br_cond_ge_X),
-    .ops_geu  (br_cond_geu_X)
+    .ops_ltu  (br_cond_ltu_X)
+  );
+  assign dmem_reqstream_msg_addr = alu_result_X; 
+
+  vc_Mux2#(32) ex_result_sel_mux_X
+  (
+    .in0  (alu_result_X),
+    .in1  (IntMulAlt_respstream_msg),
+    .sel  (ex_result_sel_X),
+    .out  (ex_result_X)
   );
 
-// Needs to be modified
-  assign ex_result_X = alu_result_X;
-
-  assign dmem_reqstream_msg_addr = alu_result_X;
 
 
   logic [31:0] mul_result_X;
@@ -308,7 +322,7 @@ module lab2_proc_ProcBaseDpath
     .clk    (clk),
     .reset  (reset),
     .en     (reg_en_M),
-    .d      (ex_result_X),
+    .d      (ex_result_X),   
     .q      (ex_result_M)
   );
 

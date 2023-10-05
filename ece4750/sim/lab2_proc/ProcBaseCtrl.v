@@ -14,8 +14,6 @@ module lab2_proc_ProcBaseCtrl
   input  logic        reset,
 
 
-
-
   // Instruction Memory Port
   output logic        imem_reqstream_val,
   input  logic        imem_reqstream_rdy,
@@ -24,14 +22,12 @@ module lab2_proc_ProcBaseCtrl
   output logic        imem_respstream_drop,
 
 
-
   // Data Memory Port
   output logic        dmem_reqstream_val,
   input  logic        dmem_reqstream_rdy,
   input  logic        dmem_respstream_val,
   output logic        dmem_respstream_rdy,
-
-
+  output logic [2:0]  dmem_reqstream_msg_type,
 
 
   // mngr communication port
@@ -40,27 +36,27 @@ module lab2_proc_ProcBaseCtrl
   output logic        proc2mngr_val,
   input  logic        proc2mngr_rdy,
 
+  // multiplier communication port
+  output logic        IntMulAlt_reqstream_val,
+  input  logic        IntMulAlt_reqstream_rdy,
+  input  logic        IntMulAlt_respstream_val,
+  output logic        IntMulAlt_respstream_rdy,
 
 
 
   // control signals (ctrl->dpath)
   output logic        reg_en_F,
   output logic [1:0]  pc_sel_F,
-
   output logic        reg_en_D,
-  // Add op1_sel Mux signal
-  output logic        op1_sel_D,
-
+  output logic        op1_sel_D,  // op1_sel Mux signal
   output logic [1:0]  op2_sel_D,
   output logic [1:0]  csrr_sel_D,
   output logic [2:0]  imm_type_D,
-
   output logic        reg_en_X,
   output logic [3:0]  alu_fn_X,
-
+  output logic        ex_result_sel_X,
   output logic        reg_en_M,
   output logic        wb_result_sel_M,
-
   output logic        reg_en_W,
   output logic [4:0]  rf_waddr_W,
   output logic        rf_wen_W,
@@ -73,8 +69,6 @@ module lab2_proc_ProcBaseCtrl
   input  logic        br_cond_eq_X,
   input  logic        br_cond_lt_X,
   input  logic        br_cond_ltu_X,
-  input  logic        br_cond_ge_X,
-  input  logic        br_cond_geu_X,
 
 
   // extra ports
@@ -181,7 +175,7 @@ module lab2_proc_ProcBaseCtrl
     if ( pc_redirect_X )   // If a branch is taken in X stage
       pc_sel_F = pc_sel_X; // Use pc from X
     else
-      pc_sel_F = 2'b0;     // Use pc+4
+      pc_sel_F = 2'b0;     // Use pc + 4
   end
 
   // ostall due to the imem response not valid.
@@ -246,27 +240,28 @@ module lab2_proc_ProcBaseCtrl
     .csr      (inst_csr_D)
   );
 
-  // Generic Parameters -- yes or no
 
+  // Generic Parameters -- yes or no
   localparam n = 1'd0;
   localparam y = 1'd1;
 
-  // Register specifiers
 
+  // Register specifiers
   localparam rx = 5'bx;   // don't care
   localparam r0 = 5'd0;   // zero
   localparam rL = 5'd31;  // for jal
 
-  // Branch type
 
-  localparam br_x     = 3'bx; // Don't care
-  localparam br_na    = 3'b0; // No branch
-  localparam br_bne   = 3'b1; // bne
-  localparam br_beq   = 3'd2; // bne
-  localparam br_blt   = 3'd3; // bne
-  localparam br_bltu   = 3'd4; // bne
-  localparam br_bge   = 3'd5; // bne
-  localparam br_bgeu   = 3'd6; // bne
+  // Branch type
+  localparam br_x      = 3'bx; // Don't care
+  localparam br_na     = 3'b0; // No branch
+  localparam br_bne    = 3'b1; // bne
+  localparam br_beq    = 3'd2; // beq
+  localparam br_blt    = 3'd3; // blt
+  localparam br_bltu   = 3'd4; // bltu
+  localparam br_bge    = 3'd5; // bge
+  localparam br_bgeu   = 3'd6; // bgeu
+
 
   // Operand 0 Mux Select 
   localparam am_x     = 1'bx; // Don't care
@@ -275,27 +270,26 @@ module lab2_proc_ProcBaseCtrl
 
 
   // Operand 1 Mux Select
-
   localparam bm_x     = 2'bx; // Don't care
   localparam bm_rf    = 2'd0; // Use data from register file
   localparam bm_imm   = 2'd1; // Use sign-extended immediate
   localparam bm_csr   = 2'd2; // Use from mngr data
 
-  // ALU Function
 
-  localparam alu_x    = 4'bx;
-  localparam alu_add  = 4'd0;
-  localparam alu_sub  = 4'd1;
-  localparam alu_and  = 4'd2;
-  localparam alu_or  = 4'd3;
-  localparam alu_xor  = 4'd4;
-  localparam alu_slt  = 4'd5;
+  // ALU Function
+  localparam alu_x     = 4'bx;
+  localparam alu_add   = 4'd0;
+  localparam alu_sub   = 4'd1;
+  localparam alu_and   = 4'd2;
+  localparam alu_or    = 4'd3;
+  localparam alu_xor   = 4'd4;
+  localparam alu_slt   = 4'd5;
   localparam alu_sltu  = 4'd6;
-  localparam alu_sra  = 4'd7;
-  localparam alu_srl  = 4'd8;
-  localparam alu_sll  = 4'd9;
-  localparam alu_cp0  = 4'd11;
-  localparam alu_cp1  = 4'd12;
+  localparam alu_sra   = 4'd7;
+  localparam alu_srl   = 4'd8;
+  localparam alu_sll   = 4'd9;
+  localparam alu_cp0   = 4'd11;
+  localparam alu_cp1   = 4'd12;
 
 
   // Immediate Type
@@ -306,26 +300,31 @@ module lab2_proc_ProcBaseCtrl
   localparam imm_u    = 3'd3;
   localparam imm_j    = 3'd4;
   localparam imm_iv    = 3'd5;
+  
+  //ex_result Mux Select
+  localparam a_alu    = 1'b0;
+  localparam a_mul    = 1'b1;
+
 
   // Memory Request Type
-
   localparam nr       = 2'd0; // No request
   localparam ld       = 2'd1; // Load
   localparam st       = 2'd2; // Store
 
-  // Writeback Mux Select
 
+  // Writeback Mux Select
   localparam wm_x     = 1'bx; // Don't care
   localparam wm_a     = 1'b0; // Use ALU output
   localparam wm_m     = 1'b1; // Use data memory response
 
-  // Instruction Decode
 
+  // Instruction Decode
   logic       inst_val_D;
   logic [2:0] br_type_D;
   logic       rs1_en_D;
   logic       rs2_en_D;
   logic [3:0] alu_fn_D;
+  logic       ex_result_sel_D;
   logic [1:0] dmem_reqstream_type_D;
   logic       wb_result_sel_D;
   logic       rf_wen_D;
@@ -334,6 +333,8 @@ module lab2_proc_ProcBaseCtrl
   logic       proc2mngr_val_D;
   logic       mngr2proc_rdy_D;
   logic       stats_en_wen_D;
+
+
 
   task cs
   (
@@ -345,6 +346,7 @@ module lab2_proc_ProcBaseCtrl
     input logic [1:0] cs_op2_sel,
     input logic       cs_rs2_en,
     input logic [3:0] cs_alu_fn,
+    input logic       cs_ex_result_sel,
     input logic [1:0] cs_dmem_reqstream_type,
     input logic       cs_wb_result_sel,
     input logic       cs_rf_wen,
@@ -360,6 +362,7 @@ module lab2_proc_ProcBaseCtrl
     op2_sel_D             = cs_op2_sel;
     rs2_en_D              = cs_rs2_en;
     alu_fn_D              = cs_alu_fn;
+    ex_result_sel_D       = cs_ex_result_sel;
     dmem_reqstream_type_D = cs_dmem_reqstream_type;
     wb_result_sel_D       = cs_wb_result_sel;
     rf_wen_D              = cs_rf_wen;
@@ -368,68 +371,71 @@ module lab2_proc_ProcBaseCtrl
   end
   endtask
 
+
+
   // Control signals table
-
   always_comb begin
-
     casez ( inst_D )
 
-      //                            br      imm     op1     rs1 op2    rs2 alu      dmm wbmux rf
-      //                       val  type    type    muxsel   en muxsel  en fn       typ sel   wen csrr csrw
-      `TINYRV2_INST_NOP     :cs( y, br_na,  imm_x,  am_x,    n, bm_x,   n, alu_x,   nr, wm_a, n,  n,   n    );
-      `TINYRV2_INST_ADD     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_add, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_LW      :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_add, ld, wm_m, y,  n,   n    );
-      `TINYRV2_INST_BNE     :cs( y, br_bne, imm_b,  am_rf,   y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
-      `TINYRV2_INST_CSRR    :cs( y, br_na,  imm_i,  am_x,    n, bm_csr, n, alu_cp1, nr, wm_a, y,  y,   n    );
-      `TINYRV2_INST_CSRW    :cs( y, br_na,  imm_i,  am_rf,   y, bm_rf,  n, alu_cp0, nr, wm_a, n,  n,   y    );
+      //                            br      imm     op1     rs1 op2    rs2 alu       ex_result dmm wbmux rf
+      //                       val  type    type    muxsel   en muxsel  en fn        muxsel    typ sel   wen csrr csrw
+      `TINYRV2_INST_NOP     :cs( y, br_na,  imm_x,  am_x,    n, bm_x,   n, alu_x,    a_alu,    nr, wm_a, n,  n,   n    );
+      `TINYRV2_INST_CSRR    :cs( y, br_na,  imm_i,  am_x,    n, bm_csr, n, alu_cp1,  a_alu,    nr, wm_a, y,  y,   n    );
+      `TINYRV2_INST_CSRW    :cs( y, br_na,  imm_i,  am_rf,   y, bm_rf,  n, alu_cp0,  a_alu,    nr, wm_a, n,  n,   y    );
 
       //Add Row to Control Signal
       //Reg-Reg Instruction
-      `TINYRV2_INST_SUB     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_sub,  nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_AND     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_and,  nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_OR      :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_or,   nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_XOR     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_xor,  nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SLT     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_slt,  nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SLTU    :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_sltu, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SRA     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_sra,  nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SRL     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_srl,  nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SLL     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_sll,  nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_ADD     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_add,  a_alu,    nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SUB     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_sub,  a_alu,    nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_MUL     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_x,    a_mul,    nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_AND     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_and,  a_alu,    nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_OR      :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_or,   a_alu,    nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_XOR     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_xor,  a_alu,    nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SLT     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_slt,  a_alu,    nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SLTU    :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_sltu, a_alu,    nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SRA     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_sra,  a_alu,    nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SRL     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_srl,  a_alu,    nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SLL     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_sll,  a_alu,    nr, wm_a, y,  n,   n    );
 
       //Reg-Imm Instruction
-      `TINYRV2_INST_ADDI    :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_add,  nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_ANDI    :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_and,  nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_ORI     :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_or,   nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_XORI    :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_xor,  nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SLTI    :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_slt,  nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SLTIU   :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_sltu, nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SRAI    :cs( y, br_na,  imm_iv, am_rf,   y, bm_imm, n, alu_sra,  nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SRLI    :cs( y, br_na,  imm_iv, am_rf,   y, bm_imm, n, alu_srl,  nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_SLLI    :cs( y, br_na,  imm_iv, am_rf,   y, bm_imm, n, alu_sll,  nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_LUI     :cs( y, br_na,  imm_u,  am_rf,   y, bm_imm, n, alu_cp1,  nr, wm_a, y,  n,   n    );
-      `TINYRV2_INST_AUIPC   :cs( y, br_na,  imm_u,  am_pc,   n, bm_imm, n, alu_add,  nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_ADDI    :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_add,  a_alu,    nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_ORI     :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_or,   a_alu,    nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_ANDI    :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_and,  a_alu,    nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_XORI    :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_xor,  a_alu,    nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SLTI    :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_slt,  a_alu,    nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SLTIU   :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_sltu, a_alu,    nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SRAI    :cs( y, br_na,  imm_iv, am_rf,   y, bm_imm, n, alu_sra,  a_alu,    nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SRLI    :cs( y, br_na,  imm_iv, am_rf,   y, bm_imm, n, alu_srl,  a_alu,    nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_SLLI    :cs( y, br_na,  imm_iv, am_rf,   y, bm_imm, n, alu_sll,  a_alu,    nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_LUI     :cs( y, br_na,  imm_u,  am_rf,   y, bm_imm, n, alu_cp1,  a_alu,    nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_AUIPC   :cs( y, br_na,  imm_u,  am_pc,   n, bm_imm, n, alu_add,  a_alu,    nr, wm_a, y,  n,   n    );
+
+      //Memory Instruction
+      `TINYRV2_INST_LW      :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_add,  a_alu,    ld, wm_m, y,  n,   n    );
+      `TINYRV2_INST_SW      :cs( y, br_na,  imm_s,  am_rf,   y, bm_imm, n, alu_add,  a_alu,    st, wm_x, n,  n,   n    );
 
       //Jump Instruction
-      `TINYRV2_INST_JAL     :cs( y, br_jal, imm_j,  am_pc,   n, bm_x,   n, alu_cp0,  nr, wm_a, y,  n,   n    );
-  
+      // `TINYRV2_INST_JAL     :cs( y, br_jal, imm_j,  am_pc,   n, bm_x,   n, alu_cp0,  nr, wm_a, y,  n,   n    );
+      // `TINYRV2_INST_JALR    :cs( y, br_jal, imm_j,  am_pc,   n, bm_x,   n, alu_cp0,  nr, wm_a, y,  n,   n    );
+
       //Branch Instruction
-      `TINYRV2_INST_BEQ     :cs( y, br_beq,  imm_b, am_rf,   y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
-      `TINYRV2_INST_BLT     :cs( y, br_blt,  imm_b, am_rf,   y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
-      `TINYRV2_INST_BLTU    :cs( y, br_bltu, imm_b, am_rf,   y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
-      `TINYRV2_INST_BGE     :cs( y, br_bge,  imm_b, am_rf,   y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
-      `TINYRV2_INST_BGEU    :cs( y, br_bgeu, imm_b, am_rf,   y, bm_rf,  y, alu_x,   nr, wm_a, n,  n,   n    );
-
-      
-
-      default               :cs( n, br_x,  imm_x,   am_x,    n, bm_x,    n, alu_x,    nr, wm_x, n,  n,   n    );
-
+      `TINYRV2_INST_BNE     :cs( y, br_bne,  imm_b, am_rf,   y,  bm_rf,  y, alu_x,   a_alu,    nr, wm_a, n,  n,   n    );
+      `TINYRV2_INST_BEQ     :cs( y, br_beq,  imm_b, am_rf,   y,  bm_rf,  y, alu_x,   a_alu,    nr, wm_a, n,  n,   n    );
+      `TINYRV2_INST_BLT     :cs( y, br_blt,  imm_b, am_rf,   y,  bm_rf,  y, alu_x,   a_alu,    nr, wm_a, n,  n,   n    );
+      `TINYRV2_INST_BLTU    :cs( y, br_bltu, imm_b, am_rf,   y,  bm_rf,  y, alu_x,   a_alu,    nr, wm_a, n,  n,   n    );
+      `TINYRV2_INST_BGE     :cs( y, br_bge,  imm_b, am_rf,   y,  bm_rf,  y, alu_x,   a_alu,    nr, wm_a, n,  n,   n    );
+      `TINYRV2_INST_BGEU    :cs( y, br_bgeu, imm_b, am_rf,   y,  bm_rf,  y, alu_x,   a_alu,    nr, wm_a, n,  n,   n    );
+     
+      default               :cs( n, br_x,  imm_x,   am_x,    n,  bm_x,   n, alu_x,   a_alu,    nr, wm_x, n,  n,   n    );
     endcase
-  end // always_comb
+  end
+
 
   logic [4:0] rf_waddr_D;
   assign rf_waddr_D = inst_rd_D;
 
-  // csrr and csrw logic
 
+  // csrr and csrw logic
   always_comb begin
     proc2mngr_val_D  = 1'b0;
     mngr2proc_rdy_D  = 1'b0;
@@ -448,77 +454,84 @@ module lab2_proc_ProcBaseCtrl
       csrr_sel_D       = 2'h2;
   end
 
-  // mngr2proc_rdy signal for csrr instruction
 
+  // mngr2proc_rdy signal for csrr instruction
   assign mngr2proc_rdy = val_D && !stall_D && mngr2proc_rdy_D;
 
   logic  ostall_mngr2proc_D;
   assign ostall_mngr2proc_D = val_D && mngr2proc_rdy_D && !mngr2proc_val;
 
-  // ostall if write address in X matches rs1 in D
+  // set IntMulAlt_reqstream_val only if not stalling
+  assign IntMulAlt_reqstream_val = val_D && !stall_D && (ex_result_sel_D == a_mul);
 
+  // ostall if multiplier is not ready and current instruction is mul
+  logic  ostall_IntMulAlt_D;
+  assign ostall_IntMulAlt_D = val_D && !IntMulAlt_reqstream_rdy;
+
+
+  // ostall if write address in X matches rs1 in D
   logic  ostall_waddr_X_rs1_D;
   assign ostall_waddr_X_rs1_D
     = rs1_en_D && val_X && rf_wen_X
       && ( inst_rs1_D == rf_waddr_X ) && ( rf_waddr_X != 5'd0 );
 
-  // ostall if write address in M matches rs1 in D
 
+  // ostall if write address in M matches rs1 in D
   logic  ostall_waddr_M_rs1_D;
   assign ostall_waddr_M_rs1_D
     = rs1_en_D && val_M && rf_wen_M
       && ( inst_rs1_D == rf_waddr_M ) && ( rf_waddr_M != 5'd0 );
 
-  // ostall if write address in W matches rs1 in D
 
+  // ostall if write address in W matches rs1 in D
   logic  ostall_waddr_W_rs1_D;
   assign ostall_waddr_W_rs1_D
     = rs1_en_D && val_W && rf_wen_W
       && ( inst_rs1_D == rf_waddr_W ) && ( rf_waddr_W != 5'd0 );
 
-  // ostall if write address in X matches rs2 in D
 
+  // ostall if write address in X matches rs2 in D
   logic  ostall_waddr_X_rs2_D;
   assign ostall_waddr_X_rs2_D
     = rs2_en_D && val_X && rf_wen_X
       && ( inst_rs2_D == rf_waddr_X ) && ( rf_waddr_X != 5'd0 );
 
-  // ostall if write address in M matches rs2 in D
 
+  // ostall if write address in M matches rs2 in D
   logic  ostall_waddr_M_rs2_D;
   assign ostall_waddr_M_rs2_D
     = rs2_en_D && val_M && rf_wen_M
       && ( inst_rs2_D == rf_waddr_M ) && ( rf_waddr_M != 5'd0 );
 
-  // ostall if write address in W matches rs2 in D
 
+  // ostall if write address in W matches rs2 in D
   logic  ostall_waddr_W_rs2_D;
   assign ostall_waddr_W_rs2_D
     = rs2_en_D && val_W && rf_wen_W
       && ( inst_rs2_D == rf_waddr_W ) && ( rf_waddr_W != 5'd0 );
 
-  // Put together ostall signal due to hazards
 
+  // Put together ostall signal due to hazards
   logic  ostall_hazard_D;
   assign ostall_hazard_D =
       ostall_waddr_X_rs1_D || ostall_waddr_M_rs1_D || ostall_waddr_W_rs1_D ||
       ostall_waddr_X_rs2_D || ostall_waddr_M_rs2_D || ostall_waddr_W_rs2_D;
 
-  // Final ostall signal
 
-  assign ostall_D = val_D && ( ostall_mngr2proc_D || ostall_hazard_D );
+  // Final ostall signal
+  assign ostall_D = val_D && ( ostall_mngr2proc_D || ostall_IntMulAlt_D || ostall_hazard_D );
+
 
   // osquash due to jump instruction in D stage (not implemented yet)
-
   assign osquash_D = 1'b0;
 
-  // stall and squash in D
 
+  // stall and squash in D
   assign stall_D  = val_D && ( ostall_D || ostall_X || ostall_M || ostall_W );
   assign squash_D = val_D && osquash_X;
 
-  // Valid signal for the next stage
 
+  // Valid signal for the next stage
   logic  next_val_D;
   assign next_val_D = val_D && !stall_D && !squash_D;
 
@@ -550,6 +563,7 @@ module lab2_proc_ProcBaseCtrl
       rf_wen_X              <= rf_wen_D;
       inst_X                <= inst_D;
       alu_fn_X              <= alu_fn_D;
+      ex_result_sel_X       <= ex_result_sel_D;
       rf_waddr_X            <= rf_waddr_D;
       proc2mngr_val_X       <= proc2mngr_val_D;
       dmem_reqstream_type_X <= dmem_reqstream_type_D;
@@ -567,23 +581,23 @@ module lab2_proc_ProcBaseCtrl
     end
     else if ( val_X && ( br_type_X == br_beq ) ) begin
       pc_redirect_X = br_cond_eq_X;
-      pc_sel_X      = 2'b1; // use branch target
+      pc_sel_X      = 2'b1; 
     end
     else if ( val_X && ( br_type_X == br_blt ) ) begin
       pc_redirect_X = br_cond_lt_X;
-      pc_sel_X      = 2'b1; // use branch target
+      pc_sel_X      = 2'b1; 
     end
     else if ( val_X && ( br_type_X == br_bltu ) ) begin
       pc_redirect_X = br_cond_ltu_X;
-      pc_sel_X      = 2'b1; // use branch target
+      pc_sel_X      = 2'b1; 
     end
     else if ( val_X && ( br_type_X == br_bge ) ) begin
-      pc_redirect_X = br_cond_ge_X;
-      pc_sel_X      = 2'b1; // use branch target
+      pc_redirect_X = !br_cond_lt_X;
+      pc_sel_X      = 2'b1; 
     end
     else if ( val_X && ( br_type_X == br_bgeu ) ) begin
-      pc_redirect_X = br_cond_geu_X;
-      pc_sel_X      = 2'b1; // use branch target
+      pc_redirect_X = !br_cond_ltu_X;
+      pc_sel_X      = 2'b1; 
     end
     else begin
       pc_redirect_X = 1'b0;
@@ -591,32 +605,39 @@ module lab2_proc_ProcBaseCtrl
     end
   end
 
-  always_comb begin
-    if ( val_D && ( br_type_X == jal ) ) begin
-      pc_redirect_X = br_cond_geu_X;
-      pc_sel_X      = 2'b1; // use branch target
-    end
-  end
+  // set IntMulAlt_respstream_rdy only if not stalling
+  assign IntMulAlt_respstream_rdy = !stall_X;
 
   // ostall due to dmem_reqstream not ready.
+  logic ostall_dmem_reqstream_X;
+  assign ostall_dmem_reqstream_X = (val_X && ( dmem_reqstream_type_X != nr ) && !dmem_reqstream_rdy);
 
-  assign ostall_X = val_X && ( dmem_reqstream_type_X != nr ) && !dmem_reqstream_rdy;
+  // ostall due to IntMulAlt_respstream not valid and current instruction is mul
+  logic ostall_IntMulAlt_X;
+  assign ostall_IntMulAlt_X = val_X && !IntMulAlt_respstream_val && (ex_result_sel_X == a_mul);
+
+  // Final ostall signal
+  assign ostall_X = ostall_dmem_reqstream_X || ostall_IntMulAlt_X;
 
   // osquash due to taken branch, notice we can't osquash if current
   // stage stalls, otherwise we will send osquash twice.
-
   assign osquash_X = val_X && !stall_X && pc_redirect_X;
 
   // stall and squash used in X stage
-
   assign stall_X = val_X && ( ostall_X || ostall_M || ostall_W );
 
   // set dmem_reqstream_val only if not stalling
-
   assign dmem_reqstream_val = val_X && !stall_X && ( dmem_reqstream_type_X != nr );
 
-  // Valid signal for the next stage
+  // set dmem_reqstream_msg_type
+    always_comb begin
+      if(dmem_reqstream_type_X == st)  dmem_reqstream_msg_type = `VC_MEM_REQ_MSG_TYPE_WRITE;
+      else  dmem_reqstream_msg_type = `VC_MEM_REQ_MSG_TYPE_READ;
+    end
 
+
+
+  // Valid signal for the next stage
   logic  next_val_X;
   assign next_val_X = val_X && !stall_X;
 
