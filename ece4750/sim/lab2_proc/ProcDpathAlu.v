@@ -31,6 +31,7 @@ module lab2_proc_ProcDpathAlu
       4'd7    : out = $signed(in0) >>> $signed(in1);                        // SRA
       4'd8    : out = in0 >> in1;                                           // SRL
       4'd9    : out = in0 << in1;                                           // SLL
+      4'd10   : out = (in0 + in1) & 32'hfffffffe;                             // PC_ADD
       default : out = 32'b0;
     endcase
 

@@ -54,7 +54,7 @@ module lab2_proc_ProcBaseCtrl
   output logic [2:0]  imm_type_D,
   output logic        reg_en_X,
   output logic [3:0]  alu_fn_X,
-  output logic        ex_result_sel_X,
+  output logic [1:0]  ex_result_sel_X,
   output logic        reg_en_M,
   output logic        wb_result_sel_M,
   output logic        reg_en_W,
@@ -167,15 +167,19 @@ module lab2_proc_ProcBaseCtrl
   // forward declaration for PC sel
 
   logic       pc_redirect_X;
+  logic       pc_redirect_D;
+  logic [1:0] pc_sel_D;
   logic [1:0] pc_sel_X;
 
   // PC select logic
 
   always_comb begin
-    if ( pc_redirect_X )   // If a branch is taken in X stage
-      pc_sel_F = pc_sel_X; // Use pc from X
+    if ( pc_redirect_D )          // If pc jumps in D stage
+      pc_sel_F = pc_sel_D;        // Use pc from D
+    else if ( pc_redirect_X )     // If a branch is taken in X stage
+      pc_sel_F = pc_sel_X;        // Use pc from X
     else
-      pc_sel_F = 2'b0;     // Use pc + 4
+      pc_sel_F = 2'b0;            // Use pc + 4
   end
 
   // ostall due to the imem response not valid.
@@ -253,14 +257,18 @@ module lab2_proc_ProcBaseCtrl
 
 
   // Branch type
-  localparam br_x      = 3'bx; // Don't care
-  localparam br_na     = 3'b0; // No branch
-  localparam br_bne    = 3'b1; // bne
-  localparam br_beq    = 3'd2; // beq
-  localparam br_blt    = 3'd3; // blt
-  localparam br_bltu   = 3'd4; // bltu
-  localparam br_bge    = 3'd5; // bge
-  localparam br_bgeu   = 3'd6; // bgeu
+  localparam br_x      = 4'bx; // Don't care
+  localparam br_na     = 4'b0; // No branch
+  localparam br_bne    = 4'b1; // bne
+  localparam br_beq    = 4'd2; // beq
+  localparam br_blt    = 4'd3; // blt
+  localparam br_bltu   = 4'd4; // bltu
+  localparam br_bge    = 4'd5; // bge
+  localparam br_bgeu   = 4'd6; // bgeu
+  localparam jal       = 4'd7; // jal
+  localparam jalr      = 4'd8; // jalr
+
+
 
 
   // Operand 0 Mux Select 
@@ -277,19 +285,21 @@ module lab2_proc_ProcBaseCtrl
 
 
   // ALU Function
-  localparam alu_x     = 4'bx;
-  localparam alu_add   = 4'd0;
-  localparam alu_sub   = 4'd1;
-  localparam alu_and   = 4'd2;
-  localparam alu_or    = 4'd3;
-  localparam alu_xor   = 4'd4;
-  localparam alu_slt   = 4'd5;
-  localparam alu_sltu  = 4'd6;
-  localparam alu_sra   = 4'd7;
-  localparam alu_srl   = 4'd8;
-  localparam alu_sll   = 4'd9;
-  localparam alu_cp0   = 4'd11;
-  localparam alu_cp1   = 4'd12;
+  localparam alu_x        = 4'bx;
+  localparam alu_add      = 4'd0;
+  localparam alu_sub      = 4'd1;
+  localparam alu_and      = 4'd2;
+  localparam alu_or       = 4'd3;
+  localparam alu_xor      = 4'd4;
+  localparam alu_slt      = 4'd5;
+  localparam alu_sltu     = 4'd6;
+  localparam alu_sra      = 4'd7;
+  localparam alu_srl      = 4'd8;
+  localparam alu_sll      = 4'd9;
+  localparam alu_pc_add   = 4'd10;
+  localparam alu_cp0      = 4'd11;
+  localparam alu_cp1      = 4'd12;
+
 
 
   // Immediate Type
@@ -302,8 +312,10 @@ module lab2_proc_ProcBaseCtrl
   localparam imm_iv    = 3'd5;
   
   //ex_result Mux Select
-  localparam a_alu    = 1'b0;
-  localparam a_mul    = 1'b1;
+  localparam a_alu    = 2'd0;
+  localparam a_mul    = 2'd1;
+  localparam a_pc     = 2'd2;
+
 
 
   // Memory Request Type
@@ -320,11 +332,11 @@ module lab2_proc_ProcBaseCtrl
 
   // Instruction Decode
   logic       inst_val_D;
-  logic [2:0] br_type_D;
+  logic [3:0] br_type_D;
   logic       rs1_en_D;
   logic       rs2_en_D;
   logic [3:0] alu_fn_D;
-  logic       ex_result_sel_D;
+  logic [1:0] ex_result_sel_D;
   logic [1:0] dmem_reqstream_type_D;
   logic       wb_result_sel_D;
   logic       rf_wen_D;
@@ -339,14 +351,14 @@ module lab2_proc_ProcBaseCtrl
   task cs
   (
     input logic       cs_inst_val,
-    input logic [2:0] cs_br_type,
+    input logic [3:0] cs_br_type,
     input logic [2:0] cs_imm_type,
     input logic       cs_op1_sel,
     input logic       cs_rs1_en,
     input logic [1:0] cs_op2_sel,
     input logic       cs_rs2_en,
     input logic [3:0] cs_alu_fn,
-    input logic       cs_ex_result_sel,
+    input logic [1:0] cs_ex_result_sel,
     input logic [1:0] cs_dmem_reqstream_type,
     input logic       cs_wb_result_sel,
     input logic       cs_rf_wen,
@@ -415,8 +427,8 @@ module lab2_proc_ProcBaseCtrl
       `TINYRV2_INST_SW      :cs( y, br_na,  imm_s,  am_rf,   y, bm_imm, n, alu_add,  a_alu,    st, wm_x, n,  n,   n    );
 
       //Jump Instruction
-      // `TINYRV2_INST_JAL     :cs( y, br_jal, imm_j,  am_pc,   n, bm_x,   n, alu_cp0,  nr, wm_a, y,  n,   n    );
-      // `TINYRV2_INST_JALR    :cs( y, br_jal, imm_j,  am_pc,   n, bm_x,   n, alu_cp0,  nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_JAL     :cs( y, jal,    imm_j,  am_x,    n, bm_x,   n, alu_x,    a_pc,     nr, wm_a, y,  n,   n    );
+      `TINYRV2_INST_JALR    :cs( y, jalr,   imm_i,  am_rf,   y, bm_imm, n, alu_pc_add,  a_pc,     nr, wm_a, y,  n,   n    );
 
       //Branch Instruction
       `TINYRV2_INST_BNE     :cs( y, br_bne,  imm_b, am_rf,   y,  bm_rf,  y, alu_x,   a_alu,    nr, wm_a, n,  n,   n    );
@@ -454,6 +466,16 @@ module lab2_proc_ProcBaseCtrl
       csrr_sel_D       = 2'h2;
   end
 
+  always_comb begin
+    if( val_D && ( br_type_D == jal ) ) begin
+      pc_redirect_D = 1'd1;
+      pc_sel_D = 2'd2;              // pc take jumps
+    end
+    else begin
+      pc_redirect_D = 1'd0;
+      pc_sel_D = 2'd0;
+    end
+  end
 
   // mngr2proc_rdy signal for csrr instruction
   assign mngr2proc_rdy = val_D && !stall_D && mngr2proc_rdy_D;
@@ -461,7 +483,7 @@ module lab2_proc_ProcBaseCtrl
   logic  ostall_mngr2proc_D;
   assign ostall_mngr2proc_D = val_D && mngr2proc_rdy_D && !mngr2proc_val;
 
-  // set IntMulAlt_reqstream_val only if not stalling
+  // set IntMulAlt_reqstream_val only if not stalling and current instruction is mul
   assign IntMulAlt_reqstream_val = val_D && !stall_D && (ex_result_sel_D == a_mul);
 
   // ostall if multiplier is not ready and current instruction is mul
@@ -550,7 +572,7 @@ module lab2_proc_ProcBaseCtrl
   logic [4:0]  rf_waddr_X;
   logic        proc2mngr_val_X;
   logic        stats_en_wen_X;
-  logic [2:0]  br_type_X;
+  logic [3:0]  br_type_X;
 
   // Pipeline registers
 
@@ -598,6 +620,10 @@ module lab2_proc_ProcBaseCtrl
     else if ( val_X && ( br_type_X == br_bgeu ) ) begin
       pc_redirect_X = !br_cond_ltu_X;
       pc_sel_X      = 2'b1; 
+    end
+    else if ( val_X && ( br_type_X == jalr) ) begin
+      pc_redirect_X = 1'b1;
+      pc_sel_X      = 2'd3; 
     end
     else begin
       pc_redirect_X = 1'b0;

@@ -62,7 +62,7 @@ module lab2_proc_ProcBaseDpath
   input  logic         reg_en_X,
   input  logic [3:0]   alu_fn_X,
  //add ex_result_sel Mux signal 
-  input  logic         ex_result_sel_X,
+  input  logic [1:0]   ex_result_sel_X,
 
   input  logic         reg_en_M,
   input  logic         wb_result_sel_M,
@@ -101,6 +101,7 @@ module lab2_proc_ProcBaseDpath
   logic [31:0] pc_plus4_F;
   logic [31:0] br_target_X;
   logic [31:0] jal_target_D;
+  logic [31:0] jalr_target_X;
 
   vc_EnResetReg#(32, c_reset_vector - 32'd4) pc_reg_F
   (
@@ -117,11 +118,12 @@ module lab2_proc_ProcBaseDpath
     .out  (pc_plus4_F)
   );
 
-  vc_Mux3#(32) pc_sel_mux_F
+  vc_Mux4#(32) pc_sel_mux_F
   (
     .in0  (pc_plus4_F),
     .in1  (br_target_X),
     .in2  (jal_target_D),
+    .in3  (jalr_target_X),
     .sel  (pc_sel_F),
     .out  (pc_next_F)
   );
@@ -244,6 +246,10 @@ module lab2_proc_ProcBaseDpath
 
   logic [31:0] op1_X;
   logic [31:0] op2_X;
+  logic [31:0] pc_X;
+  logic [31:0] pc_plus4_X;
+
+
 
   vc_EnResetReg#(32, 0) op1_reg_X
   (
@@ -272,6 +278,22 @@ module lab2_proc_ProcBaseDpath
     .q     (br_target_X)
   );
 
+  vc_EnResetReg#(32, 0) pc_reg_X
+  (
+    .clk   (clk),
+    .reset (reset),
+    .en    (reg_en_X),
+    .d     (pc_D),
+    .q     (pc_X)
+  );
+
+  vc_Incrementer#(32, 4) pc_incr_X
+  (
+    .in   (pc_X),
+    .out  (pc_plus4_X)
+  );
+
+
   logic [31:0] rf_rdata1_X;
   vc_EnResetReg#(32, 0) dmem_write_data_reg_X
   (
@@ -297,11 +319,13 @@ module lab2_proc_ProcBaseDpath
     .ops_ltu  (br_cond_ltu_X)
   );
   assign dmem_reqstream_msg_addr = alu_result_X; 
+  assign jalr_target_X = alu_result_X;
 
-  vc_Mux2#(32) ex_result_sel_mux_X
+  vc_Mux3#(32) ex_result_sel_mux_X
   (
     .in0  (alu_result_X),
     .in1  (IntMulAlt_respstream_msg),
+    .in2  (pc_plus4_X),
     .sel  (ex_result_sel_X),
     .out  (ex_result_X)
   );

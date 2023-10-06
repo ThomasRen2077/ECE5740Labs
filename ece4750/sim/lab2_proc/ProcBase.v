@@ -197,7 +197,7 @@ module lab2_proc_ProcBase
   logic [2:0]  imm_type_D;
   logic        reg_en_X;
   logic [3:0]  alu_fn_X;
-  logic        ex_result_sel_X;
+  logic [1:0]  ex_result_sel_X;
   logic        reg_en_M;
   logic        wb_result_sel_M;
   logic        reg_en_W;

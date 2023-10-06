@@ -28,7 +28,7 @@ module lab2_proc_ProcDpathImmGen
         imm = { inst[31:12], 12'b0 };
 
       3'd4: // J-type
-        imm = { inst[31:12], 12'b0 };
+        imm = { {21{inst[31]}}, inst[30:20] };
 
       3'd5: // I-type - variant 
         imm = { {27{1'b0}}, inst[24:20] };

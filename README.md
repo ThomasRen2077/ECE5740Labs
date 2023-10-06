@@ -16,13 +16,13 @@ Perform an evaluation comparing the two implementations.
 ## TinyRV2 instrcuctions
     CSR: csrr(done), csrw(done)
 
-    Reg-Reg: add(done), sub(done), mul(TO-DO), and(done), or(done), xor(done), slt(done), sltu(done), sra(done), srl(done), sll(done)
+    Reg-Reg: add(done), sub(done), mul(done), and(done), or(done), xor(done), slt(done), sltu(done), sra(done), srl(done), sll(done)
 
     Reg-Imm: addi(done), ori, andi(done), xori(done), slti(done), sltiu(done), srai(done), srli(done), slli(done), lui(done), auipc(done)
 
     Memory: lw(done), sw(done)
 
-    Jump: jal, jalr
+    Jump: jal(done), jalr(done)
 
     Branch: bne(done), beq(done), blt(done), bltu(done), bge(done), bgeu(done)
 
