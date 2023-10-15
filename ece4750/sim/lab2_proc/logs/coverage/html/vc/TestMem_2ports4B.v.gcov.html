@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-10-14 23:37:22</td>
+            <td class="headerValue">2023-10-15 16:15:57</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -122,11 +122,11 @@
 <a name="60"><span class="lineNum">      60 </span>            :   parameter c_resp_data_nbits    = p_data_nbits</a>
 <a name="61"><span class="lineNum">      61 </span>            :   ) </a>
 <a name="62"><span class="lineNum">      62 </span>            :   (</a>
-<a name="63"><span class="lineNum">      63 </span><span class="lineCov">       2307 :     output logic [c_resp_nbits-1:0] msg,</span></a>
+<a name="63"><span class="lineNum">      63 </span><span class="lineCov">       2273 :     output logic [c_resp_nbits-1:0] msg,</span></a>
 <a name="64"><span class="lineNum">      64 </span><span class="lineNoCov">          0 :     input logic [c_resp_type_nbits-1:0] type_ ,</span></a>
 <a name="65"><span class="lineNum">      65 </span><span class="lineNoCov">          0 :     input logic [c_resp_opaque_nbits-1:0] opaque ,</span></a>
 <a name="66"><span class="lineNum">      66 </span><span class="lineNoCov">          0 :     input logic [c_resp_len_nbits-1:0] len ,</span></a>
-<a name="67"><span class="lineNum">      67 </span><span class="lineCov">        873 :     input logic [c_resp_data_nbits-1:0] data ,</span></a>
+<a name="67"><span class="lineNum">      67 </span><span class="lineCov">        855 :     input logic [c_resp_data_nbits-1:0] data ,</span></a>
 <a name="68"><span class="lineNum">      68 </span><span class="lineNoCov">          0 :     input logic [1:0] test</span></a>
 <a name="69"><span class="lineNum">      69 </span>            :   );</a>
 <a name="70"><span class="lineNum">      70 </span>            :     typedef struct packed {</a>
@@ -192,7 +192,7 @@
 <a name="130"><span class="lineNum">     130 </span>            : </a>
 <a name="131"><span class="lineNum">     131 </span><span class="lineCov">       3458 :   output logic                    memresp1_val,</span></a>
 <a name="132"><span class="lineNum">     132 </span><span class="lineCov">       3780 :   input  logic                    memresp1_rdy,</span></a>
-<a name="133"><span class="lineNum">     133 </span><span class="lineCov">        832 :   output logic [c_resp_nbits-1:0] memresp1_msg</span></a>
+<a name="133"><span class="lineNum">     133 </span><span class="lineCov">        814 :   output logic [c_resp_nbits-1:0] memresp1_msg</span></a>
 <a name="134"><span class="lineNum">     134 </span>            : );</a>
 <a name="135"><span class="lineNum">     135 </span>            : </a>
 <a name="136"><span class="lineNum">     136 </span>            :   //----------------------------------------------------------------------</a>
@@ -403,15 +403,15 @@
 <a name="341"><span class="lineNum">     341 </span>            :     //   end</a>
 <a name="342"><span class="lineNum">     342 </span>            :     // end</a>
 <a name="343"><span class="lineNum">     343 </span><span class="lineCov">         82 :     for(wr_i=0; wr_i&lt;c_num_blocks;wr_i++)begin</span></a>
-<a name="344"><span class="lineNum">     344 </span><span class="lineCov">       4671 :         if(m[wr_i]!=0) begin</span></a>
-<a name="345"><span class="lineNum">     345 </span><span class="lineCov">       4671 :           data_data=m[wr_i];</span></a>
-<a name="346"><span class="lineNum">     346 </span><span class="lineCov">       4671 :           data_data= {{data_data[07:00]},</span></a>
-<a name="347"><span class="lineNum">     347 </span><span class="lineCov">       4671 :                        {data_data[15:08]},</span></a>
-<a name="348"><span class="lineNum">     348 </span><span class="lineCov">       4671 :                        {data_data[23:16]},</span></a>
-<a name="349"><span class="lineNum">     349 </span><span class="lineCov">       4671 :                        {data_data[31:24]}};</span></a>
-<a name="350"><span class="lineNum">     350 </span><span class="lineCov">       4671 :         ihex = $sformatf(&quot;%x:%x&quot;,{{wr_i,2'b0}[31:0]},data_data);</span></a>
-<a name="351"><span class="lineNum">     351 </span><span class="lineCov">       4671 :         $display(&quot;%s&quot;,ihex.toupper());</span></a>
-<a name="352"><span class="lineNum">     352 </span><span class="lineCov">       4671 :         $fdisplay(file_out,&quot;%s&quot;,ihex.toupper());</span></a>
+<a name="344"><span class="lineNum">     344 </span><span class="lineCov">       4596 :         if(m[wr_i]!=0) begin</span></a>
+<a name="345"><span class="lineNum">     345 </span><span class="lineCov">       4596 :           data_data=m[wr_i];</span></a>
+<a name="346"><span class="lineNum">     346 </span><span class="lineCov">       4596 :           data_data= {{data_data[07:00]},</span></a>
+<a name="347"><span class="lineNum">     347 </span><span class="lineCov">       4596 :                        {data_data[15:08]},</span></a>
+<a name="348"><span class="lineNum">     348 </span><span class="lineCov">       4596 :                        {data_data[23:16]},</span></a>
+<a name="349"><span class="lineNum">     349 </span><span class="lineCov">       4596 :                        {data_data[31:24]}};</span></a>
+<a name="350"><span class="lineNum">     350 </span><span class="lineCov">       4596 :         ihex = $sformatf(&quot;%x:%x&quot;,{{wr_i,2'b0}[31:0]},data_data);</span></a>
+<a name="351"><span class="lineNum">     351 </span><span class="lineCov">       4596 :         $display(&quot;%s&quot;,ihex.toupper());</span></a>
+<a name="352"><span class="lineNum">     352 </span><span class="lineCov">       4596 :         $fdisplay(file_out,&quot;%s&quot;,ihex.toupper());</span></a>
 <a name="353"><span class="lineNum">     353 </span>            :         end</a>
 <a name="354"><span class="lineNum">     354 </span>            :     end</a>
 <a name="355"><span class="lineNum">     355 </span>            :   end</a>
@@ -618,7 +618,7 @@
 <a name="556"><span class="lineNum">     556 </span>            :     .msg    (memresp0_msg_M)</a>
 <a name="557"><span class="lineNum">     557 </span>            :   );</a>
 <a name="558"><span class="lineNum">     558 </span>            : </a>
-<a name="559"><span class="lineNum">     559 </span><span class="lineCov">        838 :   logic [c_resp_nbits-1:0] memresp1_msg_M;</span></a>
+<a name="559"><span class="lineNum">     559 </span><span class="lineCov">        814 :   logic [c_resp_nbits-1:0] memresp1_msg_M;</span></a>
 <a name="560"><span class="lineNum">     560 </span>            : </a>
 <a name="561"><span class="lineNum">     561 </span>            :   vc_MemRespMsgPack#(o,a,d) memresp1_msg_pack</a>
 <a name="562"><span class="lineNum">     562 </span>            :   (</a>

@@ -325,7 +325,7 @@
           assign test   = msg.test;
 %000000   logic [1:0]   len;
           assign len    = msg.len;
- 002037   logic [31:0]  data;
+ 002167   logic [31:0]  data;
           assign data   = msg.data;
         
           // Short names

@@ -61,11 +61,11 @@
           parameter c_resp_data_nbits    = p_data_nbits
           ) 
           (
- 002307     output logic [c_resp_nbits-1:0] msg,
+ 002273     output logic [c_resp_nbits-1:0] msg,
 %000000     input logic [c_resp_type_nbits-1:0] type_ ,
 %000000     input logic [c_resp_opaque_nbits-1:0] opaque ,
 %000000     input logic [c_resp_len_nbits-1:0] len ,
- 000873     input logic [c_resp_data_nbits-1:0] data ,
+ 000855     input logic [c_resp_data_nbits-1:0] data ,
 %000000     input logic [1:0] test
           );
             typedef struct packed {
@@ -131,7 +131,7 @@
         
  003458   output logic                    memresp1_val,
  003780   input  logic                    memresp1_rdy,
- 000832   output logic [c_resp_nbits-1:0] memresp1_msg
+ 000814   output logic [c_resp_nbits-1:0] memresp1_msg
         );
         
           //----------------------------------------------------------------------
@@ -342,15 +342,15 @@
             //   end
             // end
  000082     for(wr_i=0; wr_i<c_num_blocks;wr_i++)begin
- 004671         if(m[wr_i]!=0) begin
- 004671           data_data=m[wr_i];
- 004671           data_data= {{data_data[07:00]},
- 004671                        {data_data[15:08]},
- 004671                        {data_data[23:16]},
- 004671                        {data_data[31:24]}};
- 004671         ihex = $sformatf("%x:%x",{{wr_i,2'b0}[31:0]},data_data);
- 004671         $display("%s",ihex.toupper());
- 004671         $fdisplay(file_out,"%s",ihex.toupper());
+ 004596         if(m[wr_i]!=0) begin
+ 004596           data_data=m[wr_i];
+ 004596           data_data= {{data_data[07:00]},
+ 004596                        {data_data[15:08]},
+ 004596                        {data_data[23:16]},
+ 004596                        {data_data[31:24]}};
+ 004596         ihex = $sformatf("%x:%x",{{wr_i,2'b0}[31:0]},data_data);
+ 004596         $display("%s",ihex.toupper());
+ 004596         $fdisplay(file_out,"%s",ihex.toupper());
                 end
             end
           end
@@ -557,7 +557,7 @@
             .msg    (memresp0_msg_M)
           );
         
- 000838   logic [c_resp_nbits-1:0] memresp1_msg_M;
+ 000814   logic [c_resp_nbits-1:0] memresp1_msg_M;
         
           vc_MemRespMsgPack#(o,a,d) memresp1_msg_pack
           (

@@ -15,11 +15,11 @@
         );
         
 %000000   always_comb begin
- 008833     if      ( in_ == 0 ) out = 8;
+ 008968     if      ( in_ == 0 ) out = 8;
  000235     else if ( in_[0]   ) out = 1;
  000033     else if ( in_[1]   ) out = 1;
- 001141     else if ( in_[2]   ) out = 2;
- 000139     else if ( in_[3]   ) out = 3;
+ 001049     else if ( in_[2]   ) out = 2;
+ 000096     else if ( in_[3]   ) out = 3;
  000088     else if ( in_[4]   ) out = 4;
 %000000     else if ( in_[5]   ) out = 5;
 %000000     else if ( in_[6]   ) out = 6;

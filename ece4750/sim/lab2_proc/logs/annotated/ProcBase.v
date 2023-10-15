@@ -17,243 +17,232 @@
         
         
         
- 002589 module lab2_proc_ProcBase
- 000015 #(
+        module lab2_proc_ProcBase
+        #(
           parameter p_num_cores = 1
         )
- 000006 (
- 000068   input  logic         clk,
- 000025   input  logic         reset,
- 000001 
+        (
+ 020979   input  logic         clk,
+ 000041   input  logic         reset,
+        
           // From mngr streaming port
- 000006   input  logic [31:0]  mngr2proc_msg,
- 000026   input  logic         mngr2proc_val,
- 000002   output logic         mngr2proc_rdy,
- 000002 
+ 000012   input  logic [31:0]  mngr2proc_msg,
+ 000202   input  logic         mngr2proc_val,
+ 000202   output logic         mngr2proc_rdy,
+        
           // To mngr streaming port
- 000022   output logic [31:0]  proc2mngr_msg,
- 000002   output logic         proc2mngr_val,
- 000002   input  logic         proc2mngr_rdy,
- 000008 
+ 000030   output logic [31:0]  proc2mngr_msg,
+ 000078   output logic         proc2mngr_val,
+ 000896   input  logic         proc2mngr_rdy,
+        
           // Instruction Memory Request Port
 %000000   output mem_req_4B_t  imem_reqstream_msg,
- 000757   output logic         imem_reqstream_val,
- 000032   input  logic         imem_reqstream_rdy,
- 000047 
+ 004711   output logic         imem_reqstream_val,
+ 006209   input  logic         imem_reqstream_rdy,
+        
           // Instruction Memory Response Port
 %000000   input  mem_resp_4B_t imem_respstream_msg,
- 005503   input  logic         imem_respstream_val,
- 000050   output logic         imem_respstream_rdy,
- 000051 
+ 006310   input  logic         imem_respstream_val,
+ 006483   output logic         imem_respstream_rdy,
+        
           // Data Memory Request Port
 %000000   output mem_req_4B_t  dmem_reqstream_msg,
- 000004   output logic         dmem_reqstream_val,
- 000004   input  logic         dmem_reqstream_rdy,
- 000034 
+ 001658   output logic         dmem_reqstream_val,
+ 005201   input  logic         dmem_reqstream_rdy,
+        
           // Data Memory Response Port
 %000000   input  mem_resp_4B_t dmem_respstream_msg,
- 001736   input  logic         dmem_respstream_val,
-%000000   output logic         dmem_respstream_rdy,
-%000000 
+ 001740   input  logic         dmem_respstream_val,
+ 001740   output logic         dmem_respstream_rdy,
+        
           // Extra Port
 %000000   input  logic [31:0]  core_id,
-%000000   output logic         commit_inst,
+ 005813   output logic         commit_inst,
 %000000   output logic         stats_en
-%000000 );
- 000797 
-%000000 
-%000000 
+        );
         
- 000032 
-%000000 
- 000052 
-%000000 //Connect external device
-%000000 
-          // Instruction Memory Request Bypass Queue
- 002927   logic [1:0]  imem_queue_num_free_entries;
+        
+        
+        
+        
+        
+        
+        //---------- Connect external device ----------
+        
+          // ------ Connect Instruction Memory ------
+          // Instruction Memory Request Bypass Queue Message
+ 004101   logic [1:0]  imem_queue_num_free_entries;
 %000000   mem_req_4B_t imem_reqstream_enq_msg;
- 004692   logic        imem_reqstream_enq_val;
- 001105   logic        imem_reqstream_enq_rdy;
+ 006646   logic        imem_reqstream_enq_val;
+%000000   logic        imem_reqstream_enq_rdy;
 %000000   logic [31:0] imem_reqstream_enq_msg_addr;
-%000000 
           assign imem_reqstream_enq_msg.type_  = `VC_MEM_REQ_MSG_TYPE_READ;
           assign imem_reqstream_enq_msg.opaque = 8'b0;
           assign imem_reqstream_enq_msg.addr   = imem_reqstream_enq_msg_addr;
           assign imem_reqstream_enq_msg.len    = 2'd0;
           assign imem_reqstream_enq_msg.data   = 32'bx;
-        
+          // Instruction Memory Request Bypass Queue Connection
           vc_Queue#(`VC_QUEUE_BYPASS,$bits(mem_req_4B_t),2) imem_queue
           (
             .clk     (clk),
             .reset   (reset),
             .num_free_entries(imem_queue_num_free_entries),
- 000012 
-%000000     .enq_msg (imem_reqstream_enq_msg),
- 000769     .enq_val (imem_reqstream_enq_val),
- 000782     .enq_rdy (imem_reqstream_enq_rdy),
+        
+            .enq_msg (imem_reqstream_enq_msg),
+            .enq_val (imem_reqstream_enq_val),
+            .enq_rdy (imem_reqstream_enq_rdy),
         
             .deq_msg (imem_reqstream_msg),
-%000000     .deq_val (imem_reqstream_val),
-%000000     .deq_rdy (imem_reqstream_rdy)
- 000050   );
- 000051 
+            .deq_val (imem_reqstream_val),
+            .deq_rdy (imem_reqstream_rdy)
+          );
         
         
         
- 000002 
-%000000 
- 000041 
- 000044   // Imem Drop Unit
- 000444   logic         imem_respstream_drop;
+        
+        
+        
+          // ------ Connect Imem Drop Unit ------
+          // Imem Drop Unit Message
+ 000460   logic         imem_respstream_drop;
 %000000   mem_resp_4B_t imem_respstream_drop_msg;
- 004298   logic         imem_respstream_drop_val;
- 000978   logic         imem_respstream_drop_rdy;
- 001039 
+ 006136   logic         imem_respstream_drop_val;
+ 006605   logic         imem_respstream_drop_rdy;
+          // Imem Drop Unit Connection
           lab2_proc_DropUnit #($bits(mem_resp_4B_t)) imem_respstream_drop_unit
-%000000   (
-%000000     .clk         (clk),
- 000004     .reset       (reset),
-%000000 
-%000000     .drop        (imem_respstream_drop),
- 000008 
- 000004     .istream_msg (imem_respstream_msg),
-%000000     .istream_val (imem_respstream_val),
-%000000     .istream_rdy (imem_respstream_rdy),
-%000000 
-%000000     .ostream_msg (imem_respstream_drop_msg),
-%000000     .ostream_val (imem_respstream_drop_val),
-%000000     .ostream_rdy (imem_respstream_drop_rdy)
-%000000   );
-%000000 
-%000000 
-%000000 
-%000000 
- 000006 
-%000000 
-          // Data Memory Request Bypass Queue
+          (
+            .clk         (clk),
+            .reset       (reset),
+        
+            .drop        (imem_respstream_drop),
+        
+            .istream_msg (imem_respstream_msg),
+            .istream_val (imem_respstream_val),
+            .istream_rdy (imem_respstream_rdy),
+        
+            .ostream_msg (imem_respstream_drop_msg),
+            .ostream_val (imem_respstream_drop_val),
+            .ostream_rdy (imem_respstream_drop_rdy)
+          );
+        
+        
+        
+        
+        
+          // ------ Connect Data Memory ------
+          // Data Memory Request Bypass Queue Message
  000896   logic        dmem_queue_num_free_entries;
 %000000   mem_req_4B_t dmem_reqstream_enq_msg;
- 001742   logic        dmem_reqstream_enq_val;
- 000006   logic        dmem_reqstream_enq_rdy;
+ 001752   logic        dmem_reqstream_enq_val;
+ 000896   logic        dmem_reqstream_enq_rdy;
 %000000   logic [2:0]  dmem_reqstream_enq_msg_type;
-%000000   logic [31:0] dmem_reqstream_enq_msg_addr;
- 000334   logic [31:0] dmem_reqstream_enq_msg_data;
- 000002 
-          // assign dmem_reqstream_enq_msg.type_  = `VC_MEM_REQ_MSG_TYPE_READ;
+ 000026   logic [31:0] dmem_reqstream_enq_msg_addr;
+ 000006   logic [31:0] dmem_reqstream_enq_msg_data;
           assign dmem_reqstream_enq_msg.type_  = dmem_reqstream_enq_msg_type;
           assign dmem_reqstream_enq_msg.opaque = 8'b0;
- 000026   assign dmem_reqstream_enq_msg.addr   = dmem_reqstream_enq_msg_addr; // Address of Accessing
- 000008   assign dmem_reqstream_enq_msg.len    = 2'd0;
- 000026   assign dmem_reqstream_enq_msg.data   = dmem_reqstream_enq_msg_data;  // Data to be written
- 000026 
+          assign dmem_reqstream_enq_msg.addr   = dmem_reqstream_enq_msg_addr;
+          assign dmem_reqstream_enq_msg.len    = 2'd0;
+          assign dmem_reqstream_enq_msg.data   = dmem_reqstream_enq_msg_data;
+          // Data Memory Request Bypass Queue Connection
           vc_Queue#(`VC_QUEUE_BYPASS,$bits(mem_req_4B_t),1) dmem_queue
           (
- 000002     .clk     (clk),
- 000002     .reset   (reset),
- 000002     .num_free_entries(dmem_queue_num_free_entries),
- 000002 
+            .clk     (clk),
+            .reset   (reset),
+            .num_free_entries(dmem_queue_num_free_entries),
+        
             .enq_msg (dmem_reqstream_enq_msg),
             .enq_val (dmem_reqstream_enq_val),
             .enq_rdy (dmem_reqstream_enq_rdy),
- 000002 
- 000006     .deq_msg (dmem_reqstream_msg),
- 000002     .deq_val (dmem_reqstream_val),
- 000002     .deq_rdy (dmem_reqstream_rdy)
+        
+            .deq_msg (dmem_reqstream_msg),
+            .deq_val (dmem_reqstream_val),
+            .deq_rdy (dmem_reqstream_rdy)
           );
         
         
         
         
- 000002 
- 000002 
-%000000 
-%000000   // proc2mngr Bypass Queue
- 000006   logic        proc2mngr_queue_num_free_entries;
- 000040   logic [31:0] proc2mngr_enq_msg;
-%000000   logic        proc2mngr_enq_val;
-%000000   logic        proc2mngr_enq_rdy;
-%000000 
-%000000   vc_Queue#(`VC_QUEUE_BYPASS,32,1) proc2mngr_queue
+        
+        
+          // ------ Connect Data Memory ------
+          // proc2mngr Bypass Queue
+ 000078   logic        proc2mngr_queue_num_free_entries;
+ 000030   logic [31:0] proc2mngr_enq_msg;
+ 000078   logic        proc2mngr_enq_val;
+ 000078   logic        proc2mngr_enq_rdy;
+        
+          vc_Queue#(`VC_QUEUE_BYPASS,32,1) proc2mngr_queue
           (
             .clk     (clk),
-%000000     .reset   (reset),
-%000000     .num_free_entries(proc2mngr_queue_num_free_entries),
-%000000 
-%000000     .enq_msg (proc2mngr_enq_msg),
-%000000     .enq_val (proc2mngr_enq_val),
+            .reset   (reset),
+            .num_free_entries(proc2mngr_queue_num_free_entries),
+        
+            .enq_msg (proc2mngr_enq_msg),
+            .enq_val (proc2mngr_enq_val),
             .enq_rdy (proc2mngr_enq_rdy),
         
-%000000     .deq_msg (proc2mngr_msg),
-%000000     .deq_val (proc2mngr_val),
-%000000     .deq_rdy (proc2mngr_rdy)
+            .deq_msg (proc2mngr_msg),
+            .deq_val (proc2mngr_val),
+            .deq_rdy (proc2mngr_rdy)
           );
- 000002 
-%000000 
-%000000 
- 000002 
- 000024 
-%000000   // Multiplier from lab1
-%000000   // Multiplier Request Message
-%000000   logic [63:0]        IntMulAlt_reqstream_msg;
-%000000   logic               IntMulAlt_reqstream_val;
+        
+        
+        
+        
+          // ------ Connect Multiplier from Lab1 ------
+          // Multiplier Request Message
+ 000016   logic [63:0]        IntMulAlt_reqstream_msg;
+ 000002   logic               IntMulAlt_reqstream_val;
  000002   logic               IntMulAlt_reqstream_rdy;
- 000002 
-%000000   // Multiplier Response Message
-%000000   logic [31:0]        IntMulAlt_respstream_msg;
-%000000   logic               IntMulAlt_respstream_val;
- 000002   logic               IntMulAlt_respstream_rdy;
- 000002 
- 000002   lab1_imul_IntMulAlt mul
-%000000   (
-%000000     .clk            (clk),
-%000000     .reset          (reset),
-%000000     .istream_val    (IntMulAlt_reqstream_val),
-%000000     .istream_rdy    (IntMulAlt_reqstream_rdy),
- 000008     .istream_msg    (IntMulAlt_reqstream_msg),
-%000000     .ostream_val    (IntMulAlt_respstream_val),
- 000002     .ostream_rdy    (IntMulAlt_respstream_rdy),
-%000000     .ostream_msg    (IntMulAlt_respstream_msg)
-%000000   );
-%000000 
- 000002 
- 000010 
-%000000 
-%000000 
- 000002 
-%000000 // Connect DataPath and Control Unit
-%000000 
-%000000   // Control/Status Signals
-%000000   // control signals (ctrl->dpath)
- 000002   logic        reg_en_F;
- 000010   logic [1:0]  pc_sel_F;
-%000000   logic        reg_en_D;
- 000010   logic        op1_sel_D;
- 000094   logic [1:0]  op2_sel_D;
+          // Multiplier Response Message
+ 000002   logic [31:0]        IntMulAlt_respstream_msg;
+ 000002   logic               IntMulAlt_respstream_val;
+ 000360   logic               IntMulAlt_respstream_rdy;
+          // Multiplier Response Connection
+          lab1_imul_IntMulAlt mul
+          (
+            .clk            (clk),
+            .reset          (reset),
+            .istream_val    (IntMulAlt_reqstream_val),
+            .istream_rdy    (IntMulAlt_reqstream_rdy),
+            .istream_msg    (IntMulAlt_reqstream_msg),
+            .ostream_val    (IntMulAlt_respstream_val),
+            .ostream_rdy    (IntMulAlt_respstream_rdy),
+            .ostream_msg    (IntMulAlt_respstream_msg)
+          );
+        
+        
+        
+        
+        
+        
+        // ---------- Connect DataPath and Control Unit ----------
+        
+          // Control/Status Signals
+          // control signals (ctrl->dpath)
+ 006605   logic        reg_en_F;
+ 000008   logic [1:0]  pc_sel_F;
+ 001538   logic        reg_en_D;
+ 000002   logic        op1_sel_D;
+ 000182   logic [1:0]  op2_sel_D;
 %000000   logic [1:0]  csrr_sel_D;
-%000000   logic [2:0]  imm_type_D;
+ 000010   logic [2:0]  imm_type_D;
  000360   logic        reg_en_X;
-%000000   logic [3:0]  alu_fn_X;
- 000004   logic [1:0]  ex_result_sel_X;
-%000000   logic        reg_en_M;
+ 000216   logic [3:0]  alu_fn_X;
+ 000002   logic [1:0]  ex_result_sel_X;
+ 001386   logic        reg_en_M;
  000610   logic        wb_result_sel_M;
 %000000   logic        reg_en_W;
- 000250   logic [4:0]  rf_waddr_W;
- 003180   logic        rf_wen_W;
+ 000254   logic [4:0]  rf_waddr_W;
+ 003354   logic        rf_wen_W;
 %000000   logic        stats_en_wen_W;
-%000000 
- 000002   // status signals (dpath->ctrl)
- 000638   logic [31:0] inst_D;
-%000000   logic        br_cond_eq_X;
-%000000   logic        br_cond_lt_X;
- 000006   logic        br_cond_ltu_X;
- 000002 
- 000002 
+          // status signals (dpath->ctrl)
+ 000002   logic [31:0] inst_D;
+ 003306   logic        br_cond_eq_X;
+ 000170   logic        br_cond_lt_X;
+ 000622   logic        br_cond_ltu_X;
         
-        
-        
-        
-        
-          // Control Unit
+          // ------ Connect Control Unit ------
           lab2_proc_ProcBaseCtrl ctrl
           (
             // Instruction Memory Port
@@ -285,13 +274,7 @@
             .*
           );
         
-        
-        
-        
-        
-        
-        
-          //  Data Path
+          // ------ Connect DataPath ------
           lab2_proc_ProcBaseDpath
           #(
             .p_num_cores              (p_num_cores)
@@ -410,9 +393,6 @@
         
           end
           `VC_TRACE_END
-        
-          // These trace modules are useful because they breakout all the
-          // individual fields so you can see them in gtkwave
         
           vc_MemReqMsg4BTrace imem_reqstream_trace
           (

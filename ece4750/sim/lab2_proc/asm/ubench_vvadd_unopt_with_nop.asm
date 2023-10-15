@@ -19,8 +19,6 @@ loop:
 lw    x6, 0(x2)
 lw    x7, 0(x3)
 add   x8, x6, x7
-nop
-nop
 sw    x8, 0(x4)
 addi  x2, x2, 4
 addi  x3, x3, 4

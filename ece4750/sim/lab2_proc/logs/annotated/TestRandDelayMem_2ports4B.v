@@ -63,7 +63,7 @@
         
  003550   output logic                    memresp1_val,
  003550   input  logic                    memresp1_rdy,
- 000526   output logic [c_resp_nbits-1:0] memresp1_msg
+ 000588   output logic [c_resp_nbits-1:0] memresp1_msg
         );
         
           //------------------------------------------------------------------------
@@ -85,7 +85,7 @@
         
  003458   logic                    mem_memresp1_val;
  003780   logic                    mem_memresp1_rdy;
- 000832   logic [c_resp_nbits-1:0] mem_memresp1_msg;
+ 000814   logic [c_resp_nbits-1:0] mem_memresp1_msg;
         
           //------------------------------------------------------------------------
           // Test random delay

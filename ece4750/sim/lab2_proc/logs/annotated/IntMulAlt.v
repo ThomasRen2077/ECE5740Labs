@@ -43,7 +43,7 @@
           // Status signals (dpath -> ctrl)
         
  000470   output logic        b_lsb,
- 001866   output logic        is_b_zero
+ 001784   output logic        is_b_zero
         );
         
           // B mux
@@ -215,7 +215,7 @@
           // Status signals (dpath -> ctrl)
         
  000470   input  logic b_lsb,
- 001866   input  logic is_b_zero
+ 001784   input  logic is_b_zero
         );
         
           //----------------------------------------------------------------------
@@ -376,7 +376,7 @@
           // Status signals
         
  000470   logic b_lsb;
- 001866   logic is_b_zero;
+ 001784   logic is_b_zero;
         
  000002   logic [31:0] product;
         

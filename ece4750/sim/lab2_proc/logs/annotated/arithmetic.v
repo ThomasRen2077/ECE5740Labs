@@ -119,7 +119,7 @@
           parameter p_nbits = 1
         )(
  000468   input  logic [p_nbits-1:0] in,
- 001866   output logic               out
+ 001784   output logic               out
         );
         
           assign out = ( in == {p_nbits{1'b0}} );

@@ -514,7 +514,7 @@ module lab2_proc_ProcBaseCtrl
 
       //Memory Instruction
       `TINYRV2_INST_LW      :cs( y, br_na,  imm_i,  am_rf,   y, bm_imm, n, alu_add,  a_alu,    ld, wm_m, y,  n,   n    );
-      `TINYRV2_INST_SW      :cs( y, br_na,  imm_s,  am_rf,   y, bm_imm, n, alu_add,  a_alu,    st, wm_x, n,  n,   n    );
+      `TINYRV2_INST_SW      :cs( y, br_na,  imm_s,  am_rf,   y, bm_imm, y, alu_add,  a_alu,    st, wm_x, n,  n,   n    );
 
       //Jump Instruction
       `TINYRV2_INST_JAL     :cs( y, jal,    imm_j,  am_x,    n, bm_x,   n, alu_x,    a_pc,     nr, wm_a, y,  n,   n    );

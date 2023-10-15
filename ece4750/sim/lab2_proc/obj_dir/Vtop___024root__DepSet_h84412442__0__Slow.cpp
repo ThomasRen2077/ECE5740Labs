@@ -18629,9 +18629,9 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__1(Vtop___024root* vlSelf) {
                        | (0x4063U == (0x707fU & vlSelf->top__DOT__DUT__DOT__inst_D)))
                        ? ((0x17U != (0x7fU & vlSelf->top__DOT__DUT__DOT__inst_D)) 
                           & ((0x2003U != (0x707fU & vlSelf->top__DOT__DUT__DOT__inst_D)) 
-                             & ((0x2023U != (0x707fU 
+                             & ((0x2023U == (0x707fU 
                                              & vlSelf->top__DOT__DUT__DOT__inst_D)) 
-                                & ((0x6fU != (0x7fU 
+                                | ((0x6fU != (0x7fU 
                                               & vlSelf->top__DOT__DUT__DOT__inst_D)) 
                                    & (0x67U != (0x707fU 
                                                 & vlSelf->top__DOT__DUT__DOT__inst_D))))))
