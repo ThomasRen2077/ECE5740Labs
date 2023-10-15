@@ -1,7 +1,3 @@
-//=========================================================================
-// 5-Stage Simple Pipelined Processor Datapath
-//=========================================================================
-
 `ifndef LAB2_PROC_PROC_BASE_DPATH_V
 `define LAB2_PROC_PROC_BASE_DPATH_V
 
@@ -25,95 +21,62 @@ module lab2_proc_ProcBaseDpath
 (
 // Input ports of the module
   input  logic         clk,
-// Input ports of the module
   input  logic         reset,
 
-  // Instruction Memory Port
+// Instruction Memory Port
 // Output ports of the module
   output logic [31:0]  imem_reqstream_msg_addr,
 // Input ports of the module
   input  mem_resp_4B_t imem_respstream_msg,
 
-  // Data Memory Port
+// Data Memory Port
 // Output ports of the module
   output logic [31:0]  dmem_reqstream_msg_addr,   // Address of data
-// Output ports of the module
   output logic [31:0]  dmem_reqstream_msg_data,   // Data sent to memory
 // Input ports of the module
   input  logic [31:0]  dmem_respstream_msg_data,  // Data received from memory
 
-  // mngr communication ports
+// mngr communication ports
 // Input ports of the module
   input  logic [31:0]  mngr2proc_data,
 // Output ports of the module
   output logic [31:0]  proc2mngr_data,
 
-  // Multiplier Port
+// Multiplier Port
 // Output ports of the module
   output logic [63:0]  IntMulAlt_reqstream_msg,   // Data sent to multiplier
 // Input ports of the module
   input  logic [31:0]  IntMulAlt_respstream_msg,  // Data received from multiplier
 
 
-  // control signals (ctrl->dpath)
-
+// control signals (ctrl->dpath)
 // Input ports of the module
   input  logic         imem_respstream_drop,
-
-// Input ports of the module
   input  logic         reg_en_F,
-// Input ports of the module
   input  logic [1:0]   pc_sel_F,
-
-// Input ports of the module
   input  logic         reg_en_D,
-
-  //add op1_sel Mux signal
-// Input ports of the module
-  input  logic         op1_sel_D,
-
-// Input ports of the module
+  input  logic         op1_sel_D,                 //add op1_sel Mux signal
   input  logic [1:0]   op2_sel_D,
-// Input ports of the module
   input  logic [1:0]   csrr_sel_D,
-// Input ports of the module
   input  logic [2:0]   imm_type_D,
-
-// Input ports of the module
   input  logic         reg_en_X,
-// Input ports of the module
   input  logic [3:0]   alu_fn_X,
- //add ex_result_sel Mux signal 
-// Input ports of the module
-  input  logic [1:0]   ex_result_sel_X,
-
-// Input ports of the module
+  input  logic [1:0]   ex_result_sel_X,          //add ex_result_sel Mux signal 
   input  logic         reg_en_M,
-// Input ports of the module
   input  logic         wb_result_sel_M,
-
-// Input ports of the module
   input  logic         reg_en_W,
-// Input ports of the module
   input  logic [4:0]   rf_waddr_W,
-// Input ports of the module
   input  logic         rf_wen_W,
-// Input ports of the module
   input  logic         stats_en_wen_W,
 
-  // status signals (dpath->ctrl)
-
+// status signals (dpath->ctrl)
 // Output ports of the module
   output logic [31:0]  inst_D,
-// Output ports of the module
   output logic         br_cond_eq_X,
-// Output ports of the module
   output logic         br_cond_lt_X,
-// Output ports of the module
   output logic         br_cond_ltu_X,
 
-  // extra ports
-
+// extra ports
 // Input ports of the module
   input  logic [31:0]  core_id,
 // Output ports of the module
@@ -139,23 +102,24 @@ module lab2_proc_ProcBaseDpath
   logic [31:0] jal_target_D;
   logic [31:0] jalr_target_X;
 
-// Internal registers to hold state
+// Internal registers to hold PC
   vc_EnResetReg#(32, c_reset_vector - 32'd4) pc_reg_F
   (
     .clk    (clk),
     .reset  (reset),
-// Internal registers to hold state
     .en     (reg_en_F),
     .d      (pc_next_F),
     .q      (pc_F)
   );
 
+// Internal registers to hold PC
   vc_Incrementer#(32, 4) pc_incr_F
   (
     .in   (pc_F),
     .out  (pc_plus4_F)
   );
 
+// PC redirection Mux
   vc_Mux4#(32) pc_sel_mux_F
   (
     .in0  (pc_plus4_F),
