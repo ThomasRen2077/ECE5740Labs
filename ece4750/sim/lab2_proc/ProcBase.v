@@ -4,12 +4,17 @@
 `include "vc/mem-msgs.v"
 `include "vc/queues.v"
 `include "vc/trace.v"
-
 `include "tinyrv2_encoding.v"
 `include "ProcBaseCtrl.v"
 `include "ProcBaseDpath.v"
 `include "DropUnit.v"
 `include "lab1_imul/IntMulAlt.v"
+
+
+
+
+
+
 
 module lab2_proc_ProcBase
 #(
@@ -56,19 +61,26 @@ module lab2_proc_ProcBase
 );
 
 
-  // Instruction Memory Request Bypass Queue
+
+
+
+
+
+//---------- Connect external device ----------
+
+  // ------ Connect Instruction Memory ------
+  // Instruction Memory Request Bypass Queue Message
   logic [1:0]  imem_queue_num_free_entries;
   mem_req_4B_t imem_reqstream_enq_msg;
   logic        imem_reqstream_enq_val;
   logic        imem_reqstream_enq_rdy;
   logic [31:0] imem_reqstream_enq_msg_addr;
-
   assign imem_reqstream_enq_msg.type_  = `VC_MEM_REQ_MSG_TYPE_READ;
   assign imem_reqstream_enq_msg.opaque = 8'b0;
   assign imem_reqstream_enq_msg.addr   = imem_reqstream_enq_msg_addr;
   assign imem_reqstream_enq_msg.len    = 2'd0;
   assign imem_reqstream_enq_msg.data   = 32'bx;
-
+  // Instruction Memory Request Bypass Queue Connection
   vc_Queue#(`VC_QUEUE_BYPASS,$bits(mem_req_4B_t),2) imem_queue
   (
     .clk     (clk),
@@ -85,12 +97,17 @@ module lab2_proc_ProcBase
   );
 
 
-  // Imem Drop Unit
+
+
+
+
+  // ------ Connect Imem Drop Unit ------
+  // Imem Drop Unit Message
   logic         imem_respstream_drop;
   mem_resp_4B_t imem_respstream_drop_msg;
   logic         imem_respstream_drop_val;
   logic         imem_respstream_drop_rdy;
-
+  // Imem Drop Unit Connection
   lab2_proc_DropUnit #($bits(mem_resp_4B_t)) imem_respstream_drop_unit
   (
     .clk         (clk),
@@ -108,7 +125,11 @@ module lab2_proc_ProcBase
   );
 
 
-  // Data Memory Request Bypass Queue
+
+
+
+  // ------ Connect Data Memory ------
+  // Data Memory Request Bypass Queue Message
   logic        dmem_queue_num_free_entries;
   mem_req_4B_t dmem_reqstream_enq_msg;
   logic        dmem_reqstream_enq_val;
@@ -116,14 +137,12 @@ module lab2_proc_ProcBase
   logic [2:0]  dmem_reqstream_enq_msg_type;
   logic [31:0] dmem_reqstream_enq_msg_addr;
   logic [31:0] dmem_reqstream_enq_msg_data;
-
-  // assign dmem_reqstream_enq_msg.type_  = `VC_MEM_REQ_MSG_TYPE_READ;
   assign dmem_reqstream_enq_msg.type_  = dmem_reqstream_enq_msg_type;
   assign dmem_reqstream_enq_msg.opaque = 8'b0;
-  assign dmem_reqstream_enq_msg.addr   = dmem_reqstream_enq_msg_addr; // Address of Accessing
+  assign dmem_reqstream_enq_msg.addr   = dmem_reqstream_enq_msg_addr;
   assign dmem_reqstream_enq_msg.len    = 2'd0;
-  assign dmem_reqstream_enq_msg.data   = dmem_reqstream_enq_msg_data;  // Data to be written
-
+  assign dmem_reqstream_enq_msg.data   = dmem_reqstream_enq_msg_data;
+  // Data Memory Request Bypass Queue Connection
   vc_Queue#(`VC_QUEUE_BYPASS,$bits(mem_req_4B_t),1) dmem_queue
   (
     .clk     (clk),
@@ -140,6 +159,11 @@ module lab2_proc_ProcBase
   );
 
 
+
+
+
+
+  // ------ Connect Data Memory ------
   // proc2mngr Bypass Queue
   logic        proc2mngr_queue_num_free_entries;
   logic [31:0] proc2mngr_enq_msg;
@@ -162,17 +186,18 @@ module lab2_proc_ProcBase
   );
 
 
-  // Multiplier 
+
+
+  // ------ Connect Multiplier from Lab1 ------
   // Multiplier Request Message
   logic [63:0]        IntMulAlt_reqstream_msg;
   logic               IntMulAlt_reqstream_val;
   logic               IntMulAlt_reqstream_rdy;
-
   // Multiplier Response Message
   logic [31:0]        IntMulAlt_respstream_msg;
   logic               IntMulAlt_respstream_val;
   logic               IntMulAlt_respstream_rdy;
-
+  // Multiplier Response Connection
   lab1_imul_IntMulAlt mul
   (
     .clk            (clk),
@@ -185,6 +210,12 @@ module lab2_proc_ProcBase
     .ostream_msg    (IntMulAlt_respstream_msg)
   );
 
+
+
+
+
+
+// ---------- Connect DataPath and Control Unit ----------
 
   // Control/Status Signals
   // control signals (ctrl->dpath)
@@ -204,16 +235,13 @@ module lab2_proc_ProcBase
   logic [4:0]  rf_waddr_W;
   logic        rf_wen_W;
   logic        stats_en_wen_W;
-
-
-
   // status signals (dpath->ctrl)
   logic [31:0] inst_D;
   logic        br_cond_eq_X;
   logic        br_cond_lt_X;
   logic        br_cond_ltu_X;
 
-  // Control Unit
+  // ------ Connect Control Unit ------
   lab2_proc_ProcBaseCtrl ctrl
   (
     // Instruction Memory Port
@@ -245,7 +273,7 @@ module lab2_proc_ProcBase
     .*
   );
 
-  //  Data Path
+  // ------ Connect DataPath ------
   lab2_proc_ProcBaseDpath
   #(
     .p_num_cores              (p_num_cores)
@@ -272,6 +300,8 @@ module lab2_proc_ProcBase
     // clk/reset/control/status signals
     .*
   );
+
+
 
 
 
@@ -362,9 +392,6 @@ module lab2_proc_ProcBase
 
   end
   `VC_TRACE_END
-
-  // These trace modules are useful because they breakout all the
-  // individual fields so you can see them in gtkwave
 
   vc_MemReqMsg4BTrace imem_reqstream_trace
   (

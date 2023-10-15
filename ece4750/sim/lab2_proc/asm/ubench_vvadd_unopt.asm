@@ -27,7 +27,7 @@ addi  x5, x5, -1
 bne   x5, x0, loop
 
 # end of the program
-csrw  proc2mngr, x0 > 0
+csrw  proc2mngr, x5 > 0
 nop
 nop
 nop
