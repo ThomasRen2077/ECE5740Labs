@@ -17,7 +17,7 @@ add   x5, x0, x1
 
 loop:
 lw    x6, 0(x2)
-lw    x7, 0(x3)
+lw    x7, 0(x2)
 add   x8, x6, x7
 sw    x8, 0(x4)
 addi  x2, x2, 4
