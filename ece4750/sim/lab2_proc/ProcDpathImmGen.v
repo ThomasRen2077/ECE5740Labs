@@ -17,9 +17,6 @@ module lab2_proc_ProcDpathImmGen
     case ( imm_type )
       3'd0: // I-type
         imm = { {21{inst[31]}}, inst[30:25], inst[24:21], inst[20] };
-        
-      3'd1: // S-type
-        imm = { {21{inst[31]}}, inst[30:25], inst[11:7]};
 
       3'd2: // B-type
         imm = { {20{inst[31]}}, inst[7], inst[30:25], inst[11:8], 1'b0 };
@@ -28,7 +25,7 @@ module lab2_proc_ProcDpathImmGen
         imm = { inst[31:12], 12'b0 };
 
       3'd4: // J-type
-        imm = { {21{inst[31]}}, inst[30:20] };
+        imm = { {21{inst[31]}}, inst[30:25], inst[24:21], inst[20] };
 
       3'd5: // I-type - variant 
         imm = { {27{1'b0}}, inst[24:20] };
