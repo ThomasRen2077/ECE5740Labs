@@ -1,11 +1,11 @@
-`ifndef LAB2_PROC_PROC_BASE_CTRL_V
-`define LAB2_PROC_PROC_BASE_CTRL_V
+`ifndef LAB2_PROC_PROC_ALT_CTRL_V
+`define LAB2_PROC_PROC_ALT_CTRL_V
 
 `include "vc/trace.v"
 `include "tinyrv2_encoding.v"
 
 
-module lab2_proc_ProcBaseCtrl
+module lab2_proc_ProcAltCtrl
 (
   input  logic        clk,
   input  logic        reset,
@@ -40,6 +40,8 @@ module lab2_proc_ProcBaseCtrl
   output logic        reg_en_F,                                   // Register Enable of F Stage
   output logic [1:0]  pc_sel_F,                                   // PC redirection Select Mux Signal
   output logic        reg_en_D,                                   // Register Enable of D Stage
+  output logic [1:0]  op1_byp_sel_D,                              // Operand 1 Bypass Mux Signal
+  output logic [1:0]  op2_byp_sel_D,                              // Operand 2 Bypass Mux Signal
   output logic        op1_sel_D,                                  // Operand 1 Select Mux Signal
   output logic [1:0]  op2_sel_D,                                  // Operand 2 Select Mux Signal
   output logic [1:0]  csrr_sel_D,                                 // CSRR Select Signal
@@ -410,7 +412,7 @@ module lab2_proc_ProcBaseCtrl
   end
 
 
-// ------------- ostall and osquash in D -------------
+// -------------bypass, ostall, and osquash in D -------------
 
   // Set Processor Ready to Receive Mngr Message Signal
   assign mngr2proc_rdy = val_D && !stall_D && mngr2proc_rdy_D;
@@ -426,47 +428,95 @@ module lab2_proc_ProcBaseCtrl
   logic  ostall_IntMulAlt_D;
   assign ostall_IntMulAlt_D = val_D && !IntMulAlt_reqstream_rdy;
 
-  // ostall if write address in X matches rs1 in D
-  logic  ostall_waddr_X_rs1_D;
-  assign ostall_waddr_X_rs1_D
+  // ostall if load write address in X matches rs1 in D
+  logic  ostall_load_use_X_rs1_D;
+  assign ostall_load_use_X_rs1_D
     = rs1_en_D && val_X && rf_wen_X
-      && ( inst_rs1_D == rf_waddr_X ) && ( rf_waddr_X != 5'd0 );
+      && ( inst_rs1_D == rf_waddr_X ) && ( rf_waddr_X != 5'd0 )
+      && ( dmem_reqstream_type_X == ld );
 
-  // ostall if write address in M matches rs1 in D
-  logic  ostall_waddr_M_rs1_D;
-  assign ostall_waddr_M_rs1_D
+  // ostall if load write address in X matches rs2 in D
+  logic  ostall_load_use_X_rs2_D;
+  assign ostall_load_use_X_rs2_D
+    = rs2_en_D && val_X && rf_wen_X
+      && ( inst_rs2_D == rf_waddr_X ) && ( rf_waddr_X != 5'd0 )
+      && ( dmem_reqstream_type_X == ld );
+
+  // ostall_can_be_solved_by_bypassing if write address in X matches rs1 in D and is not load instruction
+  logic  ostall_waddr_X_rs1_D_can_be_solved_by_bypassing;
+  assign ostall_waddr_X_rs1_D_can_be_solved_by_bypassing
+    = rs1_en_D && val_X && rf_wen_X
+      && ( inst_rs1_D == rf_waddr_X ) && ( rf_waddr_X != 5'd0 )
+      && ( dmem_reqstream_type_X != ld );
+
+  // ostall_can_be_solved_by_bypassing if write address in M matches rs1 in D
+  logic  ostall_waddr_M_rs1_D_can_be_solved_by_bypassing;
+  assign ostall_waddr_M_rs1_D_can_be_solved_by_bypassing
     = rs1_en_D && val_M && rf_wen_M
       && ( inst_rs1_D == rf_waddr_M ) && ( rf_waddr_M != 5'd0 );
 
-  // ostall if write address in W matches rs1 in D
-  logic  ostall_waddr_W_rs1_D;
-  assign ostall_waddr_W_rs1_D
+  // ostall_can_be_solved_by_bypassing if write address in W matches rs1 in D
+  logic  ostall_waddr_W_rs1_D_can_be_solved_by_bypassing;
+  assign ostall_waddr_W_rs1_D_can_be_solved_by_bypassing
     = rs1_en_D && val_W && rf_wen_W
       && ( inst_rs1_D == rf_waddr_W ) && ( rf_waddr_W != 5'd0 );
 
-  // ostall if write address in X matches rs2 in D
-  logic  ostall_waddr_X_rs2_D;
-  assign ostall_waddr_X_rs2_D
+  // ostall_can_be_solved_by_bypassing if write address in X matches rs2 in D and is not load instruction
+  logic  ostall_waddr_X_rs2_D_can_be_solved_by_bypassing;
+  assign ostall_waddr_X_rs2_D_can_be_solved_by_bypassing
     = rs2_en_D && val_X && rf_wen_X
-      && ( inst_rs2_D == rf_waddr_X ) && ( rf_waddr_X != 5'd0 );
+      && ( inst_rs2_D == rf_waddr_X ) && ( rf_waddr_X != 5'd0 )
+      && ( dmem_reqstream_type_X != ld );
 
-  // ostall if write address in M matches rs2 in D
-  logic  ostall_waddr_M_rs2_D;
-  assign ostall_waddr_M_rs2_D
+  // ostall_can_be_solved_by_bypassing if write address in M matches rs2 in D
+  logic  ostall_waddr_M_rs2_D_can_be_solved_by_bypassing;
+  assign ostall_waddr_M_rs2_D_can_be_solved_by_bypassing
     = rs2_en_D && val_M && rf_wen_M
       && ( inst_rs2_D == rf_waddr_M ) && ( rf_waddr_M != 5'd0 );
 
-  // ostall if write address in W matches rs2 in D
-  logic  ostall_waddr_W_rs2_D;
-  assign ostall_waddr_W_rs2_D
+  // ostall_can_be_solved_by_bypassing if write address in W matches rs2 in D
+  logic  ostall_waddr_W_rs2_D_can_be_solved_by_bypassing;
+  assign ostall_waddr_W_rs2_D_can_be_solved_by_bypassing
     = rs2_en_D && val_W && rf_wen_W
       && ( inst_rs2_D == rf_waddr_W ) && ( rf_waddr_W != 5'd0 );
+
+  // Bypass Mux for Operand 1 Select logic Block
+  always_comb begin
+    if ( val_D && ( ostall_waddr_X_rs1_D_can_be_solved_by_bypassing ) ) begin                               // If write address in X matches rs1 in D and is not load instructions
+      op1_byp_sel_D      = 2'd1;                                                                            // Use Bypass Data from X stage
+    end
+    else if ( val_D && ( ostall_waddr_M_rs1_D_can_be_solved_by_bypassing ) ) begin                          // If write address in M matches rs1 in D
+      op1_byp_sel_D      = 2'd2;                                                                            // Use Bypass Data from M stage
+    end
+    else if ( val_D && ( ostall_waddr_W_rs1_D_can_be_solved_by_bypassing ) ) begin                          // If write address in W matches rs1 in D
+      op1_byp_sel_D      = 2'd3;                                                                            // Use Bypass Data from W stage
+    end
+    else begin
+      op1_byp_sel_D      = 2'd0;                                                                            // Use Data from Register File
+    end
+  end
+
+  //  Bypass Mux for Operand 2 Select logic Block
+  always_comb begin
+    if ( val_D && ( ostall_waddr_X_rs2_D_can_be_solved_by_bypassing ) ) begin                               // If write address in X matches rs2 in D and is not load instruction
+      op2_byp_sel_D      = 2'd1;                                                                            // Use Bypass Data from X stage
+    end
+    else if ( val_D && ( ostall_waddr_M_rs2_D_can_be_solved_by_bypassing ) ) begin                          // If write address in M matches rs2 in D
+      op2_byp_sel_D      = 2'd2;                                                                            // Use Bypass Data from M stage
+    end
+    else if ( val_D && ( ostall_waddr_W_rs2_D_can_be_solved_by_bypassing ) ) begin                          // If write address in W matches rs2 in D
+      op2_byp_sel_D      = 2'd3;                                                                            // Use Bypass Data from W stage
+    end
+    else begin
+      op2_byp_sel_D      = 2'd0;                                                                            // Use Data from Register File
+    end
+  end
+
 
   // Put together ostall signal due to hazards
   logic  ostall_hazard_D;
   assign ostall_hazard_D =
-      ostall_waddr_X_rs1_D || ostall_waddr_M_rs1_D || ostall_waddr_W_rs1_D ||
-      ostall_waddr_X_rs2_D || ostall_waddr_M_rs2_D || ostall_waddr_W_rs2_D;
+      ostall_load_use_X_rs1_D || ostall_load_use_X_rs2_D;
 
   // Final ostall signal
   assign ostall_D = val_D && ( ostall_mngr2proc_D || ostall_IntMulAlt_D || ostall_hazard_D );

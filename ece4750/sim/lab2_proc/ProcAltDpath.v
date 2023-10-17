@@ -1,5 +1,5 @@
-`ifndef LAB2_PROC_PROC_BASE_DPATH_V
-`define LAB2_PROC_PROC_BASE_DPATH_V
+`ifndef LAB2_PROC_PROC_ALT_DPATH_V
+`define LAB2_PROC_PROC_ALT_DPATH_V
 
 `include "vc/arithmetic.v"
 `include "vc/mem-msgs.v"
@@ -11,7 +11,7 @@
 `include "ProcDpathAlu.v"
 
 
-module lab2_proc_ProcBaseDpath
+module lab2_proc_ProcAltDpath
 #(
   parameter p_num_cores = 1
 )
@@ -42,6 +42,8 @@ module lab2_proc_ProcBaseDpath
   input  logic         reg_en_F,                              // Register Enable of F Stage
   input  logic [1:0]   pc_sel_F,                              // PC redirection Select Mux Signal
   input  logic         reg_en_D,                              // Register Enable of D Stage
+  input  logic [1:0]   op1_byp_sel_D,                         // Operand 1 Bypass Mux Signal
+  input  logic [1:0]   op2_byp_sel_D,                         // Operand 2 Bypass Mux Signal
   input  logic         op1_sel_D,                             // Operand 1 Select Mux Signal
   input  logic [1:0]   op2_sel_D,                             // Operand 2 Select Mux Signal
   input  logic [1:0]   csrr_sel_D,                            // CSRR Select Signal
@@ -55,6 +57,7 @@ module lab2_proc_ProcBaseDpath
   input  logic [4:0]   rf_waddr_W,                            // Register File Write Address
   input  logic         rf_wen_W,                              // Register File Write Enable
   input  logic         stats_en_wen_W,                        // Execuation Result Select Mux Signal
+
 
 // status signals (dpath->ctrl)
   output logic [31:0]  inst_D,                                // Instruction to Decode
@@ -182,6 +185,8 @@ module lab2_proc_ProcBaseDpath
     .wr_data  (rf_wdata_W)
   );
 
+  logic [31:0] op1_byp_D;                                       // Bypassed Operand 1
+  logic [31:0] op2_byp_D;                                       // Bypassed Operand 2
 
   logic [31:0] op1_D;                                           // ALU Operand 1
   logic [31:0] op2_D;                                           // ALU Operand 2
@@ -200,10 +205,33 @@ module lab2_proc_ProcBaseDpath
    .out  (csrr_data_D)
   );
 
+  // Operand 1 Bypass Select Mux
+  vc_Mux4#(32) op1_byp_sel_mux_D
+  (
+    .in0  (rf_rdata0_D),
+    .in1  (alu_result_X),
+    .in2  (wb_result_M),
+    .in3  (wb_result_W),
+    .sel  (op1_byp_sel_D),
+    .out  (op1_byp_D)
+  );
+
+  // Operand 2 Bypass Select Mux
+  vc_Mux4#(32) op2_byp_sel_mux_D
+  (
+    .in0  (rf_rdata1_D),
+    .in1  (alu_result_X),
+    .in2  (wb_result_M),
+    .in3  (wb_result_W),
+    .sel  (op2_byp_sel_D),
+    .out  (op2_byp_D)
+  );
+
+
   // Operand 1 Select Mux
   vc_Mux2#(32) op1_sel_mux_D
   (
-    .in0  (rf_rdata0_D),
+    .in0  (op1_byp_D),
     .in1  (pc_D),
     .sel  (op1_sel_D),
     .out  (op1_D)
@@ -212,7 +240,7 @@ module lab2_proc_ProcBaseDpath
   // Operand 2 Select Mux
   vc_Mux3#(32) op2_sel_mux_D
   (
-    .in0  (rf_rdata1_D),
+    .in0  (op2_byp_D),
     .in1  (imm_D),
     .in2  (csrr_data_D),
     .sel  (op2_sel_D),
@@ -240,7 +268,9 @@ module lab2_proc_ProcBaseDpath
   logic [31:0] op2_X;                                           // Execuation Operand 2
   logic [31:0] pc_X;                                            // PC of Instruction in X stage
   logic [31:0] pc_plus4_X;                                      // PC plus 4
-
+  logic [31:0] op2_byp_X;                                       // Read Register 2 Data to Write to Memory
+  logic [31:0] alu_result_X;                                    // Alu Execuation Result 
+  logic [31:0] ex_result_X;                                     // Actual Execuation Result of X stage
 
 
 // Register to Store Operand 1
@@ -290,7 +320,6 @@ module lab2_proc_ProcBaseDpath
     .out  (pc_plus4_X)
   );
 
-  logic [31:0] rf_rdata1_X;                                   // Read Register 2 Data to Write to Memory
 
 // Registers to Store Read Register 2 Data for Later Memory Writing
   vc_EnResetReg#(32, 0) dmem_write_data_reg_X
@@ -298,16 +327,14 @@ module lab2_proc_ProcBaseDpath
     .clk   (clk),
     .reset (reset),
     .en    (reg_en_X),
-    .d     (rf_rdata1_D),
-    .q     (rf_rdata1_X)
+    .d     (op2_byp_D),
+    .q     (op2_byp_X)
   );
-
+ 
 // Write Register 2 Data to Data Memory Request Message Data Part
-  assign dmem_reqstream_msg_data = rf_rdata1_X;
+  assign dmem_reqstream_msg_data = op2_byp_X;
 
 
-  logic [31:0] alu_result_X;                                // Alu Execuation Result 
-  logic [31:0] ex_result_X;                                 // Actual Execuation Result of X stage
 
 // Connect Alu module
   lab2_proc_ProcDpathAlu alu
