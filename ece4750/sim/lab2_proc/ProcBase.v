@@ -10,12 +10,7 @@
 `include "DropUnit.v"
 `include "lab1_imul/IntMulAlt.v"
 
-
-
-
-
-
-
+// Main module for processor
 module lab2_proc_ProcBase
 #(
   parameter p_num_cores = 1
@@ -60,13 +55,7 @@ module lab2_proc_ProcBase
   output logic         stats_en
 );
 
-
-
-
-
-
-
-//---------- Connect external device ----------
+//---------- Connect External ----------
 
   // ------ Connect Instruction Memory ------
   // Instruction Memory Request Bypass Queue Message
@@ -80,6 +69,7 @@ module lab2_proc_ProcBase
   assign imem_reqstream_enq_msg.addr   = imem_reqstream_enq_msg_addr;
   assign imem_reqstream_enq_msg.len    = 2'd0;
   assign imem_reqstream_enq_msg.data   = 32'bx;
+
   // Instruction Memory Request Bypass Queue Connection
   vc_Queue#(`VC_QUEUE_BYPASS,$bits(mem_req_4B_t),2) imem_queue
   (
@@ -96,17 +86,13 @@ module lab2_proc_ProcBase
     .deq_rdy (imem_reqstream_rdy)
   );
 
-
-
-
-
-
   // ------ Connect Imem Drop Unit ------
   // Imem Drop Unit Message
   logic         imem_respstream_drop;
   mem_resp_4B_t imem_respstream_drop_msg;
   logic         imem_respstream_drop_val;
   logic         imem_respstream_drop_rdy;
+
   // Imem Drop Unit Connection
   lab2_proc_DropUnit #($bits(mem_resp_4B_t)) imem_respstream_drop_unit
   (
@@ -124,10 +110,6 @@ module lab2_proc_ProcBase
     .ostream_rdy (imem_respstream_drop_rdy)
   );
 
-
-
-
-
   // ------ Connect Data Memory ------
   // Data Memory Request Bypass Queue Message
   logic        dmem_queue_num_free_entries;
@@ -142,6 +124,7 @@ module lab2_proc_ProcBase
   assign dmem_reqstream_enq_msg.addr   = dmem_reqstream_enq_msg_addr;
   assign dmem_reqstream_enq_msg.len    = 2'd0;
   assign dmem_reqstream_enq_msg.data   = dmem_reqstream_enq_msg_data;
+
   // Data Memory Request Bypass Queue Connection
   vc_Queue#(`VC_QUEUE_BYPASS,$bits(mem_req_4B_t),1) dmem_queue
   (
@@ -158,18 +141,14 @@ module lab2_proc_ProcBase
     .deq_rdy (dmem_reqstream_rdy)
   );
 
-
-
-
-
-
-  // ------ Connect Data Memory ------
-  // proc2mngr Bypass Queue
+  // ------ Connect Mngr streaming ------
+  // proc2mngr Bypass Queue Message
   logic        proc2mngr_queue_num_free_entries;
   logic [31:0] proc2mngr_enq_msg;
   logic        proc2mngr_enq_val;
   logic        proc2mngr_enq_rdy;
 
+  // proc2mngr Bypass Queue Connection
   vc_Queue#(`VC_QUEUE_BYPASS,32,1) proc2mngr_queue
   (
     .clk     (clk),
@@ -185,18 +164,17 @@ module lab2_proc_ProcBase
     .deq_rdy (proc2mngr_rdy)
   );
 
-
-
-
   // ------ Connect Multiplier from Lab1 ------
   // Multiplier Request Message
   logic [63:0]        IntMulAlt_reqstream_msg;
   logic               IntMulAlt_reqstream_val;
   logic               IntMulAlt_reqstream_rdy;
+
   // Multiplier Response Message
   logic [31:0]        IntMulAlt_respstream_msg;
   logic               IntMulAlt_respstream_val;
   logic               IntMulAlt_respstream_rdy;
+
   // Multiplier Response Connection
   lab1_imul_IntMulAlt mul
   (
@@ -209,11 +187,6 @@ module lab2_proc_ProcBase
     .ostream_rdy    (IntMulAlt_respstream_rdy),
     .ostream_msg    (IntMulAlt_respstream_msg)
   );
-
-
-
-
-
 
 // ---------- Connect DataPath and Control Unit ----------
 
@@ -235,6 +208,7 @@ module lab2_proc_ProcBase
   logic [4:0]  rf_waddr_W;
   logic        rf_wen_W;
   logic        stats_en_wen_W;
+  
   // status signals (dpath->ctrl)
   logic [31:0] inst_D;
   logic        br_cond_eq_X;

@@ -6,103 +6,85 @@
 `include "vc/muxes.v"
 `include "vc/regs.v"
 `include "vc/regfiles.v"
-
 `include "tinyrv2_encoding.v"
 `include "ProcDpathImmGen.v"
 `include "ProcDpathAlu.v"
 
 
-
-// Main module for handling control logic or datapath
 module lab2_proc_ProcBaseDpath
 #(
   parameter p_num_cores = 1
 )
 (
-// Input ports of the module
   input  logic         clk,
   input  logic         reset,
 
 // Instruction Memory Port
-// Output ports of the module
-  output logic [31:0]  imem_reqstream_msg_addr,
-// Input ports of the module
-  input  mem_resp_4B_t imem_respstream_msg,
+  output logic [31:0]  imem_reqstream_msg_addr,               // Address of Instruction
+  input  mem_resp_4B_t imem_respstream_msg,                   // Next Instruction Fetched
 
 // Data Memory Port
-// Output ports of the module
-  output logic [31:0]  dmem_reqstream_msg_addr,   // Address of data
-  output logic [31:0]  dmem_reqstream_msg_data,   // Data sent to memory
-// Input ports of the module
-  input  logic [31:0]  dmem_respstream_msg_data,  // Data received from memory
+  output logic [31:0]  dmem_reqstream_msg_addr,               // Address of data
+  output logic [31:0]  dmem_reqstream_msg_data,               // Data sent to memory
+  input  logic [31:0]  dmem_respstream_msg_data,              // Data received from memory
 
 // mngr communication ports
-// Input ports of the module
-  input  logic [31:0]  mngr2proc_data,
-// Output ports of the module
-  output logic [31:0]  proc2mngr_data,
+  input  logic [31:0]  mngr2proc_data,                        // Message received from mngr
+  output logic [31:0]  proc2mngr_data,                        // Message sent to mngr
 
 // Multiplier Port
-// Output ports of the module
-  output logic [63:0]  IntMulAlt_reqstream_msg,   // Data sent to multiplier
-// Input ports of the module
-  input  logic [31:0]  IntMulAlt_respstream_msg,  // Data received from multiplier
+  output logic [63:0]  IntMulAlt_reqstream_msg,               // Data sent to multiplier
+  input  logic [31:0]  IntMulAlt_respstream_msg,              // Data received from multiplier
 
 
 // control signals (ctrl->dpath)
-// Input ports of the module
-  input  logic         imem_respstream_drop,
-  input  logic         reg_en_F,
-  input  logic [1:0]   pc_sel_F,
-  input  logic         reg_en_D,
-  input  logic         op1_sel_D,                 //add op1_sel Mux signal
-  input  logic [1:0]   op2_sel_D,
-  input  logic [1:0]   csrr_sel_D,
-  input  logic [2:0]   imm_type_D,
-  input  logic         reg_en_X,
-  input  logic [3:0]   alu_fn_X,
-  input  logic [1:0]   ex_result_sel_X,          //add ex_result_sel Mux signal 
-  input  logic         reg_en_M,
-  input  logic         wb_result_sel_M,
-  input  logic         reg_en_W,
-  input  logic [4:0]   rf_waddr_W,
-  input  logic         rf_wen_W,
-  input  logic         stats_en_wen_W,
+  input  logic         imem_respstream_drop,                  // Drop Unit message
+  input  logic         reg_en_F,                              // Register Enable of F Stage
+  input  logic [1:0]   pc_sel_F,                              // PC redirection Select Mux Signal
+  input  logic         reg_en_D,                              // Register Enable of D Stage
+  input  logic         op1_sel_D,                             // Operand 1 Select Mux Signal
+  input  logic [1:0]   op2_sel_D,                             // Operand 2 Select Mux Signal
+  input  logic [1:0]   csrr_sel_D,                            // CSRR Select Signal
+  input  logic [2:0]   imm_type_D,                            // Immediate Type
+  input  logic         reg_en_X,                              // Register Enable of X Stage
+  input  logic [3:0]   alu_fn_X,                              // Alu Function Signal
+  input  logic [1:0]   ex_result_sel_X,                       // Execuation Result Select Mux Signal 
+  input  logic         reg_en_M,                              // Register Enable of M Stage
+  input  logic         wb_result_sel_M,                       // Register File Write Result Select
+  input  logic         reg_en_W,                              // Register Enable of W Stage
+  input  logic [4:0]   rf_waddr_W,                            // Register File Write Address
+  input  logic         rf_wen_W,                              // Register File Write Enable
+  input  logic         stats_en_wen_W,                        // Execuation Result Select Mux Signal
 
 // status signals (dpath->ctrl)
-// Output ports of the module
-  output logic [31:0]  inst_D,
-  output logic         br_cond_eq_X,
-  output logic         br_cond_lt_X,
-  output logic         br_cond_ltu_X,
+  output logic [31:0]  inst_D,                                // Instruction to Decode
+  output logic         br_cond_eq_X,                          // Branch conition equal signal
+  output logic         br_cond_lt_X,                          // Branch conition less than signal
+  output logic         br_cond_ltu_X,                         // Branch conition less than unsigned int signal
 
 // extra ports
-// Input ports of the module
   input  logic [31:0]  core_id,
-// Output ports of the module
   output logic         stats_en
 );
 
-  localparam c_reset_vector = 32'h200;
-  localparam c_reset_inst   = 32'h00000000;
+  localparam c_reset_vector = 32'h200;                        // Reset Vector
+  localparam c_reset_inst   = 32'h00000000;                   // Reset Instruction
 
   // Fetch address
-
-// Continuous assignment to wire or output
   assign imem_reqstream_msg_addr = pc_next_F;
 
-  //--------------------------------------------------------------------
-  // F stage
-  //--------------------------------------------------------------------
+//--------------------------------------------------------------------
+// F stage
+//--------------------------------------------------------------------
 
-  logic [31:0] pc_F;
-  logic [31:0] pc_next_F;
-  logic [31:0] pc_plus4_F;
-  logic [31:0] br_target_X;
-  logic [31:0] jal_target_D;
-  logic [31:0] jalr_target_X;
+  logic [31:0] pc_F;                                          // Current Fetched Instruction PC
+  logic [31:0] pc_next_F;                                     // Next to Fetch Instruction PC
+  logic [31:0] pc_plus4_F;                                    // PC Plus 4
+  logic [31:0] br_target_X;                                   // Branch Target Address
+  logic [31:0] jal_target_D;                                  // JUMP Target Address
+  logic [31:0] jalr_target_X;                                 // JUMP Target Address
 
-// Internal registers to hold PC
+// Internal Register to store current PC
   vc_EnResetReg#(32, c_reset_vector - 32'd4) pc_reg_F
   (
     .clk    (clk),
@@ -112,14 +94,14 @@ module lab2_proc_ProcBaseDpath
     .q      (pc_F)
   );
 
-// Internal registers to hold PC
+// Internal Module to increment PC
   vc_Incrementer#(32, 4) pc_incr_F
   (
     .in   (pc_F),
     .out  (pc_plus4_F)
   );
 
-// PC redirection Mux
+// PC redirection Select Mux
   vc_Mux4#(32) pc_sel_mux_F
   (
     .in0  (pc_plus4_F),
@@ -130,38 +112,38 @@ module lab2_proc_ProcBaseDpath
     .out  (pc_next_F)
   );
 
-  //--------------------------------------------------------------------
-  // D stage
-  //--------------------------------------------------------------------
+//--------------------------------------------------------------------
+// D stage
+//--------------------------------------------------------------------
 
-  logic [31:0] pc_D;
-  logic [ 4:0] inst_rd_D;
-  logic [ 4:0] inst_rs1_D;
-  logic [ 4:0] inst_rs2_D;
-  logic [31:0] imm_D;
+  logic [31:0] pc_D;                                          // Current Decoding Instruction PC
+  logic [ 4:0] inst_rd_D;                                     // Destination Register Address
+  logic [ 4:0] inst_rs1_D;                                    // Read Register 1 Address
+  logic [ 4:0] inst_rs2_D;                                    // Read Register 2 Address
+  logic [31:0] imm_D;                                         // Immediate Value
 
-// Internal registers to hold state
+// Registers to Store Current Decoding Instruction PC
   vc_EnResetReg#(32) pc_reg_D
   (
     .clk    (clk),
     .reset  (reset),
-// Internal registers to hold state
     .en     (reg_en_D),
     .d      (pc_F),
     .q      (pc_D)
   );
 
-// Internal registers to hold state
+
+// Registers to Store Current Decoding Instruction
   vc_EnResetReg#(32, c_reset_inst) inst_D_reg
   (
     .clk    (clk),
     .reset  (reset),
-// Internal registers to hold state
     .en     (reg_en_D),
     .d      (imem_respstream_msg.data),
     .q      (inst_D)
   );
 
+// Instruction unpack module
   lab2_proc_tinyrv2_encoding_InstUnpack inst_unpack
   (
     .opcode   (),
@@ -174,6 +156,7 @@ module lab2_proc_ProcBaseDpath
     .csr      ()
   );
 
+// Immediate Generation module
   lab2_proc_ProcDpathImmGen imm_gen_D
   (
     .imm_type (imm_type_D),
@@ -181,10 +164,11 @@ module lab2_proc_ProcBaseDpath
     .imm      (imm_D)
   );
 
-  logic [31:0] rf_rdata0_D;
-  logic [31:0] rf_rdata1_D;
-  logic [31:0] rf_wdata_W;
+  logic [31:0] rf_rdata0_D;                                       // Read Register 1 Data
+  logic [31:0] rf_rdata1_D;                                       // Read Register 2 Data
+  logic [31:0] rf_wdata_W;                                        // Data to Write to Register 
 
+// Register File Read/Write module
   vc_Regfile_2r1w_zero rf
   (
     .clk      (clk),
@@ -198,14 +182,15 @@ module lab2_proc_ProcBaseDpath
     .wr_data  (rf_wdata_W)
   );
 
-  logic [31:0] op1_D;  
-  logic [31:0] op2_D;
-  logic [31:0] csrr_data_D;
-  logic [31:0] num_cores;
-// Continuous assignment to wire or output
+
+  logic [31:0] op1_D;                                           // ALU Operand 1
+  logic [31:0] op2_D;                                           // ALU Operand 2
+  logic [31:0] csrr_data_D;                                     // CSRR Data
+  logic [31:0] num_cores;                                       // number of cores
+
   assign num_cores = p_num_cores;
 
-  // csrr data select mux
+  // CSRR Data Select Mux
   vc_Mux3#(32) csrr_sel_mux_D
   (
    .in0  (mngr2proc_data),
@@ -215,8 +200,7 @@ module lab2_proc_ProcBaseDpath
    .out  (csrr_data_D)
   );
 
-  // op1 select mux
-  // This mux selects pc data or R[rs1] to ALU operand 0
+  // Operand 1 Select Mux
   vc_Mux2#(32) op1_sel_mux_D
   (
     .in0  (rf_rdata0_D),
@@ -225,8 +209,7 @@ module lab2_proc_ProcBaseDpath
     .out  (op1_D)
   );
 
-
-  // op2 select mux
+  // Operand 2 Select Mux
   vc_Mux3#(32) op2_sel_mux_D
   (
     .in0  (rf_rdata1_D),
@@ -236,9 +219,10 @@ module lab2_proc_ProcBaseDpath
     .out  (op2_D)
   );
 
-// Continuous assignment to wire or output
+  // Generate Multiplier Request Message
   assign IntMulAlt_reqstream_msg = {op1_D, op2_D};
 
+  // Module for Calculating Jal Target Address
   vc_Adder#(32) pc_plus_imm_D
   (
     .in0  (pc_D),
@@ -248,85 +232,84 @@ module lab2_proc_ProcBaseDpath
     .cout ()
   );
 
-  //--------------------------------------------------------------------
-  // X stage
-  //--------------------------------------------------------------------
+//--------------------------------------------------------------------
+// X stage
+//--------------------------------------------------------------------
 
-  logic [31:0] op1_X;
-  logic [31:0] op2_X;
-  logic [31:0] pc_X;
-  logic [31:0] pc_plus4_X;
+  logic [31:0] op1_X;                                           // Execuation Operand 1
+  logic [31:0] op2_X;                                           // Execuation Operand 2
+  logic [31:0] pc_X;                                            // PC of Instruction in X stage
+  logic [31:0] pc_plus4_X;                                      // PC plus 4
 
 
 
-// Internal registers to hold state
+// Register to Store Operand 1
   vc_EnResetReg#(32, 0) op1_reg_X
   (
     .clk   (clk),
     .reset (reset),
-// Internal registers to hold state
     .en    (reg_en_X),
     .d     (op1_D),
     .q     (op1_X)
   );
 
-// Internal registers to hold state
+// Register to Store Operand 2
   vc_EnResetReg#(32, 0) op2_reg_X
   (
     .clk   (clk),
     .reset (reset),
-// Internal registers to hold state
     .en    (reg_en_X),
     .d     (op2_D),
     .q     (op2_X)
   );
 
-// Internal registers to hold state
+// Register to Branch Target Address
   vc_EnResetReg#(32, 0) br_target_reg_X
   (
     .clk   (clk),
     .reset (reset),
-// Internal registers to hold state
     .en    (reg_en_X),
     .d     (jal_target_D),
     .q     (br_target_X)
   );
 
-// Internal registers to hold state
+// Registers to Store Current Execuating Instruction PC
   vc_EnResetReg#(32, 0) pc_reg_X
   (
     .clk   (clk),
     .reset (reset),
-// Internal registers to hold state
     .en    (reg_en_X),
     .d     (pc_D),
     .q     (pc_X)
   );
 
+// Module to Increment Current Execuating Instruction PC by 4
   vc_Incrementer#(32, 4) pc_incr_X
   (
     .in   (pc_X),
     .out  (pc_plus4_X)
   );
 
+  logic [31:0] rf_rdata1_X;                                   // Read Register 2 Data to Write to Memory
 
-  logic [31:0] rf_rdata1_X;
-// Internal registers to hold state
+// Registers to Store Read Register 2 Data for Later Memory Writing
   vc_EnResetReg#(32, 0) dmem_write_data_reg_X
   (
     .clk   (clk),
     .reset (reset),
-// Internal registers to hold state
     .en    (reg_en_X),
     .d     (rf_rdata1_D),
     .q     (rf_rdata1_X)
   );
-// Continuous assignment to wire or output
+
+// Write Register 2 Data to Data Memory Request Message Data Part
   assign dmem_reqstream_msg_data = rf_rdata1_X;
 
 
-  logic [31:0] alu_result_X;
-  logic [31:0] ex_result_X;
+  logic [31:0] alu_result_X;                                // Alu Execuation Result 
+  logic [31:0] ex_result_X;                                 // Actual Execuation Result of X stage
+
+// Connect Alu module
   lab2_proc_ProcDpathAlu alu
   (
     .in0      (op1_X),
@@ -337,11 +320,14 @@ module lab2_proc_ProcBaseDpath
     .ops_lt   (br_cond_lt_X),
     .ops_ltu  (br_cond_ltu_X)
   );
-// Continuous assignment to wire or output
+
+// Write Alu Execuation Result to Data Memory Request Message Address Part
   assign dmem_reqstream_msg_addr = alu_result_X; 
-// Continuous assignment to wire or output
+
+// Assign Alu Execuation Result to Jalr Target Address
   assign jalr_target_X = alu_result_X;
 
+// Actual Execuation Result Select Mux
   vc_Mux3#(32) ex_result_sel_mux_X
   (
     .in0  (alu_result_X),
@@ -353,32 +339,29 @@ module lab2_proc_ProcBaseDpath
 
 
 
-  logic [31:0] mul_result_X;
+//--------------------------------------------------------------------
+// M stage
+//--------------------------------------------------------------------
 
+  logic [31:0] ex_result_M;                                 // Actual Execuation Result recevied in M stage
 
-  //--------------------------------------------------------------------
-  // M stage
-  //--------------------------------------------------------------------
-
-  logic [31:0] ex_result_M;
-
-// Internal registers to hold state
+// Rregisters to Store Actual Execuation Result
   vc_EnResetReg#(32, 0) ex_result_reg_M
   (
     .clk    (clk),
     .reset  (reset),
-// Internal registers to hold state
     .en     (reg_en_M),
     .d      (ex_result_X),   
     .q      (ex_result_M)
   );
 
-  logic [31:0] dmem_result_M;
-  logic [31:0] wb_result_M;
+  logic [31:0] dmem_result_M;                              // Data get from Data Memory Response
+  logic [31:0] wb_result_M;                                // Writing Result Select Mux Signal
 
-// Continuous assignment to wire or output
+// Assign the Data Part of Data Memory Response Message to Data Memory Result
   assign dmem_result_M = dmem_respstream_msg_data;
 
+// Writing Result Select Mux
   vc_Mux2#(32) wb_result_sel_mux_M
   (
     .in0    (ex_result_M),
@@ -387,40 +370,36 @@ module lab2_proc_ProcBaseDpath
     .out    (wb_result_M)
   );
 
-  //--------------------------------------------------------------------
-  // W stage
-  //--------------------------------------------------------------------
+//--------------------------------------------------------------------
+// W stage
+//--------------------------------------------------------------------
 
-  logic [31:0] wb_result_W;
+  logic [31:0] wb_result_W;                                // Selected Writing Result recevied in W stage
 
-// Internal registers to hold state
+// Register to Store Selected Writing Result
   vc_EnResetReg#(32, 0) wb_result_reg_W
   (
     .clk    (clk),
     .reset  (reset),
-// Internal registers to hold state
     .en     (reg_en_W),
     .d      (wb_result_M),
     .q      (wb_result_W)
   );
 
-// Continuous assignment to wire or output
+// Assign Selected Writing Result to Mngr Communication Portion
   assign proc2mngr_data = wb_result_W;
 
-// Continuous assignment to wire or output
+// Assign Selected Writing Result to Register Writing Data
   assign rf_wdata_W = wb_result_W;
 
-// Output ports of the module
-  // stats output
-  // note the stats en is full 32-bit here but the outside port is one
-  // bit.
 
-  logic [31:0] stats_en_W;
 
-// Continuous assignment to wire or output
+  logic [31:0] stats_en_W;                                // State Register Enable Signal
+
+// Assign State Register Enable Signal
   assign stats_en = | stats_en_W;
 
-// Internal registers to hold state
+// Register to Store States
   vc_EnResetReg#(32, 0) stats_en_reg_W
   (
    .clk    (clk),
@@ -430,7 +409,7 @@ module lab2_proc_ProcBaseDpath
    .q      (stats_en_W)
   );
 
-// Main module for handling control logic or datapath
 endmodule
 
-`endif /* LAB2_PROC_PROC_BASE_DPATH_V */
+`endif 
+

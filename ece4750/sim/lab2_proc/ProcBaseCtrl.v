@@ -5,304 +5,178 @@
 `include "tinyrv2_encoding.v"
 
 
-
-
-
-
 module lab2_proc_ProcBaseCtrl
 (
-// Input ports of the module
   input  logic        clk,
-// Input ports of the module
   input  logic        reset,
 
-
   // Instruction Memory Port
-// Output ports of the module
-  output logic        imem_reqstream_val,
-// Input ports of the module
-  input  logic        imem_reqstream_rdy,
-// Input ports of the module
-  input  logic        imem_respstream_val,
-// Output ports of the module
-  output logic        imem_respstream_rdy,
-// Output ports of the module
-  output logic        imem_respstream_drop,
-
+  output logic        imem_reqstream_val,                         // Request Message to Instruction Memory Valid Signal
+  input  logic        imem_reqstream_rdy,                         // Instruction Memory Ready Signal
+  input  logic        imem_respstream_val,                        // Instruction Memory Response Message Valid Signal
+  output logic        imem_respstream_rdy,                        // Processor Ready to Receive Instruction Signal
+  output logic        imem_respstream_drop,                       // Drop Instruction Signal
 
   // Data Memory Port
-// Output ports of the module
-  output logic        dmem_reqstream_val,
-// Input ports of the module
-  input  logic        dmem_reqstream_rdy,
-// Input ports of the module
-  input  logic        dmem_respstream_val,
-// Output ports of the module
-  output logic        dmem_respstream_rdy,
-// Output ports of the module
-  output logic [2:0]  dmem_reqstream_msg_type,
-
+  output logic        dmem_reqstream_val,                         // Request Message to Data Memory Valid Signal         
+  input  logic        dmem_reqstream_rdy,                         // Data Memory Ready Signal
+  input  logic        dmem_respstream_val,                        // Data Memory Response Message Valid Signal
+  output logic        dmem_respstream_rdy,                        // Processor Ready to Receive Data Signal
+  output logic [2:0]  dmem_reqstream_msg_type,                    // Data Operation Type of Request Message
 
   // mngr communication port
-// Input ports of the module
-  input  logic        mngr2proc_val,
-// Output ports of the module
-  output logic        mngr2proc_rdy,
-// Output ports of the module
-  output logic        proc2mngr_val,
-// Input ports of the module
-  input  logic        proc2mngr_rdy,
+  input  logic        mngr2proc_val,                              // Mngr2Proc Message Valid Signal
+  output logic        mngr2proc_rdy,                              // Processor Ready to Receive Mngr Message Signal
+  output logic        proc2mngr_val,                              // Proc2mngr Message Valid Signal
+  input  logic        proc2mngr_rdy,                              // Mngr Ready to Receive Proc Message Signal 
 
   // multiplier communication port
-// Output ports of the module
-  output logic        IntMulAlt_reqstream_val,
-// Input ports of the module
-  input  logic        IntMulAlt_reqstream_rdy,
-// Input ports of the module
-  input  logic        IntMulAlt_respstream_val,
-// Output ports of the module
-  output logic        IntMulAlt_respstream_rdy,
-
-
+  output logic        IntMulAlt_reqstream_val,                    // Request Message to Multiplier Valid Signal
+  input  logic        IntMulAlt_reqstream_rdy,                    // Multiplier Ready Signal
+  input  logic        IntMulAlt_respstream_val,                   // Multiplier Response Message Valid Signal
+  output logic        IntMulAlt_respstream_rdy,                   // Processor Ready to Receive Multiplier Message Signal
 
   // control signals (ctrl->dpath)
-// Output ports of the module
-  output logic        reg_en_F,
-// Output ports of the module
-  output logic [1:0]  pc_sel_F,
-// Output ports of the module
-  output logic        reg_en_D,
-// Output ports of the module
-  output logic        op1_sel_D,  // op1_sel Mux signal
-// Output ports of the module
-  output logic [1:0]  op2_sel_D,
-// Output ports of the module
-  output logic [1:0]  csrr_sel_D,
-// Output ports of the module
-  output logic [2:0]  imm_type_D,
-// Output ports of the module
-  output logic        reg_en_X,
-// Output ports of the module
-  output logic [3:0]  alu_fn_X,
-// Output ports of the module
-  output logic [1:0]  ex_result_sel_X,
-// Output ports of the module
-  output logic        reg_en_M,
-// Output ports of the module
-  output logic        wb_result_sel_M,
-// Output ports of the module
-  output logic        reg_en_W,
-// Output ports of the module
-  output logic [4:0]  rf_waddr_W,
-// Output ports of the module
-  output logic        rf_wen_W,
-// Output ports of the module
-  output logic        stats_en_wen_W,
-
-
+  output logic        reg_en_F,                                   // Register Enable of F Stage
+  output logic [1:0]  pc_sel_F,                                   // PC redirection Select Mux Signal
+  output logic        reg_en_D,                                   // Register Enable of D Stage
+  output logic        op1_sel_D,                                  // Operand 1 Select Mux Signal
+  output logic [1:0]  op2_sel_D,                                  // Operand 2 Select Mux Signal
+  output logic [1:0]  csrr_sel_D,                                 // CSRR Select Signal
+  output logic [2:0]  imm_type_D,                                 // Immediate Type
+  output logic        reg_en_X,                                   // Register Enable of X Stage
+  output logic [3:0]  alu_fn_X,                                   // Alu Function Signal
+  output logic [1:0]  ex_result_sel_X,                            // Execuation Result Select Mux Signal 
+  output logic        reg_en_M,                                   // Register Enable of M Stage
+  output logic        wb_result_sel_M,                            // Register File Write Result Select
+  output logic        reg_en_W,                                   // Register Enable of W Stage
+  output logic [4:0]  rf_waddr_W,                                 // Register File Write Address
+  output logic        rf_wen_W,                                   // Register File Write Enable
+  output logic        stats_en_wen_W,                             // Execuation Result Select Mux Signal
 
   // status signals (dpath->ctrl)
-// Input ports of the module
-  input  logic [31:0] inst_D,
-// Input ports of the module
-  input  logic        br_cond_eq_X,
-// Input ports of the module
-  input  logic        br_cond_lt_X,
-// Input ports of the module
-  input  logic        br_cond_ltu_X,
-
+  input  logic [31:0] inst_D,                                     // Instruction to Decode
+  input  logic        br_cond_eq_X,                               // Branch conition equal signal
+  input  logic        br_cond_lt_X,                               // Branch conition less than signal
+  input  logic        br_cond_ltu_X,                              // Branch conition less than unsigned int signal
 
   // extra ports
-// Output ports of the module
   output logic        commit_inst
 );
 
+//------------- val, stall, and squash variable -------------
+
+  logic val_F;                                                  // Valid Signal for Instruction in F stage
+  logic val_D;                                                  // Valid Signal for Instruction in D stage
+  logic val_X;                                                  // Valid Signal for Instruction in X stage
+  logic val_M;                                                  // Valid Signal for Instruction in M stage
+  logic val_W;                                                  // Valid Signal for Instruction in W stage
+
+  logic ostall_F;                                               // ostall due to imem_respstream_val
+  logic ostall_D;                                               // ostall due to mngr2proc_val or other hazards or IntMulAlt_respstream_rdy
+  logic ostall_X;                                               // ostall due to dmem_reqstream_rdy
+  logic ostall_M;                                               // ostall due to dmem_respstream_val
+  logic ostall_W;                                               // ostall due to proc2mngr_rdy
+
+  logic stall_F;                                                // Final stall signal of F stage
+  logic stall_D;                                                // Final stall signal of D stage
+  logic stall_X;                                                // Final stall signal of X stage
+  logic stall_M;                                                // Final stall signal of M stage
+  logic stall_W;                                                // Final stall signal of W stage
+
+  logic osquash_D;                                              // osquash due to unconditional jumps
+  logic osquash_X;                                              // osquash due to taken branches
+
+  logic squash_F;                                               // Final squash signal of F stage
+  logic squash_D;                                               // Final squash signal of D stage
 
 
 
-  //----------------------------------------------------------------------
-  // Notes
-  //----------------------------------------------------------------------
-  // We follow this principle to organize code for each pipeline stage in
-// Always block for combinational or sequential logic
-  // the control unit.  Register enable logics should always at the
-// Internal registers to hold state
-  // beginning. It followed by pipeline registers. Then logic that is not
-// End of always block
-  // dependent on stall or squash signals. Then logic that is dependent
-  // on stall or squash signals. At the end there should be signals meant
-  // to be passed to the next stage in the pipeline.
+//----------------------------------------------------------------------
+// F stage
+//----------------------------------------------------------------------
 
-  //----------------------------------------------------------------------
-  // Valid, stall, and squash signals
-  //----------------------------------------------------------------------
-  // We use valid signal to indicate if the instruction is valid.  An
-  // instruction can become invalid because of being squashed or
-  // stalled. Notice that invalid instructions are microarchitectural
-  // events, they are different from archtectural no-ops. We must be
-  // careful about control signals that might change the state of the
-// Always block for combinational or sequential logic
-  // processor. We should always AND outgoing control signals with valid
-  // signal.
+// ------------- Register enable and Mux Select logic -------------
 
-  logic val_F;
-  logic val_D;
-  logic val_X;
-  logic val_M;
-  logic val_W;
-
-  // Managing the stall and squash signals is one of the most important,
-  // yet also one of the most complex, aspects of designing a pipelined
-  // processor. We will carefully use four signals per stage to manage
-  // stalling and squashing: ostall_A, osquash_A, stall_A, and squash_A.
-  //
-  // We denote the stall signals _originating_ from stage A as
-// Conditional logic based on inputs or internal state
-  // ostall_A. For example, if stage A can stall due to a pipeline
-  // harzard, then ostall_A would need to factor in the stalling
-  // condition for this pipeline harzard.
-
-  logic ostall_F;  // can ostall due to imem_respstream_val
-  logic ostall_D;  // can ostall due to mngr2proc_val or other hazards
-  logic ostall_X;  // can ostall due to dmem_reqstream_rdy
-  logic ostall_M;  // can ostall due to dmem_respstream_val
-  logic ostall_W;  // can ostall due to proc2mngr_rdy
-
-  // The stall_A signal should be used to indicate when stage A is indeed
-  // stalling. stall_A will be a function of ostall_A and all the ostall
-  // signals of stages in front of it in the pipeline.
-
-  logic stall_F;
-  logic stall_D;
-  logic stall_X;
-  logic stall_M;
-  logic stall_W;
-
-  // We denote the squash signals _originating_ from stage A as
-// Conditional logic based on inputs or internal state
-  // osquash_A. For example, if stage A needs to squash the stages behind
-  // A in the pipeline, then osquash_A would need to factor in this
-  // squash condition.
-
-  logic osquash_D; // can osquash due to unconditional jumps
-  logic osquash_X; // can osquash due to taken branches
-
-  // The squash_A signal should be used to indicate when stage A is being
-  // squashed. squash_A will _not_ be a function of osquash_A, since
-  // osquash_A means to squash the stages _behind_ A in the pipeline, but
-  // not to squash A itself.
-
-  logic squash_F;
-  logic squash_D;
-
-  //----------------------------------------------------------------------
-  // F stage
-  //----------------------------------------------------------------------
-
-  // Register enable logic
-
-// Internal registers to hold state
+  // Enable Registers if no stall or if there is a squash happens in F stage
   assign reg_en_F = !stall_F || squash_F;
 
-// Internal registers to hold state
-  // Pipeline registers
-
-// Always block for combinational or sequential logic
+  // Valid Signal for Instruction in F stage should be true if it's not resetting
   always_ff @( posedge clk ) begin
-// Conditional logic based on inputs or internal state
     if ( reset )
       val_F <= 1'b0;
-// Internal registers to hold state
     else if ( reg_en_F )
       val_F <= 1'b1;
-// End of always block
   end
 
-  // forward declaration for PC sel
 
-  logic       pc_redirect_X;
-  logic       pc_redirect_D;
-  logic [1:0] pc_sel_D;
-  logic [1:0] pc_sel_X;
+  logic       pc_redirect_D;                                    // PC Redirection Signal Generated in D stage                  
+  logic       pc_redirect_X;                                    // PC Redirection Signal Generated in X stage
+  logic [1:0] pc_sel_D;                                         // PC redirection Select Mux Signal Generated in D stage  
+  logic [1:0] pc_sel_X;                                         // PC redirection Select Mux Signal Generated in X stage  
 
-  // PC select logic
-
-// Always block for combinational or sequential logic
+  // PC Select Logic
   always_comb begin
-// Conditional logic based on inputs or internal state
-    if ( pc_redirect_D )          // If pc jumps in D stage
-      pc_sel_F = pc_sel_D;        // Use pc from D
-// Conditional logic based on inputs or internal state
-    else if ( pc_redirect_X )     // If a branch is taken in X stage
-      pc_sel_F = pc_sel_X;        // Use pc from X
+    if ( pc_redirect_X )                                        // If PC Jumps in X stage or a branch is taken in X stage
+      pc_sel_F = pc_sel_X;                                      // Use PC Address Calculated in X stage
+    else if ( pc_redirect_D )                                   // If PC Jumps in D stage
+      pc_sel_F = pc_sel_D;                                      // Use PC Address Calculated in D stage
     else
-      pc_sel_F = 2'b0;            // Use pc + 4
-// End of always block
-  end
+      pc_sel_F = 2'b0;                                          // Use PC + 4
+  end;;
+
+
+// ------------- ostall and osquash in F -------------
 
   // ostall due to the imem response not valid.
-
-// Continuous assignment to wire or output
   assign ostall_F = val_F && !imem_respstream_val;
 
-  // stall and squash in F
-
-// Continuous assignment to wire or output
+  // Final stall signal of F stage
   assign stall_F  = val_F && ( ostall_F  || ostall_D || ostall_X || ostall_M || ostall_W );
-// Continuous assignment to wire or output
+
+  // Final squash signal of F stage
   assign squash_F = val_F && ( osquash_D || osquash_X );
 
-  // We drop the mem response when we are getting squashed
-
-// Continuous assignment to wire or output
+  // Drop instruction if squash
   assign imem_respstream_drop = squash_F;
 
-  // imem is very special. Actually imem requests are sent before the F
-  // stage. Note that we need to factor in reset to the imem_reqstream_val
-  // signal because we don't want to send out imem request when we are
-  // resetting.
-
-// Continuous assignment to wire or output
+  // Set Request to Instruction Memory Valid if no stall or if there is a squash happens when not resetting
   assign imem_reqstream_val  = ( !stall_F || squash_F ) && !reset;
-// Continuous assignment to wire or output
+
+  // Set Processor Ready to Receive Instruction Signal if no stall or if there is a squash happens
   assign imem_respstream_rdy = !stall_F || squash_F;
 
-  // Valid signal for the next stage (stage D)
 
+// ------------- Valid signal for the next stage (stage D) -------------
   logic  next_val_F;
-// Continuous assignment to wire or output
   assign next_val_F = val_F && !stall_F && !squash_F;
 
-  //----------------------------------------------------------------------
-  // D stage
-  //----------------------------------------------------------------------
 
-  // Register enable logic
 
-// Internal registers to hold state
+//----------------------------------------------------------------------
+// D stage
+//----------------------------------------------------------------------
+
+// ------------- Register enable and Mux Select logic -------------
+
+  // Enable Registers if no stall or if there is a squash happens in D stage
   assign reg_en_D = !stall_D || squash_D;
 
-// Internal registers to hold state
-  // Pipline registers
-
-// Always block for combinational or sequential logic
+  // Valid Signal for Instruction in D stage forwarded from F stage
   always_ff @( posedge clk ) begin
-// Conditional logic based on inputs or internal state
     if ( reset )
       val_D <= 1'b0;
-// Internal registers to hold state
     else if ( reg_en_D )
       val_D <= next_val_F;
-// End of always block
   end
 
-  // Parse instruction fields
+  // Parse Instruction Fields
+  logic   [4:0] inst_rd_D;                                        // Destination Register Address
+  logic   [4:0] inst_rs1_D;                                       // Read Register 1 Address
+  logic   [4:0] inst_rs2_D;                                       // Read Register 2 Address
+  logic   [11:0] inst_csr_D;                                      // CSR Address
 
-  logic   [4:0] inst_rd_D;
-  logic   [4:0] inst_rs1_D;
-  logic   [4:0] inst_rs2_D;
-  logic   [11:0] inst_csr_D;
-
+  // Instruction unpack module
   lab2_proc_tinyrv2_encoding_InstUnpack inst_unpack
   (
     .inst     (inst_D),
@@ -315,145 +189,114 @@ module lab2_proc_ProcBaseCtrl
     .csr      (inst_csr_D)
   );
 
-
   // Generic Parameters -- yes or no
   localparam n = 1'd0;
   localparam y = 1'd1;
 
-
   // Register specifiers
-  localparam rx = 5'bx;   // don't care
-  localparam r0 = 5'd0;   // zero
-  localparam rL = 5'd31;  // for jal
-
+  localparam rx = 5'bx;                                         // Don't care
+  localparam r0 = 5'd0;                                         // Zero
+  localparam rL = 5'd31;                                        // for jal
 
   // Branch type
-  localparam br_x      = 4'bx; // Don't care
-  localparam br_na     = 4'b0; // No branch
-  localparam br_bne    = 4'b1; // bne
-  localparam br_beq    = 4'd2; // beq
-  localparam br_blt    = 4'd3; // blt
-  localparam br_bltu   = 4'd4; // bltu
-  localparam br_bge    = 4'd5; // bge
-  localparam br_bgeu   = 4'd6; // bgeu
-  localparam jal       = 4'd7; // jal
-  localparam jalr      = 4'd8; // jalr
+  localparam br_x      = 4'bx;                                  // Don't care
+  localparam br_na     = 4'b0;                                  // No branch
+  localparam br_bne    = 4'b1;                                  // bne
+  localparam br_beq    = 4'd2;                                  // beq
+  localparam br_blt    = 4'd3;                                  // blt
+  localparam br_bltu   = 4'd4;                                  // bltu
+  localparam br_bge    = 4'd5;                                  // bge
+  localparam br_bgeu   = 4'd6;                                  // bgeu
+  localparam jal       = 4'd7;                                  // jal
+  localparam jalr      = 4'd8;                                  // jalr
 
+  // Operand 0 Mux Select Signal
+  localparam am_x     = 1'bx;                                   // Don't care
+  localparam am_rf    = 1'd0;                                   // Use Data from Register File
+  localparam am_pc    = 1'd1;                                   // Use Data from PC
 
-
-
-  // Operand 0 Mux Select 
-  localparam am_x     = 1'bx; // Don't care
-// Internal registers to hold state
-  localparam am_rf    = 1'd0; // Use data from register file
-// Internal registers to hold state
-  localparam am_pc    = 1'd1; // Use data from register pc
-
-
-  // Operand 1 Mux Select
-  localparam bm_x     = 2'bx; // Don't care
-// Internal registers to hold state
-  localparam bm_rf    = 2'd0; // Use data from register file
-  localparam bm_imm   = 2'd1; // Use sign-extended immediate
-  localparam bm_csr   = 2'd2; // Use from mngr data
-
+  // Operand 1 Mux Select Signal
+  localparam bm_x     = 2'bx;                                   // Don't care
+  localparam bm_rf    = 2'd0;                                   // Use Data from Register File
+  localparam bm_imm   = 2'd1;                                   // Use Sign-Extended Immediate
+  localparam bm_csr   = 2'd2;                                   // Use from Mngr Data
 
   // ALU Function
-  localparam alu_x        = 4'bx;
-  localparam alu_add      = 4'd0;
-  localparam alu_sub      = 4'd1;
-  localparam alu_and      = 4'd2;
-  localparam alu_or       = 4'd3;
-  localparam alu_xor      = 4'd4;
-  localparam alu_slt      = 4'd5;
-  localparam alu_sltu     = 4'd6;
-  localparam alu_sra      = 4'd7;
-  localparam alu_srl      = 4'd8;
-  localparam alu_sll      = 4'd9;
-  localparam alu_pc_add   = 4'd10;
-  localparam alu_cp0      = 4'd11;
-  localparam alu_cp1      = 4'd12;
-
-
+  localparam alu_x        = 4'bx;                               // Don't care
+  localparam alu_add      = 4'd0;                               // Add
+  localparam alu_sub      = 4'd1;                               // Sub
+  localparam alu_and      = 4'd2;                               // And
+  localparam alu_or       = 4'd3;                               // Or
+  localparam alu_xor      = 4'd4;                               // Xor
+  localparam alu_slt      = 4'd5;                               // Less than
+  localparam alu_sltu     = 4'd6;                               // Unsigned Less than
+  localparam alu_sra      = 4'd7;                               // Right Arithmatic Shift
+  localparam alu_srl      = 4'd8;                               // Right Logic Shift
+  localparam alu_sll      = 4'd9;                               // Left Logic Shift
+  localparam alu_pc_add   = 4'd10;                              // PC Address Add with & 32'hfffffffe
+  localparam alu_cp0      = 4'd11;                              // Copy Operand 0
+  localparam alu_cp1      = 4'd12;                              // Copy Operand 1
 
   // Immediate Type
-  localparam imm_x    = 3'bx;
-  localparam imm_i    = 3'd0;
-  localparam imm_s    = 3'd1;
-  localparam imm_b    = 3'd2;
-  localparam imm_u    = 3'd3;
-  localparam imm_j    = 3'd4;
-  localparam imm_iv    = 3'd5;
+  localparam imm_x    = 3'bx;                                   // Don't care
+  localparam imm_i    = 3'd0;                                   // I type immediate
+  localparam imm_s    = 3'd1;                                   // S type immediate
+  localparam imm_b    = 3'd2;                                   // B type immediate
+  localparam imm_u    = 3'd3;                                   // U type immediate
+  localparam imm_j    = 3'd4;                                   // J type immediate
+  localparam imm_iv    = 3'd5;                                  // I type Variant immediate 
   
-  //ex_result Mux Select
-  localparam a_alu    = 2'd0;
-  localparam a_mul    = 2'd1;
-  localparam a_pc     = 2'd2;
-
-
+  // Ex_Result Mux Select Signal
+  localparam a_alu    = 2'd0;                                   // Use Result from Alu
+  localparam a_mul    = 2'd1;                                   // Use Result from Multiplier
+  localparam a_pc     = 2'd2;                                   // Use Result from Current PC + 4
 
   // Memory Request Type
-  localparam nr       = 2'd0; // No request
-  localparam ld       = 2'd1; // Load
-  localparam st       = 2'd2; // Store
-
+  localparam nr       = 2'd0;                                   // No request
+  localparam ld       = 2'd1;                                   // Load
+  localparam st       = 2'd2;                                   // Store
 
   // Writeback Mux Select
-  localparam wm_x     = 1'bx; // Don't care
-// Output ports of the module
-  localparam wm_a     = 1'b0; // Use ALU output
-  localparam wm_m     = 1'b1; // Use data memory response
-
+  localparam wm_x     = 1'bx;                                   // Don't care
+  localparam wm_a     = 1'b0;                                   // Use ALU output
+  localparam wm_m     = 1'b1;                                   // Use Data memory Response
 
   // Instruction Decode
-  logic       inst_val_D;
-  logic [3:0] br_type_D;
-  logic       rs1_en_D;
-  logic       rs2_en_D;
-  logic [3:0] alu_fn_D;
-  logic [1:0] ex_result_sel_D;
-  logic [1:0] dmem_reqstream_type_D;
-  logic       wb_result_sel_D;
-  logic       rf_wen_D;
-  logic       csrr_D;
-  logic       csrw_D;
-  logic       proc2mngr_val_D;
-  logic       mngr2proc_rdy_D;
-  logic       stats_en_wen_D;
+  logic       inst_val_D;                                        // Instruction Valid Signal
+  logic [3:0] br_type_D;                                         // Branch Type and Jump Type
+  logic       rs1_en_D;                                          // Read Register 1 Enable
+  logic       rs2_en_D;                                          // Read Register 2 Enable
+  logic [3:0] alu_fn_D;                                          // Alu Function Signal
+  logic [1:0] ex_result_sel_D;                                   // Execuation Result Signal
+  logic [1:0] dmem_reqstream_type_D;                             // Data Memory Operation Type
+  logic       wb_result_sel_D;                                   // Write Result Select Signal
+  logic       rf_wen_D;                                          // Register File Write Enable
+  logic       csrr_D;                                            // CSRR Signal
+  logic       csrw_D;                                            // CSRR Signal
+  logic       proc2mngr_val_D;                                   // Proc2mngr Message Valid Signal
+  logic       mngr2proc_rdy_D;                                   // Mngr Ready to Receive Proc Message Signal
+  logic       stats_en_wen_D;                                    // State Register Enable Signal
 
 
-
+  //  Control Signal Decode Block
   task cs
   (
-// Input ports of the module
-    input logic       cs_inst_val,
-// Input ports of the module
-    input logic [3:0] cs_br_type,
-// Input ports of the module
-    input logic [2:0] cs_imm_type,
-// Input ports of the module
-    input logic       cs_op1_sel,
-// Input ports of the module
-    input logic       cs_rs1_en,
-// Input ports of the module
-    input logic [1:0] cs_op2_sel,
-// Input ports of the module
-    input logic       cs_rs2_en,
-// Input ports of the module
-    input logic [3:0] cs_alu_fn,
-// Input ports of the module
-    input logic [1:0] cs_ex_result_sel,
-// Input ports of the module
-    input logic [1:0] cs_dmem_reqstream_type,
-// Input ports of the module
-    input logic       cs_wb_result_sel,
-// Input ports of the module
-    input logic       cs_rf_wen,
-// Input ports of the module
-    input logic       cs_csrr,
-// Input ports of the module
-    input logic       cs_csrw
+    input logic       cs_inst_val,                                // Instruction Valid Signal 
+    input logic [3:0] cs_br_type,                                 // Branch Type and Jump Type
+    input logic [2:0] cs_imm_type,                                // Immediate Type
+    input logic       cs_op1_sel,                                 // Operand 1 Select Signal
+    input logic       cs_rs1_en,                                  // Read Register 1 Enable
+    input logic [1:0] cs_op2_sel,                                 // Operand 2 Select Signal
+    input logic       cs_rs2_en,                                  // Read Register 2 Enable
+    input logic [3:0] cs_alu_fn,                                  // Alu Function Signal
+    input logic [1:0] cs_ex_result_sel,                           // Execuation Result Signal
+    input logic [1:0] cs_dmem_reqstream_type,                     // Data Memory Operation Type
+    input logic       cs_wb_result_sel,                           // Write Result Select Signal
+    input logic       cs_rf_wen,                                  // Register File Write Enable
+    input logic       cs_csrr,                                    // CSRR Signal
+    input logic       cs_csrw                                     // CSRW Signal
   );
+  // Receive Decode Result from Control Signal Table
   begin
     inst_val_D            = cs_inst_val;
     br_type_D             = cs_br_type;
@@ -472,10 +315,7 @@ module lab2_proc_ProcBaseCtrl
   end
   endtask
 
-
-
-  // Control signals table
-// Always block for combinational or sequential logic
+  // Control Signal Table
   always_comb begin
     casez ( inst_D )
 
@@ -485,7 +325,6 @@ module lab2_proc_ProcBaseCtrl
       `TINYRV2_INST_CSRR    :cs( y, br_na,  imm_i,  am_x,    n, bm_csr, n, alu_cp1,  a_alu,    nr, wm_a, y,  y,   n    );
       `TINYRV2_INST_CSRW    :cs( y, br_na,  imm_i,  am_rf,   y, bm_rf,  n, alu_cp0,  a_alu,    nr, wm_a, n,  n,   y    );
 
-      //Add Row to Control Signal
       //Reg-Reg Instruction
       `TINYRV2_INST_ADD     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_add,  a_alu,    nr, wm_a, y,  n,   n    );
       `TINYRV2_INST_SUB     :cs( y, br_na,  imm_x,  am_rf,   y, bm_rf,  y, alu_sub,  a_alu,    nr, wm_a, y,  n,   n    );
@@ -527,186 +366,155 @@ module lab2_proc_ProcBaseCtrl
       `TINYRV2_INST_BLTU    :cs( y, br_bltu, imm_b, am_rf,   y,  bm_rf,  y, alu_x,   a_alu,    nr, wm_a, n,  n,   n    );
       `TINYRV2_INST_BGE     :cs( y, br_bge,  imm_b, am_rf,   y,  bm_rf,  y, alu_x,   a_alu,    nr, wm_a, n,  n,   n    );
       `TINYRV2_INST_BGEU    :cs( y, br_bgeu, imm_b, am_rf,   y,  bm_rf,  y, alu_x,   a_alu,    nr, wm_a, n,  n,   n    );
-     
+
+      // Default
       default               :cs( n, br_x,  imm_x,   am_x,    n,  bm_x,   n, alu_x,   a_alu,    nr, wm_x, n,  n,   n    );
-// End of always block
+      
     endcase
   end
 
-
+  // Decode Destination Register Address
   logic [4:0] rf_waddr_D;
-// Continuous assignment to wire or output
   assign rf_waddr_D = inst_rd_D;
 
 
-  // csrr and csrw logic
-// Always block for combinational or sequential logic
+  // CSRR and CSRW logic
   always_comb begin
     proc2mngr_val_D  = 1'b0;
     mngr2proc_rdy_D  = 1'b0;
     csrr_sel_D       = 2'h0;
     stats_en_wen_D   = 1'b0;
-
-// Conditional logic based on inputs or internal state
     if ( csrw_D && inst_csr_D == `TINYRV2_CPR_PROC2MNGR )
       proc2mngr_val_D  = 1'b1;
-// Conditional logic based on inputs or internal state
     if ( csrr_D && inst_csr_D == `TINYRV2_CPR_MNGR2PROC )
       mngr2proc_rdy_D  = 1'b1;
-// Conditional logic based on inputs or internal state
     if ( csrw_D && inst_csr_D == `TINYRV2_CPR_STATS_EN )
       stats_en_wen_D   = 1'b1;
-// Conditional logic based on inputs or internal state
     if ( csrr_D && inst_csr_D == `TINYRV2_CPR_NUMCORES )
       csrr_sel_D       = 2'h1;
-// Conditional logic based on inputs or internal state
     if ( csrr_D && inst_csr_D == `TINYRV2_CPR_COREID )
       csrr_sel_D       = 2'h2;
-// End of always block
   end
 
-// Always block for combinational or sequential logic
+
+  // Jump Logic for jal
   always_comb begin
-// Conditional logic based on inputs or internal state
-    if( val_D && ( br_type_D == jal ) ) begin
-      pc_redirect_D = 1'd1;
-      pc_sel_D = 2'd2;              // pc take jumps
-// End of always block
+    if( val_D && ( br_type_D == jal ) ) begin                                    // If Current Instruction is jal 
+      pc_redirect_D = 1'd1;                                                      // PC Redirects
+      pc_sel_D = 2'd2;                                                           // PC take Jump Address Generated in D stage
     end
     else begin
-      pc_redirect_D = 1'd0;
-      pc_sel_D = 2'd0;
+      pc_redirect_D = 1'd0;                                                      // PC Does not Redirect
+      pc_sel_D = 2'd0;                                                           // PC Use PC_plus_4
     end
   end
 
-  // mngr2proc_rdy signal for csrr instruction
-// Continuous assignment to wire or output
+
+// ------------- ostall and osquash in D -------------
+
+  // Set Processor Ready to Receive Mngr Message Signal
   assign mngr2proc_rdy = val_D && !stall_D && mngr2proc_rdy_D;
 
-  logic  ostall_mngr2proc_D;
-// Continuous assignment to wire or output
-  assign ostall_mngr2proc_D = val_D && mngr2proc_rdy_D && !mngr2proc_val;
-
   // set IntMulAlt_reqstream_val only if not stalling and current instruction is mul
-// Continuous assignment to wire or output
   assign IntMulAlt_reqstream_val = val_D && !stall_D && (ex_result_sel_D == a_mul);
 
-  // ostall if multiplier is not ready and current instruction is mul
-  logic  ostall_IntMulAlt_D;
-// Continuous assignment to wire or output
-  assign ostall_IntMulAlt_D = val_D && !IntMulAlt_reqstream_rdy;
+  // ostall if Processor is Waiting for Receive Mngr Message
+  logic  ostall_mngr2proc_D;
+  assign ostall_mngr2proc_D = val_D && mngr2proc_rdy_D && !mngr2proc_val;
 
+  // ostall if Multiplier is not Ready
+  logic  ostall_IntMulAlt_D;
+  assign ostall_IntMulAlt_D = val_D && !IntMulAlt_reqstream_rdy;
 
   // ostall if write address in X matches rs1 in D
   logic  ostall_waddr_X_rs1_D;
-// Continuous assignment to wire or output
   assign ostall_waddr_X_rs1_D
     = rs1_en_D && val_X && rf_wen_X
       && ( inst_rs1_D == rf_waddr_X ) && ( rf_waddr_X != 5'd0 );
 
-
   // ostall if write address in M matches rs1 in D
   logic  ostall_waddr_M_rs1_D;
-// Continuous assignment to wire or output
   assign ostall_waddr_M_rs1_D
     = rs1_en_D && val_M && rf_wen_M
       && ( inst_rs1_D == rf_waddr_M ) && ( rf_waddr_M != 5'd0 );
 
-
   // ostall if write address in W matches rs1 in D
   logic  ostall_waddr_W_rs1_D;
-// Continuous assignment to wire or output
   assign ostall_waddr_W_rs1_D
     = rs1_en_D && val_W && rf_wen_W
       && ( inst_rs1_D == rf_waddr_W ) && ( rf_waddr_W != 5'd0 );
 
-
   // ostall if write address in X matches rs2 in D
   logic  ostall_waddr_X_rs2_D;
-// Continuous assignment to wire or output
   assign ostall_waddr_X_rs2_D
     = rs2_en_D && val_X && rf_wen_X
       && ( inst_rs2_D == rf_waddr_X ) && ( rf_waddr_X != 5'd0 );
 
-
   // ostall if write address in M matches rs2 in D
   logic  ostall_waddr_M_rs2_D;
-// Continuous assignment to wire or output
   assign ostall_waddr_M_rs2_D
     = rs2_en_D && val_M && rf_wen_M
       && ( inst_rs2_D == rf_waddr_M ) && ( rf_waddr_M != 5'd0 );
 
-
   // ostall if write address in W matches rs2 in D
   logic  ostall_waddr_W_rs2_D;
-// Continuous assignment to wire or output
   assign ostall_waddr_W_rs2_D
     = rs2_en_D && val_W && rf_wen_W
       && ( inst_rs2_D == rf_waddr_W ) && ( rf_waddr_W != 5'd0 );
 
-
   // Put together ostall signal due to hazards
   logic  ostall_hazard_D;
-// Continuous assignment to wire or output
   assign ostall_hazard_D =
       ostall_waddr_X_rs1_D || ostall_waddr_M_rs1_D || ostall_waddr_W_rs1_D ||
       ostall_waddr_X_rs2_D || ostall_waddr_M_rs2_D || ostall_waddr_W_rs2_D;
 
-
   // Final ostall signal
-// Continuous assignment to wire or output
   assign ostall_D = val_D && ( ostall_mngr2proc_D || ostall_IntMulAlt_D || ostall_hazard_D );
 
+  // Final stall signal
+  assign stall_D  = val_D && ( ostall_D || ostall_X || ostall_M || ostall_W );
 
   // osquash due to jump instruction in D stage 
   logic osquash_j_D;
   assign osquash_j_D  = (br_type_D == jal) ;
   
-// Continuous assignment to wire or output
+  // Final osquash signal in D stage
   assign osquash_D = osquash_j_D;
 
-
-  // stall and squash in D
-// Continuous assignment to wire or output
-  assign stall_D  = val_D && ( ostall_D || ostall_X || ostall_M || ostall_W );
-// Continuous assignment to wire or output
+  // Final squash signal in D stage
   assign squash_D = val_D && osquash_X;
 
 
-  // Valid signal for the next stage
+// ------------- Valid signal for the next stage (stage X) -------------
   logic  next_val_D;
-// Continuous assignment to wire or output
   assign next_val_D = val_D && !stall_D && !squash_D;
 
-  //----------------------------------------------------------------------
-  // X stage
-  //----------------------------------------------------------------------
 
-  // Register enable logic
 
-// Internal registers to hold state
+//----------------------------------------------------------------------
+// X stage
+//----------------------------------------------------------------------
+
+// ------------- Register enable logic -------------
+
+  // Enable Registers if no stall in X stage
   assign reg_en_X = !stall_X;
 
-  logic [31:0] inst_X;
-  logic [1:0]  dmem_reqstream_type_X;
-  logic        wb_result_sel_X;
-  logic        rf_wen_X;
-  logic [4:0]  rf_waddr_X;
-  logic        proc2mngr_val_X;
-  logic        stats_en_wen_X;
-  logic [3:0]  br_type_X;
+  logic [31:0] inst_X;                                                  // Instruction in X stage
+  logic [1:0]  dmem_reqstream_type_X;                                   // Data Memory Operation Type
+  logic        wb_result_sel_X;                                         // Writing Result Mux Select Signal
+  logic        rf_wen_X;                                                // Register File Write Enale Signal
+  logic [4:0]  rf_waddr_X;                                              // Register File Write Address
+  logic        proc2mngr_val_X;                                         // Processor to Mngr Message Valid Signal
+  logic        stats_en_wen_X;                                          // States Register Write Enable Signal
+  logic [3:0]  br_type_X;                                               // Branche Type
 
-// Internal registers to hold state
-  // Pipeline registers
 
-// Always block for combinational or sequential logic
+  // Receive Signal Forwarded from D stage
   always_ff @( posedge clk )
-// Conditional logic based on inputs or internal state
     if ( reset ) begin
       val_X                 <= 1'b0;
-// End of always block
     end
-// Internal registers to hold state
     else if ( reg_en_X ) begin
       val_X                 <= next_val_D;
       rf_wen_X              <= rf_wen_D;
@@ -721,120 +529,102 @@ module lab2_proc_ProcBaseCtrl
       br_type_X             <= br_type_D;
     end
 
-  // branch logic, redirect PC in F if branch is taken
-
-// Always block for combinational or sequential logic
+  // Branch or Jump(jalr) logic Block, Redirect PC in F if Branch or Jump is taken
   always_comb begin
-// Conditional logic based on inputs or internal state
-    if ( val_X && ( br_type_X == br_bne ) ) begin
-      pc_redirect_X = !br_cond_eq_X;
-      pc_sel_X      = 2'b1; // use branch target
-// End of always block
+    if ( val_X && ( br_type_X == br_bne ) ) begin                               // If Current Instruction is bne
+      pc_redirect_X = !br_cond_eq_X;                                            // PC Redirect Depends on Oposite of Equal Signal 
+      pc_sel_X      = 2'b1;                                                     // Use Branch Target Calculated in X stage
     end
-    else if ( val_X && ( br_type_X == br_beq ) ) begin
-      pc_redirect_X = br_cond_eq_X;
-      pc_sel_X      = 2'b1; 
+    else if ( val_X && ( br_type_X == br_beq ) ) begin                          // If Current Instruction is beq
+      pc_redirect_X = br_cond_eq_X;                                             // PC Redirect Depends on Equal Signal
+      pc_sel_X      = 2'b1;                                                     // Use Branch Target Calculated in X stage
     end
-    else if ( val_X && ( br_type_X == br_blt ) ) begin
-      pc_redirect_X = br_cond_lt_X;
-      pc_sel_X      = 2'b1; 
+    else if ( val_X && ( br_type_X == br_blt ) ) begin                          // If Current Instruction is blt
+      pc_redirect_X = br_cond_lt_X;                                             // PC Redirect Depends on Less than Signal
+      pc_sel_X      = 2'b1;                                                     // Use Branch Target Calculated in X stage 
     end
-    else if ( val_X && ( br_type_X == br_bltu ) ) begin
-      pc_redirect_X = br_cond_ltu_X;
-      pc_sel_X      = 2'b1; 
+    else if ( val_X && ( br_type_X == br_bltu ) ) begin                         // If Current Instruction is bltu
+      pc_redirect_X = br_cond_ltu_X;                                            // PC Redirect Depends on unsigned Less than Signal
+      pc_sel_X      = 2'b1;                                                     // Use Branch Target Calculated in X stage
     end
-    else if ( val_X && ( br_type_X == br_bge ) ) begin
-      pc_redirect_X = !br_cond_lt_X;
-      pc_sel_X      = 2'b1; 
+    else if ( val_X && ( br_type_X == br_bge ) ) begin                          // If Current Instruction is bge
+      pc_redirect_X = !br_cond_lt_X;                                            // PC Redirect Depends on Oposite of Less than Signal
+      pc_sel_X      = 2'b1;                                                     // Use Branch Target Calculated in X stage
     end
-    else if ( val_X && ( br_type_X == br_bgeu ) ) begin
-      pc_redirect_X = !br_cond_ltu_X;
-      pc_sel_X      = 2'b1; 
+    else if ( val_X && ( br_type_X == br_bgeu ) ) begin                         // If Current Instruction is bgeu
+      pc_redirect_X = !br_cond_ltu_X;                                           // PC Redirect Depends on Oposite of unsigned Less than Signal
+      pc_sel_X      = 2'b1;                                                     // Use Branch Target Calculated in X stage
     end
-    else if ( val_X && ( br_type_X == jalr) ) begin
-      pc_redirect_X = 1'b1;
-      pc_sel_X      = 2'd3; 
+    else if ( val_X && ( br_type_X == jalr) ) begin                             // If Current Instruction is jalr
+      pc_redirect_X = 1'b1;                                                     // PC Redirects
+      pc_sel_X      = 2'd3;                                                     // Use Jump Target Calculated in X stage
     end
     else begin
-      pc_redirect_X = 1'b0;
-      pc_sel_X      = 2'b0; // use pc+4
+      pc_redirect_X = 1'b0;                                                     // PC does not Redirect
+      pc_sel_X      = 2'b0;                                                     // Use PC + 4
     end
   end
 
-  // set IntMulAlt_respstream_rdy only if not stalling
-// Continuous assignment to wire or output
+
+// ------------- ostall and osquash in X -------------
+
+  // set IntMulAlt_respstream_rdy if not stalling
   assign IntMulAlt_respstream_rdy = !stall_X;
 
   // ostall due to dmem_reqstream not ready.
   logic ostall_dmem_reqstream_X;
-// Continuous assignment to wire or output
   assign ostall_dmem_reqstream_X = (val_X && ( dmem_reqstream_type_X != nr ) && !dmem_reqstream_rdy);
 
   // ostall due to IntMulAlt_respstream not valid and current instruction is mul
   logic ostall_IntMulAlt_X;
-// Continuous assignment to wire or output
   assign ostall_IntMulAlt_X = val_X && !IntMulAlt_respstream_val && (ex_result_sel_X == a_mul);
 
   // Final ostall signal
-// Continuous assignment to wire or output
   assign ostall_X = ostall_dmem_reqstream_X || ostall_IntMulAlt_X;
 
-  // osquash due to taken branch, notice we can't osquash if current
-  // stage stalls, otherwise we will send osquash twice.
-// Continuous assignment to wire or output
-  assign osquash_X = val_X && !stall_X && pc_redirect_X;
-
-  // stall and squash used in X stage
-// Continuous assignment to wire or output
+  // Final stall signal
   assign stall_X = val_X && ( ostall_X || ostall_M || ostall_W );
 
+  // osquash due to taken branch
+  assign osquash_X = val_X && !stall_X && pc_redirect_X;
+
   // set dmem_reqstream_val only if not stalling
-// Continuous assignment to wire or output
   assign dmem_reqstream_val = val_X && !stall_X && ( dmem_reqstream_type_X != nr );
 
   // set dmem_reqstream_msg_type
-// Always block for combinational or sequential logic
     always_comb begin
-// Conditional logic based on inputs or internal state
       if(dmem_reqstream_type_X == st)  dmem_reqstream_msg_type = `VC_MEM_REQ_MSG_TYPE_WRITE;
       else  dmem_reqstream_msg_type = `VC_MEM_REQ_MSG_TYPE_READ;
-// End of always block
     end
 
 
-
-  // Valid signal for the next stage
+// ------------- Valid signal for the next stage (stage M) -------------
   logic  next_val_X;
-// Continuous assignment to wire or output
   assign next_val_X = val_X && !stall_X;
 
-  //----------------------------------------------------------------------
-  // M stage
-  //----------------------------------------------------------------------
 
-  // Register enable logic
 
-// Internal registers to hold state
+//----------------------------------------------------------------------
+// M stage
+//----------------------------------------------------------------------
+
+// ------------- Register enable logic -------------
+
+  // Enable Registers if no stall in M stage
   assign reg_en_M  = !stall_M;
 
-  logic [31:0] inst_M;
-  logic [1:0]  dmem_reqstream_type_M;
-  logic        rf_wen_M;
-  logic [4:0]  rf_waddr_M;
-  logic        proc2mngr_val_M;
-  logic        stats_en_wen_M;
+  logic [31:0] inst_M;                                                  // Instruction in M stage
+  logic [1:0]  dmem_reqstream_type_M;                                   // Data Memory Operation Type
+  logic        rf_wen_M;                                                // Register File Write Enale Signal
+  logic [4:0]  rf_waddr_M;                                              // Register File Write Address
+  logic        proc2mngr_val_M;                                         // Processor to Mngr Message Valid Signal
+  logic        stats_en_wen_M;                                          // States Register Write Enable Signal
 
-// Internal registers to hold state
-  // Pipeline register
-
-// Always block for combinational or sequential logic
+  // Receive Signal Forwarded from X stage
   always_ff @( posedge clk )
-// Conditional logic based on inputs or internal state
     if ( reset ) begin
       val_M                 <= 1'b0;
-// End of always block
     end
-// Internal registers to hold state
     else if ( reg_en_M ) begin
       val_M                 <= next_val_X;
       rf_wen_M              <= rf_wen_X;
@@ -846,52 +636,44 @@ module lab2_proc_ProcBaseCtrl
       stats_en_wen_M        <= stats_en_wen_X;
     end
 
-  // ostall due to dmem_respstream not valid
 
-// Continuous assignment to wire or output
-  assign ostall_M = val_M && ( dmem_reqstream_type_M != nr ) && !dmem_respstream_val;
-
-  // stall M
-
-// Continuous assignment to wire or output
-  assign stall_M = val_M && ( ostall_M || ostall_W );
+// ------------- ostall and osquash in M -------------
 
   // Set dmem_respstream_rdy if valid and not stalling and this is a lw/sw
-
-// Continuous assignment to wire or output
   assign dmem_respstream_rdy = val_M && !stall_M && ( dmem_reqstream_type_M != nr );
 
-  // Valid signal for the next stage
+  // ostall due to dmem_respstream not valid
+  assign ostall_M = val_M && ( dmem_reqstream_type_M != nr ) && !dmem_respstream_val;
 
+  // Final stall signal in M stage
+  assign stall_M = val_M && ( ostall_M || ostall_W );
+
+
+// ------------- Valid signal for the next stage (stage M) -------------
   logic  next_val_M;
-// Continuous assignment to wire or output
   assign next_val_M = val_M && !stall_M;
 
-  //----------------------------------------------------------------------
-  // W stage
-  //----------------------------------------------------------------------
 
-  // Register enable logic
 
-// Internal registers to hold state
+//----------------------------------------------------------------------
+// W stage
+//----------------------------------------------------------------------
+
+// ------------- Register enable logic -------------
+
+  // Enable Registers if no stall in W stage
   assign reg_en_W = !stall_W;
 
-  logic [31:0] inst_W;
-  logic        proc2mngr_val_W;
-  logic        rf_wen_pending_W;
-  logic        stats_en_wen_pending_W;
+  logic [31:0] inst_W;                                                  // Instruction in M stage
+  logic        proc2mngr_val_W;                                         // Processor to Mngr Message Valid Signal
+  logic        rf_wen_pending_W;                                        // Register File Pending Write Signal
+  logic        stats_en_wen_pending_W;                                  // States Register Pending Write Signal
 
-// Internal registers to hold state
-  // Pipeline registers
-
-// Always block for combinational or sequential logic
+  // Receive Signal Forwarded from M stage
   always_ff @( posedge clk ) begin
-// Conditional logic based on inputs or internal state
     if ( reset ) begin
       val_W                  <= 1'b0;
-// End of always block
     end
-// Internal registers to hold state
     else if ( reg_en_W ) begin
       val_W                  <= next_val_M;
       rf_wen_pending_W       <= rf_wen_M;
@@ -902,32 +684,30 @@ module lab2_proc_ProcBaseCtrl
     end
   end
 
-  // write enable
 
-// Continuous assignment to wire or output
+  // Set Register File Write Enable if Register File Pending Write and Instruction in W stage is valid
   assign rf_wen_W       = val_W && rf_wen_pending_W;
-// Continuous assignment to wire or output
+
+  // Set States Register Write Enable if States Register Pending Write and Instruction in W stage is valid
   assign stats_en_wen_W = val_W && stats_en_wen_pending_W;
 
-  // ostall due to proc2mngr
 
-// Continuous assignment to wire or output
-  assign ostall_W = val_W && proc2mngr_val_W && !proc2mngr_rdy;
+// ------------- ostall and osquash in W -------------
 
-  // stall and squash signal used in W stage
-
-// Continuous assignment to wire or output
-  assign stall_W = val_W && ostall_W;
-
-  // proc2mngr port
-
-// Continuous assignment to wire or output
+  // Set Process to Mngr Message Valid
   assign proc2mngr_val = val_W && !stall_W && proc2mngr_val_W;
 
-// Continuous assignment to wire or output
+  // Set commit instruction signal if instruction in W stage is valid and there's no stalling
   assign commit_inst = val_W && !stall_W;
 
-// Main module for handling control logic or datapath
+  // ostall due to proc2mngr
+  assign ostall_W = val_W && proc2mngr_val_W && !proc2mngr_rdy;
+
+  // stall signal used in W stage
+  assign stall_W = val_W && ostall_W;
+
+
+
 endmodule
 
-`endif /* LAB2_PROC_PROC_BASE_CTRL_V */
+`endif
