@@ -116,10 +116,15 @@ module lab2_proc_ProcBase
   mem_req_4B_t dmem_reqstream_enq_msg;
   logic        dmem_reqstream_enq_val;
   logic        dmem_reqstream_enq_rdy;
-  logic [2:0]  dmem_reqstream_enq_msg_type;
+  logic        dmem_reqstream_enq_msg_type;
   logic [31:0] dmem_reqstream_enq_msg_addr;
   logic [31:0] dmem_reqstream_enq_msg_data;
-  assign dmem_reqstream_enq_msg.type_  = dmem_reqstream_enq_msg_type;
+
+  // set dmem_reqstream_msg_type
+  always_comb begin
+    if(dmem_reqstream_enq_msg_type == 1'b1)  dmem_reqstream_enq_msg.type_ = `VC_MEM_REQ_MSG_TYPE_WRITE;
+    else  dmem_reqstream_enq_msg.type_ = `VC_MEM_REQ_MSG_TYPE_READ;
+  end
   assign dmem_reqstream_enq_msg.opaque = 8'b0;
   assign dmem_reqstream_enq_msg.addr   = dmem_reqstream_enq_msg_addr;
   assign dmem_reqstream_enq_msg.len    = 2'd0;

@@ -1,7 +1,8 @@
 _start:
 # Load initial data
 lui   x1, 0x10
-addi  x2, x1, 32
+lui   x2, 0x20
+add   x2, x1, x2   # Data hazard, depends on the result of the previous lui
 
 # Benchmark loop with intentional data hazards
 addi  x10, x0, 0   # Counter setup
