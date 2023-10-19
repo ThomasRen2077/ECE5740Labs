@@ -17,42 +17,42 @@
           parameter p_num_cores = 1
         )
         (
- 015148   input  logic         clk,
- 000040   input  logic         reset,
+ 037583   input  logic         clk,
+ 000043   input  logic         reset,
         
           // From mngr streaming port
  000012   input  logic [31:0]  mngr2proc_msg,
- 000192   input  logic         mngr2proc_val,
- 000192   output logic         mngr2proc_rdy,
+ 000202   input  logic         mngr2proc_val,
+ 000202   output logic         mngr2proc_rdy,
         
           // To mngr streaming port
- 000168   output logic [31:0]  proc2mngr_msg,
- 000076   output logic         proc2mngr_val,
- 000656   input  logic         proc2mngr_rdy,
+ 000770   output logic [31:0]  proc2mngr_msg,
+ 000082   output logic         proc2mngr_val,
+ 001732   input  logic         proc2mngr_rdy,
         
           // Instruction Memory Request Port
 %000000   output mem_req_4B_t  imem_reqstream_msg,
- 003337   output logic         imem_reqstream_val,
- 004420   input  logic         imem_reqstream_rdy,
+ 008726   output logic         imem_reqstream_val,
+ 011253   input  logic         imem_reqstream_rdy,
         
           // Instruction Memory Response Port
 %000000   input  mem_resp_4B_t imem_respstream_msg,
- 004366   input  logic         imem_respstream_val,
- 004582   output logic         imem_respstream_rdy,
+ 011011   input  logic         imem_respstream_val,
+ 010894   output logic         imem_respstream_rdy,
         
           // Data Memory Request Port
 %000000   output mem_req_4B_t  dmem_reqstream_msg,
- 001080   output logic         dmem_reqstream_val,
- 003663   input  logic         dmem_reqstream_rdy,
+ 001084   output logic         dmem_reqstream_val,
+ 009282   input  logic         dmem_reqstream_rdy,
         
           // Data Memory Response Port
 %000000   input  mem_resp_4B_t dmem_respstream_msg,
- 001142   input  logic         dmem_respstream_val,
- 001142   output logic         dmem_respstream_rdy,
+ 001146   input  logic         dmem_respstream_val,
+ 001146   output logic         dmem_respstream_rdy,
         
           // Extra Port
 %000000   input  logic [31:0]  core_id,
- 004039   output logic         commit_inst,
+ 009415   output logic         commit_inst,
 %000000   output logic         stats_en
         );
         
@@ -60,9 +60,9 @@
         
           // ------ Connect Instruction Memory ------
           // Instruction Memory Request Bypass Queue Message
- 002819   logic [1:0]  imem_queue_num_free_entries;
+ 007007   logic [1:0]  imem_queue_num_free_entries;
 %000000   mem_req_4B_t imem_reqstream_enq_msg;
- 004670   logic        imem_reqstream_enq_val;
+ 011457   logic        imem_reqstream_enq_val;
 %000000   logic        imem_reqstream_enq_rdy;
 %000000   logic [31:0] imem_reqstream_enq_msg_addr;
           assign imem_reqstream_enq_msg.type_  = `VC_MEM_REQ_MSG_TYPE_READ;
@@ -89,10 +89,10 @@
         
           // ------ Connect Imem Drop Unit ------
           // Imem Drop Unit Message
- 000266   logic         imem_respstream_drop;
+ 001870   logic         imem_respstream_drop;
 %000000   mem_resp_4B_t imem_respstream_drop_msg;
- 004256   logic         imem_respstream_drop_val;
- 004630   logic         imem_respstream_drop_rdy;
+ 010253   logic         imem_respstream_drop_val;
+ 011414   logic         imem_respstream_drop_rdy;
         
           // Imem Drop Unit Connection
           lab2_proc_DropUnit #($bits(mem_resp_4B_t)) imem_respstream_drop_unit
@@ -113,14 +113,19 @@
         
           // ------ Connect Data Memory ------
           // Data Memory Request Bypass Queue Message
- 000600   logic        dmem_queue_num_free_entries;
+ 000602   logic        dmem_queue_num_free_entries;
 %000000   mem_req_4B_t dmem_reqstream_enq_msg;
- 001154   logic        dmem_reqstream_enq_val;
- 000600   logic        dmem_reqstream_enq_rdy;
-%000000   logic [2:0]  dmem_reqstream_enq_msg_type;
- 000170   logic [31:0] dmem_reqstream_enq_msg_addr;
+ 001158   logic        dmem_reqstream_enq_val;
+ 000602   logic        dmem_reqstream_enq_rdy;
+ 000340   logic        dmem_reqstream_enq_msg_type;
+ 000772   logic [31:0] dmem_reqstream_enq_msg_addr;
  000158   logic [31:0] dmem_reqstream_enq_msg_data;
-          assign dmem_reqstream_enq_msg.type_  = dmem_reqstream_enq_msg_type;
+        
+          // set dmem_reqstream_msg_type
+%000000   always_comb begin
+ 000589     if(dmem_reqstream_enq_msg_type == 1'b1)  dmem_reqstream_enq_msg.type_ = `VC_MEM_REQ_MSG_TYPE_WRITE;
+ 018181     else  dmem_reqstream_enq_msg.type_ = `VC_MEM_REQ_MSG_TYPE_READ;
+          end
           assign dmem_reqstream_enq_msg.opaque = 8'b0;
           assign dmem_reqstream_enq_msg.addr   = dmem_reqstream_enq_msg_addr;
           assign dmem_reqstream_enq_msg.len    = 2'd0;
@@ -144,10 +149,10 @@
         
           // ------ Connect Mngr streaming ------
           // proc2mngr Bypass Queue Message
- 000076   logic        proc2mngr_queue_num_free_entries;
- 000168   logic [31:0] proc2mngr_enq_msg;
- 000076   logic        proc2mngr_enq_val;
- 000076   logic        proc2mngr_enq_rdy;
+ 000080   logic        proc2mngr_queue_num_free_entries;
+ 000770   logic [31:0] proc2mngr_enq_msg;
+ 000082   logic        proc2mngr_enq_val;
+ 000080   logic        proc2mngr_enq_rdy;
         
           // proc2mngr Bypass Queue Connection
           vc_Queue#(`VC_QUEUE_BYPASS,32,1) proc2mngr_queue
@@ -168,13 +173,13 @@
           // ------ Connect Multiplier from Lab1 ------
           // Multiplier Request Message
  000016   logic [63:0]        IntMulAlt_reqstream_msg;
- 000002   logic               IntMulAlt_reqstream_val;
- 000002   logic               IntMulAlt_reqstream_rdy;
+ 000004   logic               IntMulAlt_reqstream_val;
+ 000004   logic               IntMulAlt_reqstream_rdy;
         
           // Multiplier Response Message
  000002   logic [31:0]        IntMulAlt_respstream_msg;
- 000002   logic               IntMulAlt_respstream_val;
- 000418   logic               IntMulAlt_respstream_rdy;
+ 000004   logic               IntMulAlt_respstream_val;
+ 000422   logic               IntMulAlt_respstream_rdy;
         
           // Multiplier Response Connection
           lab1_imul_IntMulAlt mul
@@ -193,28 +198,28 @@
         
           // Control/Status Signals
           // control signals (ctrl->dpath)
- 004630   logic        reg_en_F;
- 000008   logic [1:0]  pc_sel_F;
- 001092   logic        reg_en_D;
- 000002   logic        op1_sel_D;
- 000178   logic [1:0]  op2_sel_D;
+ 011414   logic        reg_en_F;
+ 000012   logic [1:0]  pc_sel_F;
+ 004308   logic        reg_en_D;
+ 000004   logic        op1_sel_D;
+ 000186   logic [1:0]  op2_sel_D;
 %000000   logic [1:0]  csrr_sel_D;
- 000010   logic [2:0]  imm_type_D;
- 000418   logic        reg_en_X;
- 000212   logic [3:0]  alu_fn_X;
- 000002   logic [1:0]  ex_result_sel_X;
- 000940   logic        reg_en_M;
- 000362   logic        wb_result_sel_M;
+ 000018   logic [2:0]  imm_type_D;
+ 000422   logic        reg_en_X;
+ 000236   logic [3:0]  alu_fn_X;
+ 000004   logic [1:0]  ex_result_sel_X;
+ 000944   logic        reg_en_M;
+ 000364   logic        wb_result_sel_M;
 %000000   logic        reg_en_W;
- 000054   logic [4:0]  rf_waddr_W;
- 002180   logic        rf_wen_W;
+ 000990   logic [4:0]  rf_waddr_W;
+ 005434   logic        rf_wen_W;
 %000000   logic        stats_en_wen_W;
           
           // status signals (dpath->ctrl)
- 000002   logic [31:0] inst_D;
- 002104   logic        br_cond_eq_X;
- 000254   logic        br_cond_lt_X;
- 000506   logic        br_cond_ltu_X;
+ 000006   logic [31:0] inst_D;
+ 006002   logic        br_cond_eq_X;
+ 002306   logic        br_cond_lt_X;
+ 002560   logic        br_cond_ltu_X;
         
           // ------ Connect Control Unit ------
           lab2_proc_ProcBaseCtrl ctrl

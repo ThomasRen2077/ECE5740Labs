@@ -14,18 +14,18 @@
           parameter p_msg_nbits = 1,
           parameter p_num_msgs  = 1024
         )(
- 060162   input  logic                   clk,
- 000120   input  logic                   reset,
+ 128469   input  logic                   clk,
+ 000129   input  logic                   reset,
         
           // Source message interface
         
- 000240   output logic                   val,
- 000576   input  logic                   rdy,
+ 000258   output logic                   val,
+ 000606   input  logic                   rdy,
  000036   output logic [p_msg_nbits-1:0] msg,
         
           // Goes high once all source msgs has been issued
         
- 000120   output logic                   done
+ 000129   output logic                   done
         );
         
           //----------------------------------------------------------------------
@@ -47,7 +47,7 @@
         
           // Index register pointing to next message to send
         
- 000576   logic                     index_en;
+ 000606   logic                     index_en;
 %000000   logic [c_index_nbits-1:0] index_next;
 %000000   logic [c_index_nbits-1:0] index;
 %000000   logic [c_index_nbits-1:0] index_max;
@@ -63,25 +63,25 @@
         
           // Register reset
         
- 000120   logic reset_reg;
- 030021   always_ff @( posedge clk )
- 030021     reset_reg <= reset;
+ 000129   logic reset_reg;
+ 064170   always_ff @( posedge clk )
+ 064170     reset_reg <= reset;
         
 %000000   logic [31:0] data_data;
         
- 000120   task load (integer file_load);
- 000120   begin
+ 000129   task load (integer file_load);
+ 000129   begin
             integer count;
- 000120     index_max =0;
- 000120     while (!$feof(file_load))begin
- 000168       count=$fscanf(file_load, "%x\n", data_data); 
- 000168       if( count ==0) break;
+ 000129     index_max =0;
+ 000129     while (!$feof(file_load))begin
+ 000174       count=$fscanf(file_load, "%x\n", data_data); 
+ 000174       if( count ==0) break;
               
               
- 000168       $display("Loading %x",data_data);
+ 000174       $display("Loading %x",data_data);
               
- 000168       m[index_max]= data_data;
- 000168       index_max =index_max +1;
+ 000174       m[index_max]= data_data;
+ 000174       index_max =index_max +1;
               
             end
         
@@ -113,12 +113,12 @@
           //   end
           // end
         
- 000312   logic done_next;
+ 000327   logic done_next;
           assign done_next =  ( index == ( index_max ) );
         
- 030021   always_ff @( posedge clk ) begin
- 001680     if(reset_reg) done <=0;
- 000288     if( val && rdy ) done <= done_next;
+ 064170   always_ff @( posedge clk ) begin
+ 001806     if(reset_reg) done <=0;
+ 000303     if( val && rdy ) done <= done_next;
           end
         
           // Set the source message appropriately
@@ -131,7 +131,7 @@
         
           // The go signal is high when a message is transferred
         
- 000576   logic go;
+ 000606   logic go;
           assign go = val && rdy;
         
           // We bump the index pointer every time we successfully send a message,
@@ -144,8 +144,8 @@
           // Assertions
           //----------------------------------------------------------------------
         
- 030021   always_ff @( posedge clk ) begin
- 001560     if ( !reset ) begin
+ 064170   always_ff @( posedge clk ) begin
+ 001677     if ( !reset ) begin
 %000000       `VC_ASSERT_NOT_X( val );
 %000000       `VC_ASSERT_NOT_X( rdy );
             end

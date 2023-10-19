@@ -14,44 +14,44 @@
           parameter p_num_cores = 1
         )
         (
- 031092   input  logic         clk,
- 000040   input  logic         reset,
+ 061129   input  logic         clk,
+ 000043   input  logic         reset,
         
           // From mngr streaming port
         
  000012   input  logic [31:0]  mngr2proc_msg,
- 000192   input  logic         mngr2proc_val,
- 000192   output logic         mngr2proc_rdy,
+ 000202   input  logic         mngr2proc_val,
+ 000202   output logic         mngr2proc_rdy,
         
           // To mngr streaming port
         
  000004   output logic [31:0]  proc2mngr_msg,
- 000076   output logic         proc2mngr_val,
- 001186   input  logic         proc2mngr_rdy,
+ 000082   output logic         proc2mngr_val,
+ 002638   input  logic         proc2mngr_rdy,
         
           // Instruction Memory Request Port
         
 %000000   output mem_req_4B_t  imem_reqstream_msg,
- 005423   output logic         imem_reqstream_val,
- 008387   input  logic         imem_reqstream_rdy,
+ 011402   output logic         imem_reqstream_val,
+ 016717   input  logic         imem_reqstream_rdy,
         
           // Instruction Memory Response Port
         
 %000000   input  mem_resp_4B_t imem_respstream_msg,
- 005388   input  logic         imem_respstream_val,
- 005394   output logic         imem_respstream_rdy,
+ 011364   input  logic         imem_respstream_val,
+ 011370   output logic         imem_respstream_rdy,
         
           // Data Memory Request Port
         
 %000000   output mem_req_4B_t  dmem_reqstream_msg,
- 001210   output logic         dmem_reqstream_val,
- 007498   input  logic         dmem_reqstream_rdy,
+ 001214   output logic         dmem_reqstream_val,
+ 015079   input  logic         dmem_reqstream_rdy,
         
           // Data Memory Response Port
         
 %000000   input  mem_resp_4B_t dmem_respstream_msg,
- 001210   input  logic         dmem_respstream_val,
- 001210   output logic         dmem_respstream_rdy,
+ 001214   input  logic         dmem_respstream_val,
+ 001214   output logic         dmem_respstream_rdy,
         
           // stats output; core_id is an input port rather than a parameter so
           // that the module only needs to be compiled once. If it were a
@@ -72,7 +72,7 @@
 %000000   logic        imem_reqstream_enq_val;
 %000000   logic        imem_reqstream_enq_rdy;
         
- 000005   logic [31:0] imem_reqstream_msg_addr;
+ 000006   logic [31:0] imem_reqstream_msg_addr;
         
           assign imem_reqstream_msg.type_  = `VC_MEM_REQ_MSG_TYPE_READ;
           assign imem_reqstream_msg.opaque = 8'b0;
@@ -85,10 +85,10 @@
           // Data Memory Request Bypass Queue
           //----------------------------------------------------------------------
         
- 000574   logic        dmem_queue_num_free_entries;
+ 000576   logic        dmem_queue_num_free_entries;
 %000000   mem_req_4B_t dmem_reqstream_enq_msg;
- 001210   logic        dmem_reqstream_enq_val;
- 000574   logic        dmem_reqstream_enq_rdy;
+ 001214   logic        dmem_reqstream_enq_val;
+ 000576   logic        dmem_reqstream_enq_rdy;
         
 %000000   logic [2:0 ] dmem_reqstream_enq_msg_type;
 %000000   logic [31:0] dmem_reqstream_enq_msg_addr;
@@ -119,10 +119,10 @@
           // proc2mngr Bypass Queue
           //----------------------------------------------------------------------
         
- 000056   logic        proc2mngr_queue_num_free_entries;
+ 000062   logic        proc2mngr_queue_num_free_entries;
  000004   logic [31:0] proc2mngr_enq_msg;
- 000076   logic        proc2mngr_enq_val;
- 000056   logic        proc2mngr_enq_rdy;
+ 000082   logic        proc2mngr_enq_val;
+ 000062   logic        proc2mngr_enq_rdy;
         
           vc_Queue#(`VC_QUEUE_BYPASS,32,1) proc2mngr_queue
           (
@@ -143,12 +143,12 @@
           // Instruction Unpacking
           //----------------------------------------------------------------------
 %000000   logic [`TINYRV2_INST_OPCODE_NBITS-1:0] opcode;
- 000054   logic [`TINYRV2_INST_RD_NBITS-1:0]     rd;
- 000002   logic [`TINYRV2_INST_RS1_NBITS-1:0]    rs1;
- 000258   logic [`TINYRV2_INST_RS2_NBITS-1:0]    rs2;
- 000036   logic [`TINYRV2_INST_FUNCT3_NBITS-1:0] funct3;
+ 000666   logic [`TINYRV2_INST_RD_NBITS-1:0]     rd;
+ 000602   logic [`TINYRV2_INST_RS1_NBITS-1:0]    rs1;
+ 000864   logic [`TINYRV2_INST_RS2_NBITS-1:0]    rs2;
+ 000050   logic [`TINYRV2_INST_FUNCT3_NBITS-1:0] funct3;
 %000000   logic [`TINYRV2_INST_FUNCT7_NBITS-1:0] funct7;
- 000258   logic [`TINYRV2_INST_CSR_NBITS-1:0]    csr;
+ 000864   logic [`TINYRV2_INST_CSR_NBITS-1:0]    csr;
            lab2_proc_tinyrv2_encoding_InstUnpack inst_unpack
           (
             .opcode   (),
@@ -161,53 +161,53 @@
             .csr      (csr)
           );
 %000000   logic [31:0] PC;
- 000005   logic [31:0] PC_prev;
+ 000006   logic [31:0] PC_prev;
 %000000   logic [31:0] n_PC;
- 000002   logic [31:0] inst;
- 000002   logic [31:0] n_inst;
- 005378   logic print_trace;
+ 000006   logic [31:0] inst;
+ 000006   logic [31:0] n_inst;
+ 011352   logic print_trace;
           logic [31:0] rf [31:0];
           logic [31:0] n_rf [31:0];
         
- 005835     function [11:0] imm_i( input [`TINYRV2_INST_NBITS-1:0] inst );
- 005835   begin
+ 007479     function [11:0] imm_i( input [`TINYRV2_INST_NBITS-1:0] inst );
+ 007479   begin
             // I-type immediate
- 005835     imm_i = { inst[31], inst[30:25], inst[24:21], inst[20] };
+ 007479     imm_i = { inst[31], inst[30:25], inst[24:21], inst[20] };
           end
           endfunction
         
- 000009   function [4:0] imm_shamt( input [`TINYRV2_INST_NBITS-1:0] inst );
- 000009   begin
-            // I-type immediate, specialized for shift amounts
- 000009     imm_shamt = { inst[24:21], inst[20] };
-          end
-          endfunction
-        
- 000609   function [11:0] imm_s( input [`TINYRV2_INST_NBITS-1:0] inst );
- 000609   begin
-            // S-type immediate
- 000609     imm_s = { inst[31], inst[30:25], inst[11:8], inst[7] };
-          end
-          endfunction
-        
- 000387   function [12:0] imm_b( input [`TINYRV2_INST_NBITS-1:0] inst );
- 000387   begin
-            // B-type immediate
- 000387     imm_b = { inst[31], inst[7], inst[30:25], inst[11:8], 1'b0 };
-          end
-          endfunction
-        
- 000018   function [19:0] imm_u_sh12( input [`TINYRV2_INST_NBITS-1:0] inst );
+ 000018   function [4:0] imm_shamt( input [`TINYRV2_INST_NBITS-1:0] inst );
  000018   begin
-            // U-type immediate, shifted right by 12
- 000018     imm_u_sh12 = { inst[31], inst[30:20], inst[19:12] };
+            // I-type immediate, specialized for shift amounts
+ 000018     imm_shamt = { inst[24:21], inst[20] };
           end
           endfunction
         
- 000006   function [20:0] imm_j( input [`TINYRV2_INST_NBITS-1:0] inst );
- 000006   begin
+ 000612   function [11:0] imm_s( input [`TINYRV2_INST_NBITS-1:0] inst );
+ 000612   begin
+            // S-type immediate
+ 000612     imm_s = { inst[31], inst[30:25], inst[11:8], inst[7] };
+          end
+          endfunction
+        
+ 002787   function [12:0] imm_b( input [`TINYRV2_INST_NBITS-1:0] inst );
+ 002787   begin
+            // B-type immediate
+ 002787     imm_b = { inst[31], inst[7], inst[30:25], inst[11:8], 1'b0 };
+          end
+          endfunction
+        
+ 000033   function [19:0] imm_u_sh12( input [`TINYRV2_INST_NBITS-1:0] inst );
+ 000033   begin
+            // U-type immediate, shifted right by 12
+ 000033     imm_u_sh12 = { inst[31], inst[30:20], inst[19:12] };
+          end
+          endfunction
+        
+ 000009   function [20:0] imm_j( input [`TINYRV2_INST_NBITS-1:0] inst );
+ 000009   begin
             // J-type immediate
- 000006     imm_j = { inst[31], inst[19:12], inst[20], inst[30:25], inst[24:21], 1'b0 };
+ 000009     imm_j = { inst[31], inst[19:12], inst[20], inst[30:25], inst[24:21], 1'b0 };
           end
           endfunction
         
@@ -230,44 +230,44 @@
 %000000     proc2mngr_enq_msg=0;
 %000000     mngr2proc_rdy=0;
 %000000     imem_respstream_rdy=0;
- 000080     if (reset) begin
- 000160         n_state = Idle;
- 000160         n_rf ='{default:32'h00000000};
+ 000086     if (reset) begin
+ 000172         n_state = Idle;
+ 000172         n_rf ='{default:32'h00000000};
             end
- 000080     else begin
- 002724       if (state == Idle)begin
- 002724         n_state =IReq;
+ 000086     else begin
+ 005714       if (state == Idle)begin
+ 005714         n_state =IReq;
               end
- 003999       else if (state == IReq)begin
- 003999           imem_reqstream_val =1;
- 003999           imem_reqstream_msg_addr = PC;
- 001280         if(imem_reqstream_rdy && imem_reqstream_val)begin
- 002719           n_state=IWait;
+ 008480       else if (state == IReq)begin
+ 008480           imem_reqstream_val =1;
+ 008480           imem_reqstream_msg_addr = PC;
+ 002771         if(imem_reqstream_rdy && imem_reqstream_val)begin
+ 005709           n_state=IWait;
                 end 
- 001280         else n_state=IReq;
+ 002771         else n_state=IReq;
               end
- 004176       else if (state == IWait)begin
- 004176         imem_respstream_rdy =1;
- 001482         if(imem_respstream_rdy && imem_respstream_val) begin
- 002694           n_state = E;
- 002694           n_inst =imem_respstream_msg.data;
+ 008685       else if (state == IWait)begin
+ 008685         imem_respstream_rdy =1;
+ 003002         if(imem_respstream_rdy && imem_respstream_val) begin
+ 005683           n_state = E;
+ 005683           n_inst =imem_respstream_msg.data;
                   //print_trace =0;
- 001482         end else begin
- 001482           n_state=IWait;
+ 003002         end else begin
+ 003002           n_state=IWait;
                 end
               end
- 002936       else if (state == E)begin
- 002936           n_state=Idle;
- 002936           n_PC=PC+4;
- 002936           casez ( inst )
- 000338           `TINYRV2_INST_CSRR  : begin
- 000338             if(csr == `TINYRV2_CPR_MNGR2PROC) begin
- 000338               mngr2proc_rdy =1;
- 000288               if(mngr2proc_val)begin
- 000288                 n_rf[rd]=mngr2proc_msg;
- 000726               end else begin
- 000726                  n_state=E;
- 000726                  n_PC=PC;
+ 005932       else if (state == E)begin
+ 005932           n_state=Idle;
+ 005932           n_PC=PC+4;
+ 005932           casez ( inst )
+ 000352           `TINYRV2_INST_CSRR  : begin
+ 000352             if(csr == `TINYRV2_CPR_MNGR2PROC) begin
+ 000352               mngr2proc_rdy =1;
+ 000303               if(mngr2proc_val)begin
+ 000303                 n_rf[rd]=mngr2proc_msg;
+ 000753               end else begin
+ 000753                  n_state=E;
+ 000753                  n_PC=PC;
                       end
                     end
 %000000             else if ( csr == `TINYRV2_CPR_NUMCORES )
@@ -275,10 +275,10 @@
 %000000             else if ( csr  == `TINYRV2_CPR_COREID )
 %000000               n_rf[rd]       = 2'h0;
                   end
- 000038           `TINYRV2_INST_CSRW  : begin
+ 000041           `TINYRV2_INST_CSRW  : begin
 %000000             if(csr == `TINYRV2_CPR_PROC2MNGR) begin
- 000038               proc2mngr_enq_val =1;
- 000038               proc2mngr_enq_msg=rf[rs1];
+ 000041               proc2mngr_enq_val =1;
+ 000041               proc2mngr_enq_msg=rf[rs1];
 %000000               if(proc2mngr_enq_rdy)begin
 %000000               end else begin
 %000000                 n_state=E;
@@ -286,171 +286,171 @@
                       end
                     end    
                   end
- 000204            `TINYRV2_INST_ADD   : begin 
- 000204               n_rf[rd]=rf[rs1]+rf[rs2];
+ 001506            `TINYRV2_INST_ADD   : begin 
+ 001506               n_rf[rd]=rf[rs1]+rf[rs2];
                     end
- 000001             `TINYRV2_INST_SUB   : begin 
- 000001               n_rf[rd]=rf[rs1]-rf[rs2];
+ 000002             `TINYRV2_INST_SUB   : begin 
+ 000002               n_rf[rd]=rf[rs1]-rf[rs2];
                     end
- 000001             `TINYRV2_INST_AND   : begin 
- 000001               n_rf[rd]=rf[rs1]&rf[rs2];
+ 000002             `TINYRV2_INST_AND   : begin 
+ 000002               n_rf[rd]=rf[rs1]&rf[rs2];
                     end
- 000001             `TINYRV2_INST_OR    : begin 
- 000001               n_rf[rd]=rf[rs1]|rf[rs2];
+ 000002             `TINYRV2_INST_OR    : begin 
+ 000002               n_rf[rd]=rf[rs1]|rf[rs2];
                     end
- 000005             `TINYRV2_INST_XOR   : begin 
- 000005               n_rf[rd]=rf[rs1]^rf[rs2];
+ 000006             `TINYRV2_INST_XOR   : begin 
+ 000006               n_rf[rd]=rf[rs1]^rf[rs2];
                     end
- 000001             `TINYRV2_INST_SLT   : begin 
- 000001               n_rf[rd]={{31'b0},{$signed(rf[rs1]) < $signed(rf[rs2])}};
+ 000002             `TINYRV2_INST_SLT   : begin 
+ 000002               n_rf[rd]={{31'b0},{$signed(rf[rs1]) < $signed(rf[rs2])}};
                     end
- 000001             `TINYRV2_INST_SLTU  :  begin 
- 000001               n_rf[rd]={{31'b0},{rf[rs1] < rf[rs2]}};
+ 000002             `TINYRV2_INST_SLTU  :  begin 
+ 000002               n_rf[rd]={{31'b0},{rf[rs1] < rf[rs2]}};
                     end
- 000001             `TINYRV2_INST_MUL   : begin 
- 000001               n_rf[rd]=rf[rs1] * rf[rs2];
+ 000002             `TINYRV2_INST_MUL   : begin 
+ 000002               n_rf[rd]=rf[rs1] * rf[rs2];
                     end
- 001534             `TINYRV2_INST_ADDI  : begin 
- 001534               n_rf[rd]=$signed(rf[rs1]) + $signed(imm_i(inst));
+ 002075             `TINYRV2_INST_ADDI  : begin 
+ 002075               n_rf[rd]=$signed(rf[rs1]) + $signed(imm_i(inst));
                     end
- 000001             `TINYRV2_INST_ANDI  : begin 
- 000001               n_rf[rd]=$signed(rf[rs1]) & $signed(imm_i(inst));
+ 000002             `TINYRV2_INST_ANDI  : begin 
+ 000002               n_rf[rd]=$signed(rf[rs1]) & $signed(imm_i(inst));
                     end
- 000001             `TINYRV2_INST_ORI   : begin 
- 000001               n_rf[rd]=$signed(rf[rs1]) | $signed(imm_i(inst));
+ 000002             `TINYRV2_INST_ORI   : begin 
+ 000002               n_rf[rd]=$signed(rf[rs1]) | $signed(imm_i(inst));
                     end
- 000003             `TINYRV2_INST_XORI  :  begin 
- 000003               n_rf[rd]=$signed(rf[rs1]) ^ $signed(imm_i(inst));
+ 000004             `TINYRV2_INST_XORI  :  begin 
+ 000004               n_rf[rd]=$signed(rf[rs1]) ^ $signed(imm_i(inst));
                     end
- 000001             `TINYRV2_INST_SLTI  : begin 
- 000001               n_rf[rd]={{31'b0},{$signed(rf[rs1]) < $signed(imm_i(inst))}};
+ 000002             `TINYRV2_INST_SLTI  : begin 
+ 000002               n_rf[rd]={{31'b0},{$signed(rf[rs1]) < $signed(imm_i(inst))}};
                     end 
- 000001             `TINYRV2_INST_SLTIU : begin 
- 000001               n_rf[rd]={{31'b0},{(rf[rs1]) < {{20{inst[31]}},{imm_i(inst)}}}};
+ 000002             `TINYRV2_INST_SLTIU : begin 
+ 000002               n_rf[rd]={{31'b0},{(rf[rs1]) < {{20{inst[31]}},{imm_i(inst)}}}};
                     end
- 000001             `TINYRV2_INST_SRA   : begin
- 000001               n_rf[ rd ] = $signed(rf[ rs1 ]) >>> rf[ rs2 ][4:0];
+ 000002             `TINYRV2_INST_SRA   : begin
+ 000002               n_rf[ rd ] = $signed(rf[ rs1 ]) >>> rf[ rs2 ][4:0];
                     end
- 000001             `TINYRV2_INST_SRL   : begin
- 000001               n_rf[ rd ] = $signed(rf[ rs1 ]) >> rf[ rs2 ][4:0];
+ 000002             `TINYRV2_INST_SRL   : begin
+ 000002               n_rf[ rd ] = $signed(rf[ rs1 ]) >> rf[ rs2 ][4:0];
                     end
- 000001             `TINYRV2_INST_SLL   : begin
- 000001               n_rf[ rd ] = $signed(rf[ rs1 ]) << rf[ rs2 ][4:0];
+ 000002             `TINYRV2_INST_SLL   : begin
+ 000002               n_rf[ rd ] = $signed(rf[ rs1 ]) << rf[ rs2 ][4:0];
                     end
- 000001             `TINYRV2_INST_SRAI  : begin
- 000001               n_rf[ rd ] = $signed(rf[ rs1 ]) >>> imm_shamt(inst);
+ 000002             `TINYRV2_INST_SRAI  : begin
+ 000002               n_rf[ rd ] = $signed(rf[ rs1 ]) >>> imm_shamt(inst);
                     end
- 000001             `TINYRV2_INST_SRLI  : begin
- 000001               n_rf[ rd ] = $signed(rf[ rs1 ]) >> imm_shamt(inst);
+ 000002             `TINYRV2_INST_SRLI  : begin
+ 000002               n_rf[ rd ] = $signed(rf[ rs1 ]) >> imm_shamt(inst);
                     end
- 000001             `TINYRV2_INST_SLLI  : begin
- 000001               n_rf[ rd ] = $signed(rf[ rs1 ]) << imm_shamt(inst);
+ 000002             `TINYRV2_INST_SLLI  : begin
+ 000002               n_rf[ rd ] = $signed(rf[ rs1 ]) << imm_shamt(inst);
                     end
- 000005             `TINYRV2_INST_LUI   : begin
- 000005               n_rf[ rd ] = imm_u_sh12(inst)<<12;
+ 000009             `TINYRV2_INST_LUI   : begin
+ 000009               n_rf[ rd ] = imm_u_sh12(inst)<<12;
                     end
- 000001             `TINYRV2_INST_AUIPC : begin
- 000001               n_rf[ rd ] = PC+(imm_u_sh12(inst)<<12);
+ 000002             `TINYRV2_INST_AUIPC : begin
+ 000002               n_rf[ rd ] = PC+(imm_u_sh12(inst)<<12);
                     end
- 000402           `TINYRV2_INST_LW    : begin
- 000402               dmem_reqstream_enq_msg_addr = $signed(rf[ rs1 ])+ $signed( imm_i(inst) );
- 000402               dmem_reqstream_enq_msg_data =0;
- 000402               dmem_reqstream_enq_msg_type =`VC_MEM_REQ_MSG_TYPE_READ;
- 000402               dmem_reqstream_enq_val=1;
+ 000403           `TINYRV2_INST_LW    : begin
+ 000403               dmem_reqstream_enq_msg_addr = $signed(rf[ rs1 ])+ $signed( imm_i(inst) );
+ 000403               dmem_reqstream_enq_msg_data =0;
+ 000403               dmem_reqstream_enq_msg_type =`VC_MEM_REQ_MSG_TYPE_READ;
+ 000403               dmem_reqstream_enq_val=1;
 %000000             if(dmem_reqstream_enq_rdy&& dmem_reqstream_enq_val)begin
- 000402               n_state=EWait;
+ 000403               n_state=EWait;
 %000000             end else begin
 %000000               n_state=E;
 %000000               n_PC=PC;
                     end
                   end
- 000203           `TINYRV2_INST_SW    : begin
- 000203                 dmem_reqstream_enq_msg_addr = $signed(rf[ rs1 ]) + $signed( imm_s(inst) );
- 000203                 dmem_reqstream_enq_msg_data =rf[ rs2 ];
- 000203                 dmem_reqstream_enq_msg_type =`VC_MEM_REQ_MSG_TYPE_WRITE;
- 000203                 dmem_reqstream_enq_val =1;
+ 000204           `TINYRV2_INST_SW    : begin
+ 000204                 dmem_reqstream_enq_msg_addr = $signed(rf[ rs1 ]) + $signed( imm_s(inst) );
+ 000204                 dmem_reqstream_enq_msg_data =rf[ rs2 ];
+ 000204                 dmem_reqstream_enq_msg_type =`VC_MEM_REQ_MSG_TYPE_WRITE;
+ 000204                 dmem_reqstream_enq_val =1;
 %000000             if(dmem_reqstream_enq_val&&dmem_reqstream_enq_rdy)begin
- 000203               n_state=EWait;
+ 000204               n_state=EWait;
 %000000             end else begin
 %000000               n_state=E;
 %000000               n_PC=PC;
                     end
                   end
- 000002           `TINYRV2_INST_JAL   : begin
- 000002               n_rf[ rd ] = PC+4;
- 000002               n_PC = $signed(PC) +$signed(imm_j(inst));
+ 000003           `TINYRV2_INST_JAL   : begin
+ 000003               n_rf[ rd ] = PC+4;
+ 000003               n_PC = $signed(PC) +$signed(imm_j(inst));
                     end
- 000002             `TINYRV2_INST_JALR  : begin
- 000002               n_rf[ rd ] = PC+4;
- 000002               n_PC = ($signed(rf[rs1]) + $signed(imm_i(inst)))& 32'hfffffffe;
+ 000003             `TINYRV2_INST_JALR  : begin
+ 000003               n_rf[ rd ] = PC+4;
+ 000003               n_PC = ($signed(rf[rs1]) + $signed(imm_i(inst)))& 32'hfffffffe;
                     end
- 000001             `TINYRV2_INST_BEQ   : begin
-%000000               if (rf[rs1]==rf[rs2]) n_PC=$signed(PC) +$signed(imm_b(inst));
+ 000302             `TINYRV2_INST_BEQ   : begin
+ 000001               if (rf[rs1]==rf[rs2]) n_PC=$signed(PC) +$signed(imm_b(inst));
                     end
- 000126             `TINYRV2_INST_BNE   : begin
- 000002               if (rf[rs1]!=rf[rs2]) begin
- 000124                 n_PC= $signed(PC) +$signed(imm_b(inst));
+ 000927             `TINYRV2_INST_BNE   : begin
+ 000004               if (rf[rs1]!=rf[rs2]) begin
+ 000923                 n_PC= $signed(PC) +$signed(imm_b(inst));
                       end 
                     end
- 000001             `TINYRV2_INST_BLT   : begin
+ 000002             `TINYRV2_INST_BLT   : begin
 %000000               if ($signed(rf[rs1]) < $signed(rf[rs2])) n_PC=$signed(PC) +$signed(imm_b(inst));
                     end
- 000001             `TINYRV2_INST_BGE   : begin
-%000000               if ($signed(rf[rs1]) >= $signed(rf[rs2])) n_PC=$signed(PC) +$signed(imm_b(inst));
+ 000002             `TINYRV2_INST_BGE   : begin
+ 000001               if ($signed(rf[rs1]) >= $signed(rf[rs2])) n_PC=$signed(PC) +$signed(imm_b(inst));
                     end
- 000001             `TINYRV2_INST_BLTU  : begin
-%000000               if (rf[rs1] < rf[rs2]) n_PC=$signed(PC) +$signed(imm_b(inst));
+ 000002             `TINYRV2_INST_BLTU  : begin
+ 000001               if (rf[rs1] < rf[rs2]) n_PC=$signed(PC) +$signed(imm_b(inst));
                     end
- 000001             `TINYRV2_INST_BGEU  :  begin
-%000000               if (rf[rs1] >= rf[rs2]) n_PC=$signed(PC) +$signed(imm_b(inst));
+ 000002             `TINYRV2_INST_BGEU  :  begin
+ 000001               if (rf[rs1] >= rf[rs2]) n_PC=$signed(PC) +$signed(imm_b(inst));
                     end
- 000052           default             : begin end
+ 000055           default             : begin end
                 endcase
               end
 %000000       else if (state == EWait)begin
- 001211           n_state=Idle;
- 001211           casez ( inst )
- 000813           `TINYRV2_INST_LW    : begin
- 000813             dmem_respstream_rdy =1;
- 000402             if(dmem_respstream_rdy && dmem_respstream_val) begin
- 000402               n_state=Idle;
- 000402               n_rf[ rd ] = dmem_respstream_msg.data;
- 000411             end else  begin 
- 000411               n_state=EWait;
+ 001216           n_state=Idle;
+ 001216           casez ( inst )
+ 000816           `TINYRV2_INST_LW    : begin
+ 000816             dmem_respstream_rdy =1;
+ 000403             if(dmem_respstream_rdy && dmem_respstream_val) begin
+ 000403               n_state=Idle;
+ 000403               n_rf[ rd ] = dmem_respstream_msg.data;
+ 000413             end else  begin 
+ 000413               n_state=EWait;
                     end
                   end
- 000398           `TINYRV2_INST_SW    : begin
- 000398             dmem_respstream_rdy =1;
- 000195             if(dmem_respstream_rdy &&dmem_respstream_val) n_state=Idle;
- 000195             else  begin
- 000195               n_state=EWait;
+ 000400           `TINYRV2_INST_SW    : begin
+ 000400             dmem_respstream_rdy =1;
+ 000196             if(dmem_respstream_rdy &&dmem_respstream_val) n_state=Idle;
+ 000196             else  begin
+ 000196               n_state=EWait;
                     end
                   end
                   
                   endcase
               end
         
- 008082       if(PC!=n_PC) begin 
+ 017043       if(PC!=n_PC) begin 
                 
- 008082         print_trace=0;
+ 017043         print_trace=0;
               end 
           end
         
           end
- 015526   always_ff @(posedge clk) begin
- 015526       inst <=n_inst;
- 015526       PC<=n_PC;
- 015526       PC_prev<=PC;
+ 030543   always_ff @(posedge clk) begin
+ 030543       inst <=n_inst;
+ 030543       PC<=n_PC;
+ 030543       PC_prev<=PC;
         
         
- 002684       if(PC!=n_PC) begin 
- 002684         PC_prev<=n_PC;
+ 005671       if(PC!=n_PC) begin 
+ 005671         PC_prev<=n_PC;
               end 
- 015526       rf<=n_rf;
- 015526       rf[0]<=0;
- 015526       state <=n_state;
- 000520       if (reset) begin
- 000520           PC<= 32'h200 ;
+ 030543       rf<=n_rf;
+ 030543       rf[0]<=0;
+ 030543       state <=n_state;
+ 000559       if (reset) begin
+ 000559           PC<= 32'h200 ;
               end    
           end
           

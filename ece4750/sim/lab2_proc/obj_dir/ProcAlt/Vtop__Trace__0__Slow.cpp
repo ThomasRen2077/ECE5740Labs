@@ -89,7 +89,7 @@ VL_ATTR_COLD void Vtop___024root__trace_init_sub__TOP__0(Vtop___024root* vlSelf,
     tracep->declArray(c+2489,"dmem_reqstream_enq_msg",-1, FST_VD_IMPLICIT,FST_VT_SV_LOGIC, false,-1, 76,0);
     tracep->declBit(c+2492,"dmem_reqstream_enq_val",-1, FST_VD_IMPLICIT,FST_VT_SV_LOGIC, false,-1);
     tracep->declBit(c+2488,"dmem_reqstream_enq_rdy",-1, FST_VD_IMPLICIT,FST_VT_SV_LOGIC, false,-1);
-    tracep->declBus(c+2493,"dmem_reqstream_enq_msg_type",-1, FST_VD_IMPLICIT,FST_VT_SV_LOGIC, false,-1, 2,0);
+    tracep->declBit(c+2493,"dmem_reqstream_enq_msg_type",-1, FST_VD_IMPLICIT,FST_VT_SV_LOGIC, false,-1);
     tracep->declBus(c+2494,"dmem_reqstream_enq_msg_addr",-1, FST_VD_IMPLICIT,FST_VT_SV_LOGIC, false,-1, 31,0);
     tracep->declBus(c+2495,"dmem_reqstream_enq_msg_data",-1, FST_VD_IMPLICIT,FST_VT_SV_LOGIC, false,-1, 31,0);
     tracep->declBit(c+2496,"proc2mngr_queue_num_free_entries",-1, FST_VD_IMPLICIT,FST_VT_SV_LOGIC, false,-1);
@@ -140,7 +140,7 @@ VL_ATTR_COLD void Vtop___024root__trace_init_sub__TOP__0(Vtop___024root* vlSelf,
     tracep->declBit(c+2488,"dmem_reqstream_rdy",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
     tracep->declBit(c+2475,"dmem_respstream_val",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
     tracep->declBit(c+2476,"dmem_respstream_rdy",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1);
-    tracep->declBus(c+2493,"dmem_reqstream_msg_type",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1, 2,0);
+    tracep->declBit(c+2493,"dmem_reqstream_msg_type",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1);
     tracep->declBit(c+2863,"mngr2proc_val",-1,FST_VD_INPUT,FST_VT_VCD_WIRE, false,-1);
     tracep->declBit(c+2402,"mngr2proc_rdy",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1);
     tracep->declBit(c+2498,"proc2mngr_val",-1,FST_VD_OUTPUT,FST_VT_VCD_WIRE, false,-1);
@@ -2473,7 +2473,7 @@ VL_ATTR_COLD void Vtop___024root__trace_full_sub_0(Vtop___024root* vlSelf, Veril
     bufp->fullBit(oldp+2488,((1U & (~ (IData)(vlSelf->top__DOT__DUT__DOT__dmem_queue__DOT__genblk1__DOT__ctrl__DOT__full)))));
     bufp->fullWData(oldp+2489,(vlSelf->top__DOT__DUT__DOT__dmem_reqstream_enq_msg),77);
     bufp->fullBit(oldp+2492,(vlSelf->top__DOT__DUT__DOT__dmem_reqstream_enq_val));
-    bufp->fullCData(oldp+2493,(vlSelf->top__DOT__DUT__DOT__dmem_reqstream_enq_msg_type),3);
+    bufp->fullBit(oldp+2493,(vlSelf->top__DOT__DUT__DOT__dmem_reqstream_enq_msg_type));
     bufp->fullIData(oldp+2494,(vlSelf->top__DOT__DUT__DOT__dpath__DOT__alu_result_X),32);
     bufp->fullIData(oldp+2495,(vlSelf->top__DOT__DUT__DOT__dpath__DOT__op2_byp_X),32);
     bufp->fullBit(oldp+2496,((1U & (~ (IData)(vlSelf->top__DOT__DUT__DOT__proc2mngr_queue__DOT__genblk1__DOT__ctrl__DOT__full)))));

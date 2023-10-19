@@ -1,0 +1,22 @@
+verilated_fst_c.o: \
+ /home/thomasyyyy2077/verilator/include/verilated_fst_c.cpp \
+ /home/thomasyyyy2077/verilator/include/verilated.h \
+ /home/thomasyyyy2077/verilator/include/verilatedos.h \
+ /home/thomasyyyy2077/verilator/include/verilated_config.h \
+ /home/thomasyyyy2077/verilator/include/verilated_types.h \
+ /home/thomasyyyy2077/verilator/include/verilated_funcs.h \
+ /home/thomasyyyy2077/verilator/include/verilated_fst_c.h \
+ /home/thomasyyyy2077/verilator/include/verilated_trace.h \
+ /home/thomasyyyy2077/verilator/include/verilated_trace_defs.h \
+ /home/thomasyyyy2077/verilator/include/gtkwave/fstapi.h \
+ /home/thomasyyyy2077/verilator/include/gtkwave/fastlz.c \
+ /home/thomasyyyy2077/verilator/include/gtkwave/fastlz.h \
+ /home/thomasyyyy2077/verilator/include/gtkwave/fastlz.c \
+ /home/thomasyyyy2077/verilator/include/gtkwave/fstapi.c \
+ /home/thomasyyyy2077/verilator/include/gtkwave/fst_config.h \
+ /home/thomasyyyy2077/verilator/include/gtkwave/fstapi.h \
+ /home/thomasyyyy2077/verilator/include/gtkwave/lz4.h \
+ /home/thomasyyyy2077/verilator/include/gtkwave/lz4.c \
+ /home/thomasyyyy2077/verilator/include/verilated_trace_imp.h \
+ /home/thomasyyyy2077/verilator/include/verilated_intrinsics.h \
+ /home/thomasyyyy2077/verilator/include/verilated_threads.h

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-10-16 23:47:36</td>
+            <td class="headerValue">2023-10-18 23:43:20</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -85,10 +85,10 @@
 <a name="23"><span class="lineNum">      23 </span>            :   parameter c_req_data_nbits    = p_data_nbits</a>
 <a name="24"><span class="lineNum">      24 </span>            :   ) </a>
 <a name="25"><span class="lineNum">      25 </span>            :   (</a>
-<a name="26"><span class="lineNum">      26 </span><span class="lineCov">        554 :     input logic [c_req_nbits-1:0] msg,</span></a>
+<a name="26"><span class="lineNum">      26 </span><span class="lineCov">        557 :     input logic [c_req_nbits-1:0] msg,</span></a>
 <a name="27"><span class="lineNum">      27 </span><span class="lineNoCov">          0 :     output logic [c_req_type_nbits-1:0] type_ ,</span></a>
 <a name="28"><span class="lineNum">      28 </span><span class="lineNoCov">          0 :     output logic [c_req_opaque_nbits-1:0] opaque ,</span></a>
-<a name="29"><span class="lineNum">      29 </span><span class="lineCov">         21 :     output logic [c_req_addr_nbits-1:0] addr ,</span></a>
+<a name="29"><span class="lineNum">      29 </span><span class="lineCov">         24 :     output logic [c_req_addr_nbits-1:0] addr ,</span></a>
 <a name="30"><span class="lineNum">      30 </span><span class="lineNoCov">          0 :     output logic [c_req_len_nbits-1:0] len ,</span></a>
 <a name="31"><span class="lineNum">      31 </span><span class="lineCov">        299 :     output logic [c_req_data_nbits-1:0] data </span></a>
 <a name="32"><span class="lineNum">      32 </span>            :   );</a>
@@ -122,11 +122,11 @@
 <a name="60"><span class="lineNum">      60 </span>            :   parameter c_resp_data_nbits    = p_data_nbits</a>
 <a name="61"><span class="lineNum">      61 </span>            :   ) </a>
 <a name="62"><span class="lineNum">      62 </span>            :   (</a>
-<a name="63"><span class="lineNum">      63 </span><span class="lineCov">       2397 :     output logic [c_resp_nbits-1:0] msg,</span></a>
+<a name="63"><span class="lineNum">      63 </span><span class="lineCov">       5512 :     output logic [c_resp_nbits-1:0] msg,</span></a>
 <a name="64"><span class="lineNum">      64 </span><span class="lineNoCov">          0 :     input logic [c_resp_type_nbits-1:0] type_ ,</span></a>
 <a name="65"><span class="lineNum">      65 </span><span class="lineNoCov">          0 :     input logic [c_resp_opaque_nbits-1:0] opaque ,</span></a>
 <a name="66"><span class="lineNum">      66 </span><span class="lineNoCov">          0 :     input logic [c_resp_len_nbits-1:0] len ,</span></a>
-<a name="67"><span class="lineNum">      67 </span><span class="lineCov">        903 :     input logic [c_resp_data_nbits-1:0] data ,</span></a>
+<a name="67"><span class="lineNum">      67 </span><span class="lineCov">        931 :     input logic [c_resp_data_nbits-1:0] data ,</span></a>
 <a name="68"><span class="lineNum">      68 </span><span class="lineNoCov">          0 :     input logic [1:0] test</span></a>
 <a name="69"><span class="lineNum">      69 </span>            :   );</a>
 <a name="70"><span class="lineNum">      70 </span>            :     typedef struct packed {</a>
@@ -164,34 +164,34 @@
 <a name="102"><span class="lineNum">     102 </span>            :   parameter c_req_nbits  = $bits(mem_req_4B_t),</a>
 <a name="103"><span class="lineNum">     103 </span>            :   parameter c_resp_nbits = $bits(mem_resp_4B_t)</a>
 <a name="104"><span class="lineNum">     104 </span>            : )(</a>
-<a name="105"><span class="lineNum">     105 </span><span class="lineCov">      60162 :   input  logic                    clk,</span></a>
-<a name="106"><span class="lineNum">     106 </span><span class="lineCov">        120 :   input  logic                    reset,</span></a>
+<a name="105"><span class="lineNum">     105 </span><span class="lineCov">     128469 :   input  logic                    clk,</span></a>
+<a name="106"><span class="lineNum">     106 </span><span class="lineCov">        129 :   input  logic                    reset,</span></a>
 <a name="107"><span class="lineNum">     107 </span>            : </a>
 <a name="108"><span class="lineNum">     108 </span>            :   // clears the content of memory</a>
-<a name="109"><span class="lineNum">     109 </span><span class="lineCov">        120 :   input  logic                    mem_clear,</span></a>
+<a name="109"><span class="lineNum">     109 </span><span class="lineCov">        129 :   input  logic                    mem_clear,</span></a>
 <a name="110"><span class="lineNum">     110 </span>            : </a>
 <a name="111"><span class="lineNum">     111 </span>            :   // Memory request port 0 interface</a>
 <a name="112"><span class="lineNum">     112 </span>            : </a>
-<a name="113"><span class="lineNum">     113 </span><span class="lineCov">      14478 :   input  logic                    memreq0_val,</span></a>
-<a name="114"><span class="lineNum">     114 </span><span class="lineCov">         98 :   output logic                    memreq0_rdy,</span></a>
+<a name="113"><span class="lineNum">     113 </span><span class="lineCov">      33486 :   input  logic                    memreq0_val,</span></a>
+<a name="114"><span class="lineNum">     114 </span><span class="lineCov">        758 :   output logic                    memreq0_rdy,</span></a>
 <a name="115"><span class="lineNum">     115 </span><span class="lineNoCov">          0 :   input  logic [c_req_nbits-1:0]  memreq0_msg,</span></a>
 <a name="116"><span class="lineNum">     116 </span>            : </a>
 <a name="117"><span class="lineNum">     117 </span>            :   // Memory request port 1 interface</a>
 <a name="118"><span class="lineNum">     118 </span>            : </a>
-<a name="119"><span class="lineNum">     119 </span><span class="lineCov">       3508 :   input  logic                    memreq1_val,</span></a>
+<a name="119"><span class="lineNum">     119 </span><span class="lineCov">       3520 :   input  logic                    memreq1_val,</span></a>
 <a name="120"><span class="lineNum">     120 </span><span class="lineNoCov">          0 :   output logic                    memreq1_rdy,</span></a>
-<a name="121"><span class="lineNum">     121 </span><span class="lineCov">        664 :   input  logic [c_req_nbits-1:0]  memreq1_msg,</span></a>
+<a name="121"><span class="lineNum">     121 </span><span class="lineCov">        670 :   input  logic [c_req_nbits-1:0]  memreq1_msg,</span></a>
 <a name="122"><span class="lineNum">     122 </span>            : </a>
 <a name="123"><span class="lineNum">     123 </span>            :   // Memory response port 0 interface</a>
 <a name="124"><span class="lineNum">     124 </span>            : </a>
-<a name="125"><span class="lineNum">     125 </span><span class="lineCov">      10935 :   output logic                    memresp0_val,</span></a>
-<a name="126"><span class="lineNum">     126 </span><span class="lineCov">      15071 :   input  logic                    memresp0_rdy,</span></a>
-<a name="127"><span class="lineNum">     127 </span><span class="lineCov">       1542 :   output logic [c_resp_nbits-1:0] memresp0_msg,</span></a>
+<a name="125"><span class="lineNum">     125 </span><span class="lineCov">      24886 :   output logic                    memresp0_val,</span></a>
+<a name="126"><span class="lineNum">     126 </span><span class="lineCov">      34126 :   input  logic                    memresp0_rdy,</span></a>
+<a name="127"><span class="lineNum">     127 </span><span class="lineCov">       4624 :   output logic [c_resp_nbits-1:0] memresp0_msg,</span></a>
 <a name="128"><span class="lineNum">     128 </span>            : </a>
 <a name="129"><span class="lineNum">     129 </span>            :   // Memory response port 1 interface</a>
 <a name="130"><span class="lineNum">     130 </span>            : </a>
-<a name="131"><span class="lineNum">     131 </span><span class="lineCov">       3356 :   output logic                    memresp1_val,</span></a>
-<a name="132"><span class="lineNum">     132 </span><span class="lineCov">       3648 :   input  logic                    memresp1_rdy,</span></a>
+<a name="131"><span class="lineNum">     131 </span><span class="lineCov">       3368 :   output logic                    memresp1_val,</span></a>
+<a name="132"><span class="lineNum">     132 </span><span class="lineCov">       3662 :   input  logic                    memresp1_rdy,</span></a>
 <a name="133"><span class="lineNum">     133 </span><span class="lineCov">        798 :   output logic [c_resp_nbits-1:0] memresp1_msg</span></a>
 <a name="134"><span class="lineNum">     134 </span>            : );</a>
 <a name="135"><span class="lineNum">     135 </span>            : </a>
@@ -252,8 +252,8 @@
 <a name="190"><span class="lineNum">     190 </span>            :   // memory (helping to avoid combinational loops) and also preserve our</a>
 <a name="191"><span class="lineNum">     191 </span>            :   // registered input policy.</a>
 <a name="192"><span class="lineNum">     192 </span>            : </a>
-<a name="193"><span class="lineNum">     193 </span><span class="lineCov">      14355 :   logic                   memreq0_val_M;</span></a>
-<a name="194"><span class="lineNum">     194 </span><span class="lineCov">       9288 :   logic                   memreq0_rdy_M;</span></a>
+<a name="193"><span class="lineNum">     193 </span><span class="lineCov">      33199 :   logic                   memreq0_val_M;</span></a>
+<a name="194"><span class="lineNum">     194 </span><span class="lineCov">      22175 :   logic                   memreq0_rdy_M;</span></a>
 <a name="195"><span class="lineNum">     195 </span><span class="lineNoCov">          0 :   logic [c_req_nbits-1:0] memreq0_msg_M;</span></a>
 <a name="196"><span class="lineNum">     196 </span>            : </a>
 <a name="197"><span class="lineNum">     197 </span>            :   vc_Queue</a>
@@ -275,9 +275,9 @@
 <a name="213"><span class="lineNum">     213 </span>            :     .num_free_entries()</a>
 <a name="214"><span class="lineNum">     214 </span>            :   );</a>
 <a name="215"><span class="lineNum">     215 </span>            : </a>
-<a name="216"><span class="lineNum">     216 </span><span class="lineCov">       3508 :   logic                   memreq1_val_M;</span></a>
-<a name="217"><span class="lineNum">     217 </span><span class="lineCov">       1950 :   logic                   memreq1_rdy_M;</span></a>
-<a name="218"><span class="lineNum">     218 </span><span class="lineCov">        554 :   logic [c_req_nbits-1:0] memreq1_msg_M;</span></a>
+<a name="216"><span class="lineNum">     216 </span><span class="lineCov">       3520 :   logic                   memreq1_val_M;</span></a>
+<a name="217"><span class="lineNum">     217 </span><span class="lineCov">       1958 :   logic                   memreq1_rdy_M;</span></a>
+<a name="218"><span class="lineNum">     218 </span><span class="lineCov">        557 :   logic [c_req_nbits-1:0] memreq1_msg_M;</span></a>
 <a name="219"><span class="lineNum">     219 </span>            : </a>
 <a name="220"><span class="lineNum">     220 </span>            :   vc_Queue</a>
 <a name="221"><span class="lineNum">     221 </span>            :   #(</a>
@@ -304,7 +304,7 @@
 <a name="242"><span class="lineNum">     242 </span>            : </a>
 <a name="243"><span class="lineNum">     243 </span><span class="lineNoCov">          0 :   logic [c_req_type_nbits-1:0]   memreq0_msg_type_M;</span></a>
 <a name="244"><span class="lineNum">     244 </span><span class="lineNoCov">          0 :   logic [c_req_opaque_nbits-1:0] memreq0_msg_opaque_M;</span></a>
-<a name="245"><span class="lineNum">     245 </span><span class="lineCov">         15 :   logic [c_req_addr_nbits-1:0]   memreq0_msg_addr_M;</span></a>
+<a name="245"><span class="lineNum">     245 </span><span class="lineCov">         18 :   logic [c_req_addr_nbits-1:0]   memreq0_msg_addr_M;</span></a>
 <a name="246"><span class="lineNum">     246 </span><span class="lineNoCov">          0 :   logic [c_req_len_nbits-1:0]    memreq0_msg_len_M;</span></a>
 <a name="247"><span class="lineNum">     247 </span><span class="lineNoCov">          0 :   logic [c_req_data_nbits-1:0]   memreq0_msg_data_M;</span></a>
 <a name="248"><span class="lineNum">     248 </span>            : </a>
@@ -346,29 +346,29 @@
 <a name="284"><span class="lineNum">     284 </span><span class="lineNoCov">          0 :   logic [c_block_offset_nbits-1:0] block_offset;</span></a>
 <a name="285"><span class="lineNum">     285 </span>            : </a>
 <a name="286"><span class="lineNum">     286 </span>            :   integer wr_i;</a>
-<a name="287"><span class="lineNum">     287 </span><span class="lineCov">        120 :   task load (integer file_load);</span></a>
-<a name="288"><span class="lineNum">     288 </span><span class="lineCov">        120 :   begin</span></a>
+<a name="287"><span class="lineNum">     287 </span><span class="lineCov">        129 :   task load (integer file_load);</span></a>
+<a name="288"><span class="lineNum">     288 </span><span class="lineCov">        129 :   begin</span></a>
 <a name="289"><span class="lineNum">     289 </span>            :     //integer file_load = $fopen(filein, &quot;r&quot;); </a>
 <a name="290"><span class="lineNum">     290 </span>            :     //  if (file_load == 0) begin</a>
 <a name="291"><span class="lineNum">     291 </span>            :     //   $display(&quot;Fail to open file %s&quot;,filein);</a>
 <a name="292"><span class="lineNum">     292 </span>            :     //   $finish;</a>
 <a name="293"><span class="lineNum">     293 </span>            :     //  end</a>
-<a name="294"><span class="lineNum">     294 </span><span class="lineCov">        120 :     $display(&quot;c_physical_addr_nbits is %d&quot;,c_physical_addr_nbits);</span></a>
-<a name="295"><span class="lineNum">     295 </span><span class="lineCov">       5439 :     while (!$feof(file_load))begin</span></a>
-<a name="296"><span class="lineNum">     296 </span><span class="lineCov">       5439 :       $fscanf(file_load, &quot;%x:%x\n&quot;, data_address,data_data); </span></a>
-<a name="297"><span class="lineNum">     297 </span><span class="lineCov">       5439 :       data_data= {{data_data[07:00]},</span></a>
-<a name="298"><span class="lineNum">     298 </span><span class="lineCov">       5439 :                        {data_data[15:08]},</span></a>
-<a name="299"><span class="lineNum">     299 </span><span class="lineCov">       5439 :                        {data_data[23:16]},</span></a>
-<a name="300"><span class="lineNum">     300 </span><span class="lineCov">       5439 :                        {data_data[31:24]}};</span></a>
+<a name="294"><span class="lineNum">     294 </span><span class="lineCov">        129 :     $display(&quot;c_physical_addr_nbits is %d&quot;,c_physical_addr_nbits);</span></a>
+<a name="295"><span class="lineNum">     295 </span><span class="lineCov">       5772 :     while (!$feof(file_load))begin</span></a>
+<a name="296"><span class="lineNum">     296 </span><span class="lineCov">       5772 :       $fscanf(file_load, &quot;%x:%x\n&quot;, data_address,data_data); </span></a>
+<a name="297"><span class="lineNum">     297 </span><span class="lineCov">       5772 :       data_data= {{data_data[07:00]},</span></a>
+<a name="298"><span class="lineNum">     298 </span><span class="lineCov">       5772 :                        {data_data[15:08]},</span></a>
+<a name="299"><span class="lineNum">     299 </span><span class="lineCov">       5772 :                        {data_data[23:16]},</span></a>
+<a name="300"><span class="lineNum">     300 </span><span class="lineCov">       5772 :                        {data_data[31:24]}};</span></a>
 <a name="301"><span class="lineNum">     301 </span>            :       //$display(&quot;%x:%x&quot;,data_address,data_data);</a>
 <a name="302"><span class="lineNum">     302 </span>            :       /* verilator lint_off WIDTHTRUNC */</a>
 <a name="303"><span class="lineNum">     303 </span>            :       //physical_byte_addr=data_address[c_physical_addr_nbits-1:0];</a>
-<a name="304"><span class="lineNum">     304 </span><span class="lineCov">       5439 :       physical_block_addr= data_address/c_data_byte_nbits;</span></a>
-<a name="305"><span class="lineNum">     305 </span><span class="lineCov">       5439 :       block_offset= data_address[c_block_offset_nbits-1:0];</span></a>
+<a name="304"><span class="lineNum">     304 </span><span class="lineCov">       5772 :       physical_block_addr= data_address/c_data_byte_nbits;</span></a>
+<a name="305"><span class="lineNum">     305 </span><span class="lineCov">       5772 :       block_offset= data_address[c_block_offset_nbits-1:0];</span></a>
 <a name="306"><span class="lineNum">     306 </span>            :       /* verilator lint_on WIDTHTRUNC */</a>
 <a name="307"><span class="lineNum">     307 </span>            :       //$display(&quot;location:%x&quot;,physical_block_addr);</a>
-<a name="308"><span class="lineNum">     308 </span><span class="lineCov">       5439 :       for (wr_i = 0; wr_i&lt;4;wr_i++) begin</span></a>
-<a name="309"><span class="lineNum">     309 </span><span class="lineCov">      21756 :         m_load[physical_block_addr][ (block_offset*8) + (wr_i*8) +: 8 ] = data_data[ (wr_i*8) +: 8 ];</span></a>
+<a name="308"><span class="lineNum">     308 </span><span class="lineCov">       5772 :       for (wr_i = 0; wr_i&lt;4;wr_i++) begin</span></a>
+<a name="309"><span class="lineNum">     309 </span><span class="lineCov">      23088 :         m_load[physical_block_addr][ (block_offset*8) + (wr_i*8) +: 8 ] = data_data[ (wr_i*8) +: 8 ];</span></a>
 <a name="310"><span class="lineNum">     310 </span>            :       end</a>
 <a name="311"><span class="lineNum">     311 </span>            :     end</a>
 <a name="312"><span class="lineNum">     312 </span>            :     // for(wr_i=0; wr_i&lt;c_num_blocks;wr_i++)begin</a>
@@ -376,8 +376,8 @@
 <a name="314"><span class="lineNum">     314 </span>            :     // end</a>
 <a name="315"><span class="lineNum">     315 </span>            :   end</a>
 <a name="316"><span class="lineNum">     316 </span>            :   endtask</a>
-<a name="317"><span class="lineNum">     317 </span><span class="lineCov">        120 :   task dump (integer file_out);</span></a>
-<a name="318"><span class="lineNum">     318 </span><span class="lineCov">        120 :   begin</span></a>
+<a name="317"><span class="lineNum">     317 </span><span class="lineCov">        129 :   task dump (integer file_out);</span></a>
+<a name="318"><span class="lineNum">     318 </span><span class="lineCov">        129 :   begin</span></a>
 <a name="319"><span class="lineNum">     319 </span>            :     string ihex;</a>
 <a name="320"><span class="lineNum">     320 </span>            :     //integer file_load = $fopen(filein, &quot;r&quot;); </a>
 <a name="321"><span class="lineNum">     321 </span>            :     //  if (file_load == 0) begin</a>
@@ -402,16 +402,16 @@
 <a name="340"><span class="lineNum">     340 </span>            :     //     m_load[physical_block_addr][ (block_offset*8) + (wr_i*8) +: 8 ] = data_data[ (wr_i*8) +: 8 ];</a>
 <a name="341"><span class="lineNum">     341 </span>            :     //   end</a>
 <a name="342"><span class="lineNum">     342 </span>            :     // end</a>
-<a name="343"><span class="lineNum">     343 </span><span class="lineCov">        120 :     for(wr_i=0; wr_i&lt;c_num_blocks;wr_i++)begin</span></a>
-<a name="344"><span class="lineNum">     344 </span><span class="lineCov">       6042 :         if(m[wr_i]!=0) begin</span></a>
-<a name="345"><span class="lineNum">     345 </span><span class="lineCov">       6042 :           data_data=m[wr_i];</span></a>
-<a name="346"><span class="lineNum">     346 </span><span class="lineCov">       6042 :           data_data= {{data_data[07:00]},</span></a>
-<a name="347"><span class="lineNum">     347 </span><span class="lineCov">       6042 :                        {data_data[15:08]},</span></a>
-<a name="348"><span class="lineNum">     348 </span><span class="lineCov">       6042 :                        {data_data[23:16]},</span></a>
-<a name="349"><span class="lineNum">     349 </span><span class="lineCov">       6042 :                        {data_data[31:24]}};</span></a>
-<a name="350"><span class="lineNum">     350 </span><span class="lineCov">       6042 :         ihex = $sformatf(&quot;%x:%x&quot;,{{wr_i,2'b0}[31:0]},data_data);</span></a>
-<a name="351"><span class="lineNum">     351 </span><span class="lineCov">       6042 :         $display(&quot;%s&quot;,ihex.toupper());</span></a>
-<a name="352"><span class="lineNum">     352 </span><span class="lineCov">       6042 :         $fdisplay(file_out,&quot;%s&quot;,ihex.toupper());</span></a>
+<a name="343"><span class="lineNum">     343 </span><span class="lineCov">        129 :     for(wr_i=0; wr_i&lt;c_num_blocks;wr_i++)begin</span></a>
+<a name="344"><span class="lineNum">     344 </span><span class="lineCov">       6375 :         if(m[wr_i]!=0) begin</span></a>
+<a name="345"><span class="lineNum">     345 </span><span class="lineCov">       6375 :           data_data=m[wr_i];</span></a>
+<a name="346"><span class="lineNum">     346 </span><span class="lineCov">       6375 :           data_data= {{data_data[07:00]},</span></a>
+<a name="347"><span class="lineNum">     347 </span><span class="lineCov">       6375 :                        {data_data[15:08]},</span></a>
+<a name="348"><span class="lineNum">     348 </span><span class="lineCov">       6375 :                        {data_data[23:16]},</span></a>
+<a name="349"><span class="lineNum">     349 </span><span class="lineCov">       6375 :                        {data_data[31:24]}};</span></a>
+<a name="350"><span class="lineNum">     350 </span><span class="lineCov">       6375 :         ihex = $sformatf(&quot;%x:%x&quot;,{{wr_i,2'b0}[31:0]},data_data);</span></a>
+<a name="351"><span class="lineNum">     351 </span><span class="lineCov">       6375 :         $display(&quot;%s&quot;,ihex.toupper());</span></a>
+<a name="352"><span class="lineNum">     352 </span><span class="lineCov">       6375 :         $fdisplay(file_out,&quot;%s&quot;,ihex.toupper());</span></a>
 <a name="353"><span class="lineNum">     353 </span>            :         end</a>
 <a name="354"><span class="lineNum">     354 </span>            :     end</a>
 <a name="355"><span class="lineNum">     355 </span>            :   end</a>
@@ -445,7 +445,7 @@
 <a name="383"><span class="lineNum">     383 </span>            :   // truncate the higher order bits that are beyond the size of the</a>
 <a name="384"><span class="lineNum">     384 </span>            :   // physical memory.</a>
 <a name="385"><span class="lineNum">     385 </span>            : </a>
-<a name="386"><span class="lineNum">     386 </span><span class="lineCov">         15 :   logic [c_physical_addr_nbits-1:0] physical_byte_addr0_M;</span></a>
+<a name="386"><span class="lineNum">     386 </span><span class="lineCov">         18 :   logic [c_physical_addr_nbits-1:0] physical_byte_addr0_M;</span></a>
 <a name="387"><span class="lineNum">     387 </span>            :   assign physical_byte_addr0_M = memreq0_msg_addr_M[c_physical_addr_nbits-1:0];</a>
 <a name="388"><span class="lineNum">     388 </span>            : </a>
 <a name="389"><span class="lineNum">     389 </span><span class="lineNoCov">          0 :   logic [c_physical_addr_nbits-1:0] physical_byte_addr1_M;</span></a>
@@ -467,10 +467,10 @@
 <a name="405"><span class="lineNum">     405 </span>            :   /* verilator lint_on WIDTHTRUNC */</a>
 <a name="406"><span class="lineNum">     406 </span>            :   // Read the data</a>
 <a name="407"><span class="lineNum">     407 </span>            : </a>
-<a name="408"><span class="lineNum">     408 </span><span class="lineCov">          6 :   logic [p_data_nbits-1:0] read_block0_M;</span></a>
+<a name="408"><span class="lineNum">     408 </span><span class="lineCov">         18 :   logic [p_data_nbits-1:0] read_block0_M;</span></a>
 <a name="409"><span class="lineNum">     409 </span>            :   assign read_block0_M = m[physical_block_addr0_M];</a>
 <a name="410"><span class="lineNum">     410 </span>            : </a>
-<a name="411"><span class="lineNum">     411 </span><span class="lineCov">          6 :   logic [c_resp_data_nbits-1:0] read_data0_M;</span></a>
+<a name="411"><span class="lineNum">     411 </span><span class="lineCov">         18 :   logic [c_resp_data_nbits-1:0] read_data0_M;</span></a>
 <a name="412"><span class="lineNum">     412 </span>            :   assign read_data0_M = read_block0_M &gt;&gt; (block_offset0_M*8);</a>
 <a name="413"><span class="lineNum">     413 </span>            : </a>
 <a name="414"><span class="lineNum">     414 </span><span class="lineCov">        309 :   logic [p_data_nbits-1:0] read_block1_M;</span></a>
@@ -486,7 +486,7 @@
 <a name="424"><span class="lineNum">     424 </span>            :   assign write_en0_M = memreq0_val_M &amp;&amp;</a>
 <a name="425"><span class="lineNum">     425 </span>            :       ( memreq0_msg_type_M == c_write || memreq0_msg_type_M == c_write_init );</a>
 <a name="426"><span class="lineNum">     426 </span>            : </a>
-<a name="427"><span class="lineNum">     427 </span><span class="lineCov">       1178 :   logic write_en1_M;</span></a>
+<a name="427"><span class="lineNum">     427 </span><span class="lineCov">       1184 :   logic write_en1_M;</span></a>
 <a name="428"><span class="lineNum">     428 </span>            :   assign write_en1_M = memreq1_val_M &amp;&amp;</a>
 <a name="429"><span class="lineNum">     429 </span>            :       ( memreq1_msg_type_M == c_write || memreq1_msg_type_M == c_write_init );</a>
 <a name="430"><span class="lineNum">     430 </span>            : </a>
@@ -512,11 +512,11 @@
 <a name="450"><span class="lineNum">     450 </span>            :   // initialize this to one since by default when the simulation starts</a>
 <a name="451"><span class="lineNum">     451 </span>            :   // the memory is already reset to 0's.</a>
 <a name="452"><span class="lineNum">     452 </span>            : </a>
-<a name="453"><span class="lineNum">     453 </span><span class="lineCov">        120 :   logic memory_cleared = 0;</span></a>
+<a name="453"><span class="lineNum">     453 </span><span class="lineCov">        129 :   logic memory_cleared = 0;</span></a>
 <a name="454"><span class="lineNum">     454 </span><span class="lineNoCov">          0 :   always_comb begin</span></a>
 <a name="455"><span class="lineNum">     455 </span><span class="lineNoCov">          0 :     m_next=m;</span></a>
-<a name="456"><span class="lineNum">     456 </span><span class="lineCov">        480 :     if ( mem_clear ) begin</span></a>
-<a name="457"><span class="lineNum">     457 </span><span class="lineCov">       1800 :       if ( !memory_cleared ) begin</span></a>
+<a name="456"><span class="lineNum">     456 </span><span class="lineCov">        516 :     if ( mem_clear ) begin</span></a>
+<a name="457"><span class="lineNum">     457 </span><span class="lineCov">       1935 :       if ( !memory_cleared ) begin</span></a>
 <a name="458"><span class="lineNum">     458 </span>            :         </a>
 <a name="459"><span class="lineNum">     459 </span><span class="lineNoCov">          0 :         for ( wr0_i = 0; wr0_i &lt; c_num_blocks; wr0_i = wr0_i + 1 ) begin</span></a>
 <a name="460"><span class="lineNum">     460 </span><span class="lineNoCov">          0 :           m_next[wr0_i] = {p_data_nbits{1'b0}};</span></a>
@@ -528,22 +528,22 @@
 <a name="466"><span class="lineNum">     466 </span><span class="lineNoCov">          0 :       m_next=m_load;</span></a>
 <a name="467"><span class="lineNum">     467 </span><span class="lineNoCov">          0 :     end else if ( !reset ) begin</span></a>
 <a name="468"><span class="lineNum">     468 </span>            :       //$display(&quot;Mem tick %d, %d&quot;,write_en0_M,write_en1_M);</a>
-<a name="469"><span class="lineNum">     469 </span><span class="lineCov">      28581 :       if ( write_en0_M ) begin</span></a>
+<a name="469"><span class="lineNum">     469 </span><span class="lineCov">      62622 :       if ( write_en0_M ) begin</span></a>
 <a name="470"><span class="lineNum">     470 </span>            :         //$display(&quot;Writing en0, %d&quot;,physical_block_addr0_M);</a>
 <a name="471"><span class="lineNum">     471 </span><span class="lineNoCov">          0 :         for ( wr0_i = 0; wr0_i &lt; memreq0_msg_len_modified_M; wr0_i = wr0_i + 1 ) begin</span></a>
 <a name="472"><span class="lineNum">     472 </span><span class="lineNoCov">          0 :           m_next[physical_block_addr0_M][ (block_offset0_M*8) + (wr0_i*8) +: 8 ] = memreq0_msg_data_M[ (wr0_i*8) +: 8 ];</span></a>
 <a name="473"><span class="lineNum">     473 </span>            :         end</a>
 <a name="474"><span class="lineNum">     474 </span>            :       end</a>
 <a name="475"><span class="lineNum">     475 </span>            : </a>
-<a name="476"><span class="lineNum">     476 </span><span class="lineCov">        609 :       if ( write_en1_M ) begin</span></a>
+<a name="476"><span class="lineNum">     476 </span><span class="lineCov">        612 :       if ( write_en1_M ) begin</span></a>
 <a name="477"><span class="lineNum">     477 </span>            :         //$display(&quot;Writing en1, %d&quot;,physical_block_addr0_M);</a>
 <a name="478"><span class="lineNum">     478 </span>            : </a>
-<a name="479"><span class="lineNum">     479 </span><span class="lineCov">        609 :         for ( wr1_i = 0; wr1_i &lt; memreq1_msg_len_modified_M; wr1_i = wr1_i + 1 ) begin</span></a>
-<a name="480"><span class="lineNum">     480 </span><span class="lineCov">       2436 :           m_next[physical_block_addr1_M][ (block_offset1_M*8) + (wr1_i*8) +: 8 ] = memreq1_msg_data_M[ (wr1_i*8) +: 8 ];</span></a>
+<a name="479"><span class="lineNum">     479 </span><span class="lineCov">        612 :         for ( wr1_i = 0; wr1_i &lt; memreq1_msg_len_modified_M; wr1_i = wr1_i + 1 ) begin</span></a>
+<a name="480"><span class="lineNum">     480 </span><span class="lineCov">       2448 :           m_next[physical_block_addr1_M][ (block_offset1_M*8) + (wr1_i*8) +: 8 ] = memreq1_msg_data_M[ (wr1_i*8) +: 8 ];</span></a>
 <a name="481"><span class="lineNum">     481 </span>            :         end</a>
 <a name="482"><span class="lineNum">     482 </span>            :       end</a>
 <a name="483"><span class="lineNum">     483 </span>            : </a>
-<a name="484"><span class="lineNum">     484 </span><span class="lineCov">      28581 :       if ( amo_en0_M ) begin</span></a>
+<a name="484"><span class="lineNum">     484 </span><span class="lineCov">      62622 :       if ( amo_en0_M ) begin</span></a>
 <a name="485"><span class="lineNum">     485 </span><span class="lineNoCov">          0 :         case ( memreq0_msg_type_M )</span></a>
 <a name="486"><span class="lineNum">     486 </span><span class="lineNoCov">          0 :           c_amo_add: m_next[physical_block_addr0_M] = memreq0_msg_data_M + read_data0_M;</span></a>
 <a name="487"><span class="lineNum">     487 </span><span class="lineNoCov">          0 :           c_amo_and: m_next[physical_block_addr0_M] = memreq0_msg_data_M &amp; read_data0_M;</span></a>
@@ -552,7 +552,7 @@
 <a name="490"><span class="lineNum">     490 </span>            :         endcase</a>
 <a name="491"><span class="lineNum">     491 </span>            :       end</a>
 <a name="492"><span class="lineNum">     492 </span>            : </a>
-<a name="493"><span class="lineNum">     493 </span><span class="lineCov">      28581 :       if ( amo_en1_M ) begin</span></a>
+<a name="493"><span class="lineNum">     493 </span><span class="lineCov">      62622 :       if ( amo_en1_M ) begin</span></a>
 <a name="494"><span class="lineNum">     494 </span><span class="lineNoCov">          0 :         case ( memreq1_msg_type_M )</span></a>
 <a name="495"><span class="lineNum">     495 </span><span class="lineNoCov">          0 :           c_amo_add: m_next[physical_block_addr1_M] = memreq1_msg_data_M + read_data1_M;</span></a>
 <a name="496"><span class="lineNum">     496 </span><span class="lineNoCov">          0 :           c_amo_and: m_next[physical_block_addr1_M] = memreq1_msg_data_M &amp; read_data1_M;</span></a>
@@ -563,7 +563,7 @@
 <a name="501"><span class="lineNum">     501 </span>            :     end</a>
 <a name="502"><span class="lineNum">     502 </span>            : </a>
 <a name="503"><span class="lineNum">     503 </span>            :   end</a>
-<a name="504"><span class="lineNum">     504 </span><span class="lineCov">      30021 :   always_ff @( posedge clk ) begin</span></a>
+<a name="504"><span class="lineNum">     504 </span><span class="lineCov">      64170 :   always_ff @( posedge clk ) begin</span></a>
 <a name="505"><span class="lineNum">     505 </span>            : </a>
 <a name="506"><span class="lineNum">     506 </span>            :     // We clear all of the test memory to 0's on mem_clear. As mentioned</a>
 <a name="507"><span class="lineNum">     507 </span>            :     // above, this only happens if we clear a test memory more than once.</a>
@@ -572,30 +572,30 @@
 <a name="510"><span class="lineNum">     510 </span>            :     // might possible cause a test to pass when it should not because the</a>
 <a name="511"><span class="lineNum">     511 </span>            :     // test is using data from an older test.</a>
 <a name="512"><span class="lineNum">     512 </span>            : </a>
-<a name="513"><span class="lineNum">     513 </span><span class="lineCov">       1560 :     if ( mem_clear ) begin</span></a>
-<a name="514"><span class="lineNum">     514 </span><span class="lineCov">       1560 :       if ( !memory_cleared ) begin</span></a>
+<a name="513"><span class="lineNum">     513 </span><span class="lineCov">       1677 :     if ( mem_clear ) begin</span></a>
+<a name="514"><span class="lineNum">     514 </span><span class="lineCov">       1677 :       if ( !memory_cleared ) begin</span></a>
 <a name="515"><span class="lineNum">     515 </span><span class="lineNoCov">          0 :         memory_cleared &lt;= 1;</span></a>
 <a name="516"><span class="lineNum">     516 </span><span class="lineNoCov">          0 :         m &lt;=m_load;</span></a>
 <a name="517"><span class="lineNum">     517 </span>            :       end</a>
-<a name="518"><span class="lineNum">     518 </span><span class="lineCov">       1560 :       m &lt;=m_load;</span></a>
+<a name="518"><span class="lineNum">     518 </span><span class="lineCov">       1677 :       m &lt;=m_load;</span></a>
 <a name="519"><span class="lineNum">     519 </span>            :     end</a>
 <a name="520"><span class="lineNum">     520 </span>            : </a>
 <a name="521"><span class="lineNum">     521 </span><span class="lineNoCov">          0 :     else if ( !reset ) begin</span></a>
-<a name="522"><span class="lineNum">     522 </span><span class="lineCov">      28461 :       memory_cleared &lt;= 0;</span></a>
+<a name="522"><span class="lineNum">     522 </span><span class="lineCov">      62493 :       memory_cleared &lt;= 0;</span></a>
 <a name="523"><span class="lineNum">     523 </span>            : </a>
-<a name="524"><span class="lineNum">     524 </span><span class="lineCov">      28461 :       if ( write_en0_M ) begin</span></a>
+<a name="524"><span class="lineNum">     524 </span><span class="lineCov">      62493 :       if ( write_en0_M ) begin</span></a>
 <a name="525"><span class="lineNum">     525 </span><span class="lineNoCov">          0 :         m &lt;=m_next;</span></a>
 <a name="526"><span class="lineNum">     526 </span>            :       end</a>
 <a name="527"><span class="lineNum">     527 </span>            : </a>
-<a name="528"><span class="lineNum">     528 </span><span class="lineCov">        609 :       if ( write_en1_M ) begin</span></a>
-<a name="529"><span class="lineNum">     529 </span><span class="lineCov">        609 :         m &lt;=m_next;</span></a>
+<a name="528"><span class="lineNum">     528 </span><span class="lineCov">        612 :       if ( write_en1_M ) begin</span></a>
+<a name="529"><span class="lineNum">     529 </span><span class="lineCov">        612 :         m &lt;=m_next;</span></a>
 <a name="530"><span class="lineNum">     530 </span>            :       end</a>
 <a name="531"><span class="lineNum">     531 </span>            : </a>
-<a name="532"><span class="lineNum">     532 </span><span class="lineCov">      28461 :       if ( amo_en0_M ) begin</span></a>
+<a name="532"><span class="lineNum">     532 </span><span class="lineCov">      62493 :       if ( amo_en0_M ) begin</span></a>
 <a name="533"><span class="lineNum">     533 </span><span class="lineNoCov">          0 :         m &lt;=m_next;</span></a>
 <a name="534"><span class="lineNum">     534 </span>            :       end</a>
 <a name="535"><span class="lineNum">     535 </span>            : </a>
-<a name="536"><span class="lineNum">     536 </span><span class="lineCov">      28461 :       if ( amo_en1_M ) begin</span></a>
+<a name="536"><span class="lineNum">     536 </span><span class="lineCov">      62493 :       if ( amo_en1_M ) begin</span></a>
 <a name="537"><span class="lineNum">     537 </span><span class="lineNoCov">          0 :         m &lt;=m_next;</span></a>
 <a name="538"><span class="lineNum">     538 </span>            :       end</a>
 <a name="539"><span class="lineNum">     539 </span>            :     end</a>
@@ -606,7 +606,7 @@
 <a name="544"><span class="lineNum">     544 </span>            :   // Pack the response message</a>
 <a name="545"><span class="lineNum">     545 </span>            :   //----------------------------------------------------------------------</a>
 <a name="546"><span class="lineNum">     546 </span>            : </a>
-<a name="547"><span class="lineNum">     547 </span><span class="lineCov">       1542 :   logic [c_resp_nbits-1:0] memresp0_msg_M;</span></a>
+<a name="547"><span class="lineNum">     547 </span><span class="lineCov">       4624 :   logic [c_resp_nbits-1:0] memresp0_msg_M;</span></a>
 <a name="548"><span class="lineNum">     548 </span>            : </a>
 <a name="549"><span class="lineNum">     549 </span>            :   vc_MemRespMsgPack#(o,a,d) memresp0_msg_pack</a>
 <a name="550"><span class="lineNum">     550 </span>            :   (</a>
@@ -683,8 +683,8 @@
 <a name="621"><span class="lineNum">     621 </span>            : </a>
 <a name="622"><span class="lineNum">     622 </span>            :   // val/rdy signals should never be x's</a>
 <a name="623"><span class="lineNum">     623 </span>            : </a>
-<a name="624"><span class="lineNum">     624 </span><span class="lineCov">      30021 :   always_ff @( posedge clk ) begin</span></a>
-<a name="625"><span class="lineNum">     625 </span><span class="lineCov">       1560 :     if ( !reset ) begin</span></a>
+<a name="624"><span class="lineNum">     624 </span><span class="lineCov">      64170 :   always_ff @( posedge clk ) begin</span></a>
+<a name="625"><span class="lineNum">     625 </span><span class="lineCov">       1677 :     if ( !reset ) begin</span></a>
 <a name="626"><span class="lineNum">     626 </span><span class="lineNoCov">          0 :       `VC_ASSERT_NOT_X( memreq0_val  );</span></a>
 <a name="627"><span class="lineNum">     627 </span><span class="lineNoCov">          0 :       `VC_ASSERT_NOT_X( memresp0_rdy );</span></a>
 <a name="628"><span class="lineNum">     628 </span><span class="lineNoCov">          0 :       `VC_ASSERT_NOT_X( memreq1_val  );</span></a>

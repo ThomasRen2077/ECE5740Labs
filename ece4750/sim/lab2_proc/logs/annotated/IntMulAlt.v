@@ -23,33 +23,33 @@
         
         module lab1_imul_IntMulAltDpath
         (
- 029070   input  logic        clk,
- 000080   input  logic        reset,
+ 067340   input  logic        clk,
+ 000086   input  logic        reset,
         
           // Data signals
         
  000032   input  logic [31:0] istream_msg_a,
- 000536   input  logic [31:0] istream_msg_b,
+ 000540   input  logic [31:0] istream_msg_b,
  000004   output logic [31:0] ostream_msg,
         
           // Control signals (ctrl -> dpath)
         
- 000004   input  logic        a_mux_sel,
- 000004   input  logic        b_mux_sel,
- 000004   input  logic        result_mux_sel,
- 000004   input  logic        result_reg_en,
- 000008   input  logic        add_mux_sel,
+ 000008   input  logic        a_mux_sel,
+ 000008   input  logic        b_mux_sel,
+ 000008   input  logic        result_mux_sel,
+ 000008   input  logic        result_reg_en,
+ 000016   input  logic        add_mux_sel,
         
           // Status signals (dpath -> ctrl)
         
- 000868   output logic        b_lsb,
- 003050   output logic        is_b_zero
+ 003306   output logic        b_lsb,
+ 012094   output logic        is_b_zero
         );
         
           // B mux
         
- 000836   logic [31:0] rshifter_out;
- 000536   logic [31:0] b_mux_out;
+ 001178   logic [31:0] rshifter_out;
+ 000540   logic [31:0] b_mux_out;
         
           vc_Mux2#(32) b_mux
           (
@@ -61,7 +61,7 @@
         
           // B register
         
- 000536   logic [31:0] b_reg_out;
+ 000540   logic [31:0] b_reg_out;
         
           vc_Reg#(32) b_reg
           (
@@ -80,7 +80,7 @@
         
           // Calculate shift amount
         
- 000276   logic [3:0] calc_shamt_out;
+ 003752   logic [3:0] calc_shamt_out;
         
           lab1_imul_CalcShamt calc_shamt
           (
@@ -99,8 +99,8 @@
         
           // A mux
         
- 000462   logic [31:0] lshifter_out;
- 000032   logic [31:0] a_mux_out;
+ 000534   logic [31:0] lshifter_out;
+ 000036   logic [31:0] a_mux_out;
         
           vc_Mux2#(32) a_mux
           (
@@ -112,7 +112,7 @@
         
           // A register
         
- 000032   logic [31:0] a_reg_out;
+ 000036   logic [31:0] a_reg_out;
         
           vc_Reg#(32) a_reg
           (
@@ -132,7 +132,7 @@
         
           // Result mux
         
- 000032   logic [31:0] add_mux_out;
+ 000036   logic [31:0] add_mux_out;
  000004   logic [31:0] result_mux_out;
         
           vc_Mux2#(32) result_mux
@@ -158,7 +158,7 @@
         
           // Adder
         
- 000032   logic [31:0] add_out;
+ 000036   logic [31:0] add_out;
         
           vc_SimpleAdder#(32) add
           (
@@ -193,29 +193,29 @@
         
         module lab1_imul_IntMulAltCtrl
         (
- 029070   input  logic clk,
- 000080   input  logic reset,
+ 067340   input  logic clk,
+ 000086   input  logic reset,
         
           // Dataflow signals
         
- 000004   input  logic istream_val,
- 000004   output logic istream_rdy,
+ 000008   input  logic istream_val,
+ 000008   output logic istream_rdy,
         
- 000004   output logic ostream_val,
- 000718   input  logic ostream_rdy,
+ 000008   output logic ostream_val,
+ 000724   input  logic ostream_rdy,
         
           // Control signals (ctrl -> dpath)
         
- 000004   output logic a_mux_sel,
- 000004   output logic b_mux_sel,
- 000004   output logic result_mux_sel,
- 000004   output logic result_reg_en,
- 000008   output logic add_mux_sel,
+ 000008   output logic a_mux_sel,
+ 000008   output logic b_mux_sel,
+ 000008   output logic result_mux_sel,
+ 000008   output logic result_reg_en,
+ 000016   output logic add_mux_sel,
         
           // Status signals (dpath -> ctrl)
         
- 000868   input  logic b_lsb,
- 003050   input  logic is_b_zero
+ 003306   input  logic b_lsb,
+ 012094   input  logic is_b_zero
         );
         
           //----------------------------------------------------------------------
@@ -237,21 +237,21 @@
           state_t state_next;
           */
         
- 000004   logic [1:0] state_reg;
- 000004   logic [1:0] state_next;
+ 000008   logic [1:0] state_reg;
+ 000008   logic [1:0] state_next;
         
- 014495   always @( posedge clk ) begin
- 001040     if ( reset )
- 001040       state_reg <= STATE_IDLE;
+ 033627   always @( posedge clk ) begin
+ 001118     if ( reset )
+ 001118       state_reg <= STATE_IDLE;
             else
- 013455       state_reg <= state_next;
+ 032509       state_reg <= state_next;
           end
         
           //----------------------------------------------------------------------
           // State Transitions
           //----------------------------------------------------------------------
         
- 000004   logic istream_go, ostream_go, is_calc_done;
+ 000008   logic istream_go, ostream_go, is_calc_done;
         
           assign istream_go      = istream_val && istream_rdy;
           assign ostream_go      = ostream_val && ostream_rdy;
@@ -263,8 +263,8 @@
         
 %000000     case ( state_reg )
         
- 000006       STATE_IDLE: if ( istream_go      ) state_next = STATE_CALC;
- 000002       STATE_CALC: if ( is_calc_done ) state_next = STATE_DONE;
+ 000012       STATE_IDLE: if ( istream_go      ) state_next = STATE_CALC;
+ 000004       STATE_CALC: if ( is_calc_done ) state_next = STATE_DONE;
 %000000       STATE_DONE: if ( ostream_go      ) state_next = STATE_IDLE;
 %000000       default:                        state_next = 'x;
         
@@ -292,7 +292,7 @@
           localparam add_add = 1'd0;
           localparam add_res = 1'd1;
         
- 014495   task cs
+ 033627   task cs
           (
             input cs_istream_rdy,
             input cs_ostream_val,
@@ -302,20 +302,20 @@
             input cs_result_reg_en,
             input cs_add_mux_sel
           );
- 014495   begin
- 014495     istream_rdy       = cs_istream_rdy;
- 014495     ostream_val       = cs_ostream_val;
- 014495     a_mux_sel      = cs_a_mux_sel;
- 014495     b_mux_sel      = cs_b_mux_sel;
- 014495     result_mux_sel = cs_result_mux_sel;
- 014495     result_reg_en  = cs_result_reg_en;
- 014495     add_mux_sel    = cs_add_mux_sel;
+ 033627   begin
+ 033627     istream_rdy       = cs_istream_rdy;
+ 033627     ostream_val       = cs_ostream_val;
+ 033627     a_mux_sel      = cs_a_mux_sel;
+ 033627     b_mux_sel      = cs_b_mux_sel;
+ 033627     result_mux_sel = cs_result_mux_sel;
+ 033627     result_reg_en  = cs_result_reg_en;
+ 033627     add_mux_sel    = cs_add_mux_sel;
           end
           endtask
         
           // Labels for Mealy transistions
         
- 000868   logic do_sh_add, do_sh;
+ 003306   logic do_sh_add, do_sh;
         
           assign do_sh_add = (b_lsb == 1); // do shift and add
           assign do_sh     = (b_lsb == 0); // do shift but no add
@@ -328,10 +328,10 @@
         
         //                               istream ostream a mux  b mux  res mux  res    add mux
         //                               rdy val  sel    sel    sel      en     sel
- 014485 STATE_IDLE:                  cs( 1,  0,   a_ld,  b_ld,  res_0,   1,     add_x    );
- 000004 STATE_CALC: if ( do_sh_add ) cs( 0,  0,   a_lsh, b_rsh, res_add, 1,     add_add  );
+ 033607 STATE_IDLE:                  cs( 1,  0,   a_ld,  b_ld,  res_0,   1,     add_x    );
+ 000006 STATE_CALC: if ( do_sh_add ) cs( 0,  0,   a_lsh, b_rsh, res_add, 1,     add_add  );
 %000000        else if ( do_sh )     cs( 0,  0,   a_lsh, b_rsh, res_add, 1,     add_res  );
- 000002 STATE_DONE:                  cs( 0,  1,   a_x,   b_x,   res_x,   0,     add_x    );
+ 000004 STATE_DONE:                  cs( 0,  1,   a_x,   b_x,   res_x,   0,     add_x    );
 %000000 default:                     cs('x, 'x,   a_x,   b_x,   res_x,  'x,     add_x    );
         
             endcase
@@ -348,15 +348,15 @@
         
         module lab1_imul_IntMulAlt
         (
- 029070   input  logic        clk,
- 000080   input  logic        reset,
+ 067340   input  logic        clk,
+ 000086   input  logic        reset,
         
- 000004   input  logic        istream_val,
- 000004   output logic        istream_rdy,
+ 000008   input  logic        istream_val,
+ 000008   output logic        istream_rdy,
  000032   input  logic [63:0] istream_msg,
         
- 000004   output logic        ostream_val,
- 000718   input  logic        ostream_rdy,
+ 000008   output logic        ostream_val,
+ 000724   input  logic        ostream_rdy,
  000004   output logic [31:0] ostream_msg
         );
         
@@ -367,16 +367,16 @@
         
           // Control signals
         
- 000004   logic a_mux_sel;
- 000004   logic b_mux_sel;
- 000004   logic result_mux_sel;
- 000004   logic result_reg_en;
- 000008   logic add_mux_sel;
+ 000008   logic a_mux_sel;
+ 000008   logic b_mux_sel;
+ 000008   logic result_mux_sel;
+ 000008   logic result_reg_en;
+ 000016   logic add_mux_sel;
         
           // Status signals
         
- 000868   logic b_lsb;
- 003050   logic is_b_zero;
+ 003306   logic b_lsb;
+ 012094   logic is_b_zero;
         
  000004   logic [31:0] product;
         

@@ -120,7 +120,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule
             CData/*0:0*/ top__DOT__DUT__DOT__imem_respstream_drop_val;
             CData/*0:0*/ top__DOT__DUT__DOT__imem_respstream_drop_rdy;
             CData/*0:0*/ top__DOT__DUT__DOT__dmem_reqstream_enq_val;
-            CData/*2:0*/ top__DOT__DUT__DOT__dmem_reqstream_enq_msg_type;
+            CData/*0:0*/ top__DOT__DUT__DOT__dmem_reqstream_enq_msg_type;
             CData/*0:0*/ top__DOT__DUT__DOT__proc2mngr_enq_val;
             CData/*0:0*/ top__DOT__DUT__DOT__IntMulAlt_reqstream_val;
             CData/*0:0*/ top__DOT__DUT__DOT__IntMulAlt_reqstream_rdy;
@@ -148,7 +148,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule
             CData/*0:0*/ top__DOT__DUT__DOT____Vtogcov__imem_respstream_drop_rdy;
             CData/*0:0*/ top__DOT__DUT__DOT____Vtogcov__dmem_queue_num_free_entries;
             CData/*0:0*/ top__DOT__DUT__DOT____Vtogcov__dmem_reqstream_enq_val;
-            CData/*2:0*/ top__DOT__DUT__DOT____Vtogcov__dmem_reqstream_enq_msg_type;
+            CData/*0:0*/ top__DOT__DUT__DOT____Vtogcov__dmem_reqstream_enq_msg_type;
             CData/*0:0*/ top__DOT__DUT__DOT____Vtogcov__proc2mngr_queue_num_free_entries;
             CData/*0:0*/ top__DOT__DUT__DOT____Vtogcov__proc2mngr_enq_val;
             CData/*0:0*/ top__DOT__DUT__DOT____Vtogcov__IntMulAlt_reqstream_val;

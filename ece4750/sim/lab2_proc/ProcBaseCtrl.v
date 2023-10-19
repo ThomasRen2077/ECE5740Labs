@@ -2,6 +2,7 @@
 `define LAB2_PROC_PROC_BASE_CTRL_V
 
 `include "vc/trace.v"
+`include "vc/mem-msgs.v"
 `include "tinyrv2_encoding.v"
 
 
@@ -22,7 +23,7 @@ module lab2_proc_ProcBaseCtrl
   input  logic        dmem_reqstream_rdy,                         // Data Memory Ready Signal
   input  logic        dmem_respstream_val,                        // Data Memory Response Message Valid Signal
   output logic        dmem_respstream_rdy,                        // Processor Ready to Receive Data Signal
-  output logic [2:0]  dmem_reqstream_msg_type,                    // Data Operation Type of Request Message
+  output logic        dmem_reqstream_msg_type,                    // Data Operation Type of Request Message
 
   // mngr communication port
   input  logic        mngr2proc_val,                              // Mngr2Proc Message Valid Signal
@@ -593,8 +594,8 @@ module lab2_proc_ProcBaseCtrl
 
   // set dmem_reqstream_msg_type
     always_comb begin
-      if(dmem_reqstream_type_X == st)  dmem_reqstream_msg_type = `VC_MEM_REQ_MSG_TYPE_WRITE;
-      else  dmem_reqstream_msg_type = `VC_MEM_REQ_MSG_TYPE_READ;
+      if(dmem_reqstream_type_X == st)  dmem_reqstream_msg_type = 1'b1;    //`VC_MEM_REQ_MSG_TYPE_WRITE;
+      else  dmem_reqstream_msg_type = 1'b0;                               //`VC_MEM_REQ_MSG_TYPE_READ;
     end
 
 

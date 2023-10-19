@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-10-16 23:47:36</td>
+            <td class="headerValue">2023-10-18 23:43:20</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -429,17 +429,17 @@
 <a name="367"><span class="lineNum">     367 </span>            : (</a>
 <a name="368"><span class="lineNum">     368 </span>            :   // Packed message</a>
 <a name="369"><span class="lineNum">     369 </span>            : </a>
-<a name="370"><span class="lineNum">     370 </span><span class="lineCov">          2 :   input  [`TINYRV2_INST_NBITS-1:0]        inst,</span></a>
+<a name="370"><span class="lineNum">     370 </span><span class="lineCov">         16 :   input  [`TINYRV2_INST_NBITS-1:0]        inst,</span></a>
 <a name="371"><span class="lineNum">     371 </span>            : </a>
 <a name="372"><span class="lineNum">     372 </span>            :   // Packed fields</a>
 <a name="373"><span class="lineNum">     373 </span>            : </a>
-<a name="374"><span class="lineNum">     374 </span><span class="lineCov">          4 :   output [`TINYRV2_INST_OPCODE_NBITS-1:0] opcode,</span></a>
-<a name="375"><span class="lineNum">     375 </span><span class="lineCov">         54 :   output [`TINYRV2_INST_RD_NBITS-1:0]     rd,</span></a>
-<a name="376"><span class="lineNum">     376 </span><span class="lineCov">          2 :   output [`TINYRV2_INST_RS1_NBITS-1:0]    rs1,</span></a>
-<a name="377"><span class="lineNum">     377 </span><span class="lineCov">        258 :   output [`TINYRV2_INST_RS2_NBITS-1:0]    rs2,</span></a>
-<a name="378"><span class="lineNum">     378 </span><span class="lineCov">         36 :   output [`TINYRV2_INST_FUNCT3_NBITS-1:0] funct3,</span></a>
+<a name="374"><span class="lineNum">     374 </span><span class="lineCov">         16 :   output [`TINYRV2_INST_OPCODE_NBITS-1:0] opcode,</span></a>
+<a name="375"><span class="lineNum">     375 </span><span class="lineCov">        696 :   output [`TINYRV2_INST_RD_NBITS-1:0]     rd,</span></a>
+<a name="376"><span class="lineNum">     376 </span><span class="lineCov">        608 :   output [`TINYRV2_INST_RS1_NBITS-1:0]    rs1,</span></a>
+<a name="377"><span class="lineNum">     377 </span><span class="lineCov">        880 :   output [`TINYRV2_INST_RS2_NBITS-1:0]    rs2,</span></a>
+<a name="378"><span class="lineNum">     378 </span><span class="lineCov">         88 :   output [`TINYRV2_INST_FUNCT3_NBITS-1:0] funct3,</span></a>
 <a name="379"><span class="lineNum">     379 </span><span class="lineNoCov">          0 :   output [`TINYRV2_INST_FUNCT7_NBITS-1:0] funct7,</span></a>
-<a name="380"><span class="lineNum">     380 </span><span class="lineCov">        258 :   output [`TINYRV2_INST_CSR_NBITS-1:0]    csr</span></a>
+<a name="380"><span class="lineNum">     380 </span><span class="lineCov">        880 :   output [`TINYRV2_INST_CSR_NBITS-1:0]    csr</span></a>
 <a name="381"><span class="lineNum">     381 </span>            : );</a>
 <a name="382"><span class="lineNum">     382 </span>            : </a>
 <a name="383"><span class="lineNum">     383 </span>            :   assign opcode   = inst[`TINYRV2_INST_OPCODE];</a>

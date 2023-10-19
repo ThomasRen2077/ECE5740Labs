@@ -235,14 +235,6 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__1(Vtop___024root* vlSelf) 
             = ((IData)(vlSelf->top__DOT__reset) ? 0U
                 : vlSelf->top__DOT__src__DOT__msg_delay__DOT__rand_delay_next);
     }
-    if (vlSelf->top__DOT__DUT__DOT__dmem_queue__DOT__genblk1__DOT__write_en) {
-        vlSelf->top__DOT__DUT__DOT__dmem_queue__DOT__genblk1__DOT__dpath__DOT__qstore[0U] 
-            = vlSelf->top__DOT__DUT__DOT__dmem_reqstream_enq_msg[0U];
-        vlSelf->top__DOT__DUT__DOT__dmem_queue__DOT__genblk1__DOT__dpath__DOT__qstore[1U] 
-            = vlSelf->top__DOT__DUT__DOT__dmem_reqstream_enq_msg[1U];
-        vlSelf->top__DOT__DUT__DOT__dmem_queue__DOT__genblk1__DOT__dpath__DOT__qstore[2U] 
-            = vlSelf->top__DOT__DUT__DOT__dmem_reqstream_enq_msg[2U];
-    }
     vlSelf->top__DOT__mem__DOT__mem__DOT__memresp0_queue__DOT__genblk1__DOT__ctrl__DOT__full 
         = ((~ (IData)(vlSelf->top__DOT__reset)) & (IData)(vlSelf->top__DOT__mem__DOT__mem__DOT__memresp0_queue__DOT__genblk1__DOT__ctrl__DOT__full_next));
     if ((1U & ((IData)(vlSelf->top__DOT__reset) | (~ (IData)(vlSelf->top__DOT__DUT__DOT__ctrl__DOT__stall_X))))) {
@@ -267,6 +259,14 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__1(Vtop___024root* vlSelf) 
     }
     vlSelf->top__DOT__mem__DOT__mem__DOT__memreq1_queue__DOT__genblk1__DOT__ctrl__DOT__full 
         = ((~ (IData)(vlSelf->top__DOT__reset)) & (IData)(vlSelf->top__DOT__mem__DOT__mem__DOT__memreq1_queue__DOT__genblk1__DOT__ctrl__DOT__full_next));
+    if (vlSelf->top__DOT__DUT__DOT__dmem_queue__DOT__genblk1__DOT__write_en) {
+        vlSelf->top__DOT__DUT__DOT__dmem_queue__DOT__genblk1__DOT__dpath__DOT__qstore[0U] 
+            = vlSelf->top__DOT__DUT__DOT__dmem_reqstream_enq_msg[0U];
+        vlSelf->top__DOT__DUT__DOT__dmem_queue__DOT__genblk1__DOT__dpath__DOT__qstore[1U] 
+            = vlSelf->top__DOT__DUT__DOT__dmem_reqstream_enq_msg[1U];
+        vlSelf->top__DOT__DUT__DOT__dmem_queue__DOT__genblk1__DOT__dpath__DOT__qstore[2U] 
+            = vlSelf->top__DOT__DUT__DOT__dmem_reqstream_enq_msg[2U];
+    }
     vlSelf->top__DOT__mem__DOT__rand_resp_delay1__DOT__state 
         = ((~ (IData)(vlSelf->top__DOT__reset)) & (IData)(vlSelf->top__DOT__mem__DOT__rand_resp_delay1__DOT__state_next));
     vlSelf->top__DOT__DUT__DOT__proc2mngr_queue__DOT__genblk1__DOT__ctrl__DOT__full 

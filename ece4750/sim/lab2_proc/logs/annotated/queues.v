@@ -36,27 +36,27 @@
         #(
           parameter p_type = `VC_QUEUE_NORMAL
         )(
- 120324   input  logic clk,
- 000240   input  logic reset,
+ 256938   input  logic clk,
+ 000258   input  logic reset,
         
- 017986   input  logic enq_val,        // Enqueue data is valid
- 000098   output logic enq_rdy,        // Ready for producer to do an enqueue
+ 037006   input  logic enq_val,        // Enqueue data is valid
+ 000758   output logic enq_rdy,        // Ready for producer to do an enqueue
         
- 017863   output logic deq_val,        // Dequeue data is valid
- 011238   input  logic deq_rdy,        // Consumer is ready to do a dequeue
+ 031890   output logic deq_val,        // Dequeue data is valid
+ 024133   input  logic deq_rdy,        // Consumer is ready to do a dequeue
         
- 013316   output logic write_en,       // Write en signal to wire up to storage element
- 013244   output logic bypass_mux_sel, // Used to control bypass mux for bypass queues
- 013244   output logic num_free_entries // Either zero or one
+ 026232   output logic write_en,       // Write en signal to wire up to storage element
+ 026159   output logic bypass_mux_sel, // Used to control bypass mux for bypass queues
+ 026159   output logic num_free_entries // Either zero or one
         );
         
           // Status register
         
- 013244   logic full;
- 013316   logic full_next;
+ 026159   logic full;
+ 026232   logic full_next;
         
- 060042   always_ff @(posedge clk) begin
- 060042     full <= reset ? 1'b0 : full_next;
+ 128340   always_ff @(posedge clk) begin
+ 128340     full <= reset ? 1'b0 : full_next;
           end
         
           assign num_free_entries = full ? 1'b0 : 1'b1;
@@ -68,19 +68,19 @@
         
           // We enq/deq only when they are both ready and valid
         
- 017986   logic  do_enq;
+ 037006   logic  do_enq;
           assign do_enq = enq_rdy && enq_val;
         
- 017961   logic  do_deq;
+ 037477   logic  do_deq;
           assign do_deq = deq_rdy && deq_val;
         
           // Determine if we have pipeline or bypass behaviour and
           // set the write enable accordingly.
         
- 013244   logic  empty;
+ 026159   logic  empty;
           assign empty = ~full;
         
- 002498   logic  do_pipe;
+ 005857   logic  do_pipe;
           assign do_pipe = c_pipe_en   && full  && do_enq && do_deq;
         
 %000000   logic  do_bypass;
@@ -122,17 +122,17 @@
           parameter p_type      = `VC_QUEUE_NORMAL,
           parameter p_msg_nbits = 1
         )(
- 060162   input  logic                   clk,
- 000120   input  logic                   reset,
- 000208   input  logic                   write_en,
- 000208   input  logic                   bypass_mux_sel,
- 000664   input  logic [p_msg_nbits-1:0] enq_msg,
- 000554   output logic [p_msg_nbits-1:0] deq_msg
+ 128469   input  logic                   clk,
+ 000129   input  logic                   reset,
+ 000224   input  logic                   write_en,
+ 000224   input  logic                   bypass_mux_sel,
+ 000670   input  logic [p_msg_nbits-1:0] enq_msg,
+ 000557   output logic [p_msg_nbits-1:0] deq_msg
         );
         
           // Queue storage
         
- 000554   logic [p_msg_nbits-1:0] qstore;
+ 000557   logic [p_msg_nbits-1:0] qstore;
         
           vc_EnReg#(p_msg_nbits) qstore_reg
           (
@@ -183,25 +183,25 @@
           // Local constants not meant to be set from outside the module
           parameter c_addr_nbits = $clog2(p_num_msgs)
         )(
- 000080   input  logic                    clk, reset,
+ 000086   input  logic                    clk, reset,
         
- 009227   input  logic                    enq_val,        // Enqueue data is valid
+ 021912   input  logic                    enq_val,        // Enqueue data is valid
 %000000   output logic                    enq_rdy,        // Ready for producer to enqueue
         
- 006372   output logic                    deq_val,        // Dequeue data is valid
- 008509   input  logic                    deq_rdy,        // Consumer is ready to dequeue
+ 015214   output logic                    deq_val,        // Dequeue data is valid
+ 020330   input  logic                    deq_rdy,        // Consumer is ready to dequeue
         
- 005631   output logic                    write_en,       // Wen to wire to regfile
- 002881   output logic [c_addr_nbits-1:0] write_addr,     // Waddr to wire to regfile
- 002874   output logic [c_addr_nbits-1:0] read_addr,      // Raddr to wire to regfile
- 005615   output logic                    bypass_mux_sel, // Control mux for bypass queues
- 005615   output logic [c_addr_nbits:0]   num_free_entries // Num of free entries in queue
+ 013764   output logic                    write_en,       // Wen to wire to regfile
+ 007431   output logic [c_addr_nbits-1:0] write_addr,     // Waddr to wire to regfile
+ 007423   output logic [c_addr_nbits-1:0] read_addr,      // Raddr to wire to regfile
+ 013746   output logic                    bypass_mux_sel, // Control mux for bypass queues
+ 013746   output logic [c_addr_nbits:0]   num_free_entries // Num of free entries in queue
         );
         
           // Enqueue and dequeue pointers
         
- 002881   logic [c_addr_nbits-1:0] enq_ptr;
- 002890   logic [c_addr_nbits-1:0] enq_ptr_next;
+ 007431   logic [c_addr_nbits-1:0] enq_ptr;
+ 007441   logic [c_addr_nbits-1:0] enq_ptr_next;
         
           vc_ResetReg#(c_addr_nbits) enq_ptr_reg
           (
@@ -211,8 +211,8 @@
             .q       (enq_ptr)
           );
         
- 002874   logic [c_addr_nbits-1:0] deq_ptr;
- 002881   logic [c_addr_nbits-1:0] deq_ptr_next;
+ 007423   logic [c_addr_nbits-1:0] deq_ptr;
+ 007431   logic [c_addr_nbits-1:0] deq_ptr_next;
         
           vc_ResetReg#(c_addr_nbits) deq_ptr_reg
           (
@@ -245,22 +245,22 @@
         
           // We enq/deq only when they are both ready and valid
         
- 009227   logic  do_enq;
+ 021912   logic  do_enq;
           assign do_enq = enq_rdy && enq_val;
         
- 009059   logic  do_deq;
+ 022088   logic  do_deq;
           assign do_deq = deq_rdy && deq_val;
         
           // Determine if we have pipeline or bypass behaviour and
           // set the write enable accordingly.
         
- 005615   logic  empty;
+ 013746   logic  empty;
           assign empty = ~full && (enq_ptr == deq_ptr);
         
 %000000   logic  do_pipe;
           assign do_pipe = c_pipe_en   && full  && do_enq && do_deq;
         
- 004868   logic  do_bypass;
+ 011134   logic  do_bypass;
           assign do_bypass = c_bypass_en && empty && do_enq && do_deq;
         
           assign write_en = do_enq && ~do_bypass;
@@ -282,18 +282,18 @@
         
           // Control logic for the enq/deq pointers and full register
         
- 002874   logic [c_addr_nbits-1:0] deq_ptr_plus1;
+ 007423   logic [c_addr_nbits-1:0] deq_ptr_plus1;
           assign deq_ptr_plus1 = deq_ptr + 1'b1;
         
           /* verilator lint_off WIDTH */
         
- 002874   logic [c_addr_nbits-1:0] deq_ptr_inc;
+ 007423   logic [c_addr_nbits-1:0] deq_ptr_inc;
           assign deq_ptr_inc = (deq_ptr_plus1 == p_num_msgs) ? {c_addr_nbits{1'b0}} : deq_ptr_plus1;
         
- 002881   logic [c_addr_nbits-1:0] enq_ptr_plus1;
+ 007431   logic [c_addr_nbits-1:0] enq_ptr_plus1;
           assign enq_ptr_plus1 = enq_ptr + 1'b1;
         
- 002881   logic [c_addr_nbits-1:0] enq_ptr_inc;
+ 007431   logic [c_addr_nbits-1:0] enq_ptr_inc;
           assign enq_ptr_inc = (enq_ptr_plus1 == p_num_msgs) ? {c_addr_nbits{1'b0}} : enq_ptr_plus1;
         
           /* verilator lint_on WIDTH */
@@ -335,12 +335,12 @@
           // Local constants not meant to be set from outside the module
           parameter c_addr_nbits = $clog2(p_num_msgs)
         )(
- 029070   input  logic                    clk,
- 000080   input  logic                    reset,
- 005631   input  logic                    write_en,
- 005615   input  logic                    bypass_mux_sel,
- 002881   input  logic [c_addr_nbits-1:0] write_addr,
- 002874   input  logic [c_addr_nbits-1:0] read_addr,
+ 067340   input  logic                    clk,
+ 000086   input  logic                    reset,
+ 013764   input  logic                    write_en,
+ 013746   input  logic                    bypass_mux_sel,
+ 007431   input  logic [c_addr_nbits-1:0] write_addr,
+ 007423   input  logic [c_addr_nbits-1:0] read_addr,
 %000000   input  logic [p_msg_nbits-1:0]  enq_msg,
 %000000   output logic [p_msg_nbits-1:0]  deq_msg
         );
@@ -392,18 +392,18 @@
           // parameters not meant to be set outside this module
           parameter c_addr_nbits = $clog2(p_num_msgs)
         )(
- 029070   input  logic                   clk,
- 000080   input  logic                   reset,
+ 067340   input  logic                   clk,
+ 000086   input  logic                   reset,
         
- 000228   input  logic                   enq_val,
- 000098   output logic                   enq_rdy,
- 000664   input  logic [p_msg_nbits-1:0] enq_msg,
+ 000246   input  logic                   enq_val,
+ 000758   output logic                   enq_rdy,
+ 000670   input  logic [p_msg_nbits-1:0] enq_msg,
         
- 000228   output logic                   deq_val,
- 002428   input  logic                   deq_rdy,
- 000554   output logic [p_msg_nbits-1:0] deq_msg,
+ 000246   output logic                   deq_val,
+ 005676   input  logic                   deq_rdy,
+ 000557   output logic [p_msg_nbits-1:0] deq_msg,
         
- 000208   output logic [c_addr_nbits:0]  num_free_entries
+ 000224   output logic [c_addr_nbits:0]  num_free_entries
         );
         
         

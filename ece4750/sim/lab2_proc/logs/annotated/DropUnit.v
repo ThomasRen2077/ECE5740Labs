@@ -14,28 +14,28 @@
           parameter p_msg_nbits = 1
         )
         (
- 029070   input  logic                   clk,
- 000080   input  logic                   reset,
+ 067340   input  logic                   clk,
+ 000086   input  logic                   reset,
         
           // the drop signal will drop the next arriving packet
         
- 000532   input  logic                   drop,
+ 003740   input  logic                   drop,
         
- 001412   input  logic [p_msg_nbits-1:0] istream_msg,
- 008661   input  logic                   istream_val,
- 009055   output logic                   istream_rdy,
+ 005342   input  logic [p_msg_nbits-1:0] istream_msg,
+ 021186   input  logic                   istream_val,
+ 020916   output logic                   istream_rdy,
         
- 001412   output logic [p_msg_nbits-1:0] ostream_msg,
- 008405   output logic                   ostream_val,
- 009147   input  logic                   ostream_rdy
+ 005342   output logic [p_msg_nbits-1:0] ostream_msg,
+ 019320   output logic                   ostream_val,
+ 021826   input  logic                   ostream_rdy
         );
         
           localparam c_state_pass = 1'b0;
           localparam c_state_drop = 1'b1;
         
- 000248   logic state;
- 000248   logic next_state;
- 009159   logic istream_go;
+ 002112   logic state;
+ 002112   logic next_state;
+ 022468   logic istream_go;
         
           assign istream_go = istream_rdy && istream_val;
         
@@ -46,23 +46,23 @@
           // next state
         
 %000000   always_comb begin
- 000151     if ( state == c_state_pass ) begin
+ 001307     if ( state == c_state_pass ) begin
         
               // we only go to drop state if there is a drop request and we cannot
               // drop it right away (!istream_en)
- 000372       if ( drop && !istream_go )
- 000372         next_state = c_state_drop;
+ 003168       if ( drop && !istream_go )
+ 003168         next_state = c_state_drop;
               else
- 042820         next_state = c_state_pass;
+ 093964         next_state = c_state_pass;
         
- 000151     end else begin
+ 001307     end else begin
         
               // if we are in the drop mode and a message arrives, we can go back
               // to pass state
- 000081       if ( istream_go )
- 000372         next_state = c_state_pass;
+ 000753       if ( istream_go )
+ 003168         next_state = c_state_pass;
               else
- 000081         next_state = c_state_drop;
+ 000753         next_state = c_state_drop;
         
             end
           end
@@ -70,30 +70,30 @@
           // state outputs
         
 %000000   always_comb begin
- 000151     if ( state == c_state_pass ) begin
+ 001307     if ( state == c_state_pass ) begin
         
               // we combinationally take care of dropping if the packet is already
               // available
- 014344       ostream_val = istream_val && !drop;
- 014344       istream_rdy  = ostream_rdy;
+ 032320       ostream_val = istream_val && !drop;
+ 032320       istream_rdy  = ostream_rdy;
         
- 000151     end else begin
+ 001307     end else begin
         
               // we just drop the packet
- 000151       ostream_val = 1'b0;
- 000151       istream_rdy  = 1'b1;
+ 001307       ostream_val = 1'b0;
+ 001307       istream_rdy  = 1'b1;
         
             end
           end
         
           // state transitions
         
- 014495   always_ff @( posedge clk ) begin
+ 033627   always_ff @( posedge clk ) begin
         
- 001040     if ( reset )
- 001040       state <= c_state_pass;
+ 001118     if ( reset )
+ 001118       state <= c_state_pass;
             else
- 013455       state <= next_state;
+ 032509       state <= next_state;
         
           end
         

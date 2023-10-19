@@ -14,8 +14,8 @@
           parameter p_msg_nbits = 1,
           parameter p_num_msgs  = 1024
         )(
- 060162   input  logic                   clk,
- 000120   input  logic                   reset,
+ 128469   input  logic                   clk,
+ 000129   input  logic                   reset,
         
           // Max delay input
         
@@ -23,21 +23,21 @@
         
           // Source message interface
         
- 000576   output logic                   val,
- 000576   input  logic                   rdy,
+ 000606   output logic                   val,
+ 000606   input  logic                   rdy,
  000036   output logic [p_msg_nbits-1:0] msg,
         
           // Goes high once all source data has been issued
         
- 000120   output logic                   done
+ 000129   output logic                   done
         );
         
           //----------------------------------------------------------------------
           // Test source
           //----------------------------------------------------------------------
         
- 000240   logic                   src_val;
- 000576   logic                   src_rdy;
+ 000258   logic                   src_val;
+ 000606   logic                   src_rdy;
  000036   logic [p_msg_nbits-1:0] src_msg;
         
           vc_TestSourceFile#(p_msg_nbits,p_num_msgs) src
@@ -52,9 +52,9 @@
             .done      (done)
           );
         
- 000120   task load (integer file_load);
- 000120   begin
- 000120     src.load(file_load);
+ 000129   task load (integer file_load);
+ 000129   begin
+ 000129     src.load(file_load);
           end
           endtask
           //----------------------------------------------------------------------

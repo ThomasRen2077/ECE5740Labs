@@ -18,18 +18,18 @@
           parameter p_num_msgs  = 1024,
           parameter p_sim_mode  = 0
         )(
- 060162   input  logic                   clk,
- 000120   input  logic                   reset,
+ 128469   input  logic                   clk,
+ 000129   input  logic                   reset,
         
           // Sink message interface
         
- 000228   input  logic                   val,
- 000228   output logic                   rdy,
+ 000246   input  logic                   val,
+ 000246   output logic                   rdy,
  000012   input  logic [p_msg_nbits-1:0] msg,
         
           // Goes high once all sink data has been received
         
- 000120   output logic                   done
+ 000129   output logic                   done
         );
         
           //----------------------------------------------------------------------
@@ -50,7 +50,7 @@
         
           // Index register pointing to next message to verify
         
- 000228   logic                     index_en;
+ 000246   logic                     index_en;
 %000000   logic [c_index_nbits-1:0] index_next;
 %000000   logic [c_index_nbits-1:0] index;
 %000000   logic [c_index_nbits-1:0] index_max;
@@ -66,24 +66,24 @@
         
           // Register reset
         
- 000120   logic reset_reg;
- 030021   always_ff @( posedge clk )
- 030021     reset_reg <= reset;
+ 000129   logic reset_reg;
+ 064170   always_ff @( posedge clk )
+ 064170     reset_reg <= reset;
 %000000   logic [31:0] data_data;
- 000120   task load (integer file_load);
- 000120   begin
+ 000129   task load (integer file_load);
+ 000129   begin
         
             integer count;
- 000120     index_max =0;
- 000114     while (!$feof(file_load))begin
- 000114       count=$fscanf(file_load, "%x\n", data_data); 
- 000114       if( count ==0) break;
+ 000129     index_max =0;
+ 000123     while (!$feof(file_load))begin
+ 000123       count=$fscanf(file_load, "%x\n", data_data); 
+ 000123       if( count ==0) break;
               
               
- 000114       $display("Loading %x",data_data);
+ 000123       $display("Loading %x",data_data);
               
- 000114       m[index_max]= data_data;
- 000114       index_max =index_max +1;
+ 000123       m[index_max]= data_data;
+ 000123       index_max =index_max +1;
               
             end
         
@@ -96,7 +96,7 @@
 %000000   logic done_next;
           assign done = !reset_reg && ( index == ( index_max ) );
         
- 030021   always_ff @( posedge clk ) begin
+ 064170   always_ff @( posedge clk ) begin
             //if( val && rdy ) done <= done_next;
           end
         
@@ -112,7 +112,7 @@
         
           // The go signal is high when a message is transferred
         
- 000228   logic go;
+ 000246   logic go;
           assign go = val && rdy;
         
           //----------------------------------------------------------------------
@@ -125,17 +125,17 @@
  000012   logic  [p_msg_nbits-1:0] m_curr;
           assign m_curr = m[index];
         
- 030021   always_ff @( posedge clk ) begin
- 001560     if ( reset ) begin
- 001560       failed <= 0;
+ 064170   always_ff @( posedge clk ) begin
+ 001677     if ( reset ) begin
+ 001677       failed <= 0;
             end
- 000114     else if ( !reset && go ) begin
+ 000123     else if ( !reset && go ) begin
         
- 000114       casez ( msg )
- 000114         m_curr :begin
- 000114           pass();
- 000114           $display( "     [ passed ] expected = %x, actual = %x",
- 000114                     m[index], msg );
+ 000123       casez ( msg )
+ 000123         m_curr :begin
+ 000123           pass();
+ 000123           $display( "     [ passed ] expected = %x, actual = %x",
+ 000123                     m[index], msg );
                 end
 %000000         default : begin
 %000000           fail();
@@ -163,7 +163,7 @@
           end
         /* verilator lint_off WIDTH */
           integer t;
- 000120   final begin
+ 000129   final begin
 %000000     for(t = index; t<index_max; t++ )begin
 %000000       fail();
 %000000       $display( "     [ FAILED ] expected = %x, actual = None",
@@ -175,8 +175,8 @@
           // Assertions
           //----------------------------------------------------------------------
         
- 030021   always_ff @( posedge clk ) begin
- 001560     if ( !reset ) begin
+ 064170   always_ff @( posedge clk ) begin
+ 001677     if ( !reset ) begin
 %000000       `VC_ASSERT_NOT_X( val );
 %000000       `VC_ASSERT_NOT_X( rdy );
             end

@@ -17,54 +17,54 @@
           parameter p_num_cores = 1
         )
         (
- 013922   input  logic         clk,
- 000040   input  logic         reset,
+ 000125   input  logic         clk,
+ 000001   input  logic         reset,
         
         // Instruction Memory Port
 %000000   output logic [31:0]  imem_reqstream_msg_addr,               // Address of Instruction
 %000000   input  mem_resp_4B_t imem_respstream_msg,                   // Next Instruction Fetched
         
         // Data Memory Port
- 000190   output logic [31:0]  dmem_reqstream_msg_addr,               // Address of data
- 000108   output logic [31:0]  dmem_reqstream_msg_data,               // Data sent to memory
- 000002   input  logic [31:0]  dmem_respstream_msg_data,              // Data received from memory
+ 000001   output logic [31:0]  dmem_reqstream_msg_addr,               // Address of data
+ 000001   output logic [31:0]  dmem_reqstream_msg_data,               // Data sent to memory
+ 000001   input  logic [31:0]  dmem_respstream_msg_data,              // Data received from memory
         
         // mngr communication ports
- 000012   input  logic [31:0]  mngr2proc_data,                        // Message received from mngr
- 000140   output logic [31:0]  proc2mngr_data,                        // Message sent to mngr
+ 000001   input  logic [31:0]  mngr2proc_data,                        // Message received from mngr
+ 000001   output logic [31:0]  proc2mngr_data,                        // Message sent to mngr
         
         // Multiplier Port
- 000016   output logic [63:0]  IntMulAlt_reqstream_msg,               // Data sent to multiplier
- 000002   input  logic [31:0]  IntMulAlt_respstream_msg,              // Data received from multiplier
+ 000001   output logic [63:0]  IntMulAlt_reqstream_msg,               // Data sent to multiplier
+ 000001   input  logic [31:0]  IntMulAlt_respstream_msg,              // Data received from multiplier
         
         
         // control signals (ctrl->dpath)
- 000266   input  logic         imem_respstream_drop,                  // Drop Unit message
- 004517   input  logic         reg_en_F,                              // Register Enable of F Stage
- 000008   input  logic [1:0]   pc_sel_F,                              // PC redirection Select Mux Signal
- 000700   input  logic         reg_en_D,                              // Register Enable of D Stage
- 000278   input  logic [1:0]   op1_byp_sel_D,                         // Operand 1 Bypass Mux Signal
- 000186   input  logic [1:0]   op2_byp_sel_D,                         // Operand 2 Bypass Mux Signal
- 000002   input  logic         op1_sel_D,                             // Operand 1 Select Mux Signal
- 000178   input  logic [1:0]   op2_sel_D,                             // Operand 2 Select Mux Signal
+ 000001   input  logic         imem_respstream_drop,                  // Drop Unit message
+ 000002   input  logic         reg_en_F,                              // Register Enable of F Stage
+ 000001   input  logic [1:0]   pc_sel_F,                              // PC redirection Select Mux Signal
+ 000002   input  logic         reg_en_D,                              // Register Enable of D Stage
+ 000001   input  logic [1:0]   op1_byp_sel_D,                         // Operand 1 Bypass Mux Signal
+ 000001   input  logic [1:0]   op2_byp_sel_D,                         // Operand 2 Bypass Mux Signal
+ 000001   input  logic         op1_sel_D,                             // Operand 1 Select Mux Signal
+ 000002   input  logic [1:0]   op2_sel_D,                             // Operand 2 Select Mux Signal
 %000000   input  logic [1:0]   csrr_sel_D,                            // CSRR Select Signal
- 000010   input  logic [2:0]   imm_type_D,                            // Immediate Type
- 000300   input  logic         reg_en_X,                              // Register Enable of X Stage
- 000212   input  logic [3:0]   alu_fn_X,                              // Alu Function Signal
+ 000002   input  logic [2:0]   imm_type_D,                            // Immediate Type
+ 000002   input  logic         reg_en_X,                              // Register Enable of X Stage
+ 000001   input  logic [3:0]   alu_fn_X,                              // Alu Function Signal
  000002   input  logic [1:0]   ex_result_sel_X,                       // Execuation Result Select Mux Signal 
- 000934   input  logic         reg_en_M,                              // Register Enable of M Stage
- 000368   input  logic         wb_result_sel_M,                       // Register File Write Result Select
+ 000002   input  logic         reg_en_M,                              // Register Enable of M Stage
+ 000002   input  logic         wb_result_sel_M,                       // Register File Write Result Select
 %000000   input  logic         reg_en_W,                              // Register Enable of W Stage
- 000054   input  logic [4:0]   rf_waddr_W,                            // Register File Write Address
- 002144   input  logic         rf_wen_W,                              // Register File Write Enable
+ 000001   input  logic [4:0]   rf_waddr_W,                            // Register File Write Address
+ 000001   input  logic         rf_wen_W,                              // Register File Write Enable
 %000000   input  logic         stats_en_wen_W,                        // Execuation Result Select Mux Signal
         
         
         // status signals (dpath->ctrl)
- 000002   output logic [31:0]  inst_D,                                // Instruction to Decode
- 002254   output logic         br_cond_eq_X,                          // Branch conition equal signal
- 000224   output logic         br_cond_lt_X,                          // Branch conition less than signal
- 000476   output logic         br_cond_ltu_X,                         // Branch conition less than unsigned int signal
+ 000001   output logic [31:0]  inst_D,                                // Instruction to Decode
+ 000002   output logic         br_cond_eq_X,                          // Branch conition equal signal
+ 000002   output logic         br_cond_lt_X,                          // Branch conition less than signal
+ 000002   output logic         br_cond_ltu_X,                         // Branch conition less than unsigned int signal
         
         // extra ports
 %000000   input  logic [31:0]  core_id,
@@ -81,12 +81,12 @@
         // F stage
         //--------------------------------------------------------------------
         
- 000040   logic [31:0] pc_F;                                          // Current Fetched Instruction PC
+ 000004   logic [31:0] pc_F;                                          // Current Fetched Instruction PC
 %000000   logic [31:0] pc_next_F;                                     // Next to Fetch Instruction PC
 %000000   logic [31:0] pc_plus4_F;                                    // PC Plus 4
- 000358   logic [31:0] br_target_X;                                   // Branch Target Address
- 000358   logic [31:0] jal_target_D;                                  // JUMP Target Address
- 000190   logic [31:0] jalr_target_X;                                 // JUMP Target Address
+ 000003   logic [31:0] br_target_X;                                   // Branch Target Address
+ 000003   logic [31:0] jal_target_D;                                  // JUMP Target Address
+ 000001   logic [31:0] jalr_target_X;                                 // JUMP Target Address
         
         // Internal Register to store current PC
           vc_EnResetReg#(32, c_reset_vector - 32'd4) pc_reg_F
@@ -120,11 +120,11 @@
         // D stage
         //--------------------------------------------------------------------
         
- 000040   logic [31:0] pc_D;                                          // Current Decoding Instruction PC
- 000054   logic [ 4:0] inst_rd_D;                                     // Destination Register Address
- 000002   logic [ 4:0] inst_rs1_D;                                    // Read Register 1 Address
- 000362   logic [ 4:0] inst_rs2_D;                                    // Read Register 2 Address
- 000402   logic [31:0] imm_D;                                         // Immediate Value
+ 000005   logic [31:0] pc_D;                                          // Current Decoding Instruction PC
+ 000001   logic [ 4:0] inst_rd_D;                                     // Destination Register Address
+ 000001   logic [ 4:0] inst_rs1_D;                                    // Read Register 1 Address
+ 000001   logic [ 4:0] inst_rs2_D;                                    // Read Register 2 Address
+ 000001   logic [31:0] imm_D;                                         // Immediate Value
         
         // Registers to Store Current Decoding Instruction PC
           vc_EnResetReg#(32) pc_reg_D
@@ -168,9 +168,9 @@
             .imm      (imm_D)
           );
         
- 000014   logic [31:0] rf_rdata0_D;                                       // Read Register 1 Data
- 000108   logic [31:0] rf_rdata1_D;                                       // Read Register 2 Data
- 000140   logic [31:0] rf_wdata_W;                                        // Data to Write to Register 
+ 000001   logic [31:0] rf_rdata0_D;                                       // Read Register 1 Data
+ 000001   logic [31:0] rf_rdata1_D;                                       // Read Register 2 Data
+ 000001   logic [31:0] rf_wdata_W;                                        // Data to Write to Register 
         
         // Register File Read/Write module
           vc_Regfile_2r1w_zero rf
@@ -186,12 +186,12 @@
             .wr_data  (rf_wdata_W)
           );
         
- 000016   logic [31:0] op1_byp_D;                                       // Bypassed Operand 1
- 000108   logic [31:0] op2_byp_D;                                       // Bypassed Operand 2
+ 000001   logic [31:0] op1_byp_D;                                       // Bypassed Operand 1
+ 000001   logic [31:0] op2_byp_D;                                       // Bypassed Operand 2
         
- 000016   logic [31:0] op1_D;                                           // ALU Operand 1
- 000268   logic [31:0] op2_D;                                           // ALU Operand 2
- 000012   logic [31:0] csrr_data_D;                                     // CSRR Data
+ 000001   logic [31:0] op1_D;                                           // ALU Operand 1
+ 000001   logic [31:0] op2_D;                                           // ALU Operand 2
+ 000001   logic [31:0] csrr_data_D;                                     // CSRR Data
 %000000   logic [31:0] num_cores;                                       // number of cores
         
           assign num_cores = p_num_cores;
@@ -265,13 +265,13 @@
         // X stage
         //--------------------------------------------------------------------
         
- 000016   logic [31:0] op1_X;                                           // Execuation Operand 1
- 000268   logic [31:0] op2_X;                                           // Execuation Operand 2
- 000040   logic [31:0] pc_X;                                            // PC of Instruction in X stage
- 000005   logic [31:0] pc_plus4_X;                                      // PC plus 4
- 000108   logic [31:0] op2_byp_X;                                       // Read Register 2 Data to Write to Memory
- 000190   logic [31:0] alu_result_X;                                    // Alu Execuation Result 
- 000192   logic [31:0] ex_result_X;                                     // Actual Execuation Result of X stage
+ 000001   logic [31:0] op1_X;                                           // Execuation Operand 1
+ 000001   logic [31:0] op2_X;                                           // Execuation Operand 2
+ 000005   logic [31:0] pc_X;                                            // PC of Instruction in X stage
+ 000002   logic [31:0] pc_plus4_X;                                      // PC plus 4
+ 000001   logic [31:0] op2_byp_X;                                       // Read Register 2 Data to Write to Memory
+ 000001   logic [31:0] alu_result_X;                                    // Alu Execuation Result 
+ 000001   logic [31:0] ex_result_X;                                     // Actual Execuation Result of X stage
         
         
         // Register to Store Operand 1
@@ -371,7 +371,7 @@
         // M stage
         //--------------------------------------------------------------------
         
- 000138   logic [31:0] ex_result_M;                                 // Actual Execuation Result recevied in M stage
+ 000001   logic [31:0] ex_result_M;                                 // Actual Execuation Result recevied in M stage
         
         // Rregisters to Store Actual Execuation Result
           vc_EnResetReg#(32, 0) ex_result_reg_M
@@ -383,8 +383,8 @@
             .q      (ex_result_M)
           );
         
- 000002   logic [31:0] dmem_result_M;                              // Data get from Data Memory Response
- 000140   logic [31:0] wb_result_M;                                // Writing Result Select Mux Signal
+ 000001   logic [31:0] dmem_result_M;                              // Data get from Data Memory Response
+ 000003   logic [31:0] wb_result_M;                                // Writing Result Select Mux Signal
         
         // Assign the Data Part of Data Memory Response Message to Data Memory Result
           assign dmem_result_M = dmem_respstream_msg_data;
@@ -402,7 +402,7 @@
         // W stage
         //--------------------------------------------------------------------
         
- 000140   logic [31:0] wb_result_W;                                // Selected Writing Result recevied in W stage
+ 000001   logic [31:0] wb_result_W;                                // Selected Writing Result recevied in W stage
         
         // Register to Store Selected Writing Result
           vc_EnResetReg#(32, 0) wb_result_reg_W

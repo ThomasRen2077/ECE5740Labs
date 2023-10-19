@@ -14,16 +14,16 @@
         #(
           parameter p_nbits = 1
         )(
- 000196   input  logic [p_nbits-1:0] in0, in1,
- 000056   input  logic               sel,
- 000196   output logic [p_nbits-1:0] out
+ 000198   input  logic [p_nbits-1:0] in0, in1,
+ 000062   input  logic               sel,
+ 000198   output logic [p_nbits-1:0] out
         );
         
 %000000   always_comb
 %000000   begin
 %000000     case ( sel )
- 000208       1'd0 : out = in0;
- 015239       1'd1 : out = in1;
+ 000236       1'd0 : out = in0;
+ 030255       1'd1 : out = in1;
 %000000       default : out = {p_nbits{1'bx}};
             endcase
           end
@@ -38,17 +38,17 @@
         #(
           parameter p_nbits = 1
         )(
- 000024   input  logic [p_nbits-1:0] in0, in1, in2,
- 000372   input  logic         [1:0] sel,
- 000928   output logic [p_nbits-1:0] out
+ 000004   input  logic [p_nbits-1:0] in0, in1, in2,
+ 000012   input  logic         [1:0] sel,
+ 000006   output logic [p_nbits-1:0] out
         );
         
 %000000   always_comb
 %000000   begin
 %000000     case ( sel )
- 039247       2'd0 : out = in0;
- 003458       2'd1 : out = in1;
- 000780       2'd2 : out = in2;
+ 000524       2'd0 : out = in0;
+ 000056       2'd1 : out = in1;
+ 000056       2'd2 : out = in2;
 %000000       default : out = {p_nbits{1'bx}};
             endcase
           end
@@ -63,18 +63,18 @@
         #(
           parameter p_nbits = 1
         )(
- 000170   input  logic [p_nbits-1:0] in0, in1, in2, in3,
- 000008   input  logic         [1:0] sel,
-%000000   output logic [p_nbits-1:0] out
+ 000001   input  logic [p_nbits-1:0] in0, in1, in2, in3,
+ 000001   input  logic         [1:0] sel,
+ 000008   output logic [p_nbits-1:0] out
         );
         
 %000000   always_comb
 %000000   begin
 %000000     case ( sel )
- 007421       2'd0 : out = in0;
- 000129       2'd1 : out = in1;
- 000002       2'd2 : out = in2;
- 000002       2'd3 : out = in3;
+ 000026       2'd0 : out = in0;
+%000000       2'd1 : out = in1;
+ 000003       2'd2 : out = in2;
+ 000003       2'd3 : out = in3;
 %000000       default : out = {p_nbits{1'bx}};
             endcase
           end

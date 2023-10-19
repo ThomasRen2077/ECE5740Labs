@@ -368,17 +368,17 @@
         (
           // Packed message
         
- 000002   input  [`TINYRV2_INST_NBITS-1:0]        inst,
+ 000016   input  [`TINYRV2_INST_NBITS-1:0]        inst,
         
           // Packed fields
         
- 000004   output [`TINYRV2_INST_OPCODE_NBITS-1:0] opcode,
- 000054   output [`TINYRV2_INST_RD_NBITS-1:0]     rd,
- 000002   output [`TINYRV2_INST_RS1_NBITS-1:0]    rs1,
- 000258   output [`TINYRV2_INST_RS2_NBITS-1:0]    rs2,
- 000036   output [`TINYRV2_INST_FUNCT3_NBITS-1:0] funct3,
+ 000016   output [`TINYRV2_INST_OPCODE_NBITS-1:0] opcode,
+ 000696   output [`TINYRV2_INST_RD_NBITS-1:0]     rd,
+ 000608   output [`TINYRV2_INST_RS1_NBITS-1:0]    rs1,
+ 000880   output [`TINYRV2_INST_RS2_NBITS-1:0]    rs2,
+ 000088   output [`TINYRV2_INST_FUNCT3_NBITS-1:0] funct3,
 %000000   output [`TINYRV2_INST_FUNCT7_NBITS-1:0] funct7,
- 000258   output [`TINYRV2_INST_CSR_NBITS-1:0]    csr
+ 000880   output [`TINYRV2_INST_CSR_NBITS-1:0]    csr
         );
         
           assign opcode   = inst[`TINYRV2_INST_OPCODE];

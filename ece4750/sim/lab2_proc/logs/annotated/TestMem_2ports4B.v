@@ -24,10 +24,10 @@
           parameter c_req_data_nbits    = p_data_nbits
           ) 
           (
- 000554     input logic [c_req_nbits-1:0] msg,
+ 000557     input logic [c_req_nbits-1:0] msg,
 %000000     output logic [c_req_type_nbits-1:0] type_ ,
 %000000     output logic [c_req_opaque_nbits-1:0] opaque ,
- 000021     output logic [c_req_addr_nbits-1:0] addr ,
+ 000024     output logic [c_req_addr_nbits-1:0] addr ,
 %000000     output logic [c_req_len_nbits-1:0] len ,
  000299     output logic [c_req_data_nbits-1:0] data 
           );
@@ -61,11 +61,11 @@
           parameter c_resp_data_nbits    = p_data_nbits
           ) 
           (
- 002397     output logic [c_resp_nbits-1:0] msg,
+ 005512     output logic [c_resp_nbits-1:0] msg,
 %000000     input logic [c_resp_type_nbits-1:0] type_ ,
 %000000     input logic [c_resp_opaque_nbits-1:0] opaque ,
 %000000     input logic [c_resp_len_nbits-1:0] len ,
- 000903     input logic [c_resp_data_nbits-1:0] data ,
+ 000931     input logic [c_resp_data_nbits-1:0] data ,
 %000000     input logic [1:0] test
           );
             typedef struct packed {
@@ -103,34 +103,34 @@
           parameter c_req_nbits  = $bits(mem_req_4B_t),
           parameter c_resp_nbits = $bits(mem_resp_4B_t)
         )(
- 060162   input  logic                    clk,
- 000120   input  logic                    reset,
+ 128469   input  logic                    clk,
+ 000129   input  logic                    reset,
         
           // clears the content of memory
- 000120   input  logic                    mem_clear,
+ 000129   input  logic                    mem_clear,
         
           // Memory request port 0 interface
         
- 014478   input  logic                    memreq0_val,
- 000098   output logic                    memreq0_rdy,
+ 033486   input  logic                    memreq0_val,
+ 000758   output logic                    memreq0_rdy,
 %000000   input  logic [c_req_nbits-1:0]  memreq0_msg,
         
           // Memory request port 1 interface
         
- 003508   input  logic                    memreq1_val,
+ 003520   input  logic                    memreq1_val,
 %000000   output logic                    memreq1_rdy,
- 000664   input  logic [c_req_nbits-1:0]  memreq1_msg,
+ 000670   input  logic [c_req_nbits-1:0]  memreq1_msg,
         
           // Memory response port 0 interface
         
- 010935   output logic                    memresp0_val,
- 015071   input  logic                    memresp0_rdy,
- 001542   output logic [c_resp_nbits-1:0] memresp0_msg,
+ 024886   output logic                    memresp0_val,
+ 034126   input  logic                    memresp0_rdy,
+ 004624   output logic [c_resp_nbits-1:0] memresp0_msg,
         
           // Memory response port 1 interface
         
- 003356   output logic                    memresp1_val,
- 003648   input  logic                    memresp1_rdy,
+ 003368   output logic                    memresp1_val,
+ 003662   input  logic                    memresp1_rdy,
  000798   output logic [c_resp_nbits-1:0] memresp1_msg
         );
         
@@ -191,8 +191,8 @@
           // memory (helping to avoid combinational loops) and also preserve our
           // registered input policy.
         
- 014355   logic                   memreq0_val_M;
- 009288   logic                   memreq0_rdy_M;
+ 033199   logic                   memreq0_val_M;
+ 022175   logic                   memreq0_rdy_M;
 %000000   logic [c_req_nbits-1:0] memreq0_msg_M;
         
           vc_Queue
@@ -214,9 +214,9 @@
             .num_free_entries()
           );
         
- 003508   logic                   memreq1_val_M;
- 001950   logic                   memreq1_rdy_M;
- 000554   logic [c_req_nbits-1:0] memreq1_msg_M;
+ 003520   logic                   memreq1_val_M;
+ 001958   logic                   memreq1_rdy_M;
+ 000557   logic [c_req_nbits-1:0] memreq1_msg_M;
         
           vc_Queue
           #(
@@ -243,7 +243,7 @@
         
 %000000   logic [c_req_type_nbits-1:0]   memreq0_msg_type_M;
 %000000   logic [c_req_opaque_nbits-1:0] memreq0_msg_opaque_M;
- 000015   logic [c_req_addr_nbits-1:0]   memreq0_msg_addr_M;
+ 000018   logic [c_req_addr_nbits-1:0]   memreq0_msg_addr_M;
 %000000   logic [c_req_len_nbits-1:0]    memreq0_msg_len_M;
 %000000   logic [c_req_data_nbits-1:0]   memreq0_msg_data_M;
         
@@ -285,29 +285,29 @@
 %000000   logic [c_block_offset_nbits-1:0] block_offset;
         
           integer wr_i;
- 000120   task load (integer file_load);
- 000120   begin
+ 000129   task load (integer file_load);
+ 000129   begin
             //integer file_load = $fopen(filein, "r"); 
             //  if (file_load == 0) begin
             //   $display("Fail to open file %s",filein);
             //   $finish;
             //  end
- 000120     $display("c_physical_addr_nbits is %d",c_physical_addr_nbits);
- 005439     while (!$feof(file_load))begin
- 005439       $fscanf(file_load, "%x:%x\n", data_address,data_data); 
- 005439       data_data= {{data_data[07:00]},
- 005439                        {data_data[15:08]},
- 005439                        {data_data[23:16]},
- 005439                        {data_data[31:24]}};
+ 000129     $display("c_physical_addr_nbits is %d",c_physical_addr_nbits);
+ 005772     while (!$feof(file_load))begin
+ 005772       $fscanf(file_load, "%x:%x\n", data_address,data_data); 
+ 005772       data_data= {{data_data[07:00]},
+ 005772                        {data_data[15:08]},
+ 005772                        {data_data[23:16]},
+ 005772                        {data_data[31:24]}};
               //$display("%x:%x",data_address,data_data);
               /* verilator lint_off WIDTHTRUNC */
               //physical_byte_addr=data_address[c_physical_addr_nbits-1:0];
- 005439       physical_block_addr= data_address/c_data_byte_nbits;
- 005439       block_offset= data_address[c_block_offset_nbits-1:0];
+ 005772       physical_block_addr= data_address/c_data_byte_nbits;
+ 005772       block_offset= data_address[c_block_offset_nbits-1:0];
               /* verilator lint_on WIDTHTRUNC */
               //$display("location:%x",physical_block_addr);
- 005439       for (wr_i = 0; wr_i<4;wr_i++) begin
- 021756         m_load[physical_block_addr][ (block_offset*8) + (wr_i*8) +: 8 ] = data_data[ (wr_i*8) +: 8 ];
+ 005772       for (wr_i = 0; wr_i<4;wr_i++) begin
+ 023088         m_load[physical_block_addr][ (block_offset*8) + (wr_i*8) +: 8 ] = data_data[ (wr_i*8) +: 8 ];
               end
             end
             // for(wr_i=0; wr_i<c_num_blocks;wr_i++)begin
@@ -315,8 +315,8 @@
             // end
           end
           endtask
- 000120   task dump (integer file_out);
- 000120   begin
+ 000129   task dump (integer file_out);
+ 000129   begin
             string ihex;
             //integer file_load = $fopen(filein, "r"); 
             //  if (file_load == 0) begin
@@ -341,16 +341,16 @@
             //     m_load[physical_block_addr][ (block_offset*8) + (wr_i*8) +: 8 ] = data_data[ (wr_i*8) +: 8 ];
             //   end
             // end
- 000120     for(wr_i=0; wr_i<c_num_blocks;wr_i++)begin
- 006042         if(m[wr_i]!=0) begin
- 006042           data_data=m[wr_i];
- 006042           data_data= {{data_data[07:00]},
- 006042                        {data_data[15:08]},
- 006042                        {data_data[23:16]},
- 006042                        {data_data[31:24]}};
- 006042         ihex = $sformatf("%x:%x",{{wr_i,2'b0}[31:0]},data_data);
- 006042         $display("%s",ihex.toupper());
- 006042         $fdisplay(file_out,"%s",ihex.toupper());
+ 000129     for(wr_i=0; wr_i<c_num_blocks;wr_i++)begin
+ 006375         if(m[wr_i]!=0) begin
+ 006375           data_data=m[wr_i];
+ 006375           data_data= {{data_data[07:00]},
+ 006375                        {data_data[15:08]},
+ 006375                        {data_data[23:16]},
+ 006375                        {data_data[31:24]}};
+ 006375         ihex = $sformatf("%x:%x",{{wr_i,2'b0}[31:0]},data_data);
+ 006375         $display("%s",ihex.toupper());
+ 006375         $fdisplay(file_out,"%s",ihex.toupper());
                 end
             end
           end
@@ -384,7 +384,7 @@
           // truncate the higher order bits that are beyond the size of the
           // physical memory.
         
- 000015   logic [c_physical_addr_nbits-1:0] physical_byte_addr0_M;
+ 000018   logic [c_physical_addr_nbits-1:0] physical_byte_addr0_M;
           assign physical_byte_addr0_M = memreq0_msg_addr_M[c_physical_addr_nbits-1:0];
         
 %000000   logic [c_physical_addr_nbits-1:0] physical_byte_addr1_M;
@@ -406,10 +406,10 @@
           /* verilator lint_on WIDTHTRUNC */
           // Read the data
         
- 000006   logic [p_data_nbits-1:0] read_block0_M;
+ 000018   logic [p_data_nbits-1:0] read_block0_M;
           assign read_block0_M = m[physical_block_addr0_M];
         
- 000006   logic [c_resp_data_nbits-1:0] read_data0_M;
+ 000018   logic [c_resp_data_nbits-1:0] read_data0_M;
           assign read_data0_M = read_block0_M >> (block_offset0_M*8);
         
  000309   logic [p_data_nbits-1:0] read_block1_M;
@@ -425,7 +425,7 @@
           assign write_en0_M = memreq0_val_M &&
               ( memreq0_msg_type_M == c_write || memreq0_msg_type_M == c_write_init );
         
- 001178   logic write_en1_M;
+ 001184   logic write_en1_M;
           assign write_en1_M = memreq1_val_M &&
               ( memreq1_msg_type_M == c_write || memreq1_msg_type_M == c_write_init );
         
@@ -451,11 +451,11 @@
           // initialize this to one since by default when the simulation starts
           // the memory is already reset to 0's.
         
- 000120   logic memory_cleared = 0;
+ 000129   logic memory_cleared = 0;
 %000000   always_comb begin
 %000000     m_next=m;
- 000480     if ( mem_clear ) begin
- 001800       if ( !memory_cleared ) begin
+ 000516     if ( mem_clear ) begin
+ 001935       if ( !memory_cleared ) begin
                 
 %000000         for ( wr0_i = 0; wr0_i < c_num_blocks; wr0_i = wr0_i + 1 ) begin
 %000000           m_next[wr0_i] = {p_data_nbits{1'b0}};
@@ -467,22 +467,22 @@
 %000000       m_next=m_load;
 %000000     end else if ( !reset ) begin
               //$display("Mem tick %d, %d",write_en0_M,write_en1_M);
- 028581       if ( write_en0_M ) begin
+ 062622       if ( write_en0_M ) begin
                 //$display("Writing en0, %d",physical_block_addr0_M);
 %000000         for ( wr0_i = 0; wr0_i < memreq0_msg_len_modified_M; wr0_i = wr0_i + 1 ) begin
 %000000           m_next[physical_block_addr0_M][ (block_offset0_M*8) + (wr0_i*8) +: 8 ] = memreq0_msg_data_M[ (wr0_i*8) +: 8 ];
                 end
               end
         
- 000609       if ( write_en1_M ) begin
+ 000612       if ( write_en1_M ) begin
                 //$display("Writing en1, %d",physical_block_addr0_M);
         
- 000609         for ( wr1_i = 0; wr1_i < memreq1_msg_len_modified_M; wr1_i = wr1_i + 1 ) begin
- 002436           m_next[physical_block_addr1_M][ (block_offset1_M*8) + (wr1_i*8) +: 8 ] = memreq1_msg_data_M[ (wr1_i*8) +: 8 ];
+ 000612         for ( wr1_i = 0; wr1_i < memreq1_msg_len_modified_M; wr1_i = wr1_i + 1 ) begin
+ 002448           m_next[physical_block_addr1_M][ (block_offset1_M*8) + (wr1_i*8) +: 8 ] = memreq1_msg_data_M[ (wr1_i*8) +: 8 ];
                 end
               end
         
- 028581       if ( amo_en0_M ) begin
+ 062622       if ( amo_en0_M ) begin
 %000000         case ( memreq0_msg_type_M )
 %000000           c_amo_add: m_next[physical_block_addr0_M] = memreq0_msg_data_M + read_data0_M;
 %000000           c_amo_and: m_next[physical_block_addr0_M] = memreq0_msg_data_M & read_data0_M;
@@ -491,7 +491,7 @@
                 endcase
               end
         
- 028581       if ( amo_en1_M ) begin
+ 062622       if ( amo_en1_M ) begin
 %000000         case ( memreq1_msg_type_M )
 %000000           c_amo_add: m_next[physical_block_addr1_M] = memreq1_msg_data_M + read_data1_M;
 %000000           c_amo_and: m_next[physical_block_addr1_M] = memreq1_msg_data_M & read_data1_M;
@@ -502,7 +502,7 @@
             end
         
           end
- 030021   always_ff @( posedge clk ) begin
+ 064170   always_ff @( posedge clk ) begin
         
             // We clear all of the test memory to 0's on mem_clear. As mentioned
             // above, this only happens if we clear a test memory more than once.
@@ -511,30 +511,30 @@
             // might possible cause a test to pass when it should not because the
             // test is using data from an older test.
         
- 001560     if ( mem_clear ) begin
- 001560       if ( !memory_cleared ) begin
+ 001677     if ( mem_clear ) begin
+ 001677       if ( !memory_cleared ) begin
 %000000         memory_cleared <= 1;
 %000000         m <=m_load;
               end
- 001560       m <=m_load;
+ 001677       m <=m_load;
             end
         
 %000000     else if ( !reset ) begin
- 028461       memory_cleared <= 0;
+ 062493       memory_cleared <= 0;
         
- 028461       if ( write_en0_M ) begin
+ 062493       if ( write_en0_M ) begin
 %000000         m <=m_next;
               end
         
- 000609       if ( write_en1_M ) begin
- 000609         m <=m_next;
+ 000612       if ( write_en1_M ) begin
+ 000612         m <=m_next;
               end
         
- 028461       if ( amo_en0_M ) begin
+ 062493       if ( amo_en0_M ) begin
 %000000         m <=m_next;
               end
         
- 028461       if ( amo_en1_M ) begin
+ 062493       if ( amo_en1_M ) begin
 %000000         m <=m_next;
               end
             end
@@ -545,7 +545,7 @@
           // Pack the response message
           //----------------------------------------------------------------------
         
- 001542   logic [c_resp_nbits-1:0] memresp0_msg_M;
+ 004624   logic [c_resp_nbits-1:0] memresp0_msg_M;
         
           vc_MemRespMsgPack#(o,a,d) memresp0_msg_pack
           (
@@ -622,8 +622,8 @@
         
           // val/rdy signals should never be x's
         
- 030021   always_ff @( posedge clk ) begin
- 001560     if ( !reset ) begin
+ 064170   always_ff @( posedge clk ) begin
+ 001677     if ( !reset ) begin
 %000000       `VC_ASSERT_NOT_X( memreq0_val  );
 %000000       `VC_ASSERT_NOT_X( memresp0_rdy );
 %000000       `VC_ASSERT_NOT_X( memreq1_val  );

@@ -21,13 +21,13 @@
         #(
           parameter p_nbits = 1
         )(
- 058140   input  logic               clk, // Clock input
- 000568   output logic [p_nbits-1:0] q,   // Data output
- 000568   input  logic [p_nbits-1:0] d    // Data input
+ 134680   input  logic               clk, // Clock input
+ 000576   output logic [p_nbits-1:0] q,   // Data output
+ 000576   input  logic [p_nbits-1:0] d    // Data input
         );
         
- 028990   always_ff @( posedge clk )
- 028990     q <= d;
+ 067254   always_ff @( posedge clk )
+ 067254     q <= d;
         
         endmodule
         
@@ -40,14 +40,14 @@
           parameter p_nbits       = 1,
           parameter p_reset_value = 0
         )(
- 087210   input  logic               clk,   // Clock input
- 000240   input  logic               reset, // Sync reset input
- 005755   output logic [p_nbits-1:0] q,     // Data output
- 005771   input  logic [p_nbits-1:0] d      // Data input
+ 202020   input  logic               clk,   // Clock input
+ 000258   input  logic               reset, // Sync reset input
+ 014854   output logic [p_nbits-1:0] q,     // Data output
+ 014872   input  logic [p_nbits-1:0] d      // Data input
         );
         
- 043485   always_ff @( posedge clk )
- 043485     q <= reset ? p_reset_value : d;
+ 100881   always_ff @( posedge clk )
+ 100881     q <= reset ? p_reset_value : d;
         
         endmodule
         
@@ -59,16 +59,16 @@
         #(
           parameter p_nbits = 1
         )(
- 031092   input  logic               clk,   // Clock input
- 000040   input  logic               reset, // Sync reset input
- 000805   output logic [p_nbits-1:0] q,     // Data output
- 001632   input  logic [p_nbits-1:0] d,     // Data input
- 000056   input  logic               en     // Enable input
+ 061129   input  logic               clk,   // Clock input
+ 000043   input  logic               reset, // Sync reset input
+ 000809   output logic [p_nbits-1:0] q,     // Data output
+ 002214   input  logic [p_nbits-1:0] d,     // Data input
+ 000062   input  logic               en     // Enable input
         );
         
- 015526   always_ff @( posedge clk )
- 000028     if ( en )
- 000028       q <= d;
+ 030543   always_ff @( posedge clk )
+ 000031     if ( en )
+ 000031       q <= d;
         
           // Assertions
         
@@ -93,16 +93,16 @@
           parameter p_nbits       = 1,
           parameter p_reset_value = 0
         )(
- 029070   input  logic               clk,   // Clock input
- 000080   input  logic               reset, // Sync reset input
+ 000250   input  logic               clk,   // Clock input
+ 000002   input  logic               reset, // Sync reset input
 %000000   output logic [p_nbits-1:0] q,     // Data output
 %000000   input  logic [p_nbits-1:0] d,     // Data input
- 000804   input  logic               en     // Enable input
+ 000004   input  logic               en     // Enable input
         );
         
- 014495   always_ff @( posedge clk )
- 003522     if ( reset || en )
- 003522       q <= reset ? p_reset_value : d;
+ 000124   always_ff @( posedge clk )
+ 000022     if ( reset || en )
+ 000102       q <= reset ? p_reset_value : d;
         
           // Assertions
         

@@ -24,52 +24,52 @@
         //------------------------------------------------------------------------
 %000000 module top(  input logic clk, input logic linetrace );
         
- 000120   logic        reset;
+ 000129   logic        reset;
  000036   logic [31:0]  mngr2proc_msg;
- 000576   logic         mngr2proc_val;
- 000576   logic         mngr2proc_rdy;
+ 000606   logic         mngr2proc_val;
+ 000606   logic         mngr2proc_rdy;
         
           // To mngr streaming port
         
- 000316   logic [31:0]  proc2mngr_msg;
- 000228   logic         proc2mngr_val;
- 002428   logic         proc2mngr_rdy;
+ 001518   logic [31:0]  proc2mngr_msg;
+ 000246   logic         proc2mngr_val;
+ 005676   logic         proc2mngr_rdy;
         
           // Instruction Memory Request Port
         
 %000000   mem_req_4B_t  imem_reqstream_msg;
- 011795   logic         imem_reqstream_val;
- 016896   logic         imem_reqstream_rdy;
+ 026616   logic         imem_reqstream_val;
+ 037047   logic         imem_reqstream_rdy;
         
           // Instruction Memory Response Port
         
 %000000   mem_resp_4B_t imem_respstream_msg;
- 014049   logic         imem_respstream_val;
- 014449   logic         imem_respstream_rdy;
+ 032550   logic         imem_respstream_val;
+ 032286   logic         imem_respstream_rdy;
         
           // Data Memory Request Port
         
 %000000   mem_req_4B_t  dmem_reqstream_msg;
- 003378   logic         dmem_reqstream_val;
- 014508   logic         dmem_reqstream_rdy;
+ 003390   logic         dmem_reqstream_val;
+ 031707   logic         dmem_reqstream_rdy;
         
           // Data Memory Response Port
         
 %000000   mem_resp_4B_t dmem_respstream_msg;
- 003498   logic         dmem_respstream_val;
- 003498   logic         dmem_respstream_rdy;
+ 003510   logic         dmem_respstream_val;
+ 003510   logic         dmem_respstream_rdy;
         
           // extra ports; note that core_id is an input port rather than a
           // parameter so that the module only needs to be compiled once. If it
           // were a parameter, each core would be compiled separately.
         
 %000000   logic [31:0]  core_id;
- 008102   logic         commit_inst;
+ 018385   logic         commit_inst;
 %000000   logic         stats_en;
         
- 000120   logic src_done;
- 000120   logic snk_done;
- 000120   logic mem_clear;
+ 000129   logic src_done;
+ 000129   logic snk_done;
+ 000129   logic mem_clear;
         
           localparam SINK_SOURCE_MAX = 10;
           localparam MAX_DELAY = 32'd20;
@@ -209,36 +209,36 @@
 %000000 integer idx = 0;
         integer fp;
         string temp ;
- 000120 initial begin
- 000120   reset=1;
- 000120   mem_clear=1;
- 000120   #10
+ 000129 initial begin
+ 000129   reset=1;
+ 000129   mem_clear=1;
+ 000129   #10
           //mem_clear=0;
           //reset=0;
- 000120   $display("Loading data");
- 000120   $value$plusargs( "mem=%s", temp );
- 000120   fp = $fopen(temp, "r");
- 000120   mem.load(fp);
- 000120   $display("Data loaded");
+ 000129   $display("Loading data");
+ 000129   $value$plusargs( "mem=%s", temp );
+ 000129   fp = $fopen(temp, "r");
+ 000129   mem.load(fp);
+ 000129   $display("Data loaded");
         
 %000000   if ( !$value$plusargs( "men=%s", temp ) ) begin
- 000120       fp = $fopen({temp,".in"}, "r");
- 000120       src.load(fp);
- 000120       fp = $fopen({temp,".out"}, "r");
- 000120       sink.load(fp);
+ 000129       fp = $fopen({temp,".in"}, "r");
+ 000129       src.load(fp);
+ 000129       fp = $fopen({temp,".out"}, "r");
+ 000129       sink.load(fp);
           end
- 000120   #10
- 000120   reset=1;
- 000120   mem_clear=1;
- 000120   #10
- 000120   reset=0;
- 000120   mem_clear=0;
+ 000129   #10
+ 000129   reset=1;
+ 000129   mem_clear=1;
+ 000129   #10
+ 000129   reset=0;
+ 000129   mem_clear=0;
          
         end
         
- 000120 initial begin
- 000120   mngr2proc_msg =0;
- 000120   mngr2proc_val =1;
+ 000129 initial begin
+ 000129   mngr2proc_msg =0;
+ 000129   mngr2proc_val =1;
         
           //proc2mngr_rdy =1;
           //@(posedge proc2mngr_val)
@@ -251,34 +251,34 @@
           // @(negedge clk);
           // @(negedge clk);
           // @(negedge clk);
- 029301   while((!src_done) | (!snk_done) ) @(negedge clk);
- 000120   @(negedge clk);
- 000120   @(negedge clk);
- 000120   @(negedge clk);
- 000120   @(negedge clk);
- 000120   @(negedge clk);
- 000120   @(negedge clk);
- 000120   @(negedge clk);
+ 063396   while((!src_done) | (!snk_done) ) @(negedge clk);
+ 000129   @(negedge clk);
+ 000129   @(negedge clk);
+ 000129   @(negedge clk);
+ 000129   @(negedge clk);
+ 000129   @(negedge clk);
+ 000129   @(negedge clk);
+ 000129   @(negedge clk);
         
- 000120   $display("Testbench finished.  Dumping memory");
- 000120   $value$plusargs( "memdump=%s", temp );
- 000120   fp = $fopen(temp, "w");
- 000120   mem.dump(fp);
- 000120   $finish();
+ 000129   $display("Testbench finished.  Dumping memory");
+ 000129   $value$plusargs( "memdump=%s", temp );
+ 000129   fp = $fopen(temp, "w");
+ 000129   mem.dump(fp);
+ 000129   $finish();
         end
         
 %000000 initial begin
- 030141   for( integer i = 0; i < 10000; i = i + 1 ) begin
- 030141     @( negedge clk );
+ 064299   for( integer i = 0; i < 10000; i = i + 1 ) begin
+ 064299     @( negedge clk );
           end
 %000000   $display( "TIMEOUT: Testbench didn't finish in time" );
 %000000   $finish; 
         end 
         
- 000120 final begin
+ 000129 final begin
 %000000   if(src_done) begin
- 000120     pass();
- 000120     $display( "     [ passed ] Finished gracefully" );
+ 000129     pass();
+ 000129     $display( "     [ passed ] Finished gracefully" );
 %000000   end else begin
 %000000     fail();
 %000000     $display( "     [ failed ] Simulation did not naturally stop" );
@@ -287,9 +287,9 @@
         end
         
         initial begin 
- 030141   while(1) begin
- 030141     @(negedge clk);  
- 030141     if (linetrace) begin
+ 064299   while(1) begin
+ 064299     @(negedge clk);  
+ 064299     if (linetrace) begin
                   //mem.display_trace;
 %000000           DUT.display_trace;
             end

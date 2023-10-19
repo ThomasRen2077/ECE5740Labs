@@ -30,12 +30,12 @@
           parameter c_req_nbits  = $bits(mem_req_4B_t),
           parameter c_resp_nbits = $bits(mem_resp_4B_t)
         )(
- 060162   input  logic                    clk,
- 000120   input  logic                    reset,
+ 128469   input  logic                    clk,
+ 000129   input  logic                    reset,
         
           // clears the content of memory
         
- 000120   input  logic                    mem_clear,
+ 000129   input  logic                    mem_clear,
         
           // maximum delay
         
@@ -43,26 +43,26 @@
         
           // Memory request interface port 0
         
- 011795   input  logic                    memreq0_val,
- 016896   output logic                    memreq0_rdy,
+ 026616   input  logic                    memreq0_val,
+ 037047   output logic                    memreq0_rdy,
 %000000   input  logic [c_req_nbits-1:0]  memreq0_msg,
         
           // Memory request interface port 1
         
- 003378   input  logic                    memreq1_val,
- 014508   output logic                    memreq1_rdy,
- 000916   input  logic [c_req_nbits-1:0]  memreq1_msg,
+ 003390   input  logic                    memreq1_val,
+ 031707   output logic                    memreq1_rdy,
+ 001492   input  logic [c_req_nbits-1:0]  memreq1_msg,
         
           // Memory response interface port 0
         
- 014049   output logic                    memresp0_val,
- 014449   input  logic                    memresp0_rdy,
- 001950   output logic [c_resp_nbits-1:0] memresp0_msg,
+ 032550   output logic                    memresp0_val,
+ 032286   input  logic                    memresp0_rdy,
+ 008340   output logic [c_resp_nbits-1:0] memresp0_msg,
         
           // Memory response interface port 1
         
- 003498   output logic                    memresp1_val,
- 003498   input  logic                    memresp1_rdy,
+ 003510   output logic                    memresp1_val,
+ 003510   input  logic                    memresp1_rdy,
  000770   output logic [c_resp_nbits-1:0] memresp1_msg
         );
         
@@ -70,21 +70,21 @@
           // Dual ported test memory
           //------------------------------------------------------------------------
         
- 014478   logic                    mem_memreq0_val;
- 000098   logic                    mem_memreq0_rdy;
+ 033486   logic                    mem_memreq0_val;
+ 000758   logic                    mem_memreq0_rdy;
 %000000   logic [c_req_nbits-1:0]  mem_memreq0_msg;
         
- 003508   logic                    mem_memreq1_val;
+ 003520   logic                    mem_memreq1_val;
 %000000   logic                    mem_memreq1_rdy;
- 000664   logic [c_req_nbits-1:0]  mem_memreq1_msg;
+ 000670   logic [c_req_nbits-1:0]  mem_memreq1_msg;
         
         
- 010935   logic                    mem_memresp0_val;
- 015071   logic                    mem_memresp0_rdy;
- 001542   logic [c_resp_nbits-1:0] mem_memresp0_msg;
+ 024886   logic                    mem_memresp0_val;
+ 034126   logic                    mem_memresp0_rdy;
+ 004624   logic [c_resp_nbits-1:0] mem_memresp0_msg;
         
- 003356   logic                    mem_memresp1_val;
- 003648   logic                    mem_memresp1_rdy;
+ 003368   logic                    mem_memresp1_val;
+ 003662   logic                    mem_memresp1_rdy;
  000798   logic [c_resp_nbits-1:0] mem_memresp1_msg;
         
           //------------------------------------------------------------------------
@@ -159,14 +159,14 @@
             .memresp1_msg (mem_memresp1_msg)
           );
         
- 000120   task load (integer filein);
- 000120   begin
- 000120     mem.load(filein);
+ 000129   task load (integer filein);
+ 000129   begin
+ 000129     mem.load(filein);
           end
           endtask
- 000120   task dump (integer filein);
- 000120   begin
- 000120     mem.dump(filein);
+ 000129   task dump (integer filein);
+ 000129   begin
+ 000129     mem.dump(filein);
           end
           endtask
           //------------------------------------------------------------------------

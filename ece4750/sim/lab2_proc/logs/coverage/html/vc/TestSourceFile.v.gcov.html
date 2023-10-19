@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2023-10-16 23:47:36</td>
+            <td class="headerValue">2023-10-18 23:43:20</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -75,18 +75,18 @@
 <a name="13"><span class="lineNum">      13 </span>            :   parameter p_msg_nbits = 1,</a>
 <a name="14"><span class="lineNum">      14 </span>            :   parameter p_num_msgs  = 1024</a>
 <a name="15"><span class="lineNum">      15 </span>            : )(</a>
-<a name="16"><span class="lineNum">      16 </span><span class="lineCov">      60162 :   input  logic                   clk,</span></a>
-<a name="17"><span class="lineNum">      17 </span><span class="lineCov">        120 :   input  logic                   reset,</span></a>
+<a name="16"><span class="lineNum">      16 </span><span class="lineCov">     128469 :   input  logic                   clk,</span></a>
+<a name="17"><span class="lineNum">      17 </span><span class="lineCov">        129 :   input  logic                   reset,</span></a>
 <a name="18"><span class="lineNum">      18 </span>            : </a>
 <a name="19"><span class="lineNum">      19 </span>            :   // Source message interface</a>
 <a name="20"><span class="lineNum">      20 </span>            : </a>
-<a name="21"><span class="lineNum">      21 </span><span class="lineCov">        240 :   output logic                   val,</span></a>
-<a name="22"><span class="lineNum">      22 </span><span class="lineCov">        576 :   input  logic                   rdy,</span></a>
+<a name="21"><span class="lineNum">      21 </span><span class="lineCov">        258 :   output logic                   val,</span></a>
+<a name="22"><span class="lineNum">      22 </span><span class="lineCov">        606 :   input  logic                   rdy,</span></a>
 <a name="23"><span class="lineNum">      23 </span><span class="lineCov">         36 :   output logic [p_msg_nbits-1:0] msg,</span></a>
 <a name="24"><span class="lineNum">      24 </span>            : </a>
 <a name="25"><span class="lineNum">      25 </span>            :   // Goes high once all source msgs has been issued</a>
 <a name="26"><span class="lineNum">      26 </span>            : </a>
-<a name="27"><span class="lineNum">      27 </span><span class="lineCov">        120 :   output logic                   done</span></a>
+<a name="27"><span class="lineNum">      27 </span><span class="lineCov">        129 :   output logic                   done</span></a>
 <a name="28"><span class="lineNum">      28 </span>            : );</a>
 <a name="29"><span class="lineNum">      29 </span>            : </a>
 <a name="30"><span class="lineNum">      30 </span>            :   //----------------------------------------------------------------------</a>
@@ -108,7 +108,7 @@
 <a name="46"><span class="lineNum">      46 </span>            : </a>
 <a name="47"><span class="lineNum">      47 </span>            :   // Index register pointing to next message to send</a>
 <a name="48"><span class="lineNum">      48 </span>            : </a>
-<a name="49"><span class="lineNum">      49 </span><span class="lineCov">        576 :   logic                     index_en;</span></a>
+<a name="49"><span class="lineNum">      49 </span><span class="lineCov">        606 :   logic                     index_en;</span></a>
 <a name="50"><span class="lineNum">      50 </span><span class="lineNoCov">          0 :   logic [c_index_nbits-1:0] index_next;</span></a>
 <a name="51"><span class="lineNum">      51 </span><span class="lineNoCov">          0 :   logic [c_index_nbits-1:0] index;</span></a>
 <a name="52"><span class="lineNum">      52 </span><span class="lineNoCov">          0 :   logic [c_index_nbits-1:0] index_max;</span></a>
@@ -124,25 +124,25 @@
 <a name="62"><span class="lineNum">      62 </span>            : </a>
 <a name="63"><span class="lineNum">      63 </span>            :   // Register reset</a>
 <a name="64"><span class="lineNum">      64 </span>            : </a>
-<a name="65"><span class="lineNum">      65 </span><span class="lineCov">        120 :   logic reset_reg;</span></a>
-<a name="66"><span class="lineNum">      66 </span><span class="lineCov">      30021 :   always_ff @( posedge clk )</span></a>
-<a name="67"><span class="lineNum">      67 </span><span class="lineCov">      30021 :     reset_reg &lt;= reset;</span></a>
+<a name="65"><span class="lineNum">      65 </span><span class="lineCov">        129 :   logic reset_reg;</span></a>
+<a name="66"><span class="lineNum">      66 </span><span class="lineCov">      64170 :   always_ff @( posedge clk )</span></a>
+<a name="67"><span class="lineNum">      67 </span><span class="lineCov">      64170 :     reset_reg &lt;= reset;</span></a>
 <a name="68"><span class="lineNum">      68 </span>            : </a>
 <a name="69"><span class="lineNum">      69 </span><span class="lineNoCov">          0 :   logic [31:0] data_data;</span></a>
 <a name="70"><span class="lineNum">      70 </span>            : </a>
-<a name="71"><span class="lineNum">      71 </span><span class="lineCov">        120 :   task load (integer file_load);</span></a>
-<a name="72"><span class="lineNum">      72 </span><span class="lineCov">        120 :   begin</span></a>
+<a name="71"><span class="lineNum">      71 </span><span class="lineCov">        129 :   task load (integer file_load);</span></a>
+<a name="72"><span class="lineNum">      72 </span><span class="lineCov">        129 :   begin</span></a>
 <a name="73"><span class="lineNum">      73 </span>            :     integer count;</a>
-<a name="74"><span class="lineNum">      74 </span><span class="lineCov">        120 :     index_max =0;</span></a>
-<a name="75"><span class="lineNum">      75 </span><span class="lineCov">        120 :     while (!$feof(file_load))begin</span></a>
-<a name="76"><span class="lineNum">      76 </span><span class="lineCov">        168 :       count=$fscanf(file_load, &quot;%x\n&quot;, data_data); </span></a>
-<a name="77"><span class="lineNum">      77 </span><span class="lineCov">        168 :       if( count ==0) break;</span></a>
+<a name="74"><span class="lineNum">      74 </span><span class="lineCov">        129 :     index_max =0;</span></a>
+<a name="75"><span class="lineNum">      75 </span><span class="lineCov">        129 :     while (!$feof(file_load))begin</span></a>
+<a name="76"><span class="lineNum">      76 </span><span class="lineCov">        174 :       count=$fscanf(file_load, &quot;%x\n&quot;, data_data); </span></a>
+<a name="77"><span class="lineNum">      77 </span><span class="lineCov">        174 :       if( count ==0) break;</span></a>
 <a name="78"><span class="lineNum">      78 </span>            :       </a>
 <a name="79"><span class="lineNum">      79 </span>            :       </a>
-<a name="80"><span class="lineNum">      80 </span><span class="lineCov">        168 :       $display(&quot;Loading %x&quot;,data_data);</span></a>
+<a name="80"><span class="lineNum">      80 </span><span class="lineCov">        174 :       $display(&quot;Loading %x&quot;,data_data);</span></a>
 <a name="81"><span class="lineNum">      81 </span>            :       </a>
-<a name="82"><span class="lineNum">      82 </span><span class="lineCov">        168 :       m[index_max]= data_data;</span></a>
-<a name="83"><span class="lineNum">      83 </span><span class="lineCov">        168 :       index_max =index_max +1;</span></a>
+<a name="82"><span class="lineNum">      82 </span><span class="lineCov">        174 :       m[index_max]= data_data;</span></a>
+<a name="83"><span class="lineNum">      83 </span><span class="lineCov">        174 :       index_max =index_max +1;</span></a>
 <a name="84"><span class="lineNum">      84 </span>            :       </a>
 <a name="85"><span class="lineNum">      85 </span>            :     end</a>
 <a name="86"><span class="lineNum">      86 </span>            : </a>
@@ -174,12 +174,12 @@
 <a name="112"><span class="lineNum">     112 </span>            :   //   end</a>
 <a name="113"><span class="lineNum">     113 </span>            :   // end</a>
 <a name="114"><span class="lineNum">     114 </span>            : </a>
-<a name="115"><span class="lineNum">     115 </span><span class="lineCov">        312 :   logic done_next;</span></a>
+<a name="115"><span class="lineNum">     115 </span><span class="lineCov">        327 :   logic done_next;</span></a>
 <a name="116"><span class="lineNum">     116 </span>            :   assign done_next =  ( index == ( index_max ) );</a>
 <a name="117"><span class="lineNum">     117 </span>            : </a>
-<a name="118"><span class="lineNum">     118 </span><span class="lineCov">      30021 :   always_ff @( posedge clk ) begin</span></a>
-<a name="119"><span class="lineNum">     119 </span><span class="lineCov">       1680 :     if(reset_reg) done &lt;=0;</span></a>
-<a name="120"><span class="lineNum">     120 </span><span class="lineCov">        288 :     if( val &amp;&amp; rdy ) done &lt;= done_next;</span></a>
+<a name="118"><span class="lineNum">     118 </span><span class="lineCov">      64170 :   always_ff @( posedge clk ) begin</span></a>
+<a name="119"><span class="lineNum">     119 </span><span class="lineCov">       1806 :     if(reset_reg) done &lt;=0;</span></a>
+<a name="120"><span class="lineNum">     120 </span><span class="lineCov">        303 :     if( val &amp;&amp; rdy ) done &lt;= done_next;</span></a>
 <a name="121"><span class="lineNum">     121 </span>            :   end</a>
 <a name="122"><span class="lineNum">     122 </span>            : </a>
 <a name="123"><span class="lineNum">     123 </span>            :   // Set the source message appropriately</a>
@@ -192,7 +192,7 @@
 <a name="130"><span class="lineNum">     130 </span>            : </a>
 <a name="131"><span class="lineNum">     131 </span>            :   // The go signal is high when a message is transferred</a>
 <a name="132"><span class="lineNum">     132 </span>            : </a>
-<a name="133"><span class="lineNum">     133 </span><span class="lineCov">        576 :   logic go;</span></a>
+<a name="133"><span class="lineNum">     133 </span><span class="lineCov">        606 :   logic go;</span></a>
 <a name="134"><span class="lineNum">     134 </span>            :   assign go = val &amp;&amp; rdy;</a>
 <a name="135"><span class="lineNum">     135 </span>            : </a>
 <a name="136"><span class="lineNum">     136 </span>            :   // We bump the index pointer every time we successfully send a message,</a>
@@ -205,8 +205,8 @@
 <a name="143"><span class="lineNum">     143 </span>            :   // Assertions</a>
 <a name="144"><span class="lineNum">     144 </span>            :   //----------------------------------------------------------------------</a>
 <a name="145"><span class="lineNum">     145 </span>            : </a>
-<a name="146"><span class="lineNum">     146 </span><span class="lineCov">      30021 :   always_ff @( posedge clk ) begin</span></a>
-<a name="147"><span class="lineNum">     147 </span><span class="lineCov">       1560 :     if ( !reset ) begin</span></a>
+<a name="146"><span class="lineNum">     146 </span><span class="lineCov">      64170 :   always_ff @( posedge clk ) begin</span></a>
+<a name="147"><span class="lineNum">     147 </span><span class="lineCov">       1677 :     if ( !reset ) begin</span></a>
 <a name="148"><span class="lineNum">     148 </span><span class="lineNoCov">          0 :       `VC_ASSERT_NOT_X( val );</span></a>
 <a name="149"><span class="lineNum">     149 </span><span class="lineNoCov">          0 :       `VC_ASSERT_NOT_X( rdy );</span></a>
 <a name="150"><span class="lineNum">     150 </span>            :     end</a>

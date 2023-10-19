@@ -200,4 +200,5 @@ __Question1: What is benchmark and microbenchmark? (.hex machine code?)__
 __Question2: What should be write in both of them?__
 
 
+random, delay, unit, directed
 

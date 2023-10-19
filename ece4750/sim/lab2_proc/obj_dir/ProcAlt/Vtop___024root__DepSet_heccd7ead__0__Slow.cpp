@@ -347,7 +347,7 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset_0(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__DUT__DOT__imem_respstream_drop_rdy = VL_RAND_RESET_I(1);
     VL_RAND_RESET_W(77, vlSelf->top__DOT__DUT__DOT__dmem_reqstream_enq_msg);
     vlSelf->top__DOT__DUT__DOT__dmem_reqstream_enq_val = VL_RAND_RESET_I(1);
-    vlSelf->top__DOT__DUT__DOT__dmem_reqstream_enq_msg_type = VL_RAND_RESET_I(3);
+    vlSelf->top__DOT__DUT__DOT__dmem_reqstream_enq_msg_type = VL_RAND_RESET_I(1);
     VL_RAND_RESET_W(77, vlSelf->top__DOT__DUT__DOT____Vcellout__dmem_queue__deq_msg);
     vlSelf->top__DOT__DUT__DOT__proc2mngr_enq_val = VL_RAND_RESET_I(1);
     vlSelf->top__DOT__DUT__DOT__IntMulAlt_reqstream_msg = VL_RAND_RESET_Q(64);
@@ -388,7 +388,7 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset_0(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__DUT__DOT____Vtogcov__dmem_queue_num_free_entries = VL_RAND_RESET_I(1);
     VL_RAND_RESET_W(77, vlSelf->top__DOT__DUT__DOT____Vtogcov__dmem_reqstream_enq_msg);
     vlSelf->top__DOT__DUT__DOT____Vtogcov__dmem_reqstream_enq_val = VL_RAND_RESET_I(1);
-    vlSelf->top__DOT__DUT__DOT____Vtogcov__dmem_reqstream_enq_msg_type = VL_RAND_RESET_I(3);
+    vlSelf->top__DOT__DUT__DOT____Vtogcov__dmem_reqstream_enq_msg_type = VL_RAND_RESET_I(1);
     vlSelf->top__DOT__DUT__DOT____Vtogcov__dmem_reqstream_enq_msg_addr = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__DUT__DOT____Vtogcov__dmem_reqstream_enq_msg_data = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__DUT__DOT____Vtogcov__proc2mngr_queue_num_free_entries = VL_RAND_RESET_I(1);

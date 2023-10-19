@@ -87,10 +87,10 @@
         
         module vc_MemReqMsg4BTrace
         (
- 360972   input logic         clk,
- 000720   input logic         reset,
- 048332   input logic         val,
- 062906   input logic         rdy,
+ 770814   input logic         clk,
+ 000774   input logic         reset,
+ 097018   input logic         val,
+ 138266   input logic         rdy,
 %000000   input mem_req_4B_t  msg
         );
         
@@ -98,7 +98,7 @@
           assign type_  = msg.type_;
 %000000   logic [7:0]   opaque;
           assign opaque = msg.opaque;
- 000656   logic [31:0]  addr;
+ 003064   logic [31:0]  addr;
           assign addr   = msg.addr;
 %000000   logic [1:0]   len;
           assign len    = msg.len;
@@ -309,10 +309,10 @@
         
         module vc_MemRespMsg4BTrace
         (
- 360972   input logic          clk,
- 000720   input logic          reset,
- 049385   input logic          val,
- 054613   input logic          rdy,
+ 770814   input logic          clk,
+ 000774   input logic          reset,
+ 100374   input logic          val,
+ 109380   input logic          rdy,
 %000000   input mem_resp_4B_t  msg
         );
         
@@ -325,7 +325,7 @@
           assign test   = msg.test;
 %000000   logic [1:0]   len;
           assign len    = msg.len;
- 002627   logic [31:0]  data;
+ 002731   logic [31:0]  data;
           assign data   = msg.data;
         
           // Short names
