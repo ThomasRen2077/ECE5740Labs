@@ -1,4 +1,4 @@
-csrr x1, mngr2proc < -5
+csrr x1, mngr2proc < 0x7FFFFF00  # A large but not maximum 32-bit value
 nop
 nop
 nop
@@ -7,7 +7,7 @@ nop
 nop
 nop
 nop
-addi x2, x1, -3
+addi x2, x1, 0x00000050  # Adding a relatively small value to the large value
 nop
 nop
 nop
@@ -16,7 +16,7 @@ nop
 nop
 nop
 nop
-csrw proc2mngr, x2 > -8
+csrw proc2mngr, x2 > 0x7FFFFF50  # Resulting value after the addition
 nop
 nop
 nop

@@ -1,4 +1,9 @@
 _start:
+# Initialize loop counter in x31
+addi x31, x0,  0
+
+loop_start:
+
 # Initialize values using csrr
 lui x1, 0x10  # Load 65536 into x1
 lui x2, 0x20  # Load 131072 into x2
@@ -34,6 +39,9 @@ beq x5, x6, skip_waw_failure
 csrw proc2mngr, x0 > 1 # Fail, should not reach here
 skip_waw_failure:
 
-# If we have reached this point, the processor has passed all hazard tests
+addi x31, x31, 1
+addi x7, x0, 100
+bne x31, x7, loop_start
+# If we have reached this point, the processor has passed all hazard tests 100 times
 addi x30, x0, 1
 csrw proc2mngr, x30 > 1 # Pass, should reach here with x30 = 1

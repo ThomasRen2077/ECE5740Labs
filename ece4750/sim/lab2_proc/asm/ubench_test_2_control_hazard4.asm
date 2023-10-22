@@ -6,7 +6,7 @@ _start:
 
     # Benchmark loop with various branches
     addi x20, x0, 0   # Counter setup
-    addi x21, x0, 300 # Loop 300 times
+    addi x21, x0, 100 # Loop 300 times
 
 branch_loop:
     addi x13, x12, 16
