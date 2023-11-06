@@ -34,11 +34,11 @@ module lab3_cache_CacheBaseCtrl
   output logic        tarray_wen,
   output logic        z6b_sel,
   output logic        darray_write_mux_sel,
-  output logic        reg_en_M1,
+  // output logic        reg_en_M1,
   output logic        darray_wen,
   output logic        write_en_sel,
-  output logic        parallel_read_sel,
-  output logic        parallel_write_sel,
+  // output logic        parallel_read_sel,
+  // output logic        parallel_write_sel,
   output logic        spill_one_word_done,
   output logic        refill_one_word_req_sent,
   output logic        refill_one_word_resp_received,
@@ -71,7 +71,7 @@ module lab3_cache_CacheBaseCtrl
   ostall_Y = !input_go;
 
   logic stall_Y;
-  stall_Y = ostall_Y || ostall_M0 || ostall_M1;
+  stall_Y = ostall_Y || ostall_M0;
 
 //--------------------------------------------------------------------
 // M0 stage
@@ -79,8 +79,8 @@ module lab3_cache_CacheBaseCtrl
 
   assign reg_en_M0 = !stall_Y; 
 
-  logic word_en_sel_M0;
-  logic darray_wen_M0;
+  // logic word_en_sel_M0;
+  // logic darray_wen_M0;
   
 
   //----------------------------------------------------------------------
@@ -106,9 +106,9 @@ module lab3_cache_CacheBaseCtrl
         always_comb begin
             state_next = state_reg;                                                             // State Remain Itself.
             case ( state_reg )
-                STATE_PIPE:     if (tarray_match == 1b'0 && dirty_array[index_M1])                
+                STATE_PIPE:     if (tarray_match == 1b'0 && current_dirty)                
                                     state_next = STATE_SPILL;                                   // If Miss and the Victim is Dirty.
-                                else if(tarray_match == 1b'0 && !dirty_array[index_M1])           
+                                else if(tarray_match == 1b'0 && !current_dirty)           
                                     state_next = STATE_REFILL;                                  // If Miss and the Victim is Clean.
                 STATE_SPILL:    if (spill_done)                                                   
                                     state_next = STATE_REFILL;                                  // SPILL State Ends.
@@ -128,18 +128,20 @@ module lab3_cache_CacheBaseCtrl
                 tarray_en = 1b'1;            
                 tarray_wen = 1b'0;
                 z6b_sel = 1b'0;
+                darray_write_mux_sel = 1'b0;
+
                 cache_req_val = 1b'0;
                 cache_req_type = 1b'0;
                 Spill_or_Refill_sel = 1b'x;
 
                 if (memreq_type == 1b'0) begin                                                      // READ HIT
-                    word_en_sel_M0 = 1b'0; 
-                    darray_wen_M0 = 1b'0;
+                    word_en_sel = 1b'0; 
+                    darray_wen = 1b'0;
                 end
                 else begin                                                                         // WRITE HIT
 
-                    word_en_sel_M0 = 1b'1;
-                    darray_wen_M0 = 1b'1;
+                    word_en_sel = 1b'1;
+                    darray_wen = 1b'1;
                 end
 
             end
@@ -198,7 +200,7 @@ module lab3_cache_CacheBaseCtrl
     end
 
     logic stall_M0;
-    stall_M0 = ostall_M0 || ostall_M1;
+    stall_M0 = ostall_M0;
 
     assign memreq_rdy = !stall_M0;
 
@@ -208,18 +210,18 @@ module lab3_cache_CacheBaseCtrl
 //--------------------------------------------------------------------
 // M1 stage
 //--------------------------------------------------------------------
-assign reg_en_M1 = !stall_M0; 
+// assign reg_en_M1 = !stall_M0; 
 
 // Receive Signal Forwarded from M0 stage
-always_ff @( posedge clk )
-  if ( reset ) begin
-    word_en_sel <= 0;
-    darray_wen <= 0;
-  end
-  else if ( reg_en_M1 ) begin
-    word_en_sel <= word_en_sel_M0;
-    darray_wen <= darray_wen_M0;
-  end
+// always_ff @( posedge clk )
+//   if ( reset ) begin
+//     word_en_sel <= 0;
+//     darray_wen <= 0;
+//   end
+//   else if ( reg_en_M1 ) begin
+//     word_en_sel <= word_en_sel_M0;
+//     darray_wen <= darray_wen_M0;
+//   end
 
 
   always_comb begin
@@ -235,12 +237,12 @@ always_ff @( posedge clk )
     end
   end
 
-  // Possible Stall Signal
-  logic ostall_M1;
-  assign ostall_M1 = !memresp_rdy;
+  // // Possible Stall Signal
+  // logic ostall_M1;
+  // assign ostall_M1 = !memresp_rdy;
 
-  logic stall_M1;
-  assign stall_M1 = ostall_M1;
+  // logic stall_M1;
+  // assign stall_M1 = ostall_M1;
 
 endmodule
 
