@@ -106,9 +106,9 @@ module lab3_cache_CacheBaseCtrl
         always_comb begin
             state_next = state_reg;                                                             // State Remain Itself.
             case ( state_reg )
-                STATE_PIPE:     if (tarray_match == 1b'0 && dirty_array[index_M1])                
+                STATE_PIPE:     if (tarray_match == 1'b0 && dirty_array[index_M1])                
                                     state_next = STATE_SPILL;                                   // If Miss and the Victim is Dirty.
-                                else if(tarray_match == 1b'0 && !dirty_array[index_M1])           
+                                else if(tarray_match == 1'b0 && !dirty_array[index_M1])           
                                     state_next = STATE_REFILL;                                  // If Miss and the Victim is Clean.
                 STATE_SPILL:    if (spill_done)                                                   
                                     state_next = STATE_REFILL;                                  // SPILL State Ends.
@@ -125,35 +125,35 @@ module lab3_cache_CacheBaseCtrl
         always_comb begin
             if( state_reg == STATE_PIPE) begin
 
-                tarray_en = 1b'1;            
-                tarray_wen = 1b'0;
-                z6b_sel = 1b'0;
-                word_en_sel = 1'b0;
+                tarray_en = 1'b1;            
+                tarray_wen = 1'b0;
+                z6b_sel = 1'b0;
+                darray_write_mux_sel = 1'b0;
 
-                cache_req_val = 1b'0;
-                cache_req_type = 1b'0;
-                Spill_or_Refill_sel = 1b'x;
+                cache_req_val = 1'b0;
+                cache_req_type = 1'b0;
+                Spill_or_Refill_sel = 1'bx;
 
-                if (memreq_type == 1b'0) begin                                                      // READ HIT
-                    word_en_sel_M0 = 1b'0; 
-                    darray_wen_M0 = 1b'0;
+                if (memreq_type == 1'b0) begin                                                      // READ HIT
+                    word_en_sel_M0 = 1'b0; 
+                    darray_wen_M0 = 1'b0;
                 end
                 else begin                                                                         // WRITE HIT
 
-                    word_en_sel_M0 = 1b'1;
-                    darray_wen_M0 = 1b'1;
+                    word_en_sel_M0 = 1'b1;
+                    darray_wen_M0 = 1'b1;
                 end
 
             end
 
             else if (state_reg == STATE_SPILL) begin
 
-                tarray_en = 1b'0;
-                tarray_wen = 1b'0;
-                z6b_sel = 1b'1;
-                cache_req_val = 1b'1;
-                cache_req_type = 1b'1;
-                Spill_or_Refill_sel = 1b'0;
+                tarray_en = 1'b0;
+                tarray_wen = 1'b0;
+                z6b_sel = 1'b1;
+                cache_req_val = 1'b1;
+                cache_req_type = 1'b1;
+                Spill_or_Refill_sel = 1'b0;
 
 
                 if(cache_req_val && cache_req_rdy)  
@@ -165,12 +165,12 @@ module lab3_cache_CacheBaseCtrl
 
             else begin
 
-                tarray_en = 1b'0;
-                tarray_wen = 1b'1;
-                z6b_sel = 1b'1;
-                cache_req_val = 1b'1;
-                cache_req_type = 1b'0;
-                Spill_or_Refill_sel = 1b'1;
+                tarray_en = 1'b0;
+                tarray_wen = 1'b1;
+                z6b_sel = 1'b1;
+                cache_req_val = 1'b1;
+                cache_req_type = 1'b0;
+                Spill_or_Refill_sel = 1'b1;
 
                 if(cache_req_val && cache_req_rdy)  
                   refill_one_word_req_sent = 1'b1;
@@ -226,14 +226,14 @@ always_ff @( posedge clk )
 
   always_comb begin
     if (tarray_match) begin
-      parallel_read_sel = 1b'0;
-      parallel_write_sel = 1b'0;
-      memresp_val = 1b'1;
+      parallel_read_sel = 1'b0;
+      parallel_write_sel = 1'b0;
+      memresp_val = 1'b1;
     end
     else begin
-      // parallel_read_sel = 1b'1;
-      // parallel_write_sel = 1b'1;
-      // memresp_val = 1b'0;
+      // parallel_read_sel = 1'b1;
+      // parallel_write_sel = 1'b1;
+      // memresp_val = 1'b0;
     end
   end
 
