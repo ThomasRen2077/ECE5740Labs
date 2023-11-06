@@ -39,6 +39,7 @@ module lab3_cache_CacheBaseDpath
   input  logic         spill_one_word_done,
   input  logic         refill_one_word_req_sent,
   input  logic         refill_one_word_resp_received,
+  input  logic         Spill_or_Refill_sel,
 
 
   // status signals
@@ -110,6 +111,7 @@ module lab3_cache_CacheBaseDpath
   end
 
   always_ff @(posedge clk) begin
+    if(reset) 
     tag_array[index_M0] <= tag_array[index_M0];
 
     if(tarray_wen) begin
@@ -385,7 +387,7 @@ module lab3_cache_CacheBaseDpath
   (
     .in0  (spill_addr),
     .in1  (refill_addr),
-    .sel  (),
+    .sel  (Spill_or_Refill_sel),
     .out  (cache_req_msg_addr)
   );
 
