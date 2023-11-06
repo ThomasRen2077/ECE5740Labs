@@ -35,6 +35,7 @@ module lab3_cache_CacheBaseDpath
   input  logic         darray_wen,
   input  logic         write_en_sel,
   input  logic         parallel_read_sel,
+  input  logic         parallel_write_sel,
   // status signals
   output logic         tarray_match,
 
@@ -114,6 +115,16 @@ logic [31:0] cache_request_data_M0;
     end
   end
 
+  always_comb begin
+    if(darray_wen && word_en_sel) begin
+      dirty_array[index2] = 1b'1;
+    end
+    else begin 
+      dirty_array[index2] = 1b'0;
+    end
+  end
+
+
   // always_ff @(tarray_wen) begin
   //   tag_array[index] <= tag;
   // end
@@ -144,6 +155,7 @@ logic [31:0] cache_request_data_M0;
   logic [31:0]  cache_request_addr_M1;
   logic [511:0] cache_request_data_M1;
   logic [31:0]  bypass_output;
+  logic [511:0] bypass_output2;
 
   vc_EnResetReg#(32, c_reset_vector - 32'd4) cache_request_addr_reg_M1
     (
@@ -169,6 +181,14 @@ vc_Mux2#(32) bypass_mux
       .in1  (cache_request_addr_M1),
       .sel  (parallel_read_sel),
       .out  (bypass_output)
+    );
+
+vc_Mux2#(32) bypass_mux2
+    (
+      .in0  (write_data),
+      .in1  (cache_request_data_M1),
+      .sel  (parallel_write_sel),
+      .out  (bypass_output2)
     );
 
 
@@ -252,12 +272,12 @@ module lab3_cache_CacheBaseCtrl
   // Cache to Memory
   output logic        cache_req_val,                         // Request Message to Data cache Valid Signal         
   input  logic        cache_req_rdy,                         // Cache Ready Signal
-  input  logic        cache_req_type,                        // Data Operation Type of Cache Request Message
+  output logic        cache_req_type,                        // Data Operation Type of Cache Request Message
 
 
   input  logic        cache_resp_val,                        // Cache Response Message Valid Signal
   output logic        cache_resp_rdy,                        // Processor Ready to Receive Cache Signal
-  output logic        cache_resp_type,                       // Data Operation Type of Cache Request Message
+  input  logic        cache_resp_type,                       // Data Operation Type of Cache Request Message
 
   // Control Signals
   output logic        reg_en_M0,
@@ -267,7 +287,9 @@ module lab3_cache_CacheBaseCtrl
   output logic        darray_write_mux_sel,
   output logic        reg_en_M1,
   output logic        darray_wen,
+  output logic        write_en_sel,
   output logic        parallel_read_sel,
+  output logic        parallel_write_sel,
 
   // Status signals
   input  logic        tarray_match,
@@ -275,6 +297,8 @@ module lab3_cache_CacheBaseCtrl
   // Extra Signal
   output logic        flush_done
 );
+
+
 
 //--------------------------------------------------------------------
 // Y stage
@@ -295,6 +319,11 @@ module lab3_cache_CacheBaseCtrl
 //--------------------------------------------------------------------
 
   assign reg_en_M0 = !stall_Y; 
+  assign memreq_rdy = !stall_M0;
+
+  logic word_en_sel_M0;
+  logic darray_wen_M0;
+   
 
   //----------------------------------------------------------------------
   // State
@@ -315,6 +344,7 @@ module lab3_cache_CacheBaseCtrl
   end
 
 
+
   always_comb begin
 
     state_next = state_reg;
@@ -329,6 +359,7 @@ module lab3_cache_CacheBaseCtrl
     endcase
 
     end
+ 
 
  //----------------------------------------------------------------------
   // State Outputs
@@ -337,13 +368,28 @@ module lab3_cache_CacheBaseCtrl
       if( state_reg == STATE_PIPE) begin 
         tarray_en = 1b'1;            
         tarray_wen = 1b'0;
+
         if(tarray_match) begin
-          z6b_sel = 1b'0;
+          z6b_sel = 1b'x;
         end
         else begin
-          tarray_wen = 1b'1;
-          z6b_sel = 1b'1;
+          // tarray_wen = 1b'1;
+          // z6b_sel = 1b'1;
         end
+
+        // darray_wen_sel
+        if (memreq_type == 1b'0 && tarray_match) begin
+          word_en_sel_M0 = 1b'0; 
+          darray_wen_M0 = 1b'0;
+        end
+        else if (memreq_type == 1b'1 && tarray_match) begin
+          word_en_sel_M0 = 1b'1;
+          darray_wen_M0 = 1b'1;
+        end
+        else begin
+          // darray_wen_M0 = 1b'1;
+        end
+
       end
       else if (state_reg == STATE_R0) begin
       end
@@ -356,6 +402,31 @@ module lab3_cache_CacheBaseCtrl
 // M1 stage
 //--------------------------------------------------------------------
 assign reg_en_M1 = !stall_M0; 
+
+// Receive Signal Forwarded from M0 stage
+always_ff @( posedge clk )
+  if ( reset ) begin
+    word_en_sel <= 0;
+    darray_wen <= 0;
+  end
+  else if ( reg_en_M1 ) begin
+    word_en_sel <= word_en_sel_M0;
+    darray_wen <= darray_wen_M0;
+  end
+
+
+  always_comb begin
+    if (tarray_match) begin
+      parallel_read_sel = 1b'0;
+      parallel_write_sel = 1b'0;
+      memresp_val = 1b'1;
+    end
+    else begin
+      // parallel_read_sel = 1b'1;
+      // parallel_write_sel = 1b'1;
+      // memresp_val = 1b'0;
+    end
+  end
 
 
 endmodule
@@ -397,8 +468,51 @@ module lab3_cache_CacheBase
 endmodule
 
 // Control Signals
+ logic        reg_en_M0;
+ logic        tarray_en;
+ logic        tarray_wen;
+ logic        z6b_sel;
+ logic        darray_write_mux_sel;
+ logic        reg_en_M1;
+ logic        darray_wen;
+ logic        parallel_read_sel;
+
+  // Status signals
+ logic        tarray_match;
+
+ 
+ logic [31:0]  memreq_msg_addr;              
+ logic [31:0]  memreq_msg_data;            
+ logic [31:0]  memresp_msg_data;
+
+ logic [31:0]  cache_req_msg_addr;            
+ logic [31:0]  cache_req_msg_data;               
+ logic [31:0]  cache_resp_msg_data; 
+
+ logic memreq_type;
+ logic memresp_type;
+ logic cache_req_type;
+ logic cache_resp_type;
+
+
+ assign memreq_msg_addr = memreq_msg.addr;
+ assign memreq_msg_data = memreq_msg.data;
+ assign memresp_msg_data = memresp_msg.data;
+
+ assign cache_req_msg_addr = cache_req_msg.addr;
+ assign cache_req_msg_data = cache_req_msg.data;
+ assign cache_resp_msg_data = cache_resp_msg.data;
+
+ assign memreq_type = memreq_msg.type_[0];
+ assign memresp_type = memresp_msg.type_[0];
+ assign cache_req_type = cache_req_msg.type_[0];
+ assign cache_resp_type = cache_resp_msg.type_[0];
 
 // Instantiate and connect datapath
+lab3_cache_CacheBaseDpath dpath
+(
+  .*
+);
 
 // Instantiate and connect control unit
   lab3_cache_CacheBaseCtrl ctrl 
@@ -406,12 +520,5 @@ endmodule
   .*
 );
 
-assign cache_req_val = memreq_val;
-assign memreq_rdy = cache_req_rdy;
-assign cache_req_msg = memreq_msg;
-
-assign memresp_val = cache_resp_val;
-assign cache_resp_rdy = memresp_rdy;
-assign memresp_msg = cache_resp_msg;
 
 `endif /* LAB3_CACHE_CACHE_BASE_V */
