@@ -35,25 +35,32 @@ module lab3_cache_CacheBaseDpath
   input  logic         darray_wen,
   input  logic         write_en_sel,
   input  logic         parallel_read_sel,
+
   // status signals
   output logic         tarray_match,
+  output logic         spill_done,
+  output logic         refill_done,
 
   // extra signal
   input  logic         flush
 );
 
+
+
+
 //--------------------------------------------------------------------
 // Y stage
 //--------------------------------------------------------------------
-localparam c_reset_vector = 32'h200; 
 
 
 
 //--------------------------------------------------------------------
 // M0 stage
 //--------------------------------------------------------------------
-logic [31:0] cache_request_addr_M0;
-logic [31:0] cache_request_data_M0;
+
+  localparam c_reset_vector = 32'h200; 
+  logic [31:0] cache_request_addr_M0;
+  logic [31:0] cache_request_data_M0;
 
   vc_EnResetReg#(32, c_reset_vector - 32'd4) cache_request_addr_reg_M0
     (
@@ -105,18 +112,18 @@ logic [31:0] cache_request_data_M0;
     end
   end
 
-  always_comb begin
-    if(tarray_wen) begin
-      tag_array[index] = tag;
-    end
-    else begin
-      tag_array[index] = tag_array[index];
-    end
-  end
-
-  // always_ff @(tarray_wen) begin
-  //   tag_array[index] <= tag;
+  // always_comb begin
+  //   if(tarray_wen) begin
+  //     tag_array[index] = tag;
+  //   end
+  //   else begin
+  //     tag_array[index] = tag_array[index];
+  //   end
   // end
+
+  always_ff @(tarray_wen) begin
+    tag_array[index] <= tag;
+  end
   
 
   assign cache_req_msg_data = cache_request_data_M0;
@@ -178,11 +185,13 @@ vc_Mux2#(32) bypass_mux
   logic [4:0]  index2;
   assign offset2 = bypass_output[5:2];
   assign index2 =  bypass_output[10:6];
-  assign offset_write = 1 << offset2;             // This creates a mask with a '1' at the desired offset
+
+  // This creates a one-hot code with a '1' at the desired offset
+  assign offset_write = 16'b1 << offset2;         
 
   vc_Mux2#(32) word_en_mux
     (
-      .in0  (16'b1111111111111111),
+      .in0  (16'hFFFF),
       .in1  (offset_write),
       .sel  (write_en_sel),
       .out  (write_word_enable)
@@ -194,13 +203,68 @@ vc_Mux2#(32) bypass_mux
   logic [511:0] data_array [0:31];
   logic [511:0] data_array_output;
 
-  always_comb begin
-    if(write_word_enable == 16'b1111111111111111) begin
-      data_array[index2] = cache_request_data_M1;
-    end
-    else begin
-      data_array[index2][(32 * offset2 + 31) : (32 * offset2)] = cache_request_data_M1[(32 * offset2 + 31) : (32 * offset2)];
-    end
+  always_ff@(write_word_enable[0] && darray_wen) begin
+    data_array[index2][31:0] <= cache_request_data_M1[31:0];
+  end
+
+  always_ff@(write_word_enable[1] && darray_wen ) begin
+    data_array[index2][63:32] <= cache_request_data_M1[63:32];
+  end
+
+  always_ff@(write_word_enable[2] && darray_wen ) begin
+    data_array[index2][95:64] <= cache_request_data_M1[95:64];
+  end
+
+  always_ff@(write_word_enable[3] && darray_wen ) begin
+    data_array[index2][127:96] <= cache_request_data_M1[127:96];
+  end
+
+  always_ff@(write_word_enable[4] && darray_wen) begin
+    data_array[index2][159:128] <= cache_request_data_M1[159:128];
+  end
+
+  always_ff@(write_word_enable[5] && darray_wen ) begin
+    data_array[index2][191:160] <= cache_request_data_M1[191:160];
+  end
+
+  always_ff@(write_word_enable[6] && darray_wen ) begin
+    data_array[index2][223:192] <= cache_request_data_M1[223:192];
+  end
+
+  always_ff@(write_word_enable[7] && darray_wen ) begin
+    data_array[index2][255:224] <= cache_request_data_M1[255:224];
+  end
+
+  always_ff@(write_word_enable[8] && darray_wen) begin
+    data_array[index2][287:256] <= cache_request_data_M1[287:256];
+  end
+
+  always_ff@(write_word_enable[9] && darray_wen ) begin
+    data_array[index2][319:288] <= cache_request_data_M1[319:288];
+  end
+
+  always_ff@(write_word_enable[10] && darray_wen ) begin
+    data_array[index2][351:320] <= cache_request_data_M1[351:320];
+  end
+
+  always_ff@(write_word_enable[11] && darray_wen ) begin
+    data_array[index2][383:352] <= cache_request_data_M1[383:352];
+  end
+
+  always_ff@(write_word_enable[12] && darray_wen) begin
+    data_array[index2][415:384] <= cache_request_data_M1[415:384];
+  end
+
+  always_ff@(write_word_enable[13] && darray_wen ) begin
+    data_array[index2][447:416] <= cache_request_data_M1[447:416];
+  end
+
+  always_ff@(write_word_enable[14] && darray_wen ) begin
+    data_array[index2][479:448] <= cache_request_data_M1[479:448];
+  end
+
+  always_ff@(write_word_enable[15] && darray_wen ) begin
+    data_array[index2][511:480] <= cache_request_data_M1[511:480];
   end
 
 
@@ -271,6 +335,9 @@ module lab3_cache_CacheBaseCtrl
 
   // Status signals
   input  logic        tarray_match,
+  output logic        spill_done,
+  output logic        refill_done,
+
 
   // Extra Signal
   output logic        flush_done
@@ -301,8 +368,8 @@ module lab3_cache_CacheBaseCtrl
   //----------------------------------------------------------------------
 
   localparam STATE_PIPE = 2'd0;
-  localparam STATE_R0 = 2'd1;
-  localparam STATE_R1 = 2'd2;
+  localparam STATE_SPILL = 2'd1;
+  localparam STATE_REFILL = 2'd2;
 
   logic [1:0] state_reg;
   logic [1:0] state_next;
@@ -316,15 +383,13 @@ module lab3_cache_CacheBaseCtrl
 
 
   always_comb begin
-
     state_next = state_reg;
 
     case ( state_reg )
-
-      STATE_PIPE: if ( tarray_match == 1b'0)  state_next = STATE_R0
-      STATE_R0:   if ( mem_msg_done)          state_next = STATE_R1;
-      STATE_R1:                               state_next = STATE_PIPE;
-      default:                                state_next = 'x;
+      STATE_PIPE:     if ( tarray_match == 1b'0)  state_next = STATE_SPILL;
+      STATE_SPILL:    if ( mem_msg_done)          state_next = STATE_REFILL;
+      STATE_REFILL:                               state_next = STATE_PIPE;
+      default:                                    state_next = 'x;
 
     endcase
 
