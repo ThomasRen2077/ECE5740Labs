@@ -127,6 +127,8 @@ module lab3_cache_CacheBaseCtrl
                 tarray_en = 1b'1;            
                 tarray_wen = 1b'0;
                 z6b_sel = 1b'0;
+                word_en_sel = 1'b0;
+
                 cache_req_val = 1b'0;
                 cache_req_type = 1b'0;
 
