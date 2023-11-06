@@ -40,8 +40,9 @@ module lab3_cache_CacheBaseCtrl
   output logic        parallel_read_sel,
   output logic        parallel_write_sel,
   output logic        spill_one_word_done,
-  output  logic       refill_one_word_req_sent,
-  output  logic       refill_one_word_resp_received,
+  output logic        refill_one_word_req_sent,
+  output logic        refill_one_word_resp_received,
+  output logic        Spill_or_Refill_sel,
 
 
   // Status signals
@@ -111,7 +112,7 @@ module lab3_cache_CacheBaseCtrl
                                     state_next = STATE_REFILL;                                  // If Miss and the Victim is Clean.
                 STATE_SPILL:    if (spill_done)                                                   
                                     state_next = STATE_REFILL;                                  // SPILL State Ends.
-                STATE_REFILL:   if (refill_done)                                                  
+                STATE_REFILL:   if (refill_resp_done)                                                  
                                     state_next = STATE_PIPE;                                    // REFILL State Ends.
                 default:        state_next = 'x;                                                // Unknown State.
             endcase
@@ -129,7 +130,7 @@ module lab3_cache_CacheBaseCtrl
                 z6b_sel = 1b'0;
                 cache_req_val = 1b'0;
                 cache_req_type = 1b'0;
-
+                Spill_or_Refill_sel = 1b'x;
 
                 if (memreq_type == 1b'0) begin                                                      // READ HIT
                     word_en_sel_M0 = 1b'0; 
@@ -150,6 +151,7 @@ module lab3_cache_CacheBaseCtrl
                 z6b_sel = 1b'1;
                 cache_req_val = 1b'1;
                 cache_req_type = 1b'1;
+                Spill_or_Refill_sel = 1b'0;
 
 
                 if(cache_req_val && cache_req_rdy)  
@@ -166,6 +168,7 @@ module lab3_cache_CacheBaseCtrl
                 z6b_sel = 1b'1;
                 cache_req_val = 1b'1;
                 cache_req_type = 1b'0;
+                Spill_or_Refill_sel = 1b'1;
 
                 if(cache_req_val && cache_req_rdy)  
                   refill_one_word_req_sent = 1'b1;
