@@ -65,10 +65,10 @@ module lab3_cache_CacheBaseCtrl
   assign input_go = memreq_val && memreq_rdy;
 
   logic ostall_Y;
-  ostall_Y = !input_go;
+  assign ostall_Y = !input_go;
 
   logic stall_Y;
-  stall_Y = ostall_Y || ostall_M0;
+  assign stall_Y = ostall_Y || ostall_M0;
 
 //--------------------------------------------------------------------
 // M0 stage
@@ -100,17 +100,15 @@ module lab3_cache_CacheBaseCtrl
         always_comb begin
             state_next = state_reg;                                                             // State Remain Itself.
             case ( state_reg )
-                STATE_PIPE:     if (tarray_match == 1b'0 && current_dirty)                
-                STATE_PIPE:     if (tarray_match == 1'b0 && dirty_array[index_M1])                
+                STATE_PIPE:     if (tarray_match == 1'b0 && current_dirty)                
                                     state_next = STATE_SPILL;                                   // If Miss and the Victim is Dirty.
-                                else if(tarray_match == 1b'0 && !current_dirty)           
-                                else if(tarray_match == 1'b0 && !dirty_array[index_M1])           
+                                else if(tarray_match == 1'b0 && !current_dirty)           
                                     state_next = STATE_REFILL;                                  // If Miss and the Victim is Clean.
                 STATE_SPILL:    if (spill_done)                                                   
                                     state_next = STATE_REFILL;                                  // SPILL State Ends.
                 STATE_REFILL:   if (refill_resp_done)                                                  
                                     state_next = STATE_PIPE;                                    // REFILL State Ends.
-                default:        state_next = 'x;                                                // Unknown State.
+                default:        state_next = 2'bx;                                              // Unknown State.
             endcase
         end
  
@@ -137,12 +135,12 @@ module lab3_cache_CacheBaseCtrl
                 
 
                 if (memreq_type == 1'b0) begin                                                      // READ HIT
-                    word_en_sel = 1'b0; 
+                    write_en_sel = 1'b0; 
                     darray_wen = 1'b0;
                 end
                 else begin                                                                         // WRITE HIT
 
-                    word_en_sel = 1'b1;
+                    write_en_sel = 1'b1;
                     darray_wen = 1'b1;
                 end
 
@@ -154,7 +152,6 @@ module lab3_cache_CacheBaseCtrl
                 end
 
             end
-
             else if (state_reg == STATE_SPILL) begin
 
                 tarray_en = 1'b0;
@@ -174,7 +171,7 @@ module lab3_cache_CacheBaseCtrl
                 else                                
                   spill_one_word_done = 1'b0;
 
-                word_en_sel = 1'b0; 
+                write_en_sel = 1'b0; 
                 darray_wen = 1'b0;
                 memresp_val = 1'b0;
                 
@@ -205,7 +202,7 @@ module lab3_cache_CacheBaseCtrl
                 cache_req_type = 1'b0;
                 Spill_or_Refill_sel = 1'b1;
 
-                if(cache_req=_val && cache_req_rdy)  
+                if(cache_req_val && cache_req_rdy)  
                   refill_one_word_req_sent = 1'b1;
                 else                                
                   refill_one_word_req_sent = 1'b0;
@@ -218,7 +215,7 @@ module lab3_cache_CacheBaseCtrl
 
                 spill_one_word_done = 1'b0;
 
-                word_en_sel = 1'b0; 
+                write_en_sel = 1'b0; 
 
                 if(refill_resp_done) begin
                   darray_wen = 1'b1;
@@ -247,7 +244,7 @@ module lab3_cache_CacheBaseCtrl
     end
 
     assign ostall_notrdy = !memresp_rdy;
-    assign stall_M0 = ostall_M0 || ostall_notrdy
+    assign stall_M0 = ostall_M0 || ostall_notrdy;
 
     assign memreq_rdy = !stall_M0;
 

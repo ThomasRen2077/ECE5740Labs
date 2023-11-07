@@ -47,7 +47,7 @@ module lab3_cache_CacheBaseDpath
   output logic         refill_resp_done,
 
   // extra signal
-  input  logic         flush,
+  input  logic         flush
 );
 
 
@@ -137,7 +137,7 @@ module lab3_cache_CacheBaseDpath
   // Get Spill Address
   logic [31:0] spill_initial_addr;
   logic [31:0] spill_addr;
-  logic [5:0] spill_counter;
+  logic [31:0] spill_counter;
 
   assign spill_initial_addr = {{tag_array[index_M0]}, {index_M0},{6'b0}};
 
@@ -171,52 +171,52 @@ module lab3_cache_CacheBaseDpath
   logic [31:0] cache_to_mem_data;
 
   always_comb begin
-      if(spill_counter ==  6'd0) begin
+      if(spill_counter ==  32'd0) begin
           cache_to_mem_data = data_array[index_M0][31:0];
       end
-      else if(spill_counter ==  6'd1) begin
+      else if(spill_counter ==  32'd1) begin
           cache_to_mem_data = data_array[index_M0][63:32];
       end
-      else if(spill_counter ==  6'd2) begin
+      else if(spill_counter ==  32'd2) begin
           cache_to_mem_data = data_array[index_M0][95:64];
       end
-      else if(spill_counter ==  6'd3) begin
+      else if(spill_counter ==  32'd3) begin
           cache_to_mem_data = data_array[index_M0][127:96];
       end
-      else if(spill_counter ==  6'd4) begin
+      else if(spill_counter ==  32'd4) begin
           cache_to_mem_data = data_array[index_M0][159:128];
       end
-      else if(spill_counter ==  6'd5) begin
+      else if(spill_counter ==  32'd5) begin
           cache_to_mem_data = data_array[index_M0][191:160];
       end
-      else if(spill_counter ==  6'd6) begin
+      else if(spill_counter ==  32'd6) begin
           cache_to_mem_data = data_array[index_M0][223:192];
       end
-      else if(spill_counter ==  6'd7) begin
+      else if(spill_counter ==  32'd7) begin
           cache_to_mem_data = data_array[index_M0][255:224];
       end
-      else if(spill_counter ==  6'd8) begin
+      else if(spill_counter ==  32'd8) begin
           cache_to_mem_data = data_array[index_M0][287:256];
       end
-      else if(spill_counter ==  6'd9) begin
+      else if(spill_counter ==  32'd9) begin
           cache_to_mem_data = data_array[index_M0][319:288];
       end
-      else if(spill_counter ==  6'd10) begin
+      else if(spill_counter ==  32'd10) begin
           cache_to_mem_data = data_array[index_M0][351:320];
       end
-      else if(spill_counter ==  6'd11) begin
+      else if(spill_counter ==  32'd11) begin
           cache_to_mem_data = data_array[index_M0][383:352];
       end
-      else if(spill_counter ==  6'd12) begin
+      else if(spill_counter ==  32'd12) begin
           cache_to_mem_data = data_array[index_M0][415:384];
       end
-      else if(spill_counter ==  6'd13) begin
+      else if(spill_counter ==  32'd13) begin
           cache_to_mem_data = data_array[index_M0][447:416];
       end
-      else if(spill_counter ==  6'd14) begin
+      else if(spill_counter ==  32'd14) begin
           cache_to_mem_data = data_array[index_M0][479:448];
       end
-      else if(spill_counter ==  6'd15) begin
+      else if(spill_counter ==  32'd15) begin
           cache_to_mem_data = data_array[index_M0][511:480];
       end
       else begin
@@ -230,7 +230,7 @@ module lab3_cache_CacheBaseDpath
 
   // Issue Spill Finish Signal
   always_comb begin
-    if(spill_counter >= 6'd16) begin
+    if(spill_counter >= 32'd16) begin
         spill_done =1'b1;
     end
     else begin
@@ -249,7 +249,7 @@ module lab3_cache_CacheBaseDpath
 
   // Get Refill Req Address
   logic [31:0] refill_addr;
-  logic [5:0] refill_req_counter;
+  logic [31:0] refill_req_counter;
 
   always_ff@(posedge clk) begin
     if(reset) begin
@@ -263,7 +263,7 @@ module lab3_cache_CacheBaseDpath
 
         if(refill_one_word_req_sent) begin
             refill_req_counter <= refill_req_counter + 1;
-            refill_addr <= z6b_mux_result + (refill_req_counter << 2)
+            refill_addr <= z6b_mux_result + (refill_req_counter << 2);
         end
 
         if(refill_req_done) begin
@@ -276,7 +276,7 @@ module lab3_cache_CacheBaseDpath
 
   // Issue Refill Req End Signal
   always_comb begin
-    if(refill_req_counter >= 6'd16) begin
+    if(refill_req_counter >= 32'd16) begin
         refill_req_done = 1'b1;
     end
     else begin
@@ -286,7 +286,7 @@ module lab3_cache_CacheBaseDpath
 
 
   // Get 512 bits Refill data from cache_resp_msg_data
-  logic [5:0] refill_resp_counter;
+  logic [4:0] refill_resp_counter;
   logic [511:0] refill_data;
 
   always_ff@(posedge clk) begin
@@ -314,54 +314,54 @@ module lab3_cache_CacheBaseDpath
         refill_data <= 0;
     end
     else begin
-        refill_data <= refill_data
+        refill_data <= refill_data;
 
-        if(refill_resp_counter == 6'd0 && refill_one_word_resp_received) begin
+        if(refill_resp_counter == 5'd0 && refill_one_word_resp_received) begin
             refill_data[31:0] <= cache_resp_msg_data; 
         end
-        else if(refill_resp_counter == 6'd1 && refill_one_word_resp_received) begin
+        else if(refill_resp_counter == 5'd1 && refill_one_word_resp_received) begin
             refill_data[63:32] <= cache_resp_msg_data; 
         end
-        else if(refill_resp_counter == 6'd2 && refill_one_word_resp_received) begin
+        else if(refill_resp_counter == 5'd2 && refill_one_word_resp_received) begin
             refill_data[95:64] <= cache_resp_msg_data; 
         end
-        else if(refill_resp_counter == 6'd3 && refill_one_word_resp_received) begin
+        else if(refill_resp_counter == 5'd3 && refill_one_word_resp_received) begin
             refill_data[127:96] <= cache_resp_msg_data; 
         end
-        else if(refill_resp_counter == 6'd4 && refill_one_word_resp_received) begin
+        else if(refill_resp_counter == 5'd4 && refill_one_word_resp_received) begin
             refill_data[159:128] <= cache_resp_msg_data; 
         end
-        else if(refill_resp_counter == 6'd5 && refill_one_word_resp_received) begin
+        else if(refill_resp_counter == 5'd5 && refill_one_word_resp_received) begin
             refill_data[191:160] <= cache_resp_msg_data; 
         end
-        else if(refill_resp_counter == 6'd6 && refill_one_word_resp_received) begin
+        else if(refill_resp_counter == 5'd6 && refill_one_word_resp_received) begin
             refill_data[223:192] <= cache_resp_msg_data; 
         end
-        else if(refill_resp_counter == 6'd7 && refill_one_word_resp_received) begin
+        else if(refill_resp_counter == 5'd7 && refill_one_word_resp_received) begin
             refill_data[255:224] <= cache_resp_msg_data; 
         end
-        else if(refill_resp_counter == 6'd8 && refill_one_word_resp_received) begin
+        else if(refill_resp_counter == 5'd8 && refill_one_word_resp_received) begin
             refill_data[287:256] <= cache_resp_msg_data; 
         end
-        else if(refill_resp_counter == 6'd9 && refill_one_word_resp_received) begin
+        else if(refill_resp_counter == 5'd9 && refill_one_word_resp_received) begin
             refill_data[319:288] <= cache_resp_msg_data; 
         end
-        else if(refill_resp_counter == 6'd10 && refill_one_word_resp_received) begin
+        else if(refill_resp_counter == 5'd10 && refill_one_word_resp_received) begin
             refill_data[351:320] <= cache_resp_msg_data; 
         end
-        else if(refill_resp_counter == 6'd11 && refill_one_word_resp_received) begin
+        else if(refill_resp_counter == 5'd11 && refill_one_word_resp_received) begin
             refill_data[383:352] <= cache_resp_msg_data; 
         end
-        else if(refill_resp_counter == 6'd12 && refill_one_word_resp_received) begin
+        else if(refill_resp_counter == 5'd12 && refill_one_word_resp_received) begin
             refill_data[415:384] <= cache_resp_msg_data; 
         end
-        else if(refill_resp_counter == 6'd13 && refill_one_word_resp_received) begin
+        else if(refill_resp_counter == 5'd13 && refill_one_word_resp_received) begin
             refill_data[447:416] <= cache_resp_msg_data; 
         end
-        else if(refill_resp_counter == 6'd14 && refill_one_word_resp_received) begin
+        else if(refill_resp_counter == 5'd14 && refill_one_word_resp_received) begin
             refill_data[479:448] <= cache_resp_msg_data; 
         end
-        else if(refill_resp_counter == 6'd15 && refill_one_word_resp_received) begin
+        else if(refill_resp_counter == 5'd15 && refill_one_word_resp_received) begin
             refill_data[511:480] <= cache_resp_msg_data; 
         end
     end
@@ -369,7 +369,7 @@ module lab3_cache_CacheBaseDpath
 
   // Issue Refill Resp End Signal
   always_comb begin
-    if(refill_resp_counter >= 6'd16) begin
+    if(refill_resp_counter >= 5'd16) begin
         refill_resp_done =1'b1;
     end
     else begin
@@ -413,7 +413,7 @@ module lab3_cache_CacheBaseDpath
   // This creates a one-hot code with a '1' at the desired offset
   assign offset_write = 16'b1 << offset_M0;         
 
-  vc_Mux2#(32) word_en_mux
+  vc_Mux2#(16) word_en_mux
     (
       .in0  (16'hFFFF),
       .in1  (offset_write),
