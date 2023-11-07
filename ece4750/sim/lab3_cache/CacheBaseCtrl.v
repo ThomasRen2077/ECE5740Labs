@@ -34,11 +34,8 @@ module lab3_cache_CacheBaseCtrl
   output logic        tarray_wen,
   output logic        z6b_sel,
   output logic        darray_write_mux_sel,
-  // output logic        reg_en_M1,
   output logic        darray_wen,
   output logic        write_en_sel,
-  // output logic        parallel_read_sel,
-  // output logic        parallel_write_sel,
   output logic        spill_one_word_done,
   output logic        refill_one_word_req_sent,
   output logic        refill_one_word_resp_received,
@@ -78,9 +75,6 @@ module lab3_cache_CacheBaseCtrl
 //--------------------------------------------------------------------
 
   assign reg_en_M0 = !stall_Y; 
-
-  // logic word_en_sel_M0;
-  // logic darray_wen_M0;
   
 
   //----------------------------------------------------------------------
@@ -252,51 +246,12 @@ module lab3_cache_CacheBaseCtrl
         end
     end
 
-    
     assign ostall_notrdy = !memresp_rdy;
     assign stall_M0 = ostall_M0 || ostall_notrdy
 
     assign memreq_rdy = !stall_M0;
 
 
-
-
-//--------------------------------------------------------------------
-// M1 stage
-//--------------------------------------------------------------------
-// assign reg_en_M1 = !stall_M0; 
-
-// Receive Signal Forwarded from M0 stage
-// always_ff @( posedge clk )
-//   if ( reset ) begin
-//     word_en_sel <= 0;
-//     darray_wen <= 0;
-//   end
-//   else if ( reg_en_M1 ) begin
-//     word_en_sel <= word_en_sel_M0;
-//     darray_wen <= darray_wen_M0;
-//   end
-
-
-  // always_comb begin
-  //   if (tarray_match) begin
-  //     parallel_read_sel = 1'b0;
-  //     parallel_write_sel = 1'b0;
-  //     memresp_val = 1'b1;
-  //   end
-  //   else begin
-  //     // parallel_read_sel = 1'b1;
-  //     // parallel_write_sel = 1'b1;
-  //     // memresp_val = 1'b0;
-  //   end
-  // end
-
-  // // Possible Stall Signal
-  // logic ostall_M1;
-  // assign ostall_M1 = !memresp_rdy;
-
-  // logic stall_M1;
-  // assign stall_M1 = ostall_M1;
 
 endmodule
 

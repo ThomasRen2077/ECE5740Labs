@@ -27,15 +27,12 @@ module lab3_cache_CacheBaseDpath
 
   // control signals
   input  logic         reg_en_M0,
-  // input  logic         reg_en_M1,
   input  logic         tarray_en,
   input  logic         tarray_wen,
   input  logic         z6b_sel,
   input  logic         darray_write_mux_sel,
   input  logic         darray_wen,
   input  logic         write_en_sel,
-  // input  logic         parallel_read_sel,
-  // input  logic         parallel_write_sel,
   input  logic         spill_one_word_done,
   input  logic         refill_one_word_req_sent,
   input  logic         refill_one_word_resp_received,
@@ -54,16 +51,8 @@ module lab3_cache_CacheBaseDpath
 );
 
 
-
-
 //--------------------------------------------------------------------
-// Y stage
-//--------------------------------------------------------------------
-
-
-
-//--------------------------------------------------------------------
-// M0 stage
+// M0 part
 //--------------------------------------------------------------------
 
   localparam c_reset_vector = 32'h200; 
@@ -414,63 +403,12 @@ module lab3_cache_CacheBaseDpath
 
 
 //--------------------------------------------------------------------
-// M1 stage
+// M1 part
 //--------------------------------------------------------------------
-  // logic [31:0]  cache_request_addr_M1;
-  // logic [511:0] cache_request_data_M1;
-  // logic [31:0]  bypass_output;
-  // logic [511:0] bypass_output2;
-
-
-  // vc_EnResetReg#(32, c_reset_vector - 32'd4) cache_request_addr_reg_M1
-  //   (
-  //     .clk    (clk),
-  //     .reset  (reset),
-  //     .en     (reg_en_M1),
-  //     .d      (cache_request_addr_M0),
-  //     .q      (cache_request_addr_M1)
-  //   );
-
-
-
-  // vc_EnResetReg#(32, c_reset_vector - 32'd4) cache_request_data_reg_M1
-  //   (
-  //     .clk    (clk),
-  //     .reset  (reset),
-  //     .en     (reg_en_M1),
-  //     .d      (write_data),
-  //     .q      (cache_request_data_M1)
-  //   );
-
-
-
-// vc_Mux2#(32) bypass_mux_read
-//     (
-//       .in0  (cache_request_addr_M0),
-//       .in1  (cache_request_addr_M1),
-//       .sel  (parallel_read_sel),
-//       .out  (bypass_output)
-//     );
-
-
-
-// vc_Mux2#(32) bypass_mux_write
-//     (
-//       .in0  (write_data),
-//       .in1  (cache_request_data_M1),
-//       .sel  (parallel_write_sel),
-//       .out  (bypass_output2)
-//     );
-
 
 
   logic [15:0] write_word_enable;
   logic [15:0] offset_write;
-
-  // logic [3:0]  offset_M1;
-  // logic [4:0]  index_M1;
-  // assign offset_M1 = bypass_output[5:2];
-  // assign index_M1 =  bypass_output[10:6];
 
   // This creates a one-hot code with a '1' at the desired offset
   assign offset_write = 16'b1 << offset_M0;         
@@ -482,9 +420,6 @@ module lab3_cache_CacheBaseDpath
       .sel  (write_en_sel),
       .out  (write_word_enable)
     );
-
-
-
 
   logic [511:0] data_array [0:31];
   logic [511:0] data_array_output;

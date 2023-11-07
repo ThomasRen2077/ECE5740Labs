@@ -6,7 +6,6 @@
 `include "vc/trace.v"
 
 module top(  input logic clk, input logic linetrace );
-
  
   logic         reset;
 
@@ -27,12 +26,12 @@ module top(  input logic clk, input logic linetrace );
   logic        tarray_wen;
   logic        z6b_sel;
   logic        darray_write_mux_sel;
-  logic        reg_en_M1;
   logic        darray_wen;
-  logic        parallel_read_sel;
+  logic        write_en_sel;
   logic        spill_one_word_done;
   logic        refill_one_word_req_sent;
   logic        refill_one_word_resp_received;
+  logic        Spill_or_Refill_sel;
 
   // Status signals
   logic        tarray_match;
