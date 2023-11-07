@@ -102,11 +102,18 @@ module lab3_cache_CacheBaseDpath
   assign offset_M0 = cache_request_addr_M0[5:2];
 
   always_comb begin
-    if(tarray_en && valid_array[index_M0] && (current_tag == tag_array[index_M0])) begin
-      tarray_match = 1b'1;
+    if(tarray_en && valid_array[index_M0]) begin
+      current_dirty = dirty_array[index_M0];
+      if(current_tag == tag_array[index_M0]) begin
+        tarray_match = 1'b1;
+      end
+      else begin
+        tarray_match = 1'b0;
+      end
     end
     else begin
-      tarray_match = 1b'0;
+      tarray_match = 1'b0;
+      current_dirty = 1'bx;
     end
   end
 
@@ -116,7 +123,7 @@ module lab3_cache_CacheBaseDpath
 
     if(tarray_wen) begin
       tag_array[index_M0] <= current_tag;
-      valid_array[index_M0] <= 1b'1;
+      valid_array[index_M0] <= 1'b1;
     end
   end
   
@@ -483,70 +490,76 @@ module lab3_cache_CacheBaseDpath
   logic [511:0] data_array_output;
 
   always_ff@(posedge clk) begin
+    
+    dirty_array[index_M0] <= dirty_array[index_M0];
     data_array[index_M0] <= data_array[index_M0];
 
+    if(darray_wen && tarray_match) begin
+      dirty_array[index_M0] <= 1'b1;
+    end
+
     if(write_word_enable[0] && darray_wen) begin 
-      data_array[index_M0][31:0] <= cache_request_data_M1[31:0];
+      data_array[index_M0][31:0] <= write_data[31:0];
     end
 
     if(write_word_enable[1] && darray_wen) begin
-      data_array[index_M0][63:32] <= cache_request_data_M1[63:32];
+      data_array[index_M0][63:32] <= write_data[63:32];
     end
 
     if(write_word_enable[2] && darray_wen) begin
-      data_array[index_M0][95:64] <= cache_request_data_M1[95:64];
+      data_array[index_M0][95:64] <= write_data[95:64];
     end
 
     if(write_word_enable[3] && darray_wen) begin
-      data_array[index_M0][127:96] <= cache_request_data_M1[127:96];
+      data_array[index_M0][127:96] <= write_data[127:96];
     end
 
     if(write_word_enable[4] && darray_wen) begin
-      data_array[index_M0][159:128] <= cache_request_data_M1[159:128];
+      data_array[index_M0][159:128] <= write_data[159:128];
     end
 
     if(write_word_enable[5] && darray_wen) begin
-      data_array[index_M0][191:160] <= cache_request_data_M1[191:160];
+      data_array[index_M0][191:160] <= write_data[191:160];
     end
 
     if(write_word_enable[6] && darray_wen) begin
-      data_array[index_M0][223:192] <= cache_request_data_M1[223:192];
+      data_array[index_M0][223:192] <= write_data[223:192];
     end
 
     if(write_word_enable[7] && darray_wen) begin
-      data_array[index_M0][255:224] <= cache_request_data_M1[255:224];
+      data_array[index_M0][255:224] <= write_data[255:224];
     end
 
     if(write_word_enable[8] && darray_wen) begin
-      data_array[index_M0][287:256] <= cache_request_data_M1[287:256];
+      data_array[index_M0][287:256] <= write_data[287:256];
     end
 
     if(write_word_enable[9] && darray_wen) begin
-      data_array[index_M0][319:288] <= cache_request_data_M1[319:288];
+      data_array[index_M0][319:288] <= write_data[319:288];
     end
 
     if(write_word_enable[10] && darray_wen) begin
-      data_array[index_M0][351:320] <= cache_request_data_M1[351:320];
+      data_array[index_M0][351:320] <= write_data[351:320];
     end
 
     if(write_word_enable[11] && darray_wen) begin
-      data_array[index_M0][383:352] <= cache_request_data_M1[383:352];
+      data_array[index_M0][383:352] <= write_data[383:352];
     end
 
     if(write_word_enable[12] && darray_wen) begin
-      data_array[index_M0][415:384] <= cache_request_data_M1[415:384];
+      data_array[index_M0][415:384] <= write_data[415:384];
     end
 
     if(write_word_enable[13] && darray_wen) begin
-      data_array[index_M0][415:384] <= cache_request_data_M1[415:384];
+      data_array[index_M0][415:384] <= write_data[415:384];
     end
 
     if(write_word_enable[14] && darray_wen) begin
-      data_array[index_M0][479:448] <= cache_request_data_M1[479:448];
+      data_array[index_M0][479:448] <= write_data[479:448];
     end
 
     if(write_word_enable[15] && darray_wen) begin
-      data_array[index_M0][511:480] <= cache_request_data_M1[511:480];
+      data_array[index_M0][511:480] <= write_data[511:480];
     end
   end
 

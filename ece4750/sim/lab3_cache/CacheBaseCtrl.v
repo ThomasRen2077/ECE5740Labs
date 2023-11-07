@@ -133,17 +133,30 @@ module lab3_cache_CacheBaseCtrl
                 darray_write_mux_sel = 1'b0;
 
                 cache_req_val = 1'b0;
-                cache_req_type = 1'b0;
+                cache_req_type = 1'bx;
+
+                refill_one_word_req_sent = 1'b0;
+                refill_one_word_resp_received = 1'b0;
+
                 Spill_or_Refill_sel = 1'bx;
+                spill_one_word_done = 1'b0;
+                
 
                 if (memreq_type == 1'b0) begin                                                      // READ HIT
-                    word_en_sel_M0 = 1'b0; 
-                    darray_wen_M0 = 1'b0;
+                    word_en_sel = 1'b0; 
+                    darray_wen = 1'b0;
                 end
                 else begin                                                                         // WRITE HIT
 
-                    word_en_sel_M0 = 1'b1;
-                    darray_wen_M0 = 1'b1;
+                    word_en_sel = 1'b1;
+                    darray_wen = 1'b1;
+                end
+
+                if(tarray_match) begin
+                  memresp_val = 1'b1;
+                end
+                else begin
+                  memresp_val = 1'b0;
                 end
 
             end
@@ -153,24 +166,48 @@ module lab3_cache_CacheBaseCtrl
                 tarray_en = 1'b0;
                 tarray_wen = 1'b0;
                 z6b_sel = 1'b1;
+                darray_write_mux_sel = 1'bx;
+
                 cache_req_val = 1'b1;
                 cache_req_type = 1'b1;
                 Spill_or_Refill_sel = 1'b0;
 
+                refill_one_word_req_sent = 1'b0;
+                refill_one_word_resp_received = 1'b0;
 
                 if(cache_req_val && cache_req_rdy)  
                   spill_one_word_done = 1'b1;
                 else                                
                   spill_one_word_done = 1'b0;
 
+                word_en_sel = 1'b0; 
+                darray_wen = 1'b0;
+                memresp_val = 1'b0;
+                
+
             end
 
             else begin
 
                 tarray_en = 1'b0;
-                tarray_wen = 1'b1;
+
+                if(refill_resp_done) begin
+                  tarray_wen = 1'b1;
+                end
+                else begin
+                  tarray_wen = 1'b0;
+                end
+
                 z6b_sel = 1'b1;
-                cache_req_val = 1'b1;
+                darray_write_mux_sel = 1'b1;
+
+                if(refill_req_done) begin
+                  cache_req_val = 1'b0;
+                end
+                else begin
+                  cache_req_val = 1'b1;
+                end
+
                 cache_req_type = 1'b0;
                 Spill_or_Refill_sel = 1'b1;
 
@@ -184,6 +221,18 @@ module lab3_cache_CacheBaseCtrl
                   refill_one_word_resp_received = 1'b1;
                 else
                   refill_one_word_resp_received = 1'b0;
+
+                spill_one_word_done = 1'b0;
+
+                word_en_sel = 1'b0; 
+
+                if(refill_resp_done) begin
+                  darray_wen = 1'b1;
+                end
+                else begin
+                  darray_wen = 1'b0;
+                end
+                memresp_val = 1'b0;
                 
             end
         end
@@ -191,6 +240,8 @@ module lab3_cache_CacheBaseCtrl
 
   // Possible Stall Signal
     logic ostall_M0;
+    logic ostall_notrdy;
+    logic stall_M0;
 
     always_comb begin
         if(state_reg == STATE_PIPE) begin
@@ -201,8 +252,9 @@ module lab3_cache_CacheBaseCtrl
         end
     end
 
-    logic stall_M0;
-    stall_M0 = ostall_M0;
+    
+    assign ostall_notrdy = !memresp_rdy;
+    assign stall_M0 = ostall_M0 || ostall_notrdy
 
     assign memreq_rdy = !stall_M0;
 
@@ -226,18 +278,18 @@ module lab3_cache_CacheBaseCtrl
 //   end
 
 
-  always_comb begin
-    if (tarray_match) begin
-      parallel_read_sel = 1'b0;
-      parallel_write_sel = 1'b0;
-      memresp_val = 1'b1;
-    end
-    else begin
-      // parallel_read_sel = 1'b1;
-      // parallel_write_sel = 1'b1;
-      // memresp_val = 1'b0;
-    end
-  end
+  // always_comb begin
+  //   if (tarray_match) begin
+  //     parallel_read_sel = 1'b0;
+  //     parallel_write_sel = 1'b0;
+  //     memresp_val = 1'b1;
+  //   end
+  //   else begin
+  //     // parallel_read_sel = 1'b1;
+  //     // parallel_write_sel = 1'b1;
+  //     // memresp_val = 1'b0;
+  //   end
+  // end
 
   // // Possible Stall Signal
   // logic ostall_M1;
