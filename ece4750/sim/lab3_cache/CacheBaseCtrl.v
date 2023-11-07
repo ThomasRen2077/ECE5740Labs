@@ -172,7 +172,7 @@ module lab3_cache_CacheBaseCtrl
                 cache_req_type = 1'b0;
                 Spill_or_Refill_sel = 1'b1;
 
-                if(cache_req_val && cache_req_rdy)  
+                if(cache_req=_val && cache_req_rdy)  
                   refill_one_word_req_sent = 1'b1;
                 else                                
                   refill_one_word_req_sent = 1'b0;
