@@ -75,6 +75,21 @@ module lab3_cache_CacheBaseCtrl
 //--------------------------------------------------------------------
 
   assign reg_en_M0 = !stall_Y; 
+
+  logic mem_req_type_M0;
+  always_ff@(posedge clk) begin
+    if(reset) begin
+      mem_req_type_M0 <= 0;
+    end
+    else begin
+      if(reg_en_M0) begin
+        mem_req_type_M0 <= memreq_type;
+      end
+      else begin
+        mem_req_type_M0 <= mem_req_type_M0;
+      end
+    end
+  end
   
 
   //----------------------------------------------------------------------
@@ -134,14 +149,15 @@ module lab3_cache_CacheBaseCtrl
                 spill_one_word_done = 1'b0;
                 
 
-                if (memreq_type == 1'b0) begin                                                      // READ HIT
+                if (mem_req_type_M0 == 1'b0) begin                                                      // READ HIT
                     write_en_sel = 1'b0; 
                     darray_wen = 1'b0;
+                    memresp_type = 1'b0;
                 end
                 else begin                                                                         // WRITE HIT
-
                     write_en_sel = 1'b1;
                     darray_wen = 1'b1;
+                    memresp_type = 1'b1;
                 end
 
                 if(tarray_match) begin
