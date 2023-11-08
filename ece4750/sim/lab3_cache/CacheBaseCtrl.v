@@ -156,10 +156,16 @@ module lab3_cache_CacheBaseCtrl
 
                 tarray_en = 1'b0;
                 tarray_wen = 1'b0;
-                z6b_sel = 1'b1;
+                z6b_sel = 1'b0;
                 darray_write_mux_sel = 1'bx;
 
-                cache_req_val = 1'b1;
+                if(!spill_done) begin
+                  cache_req_val = 1'b1;
+                end
+                else begin
+                  cache_req_val = 1'b0;
+                end
+
                 cache_req_type = 1'b1;
                 Spill_or_Refill_sel = 1'b0;
 
@@ -192,11 +198,11 @@ module lab3_cache_CacheBaseCtrl
                 z6b_sel = 1'b1;
                 darray_write_mux_sel = 1'b1;
 
-                if(refill_req_done) begin
-                  cache_req_val = 1'b0;
+                if(!refill_req_done) begin
+                  cache_req_val = 1'b1;
                 end
                 else begin
-                  cache_req_val = 1'b1;
+                  cache_req_val = 1'b0;
                 end
 
                 cache_req_type = 1'b0;
