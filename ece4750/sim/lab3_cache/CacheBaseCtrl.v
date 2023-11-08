@@ -73,8 +73,24 @@ module lab3_cache_CacheBaseCtrl
 //--------------------------------------------------------------------
 // M0 stage
 //--------------------------------------------------------------------
-
   assign reg_en_M0 = !stall_Y; 
+
+  logic val_M0;
+
+  always_ff @( posedge clk ) begin
+    if ( reset ) begin
+      val_M0 <= 1'b0;
+    end
+    else begin
+      if ( state_reg == STATE_PIPE && reg_en_M0)
+        val_M0 <= 1'b1;
+      else if (state_reg == STATE_PIPE && !reg_en_M0 && tarray_match)
+        val_M0 <= 1'b0;
+      else 
+        val_M0 <= val_M0;
+    end
+  end
+
 
   logic mem_req_type_M0;
   always_ff@(posedge clk) begin
@@ -160,12 +176,14 @@ module lab3_cache_CacheBaseCtrl
                     memresp_type = 1'b1;
                 end
 
-                if(tarray_match) begin
+                if(val_M0 && tarray_match) begin
                   memresp_val = 1'b1;
                 end
                 else begin
                   memresp_val = 1'b0;
                 end
+
+                cache_resp_rdy = 1'b0;
 
             end
             else if (state_reg == STATE_SPILL) begin
@@ -195,8 +213,9 @@ module lab3_cache_CacheBaseCtrl
 
                 write_en_sel = 1'b0; 
                 darray_wen = 1'b0;
+                memresp_type =  1'b0;
                 memresp_val = 1'b0;
-                
+                cache_resp_rdy = 1'b0;
 
             end
 
@@ -220,6 +239,8 @@ module lab3_cache_CacheBaseCtrl
                 else begin
                   cache_req_val = 1'b0;
                 end
+
+                
 
                 cache_req_type = 1'b0;
                 Spill_or_Refill_sel = 1'b1;
@@ -245,8 +266,17 @@ module lab3_cache_CacheBaseCtrl
                 else begin
                   darray_wen = 1'b0;
                 end
+
+                memresp_type =  1'b0;
                 memresp_val = 1'b0;
-                
+
+                if(!refill_resp_done) begin
+                  cache_resp_rdy = 1'b1;
+                end
+                else begin
+                  cache_resp_rdy = 1'b0;
+                end
+
             end
         end
 
@@ -257,11 +287,11 @@ module lab3_cache_CacheBaseCtrl
     logic stall_M0;
 
     always_comb begin
-        if(state_reg == STATE_PIPE) begin
-        ostall_M0 = 1'b0;
+        if(!tarray_match) begin
+        ostall_M0 = 1'b1;
         end
         else begin
-        ostall_M0 = 1'b1;
+        ostall_M0 = 1'b0;
         end
     end
 

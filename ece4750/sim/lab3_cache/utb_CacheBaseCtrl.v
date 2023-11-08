@@ -63,6 +63,64 @@ module top(  input logic clk, input logic linetrace );
 
     $display("Start of Testbench");
     // Initalize all the signal inital values.
+    @(negedge clk);
+    reset = 1'b1;
+    memreq_val = 1'b0;
+    memreq_type = 1'b0;
+    memresp_rdy = 1'b0;
+    cache_req_rdy = 1'b0;
+    cache_resp_val = 1'b0;
+    cache_resp_type = 1'b0;
+    tarray_match = 1'b0;
+    current_dirty = 1'b0;
+    spill_done = 1'b0;
+    refill_req_done = 1'b0;
+    refill_resp_done = 1'b0;
+
+    // Simulate Read Hit
+    #20
+    reset = 1'b0;
+    memreq_val = 1'b1;
+    memresp_rdy = 1'b1;
+    tarray_match = 1'b1;
+
+    #2;
+    memreq_val = 1'b0;
+
+    // Simulate Write Hit
+    #20
+    memreq_val = 1'b1;
+    memreq_type = 1'b1;
+
+    #2;
+    memreq_val = 1'b0;
+    memreq_type = 1'b0;
+
+    // Simulate Read Miss
+    #20
+    memreq_val = 1'b1;
+
+    #2;
+    memreq_val = 1'b0;
+    tarray_match =  1'b0;
+    current_dirty = 1'b1;
+
+    #40
+    spill_done = 1'b1;
+
+    #2
+    spill_done = 1'b0;
+
+
+
+
+
+
+
+
+
+
+
 
     #20
 
