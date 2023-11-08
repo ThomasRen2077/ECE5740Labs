@@ -42,6 +42,40 @@ module lab3_cache_CacheBase
   output logic                      flush_done
 );
 
+logic mem_resp_msg_type;
+
+always_comb begin
+  if(mem_resp_msg_type) begin
+    memresp_msg.type_ = `VC_MEM_RESP_MSG_TYPE_WRITE;
+  end
+  else begin
+    memresp_msg.type_ = `VC_MEM_RESP_MSG_TYPE_READ;
+  end
+end
+
+assign memresp_msg.opaque = 8'b0;
+assign memresp.test = 2'b0;
+assign memresp.len = 2'b0;
+
+logic cache_req_msg_type;
+
+always_comb begin
+  if(cache_req_msg_type) begin
+    cache_req_msg.type_ = `VC_MEM_REQ_MSG_TYPE_WRITE;
+  end
+  else begin
+    cache_req_msg.type_ = `VC_MEM_REQ_MSG_TYPE_READ;
+  end
+end
+
+assign cache_req_msg.opaque = 8'b0;
+assign cache_req_msg.len = 2'b0;
+
+
+
+
+
+
 
   // Control Signals
   logic        reg_en_M0;
@@ -82,7 +116,7 @@ lab3_cache_CacheBaseDpath dpath
 lab3_cache_CacheBaseCtrl ctrl
 (
   .memreq_type(memreq_msg.type_[0]),
-  .memresp_type(memresp_msg.type_[0]),
+  .memresp_type(mem_resp_msg_type),
 
   .cache_req_type(cache_req_msg.type_[0]),
   .cache_resp_type(cache_resp_msg.type_[0]),
