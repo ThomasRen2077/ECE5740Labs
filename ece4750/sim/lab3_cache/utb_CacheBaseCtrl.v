@@ -82,19 +82,30 @@ module top(  input logic clk, input logic linetrace );
     reset = 1'b0;
     memreq_val = 1'b1;
     memresp_rdy = 1'b1;
-    tarray_match = 1'b1;
 
     #2;
     memreq_val = 1'b0;
+    tarray_match = 1'b1;
+
+
+    #2;
+    tarray_match = 1'b0;
+
 
     // Simulate Write Hit
     #20
+    @(negedge clk);
     memreq_val = 1'b1;
     memreq_type = 1'b1;
 
     #2;
     memreq_val = 1'b0;
     memreq_type = 1'b0;
+    tarray_match = 1'b1;
+
+    #2;
+    tarray_match = 1'b0;
+
 
     // Simulate Read Miss
     #20
@@ -105,11 +116,75 @@ module top(  input logic clk, input logic linetrace );
     tarray_match =  1'b0;
     current_dirty = 1'b1;
 
-    #40
+    #2
+    cache_req_rdy = 1'b1;
+
+    #32
     spill_done = 1'b1;
 
     #2
     spill_done = 1'b0;
+
+    #32
+    refill_req_done = 1'b1;
+    cache_resp_val = 1'b1;
+    cache_resp_type = 1'b1;
+
+    #32
+    refill_resp_done = 1'b1;
+    cache_resp_val = 1'b0;
+    cache_resp_type = 1'b0;
+
+
+    #2
+    refill_resp_done = 1'b0;
+    refill_req_done = 1'b0;
+    tarray_match = 1'b1;
+
+    #2
+    tarray_match = 1'b0;
+
+    // Simulate Write Miss
+    #20
+    memreq_val = 1'b1;
+    memreq_type = 1'b1;
+
+    #2;
+    memreq_val = 1'b0;
+    memreq_type = 1'b0;
+    tarray_match =  1'b0;
+    current_dirty = 1'b0;
+
+    #2
+    cache_req_rdy = 1'b1;
+
+
+    #32
+    refill_req_done = 1'b1;
+    cache_resp_val = 1'b1;
+    cache_resp_type = 1'b1;
+
+    #32
+    refill_resp_done = 1'b1;
+    cache_resp_val = 1'b0;
+    cache_resp_type = 1'b0;
+
+
+    #2
+    refill_resp_done = 1'b0;
+    refill_req_done = 1'b0;
+    tarray_match = 1'b1;
+
+    #2
+    tarray_match = 1'b0;
+
+
+
+
+
+
+
+
 
 
 

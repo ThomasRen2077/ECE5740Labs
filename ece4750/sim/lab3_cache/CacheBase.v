@@ -54,8 +54,8 @@ always_comb begin
 end
 
 assign memresp_msg.opaque = 8'b0;
-assign memresp.test = 2'b0;
-assign memresp.len = 2'b0;
+assign memresp_msg.test = 2'b0;
+assign memresp_msg.len = 2'b0;
 
 logic cache_req_msg_type;
 

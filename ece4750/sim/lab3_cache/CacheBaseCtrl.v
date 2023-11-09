@@ -68,7 +68,7 @@ module lab3_cache_CacheBaseCtrl
   assign ostall_Y = !input_go;
 
   logic stall_Y;
-  assign stall_Y = ostall_Y || ostall_M0;
+  assign stall_Y = ostall_Y || stall_M0;
 
 //--------------------------------------------------------------------
 // M0 stage
@@ -129,16 +129,22 @@ module lab3_cache_CacheBaseCtrl
 
     // State Transition Logic
         always_comb begin
-            state_next = state_reg;                                                             // State Remain Itself.
             case ( state_reg )
-                STATE_PIPE:     if (tarray_match == 1'b0 && current_dirty)                
+                STATE_PIPE:     if (val_M0 && (tarray_match == 1'b0) && current_dirty)                
                                     state_next = STATE_SPILL;                                   // If Miss and the Victim is Dirty.
-                                else if(tarray_match == 1'b0 && !current_dirty)           
+                                else if(val_M0 && (tarray_match == 1'b0) && !current_dirty)           
                                     state_next = STATE_REFILL;                                  // If Miss and the Victim is Clean.
-                STATE_SPILL:    if (spill_done)                                                   
+                                else 
+                                    state_next = state_reg;                                     // State Remain Itself.
+                STATE_SPILL:    if (val_M0 && spill_done)                                                   
                                     state_next = STATE_REFILL;                                  // SPILL State Ends.
-                STATE_REFILL:   if (refill_resp_done)                                                  
+                                else
+                                    state_next = state_reg;                                     // State Remain Itself.
+                STATE_REFILL:   if (val_M0 && refill_resp_done)                                                  
                                     state_next = STATE_PIPE;                                    // REFILL State Ends.
+                                else
+                                    state_next = state_reg;                                     // State Remain Itself.
+
                 default:        state_next = 2'bx;                                              // Unknown State.
             endcase
         end
@@ -149,8 +155,12 @@ module lab3_cache_CacheBaseCtrl
     //----------------------------------------------------------------------
         always_comb begin
             if( state_reg == STATE_PIPE) begin
-
-                tarray_en = 1'b1;            
+                if(val_M0) begin
+                  tarray_en = 1'b1;
+                end
+                else begin
+                  tarray_en = 1'b0;
+                end            
                 tarray_wen = 1'b0;
                 z6b_sel = 1'b0;
                 darray_write_mux_sel = 1'b0;
@@ -165,15 +175,21 @@ module lab3_cache_CacheBaseCtrl
                 spill_one_word_done = 1'b0;
                 
 
-                if (mem_req_type_M0 == 1'b0) begin                                                      // READ HIT
-                    write_en_sel = 1'b0; 
+                if (val_M0 && mem_req_type_M0 == 1'b1) begin                                                      // WRITE HIT
+                    if(tarray_match) begin
+                      write_en_sel = 1'b1; 
+                      darray_wen = 1'b1;
+                    end
+                    else begin
+                      write_en_sel = 1'b0; 
+                      darray_wen = 1'b0;
+                    end
+                    memresp_type = 1'b1;
+                end
+                else begin                                                                                       // READ HIT
+                    write_en_sel = 1'bx;
                     darray_wen = 1'b0;
                     memresp_type = 1'b0;
-                end
-                else begin                                                                         // WRITE HIT
-                    write_en_sel = 1'b1;
-                    darray_wen = 1'b1;
-                    memresp_type = 1'b1;
                 end
 
                 if(val_M0 && tarray_match) begin
@@ -240,8 +256,6 @@ module lab3_cache_CacheBaseCtrl
                   cache_req_val = 1'b0;
                 end
 
-                
-
                 cache_req_type = 1'b0;
                 Spill_or_Refill_sel = 1'b1;
 
@@ -296,7 +310,7 @@ module lab3_cache_CacheBaseCtrl
     end
 
     assign ostall_notrdy = !memresp_rdy;
-    assign stall_M0 = ostall_M0 || ostall_notrdy;
+    assign stall_M0 = val_M0 && (ostall_M0 || ostall_notrdy);
 
     assign memreq_rdy = !stall_M0;
 
