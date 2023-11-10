@@ -51,6 +51,7 @@ module lab3_cache_CacheBaseCtrl
 
 
   // Extra Signal
+  input  logic        flush,
   output logic        flush_done
 );
 
@@ -68,7 +69,7 @@ module lab3_cache_CacheBaseCtrl
   assign ostall_Y = !input_go;
 
   logic stall_Y;
-  assign stall_Y = ostall_Y || stall_M0;
+  assign stall_Y = ostall_Y || ostall_M0;
 
 //--------------------------------------------------------------------
 // M0 stage
@@ -82,9 +83,9 @@ module lab3_cache_CacheBaseCtrl
       val_M0 <= 1'b0;
     end
     else begin
-      if ( state_reg == STATE_PIPE && reg_en_M0)
+      if ( reg_en_M0 )
         val_M0 <= 1'b1;
-      else if (state_reg == STATE_PIPE && !reg_en_M0 && tarray_match)
+      else if (!stall_M0)
         val_M0 <= 1'b0;
       else 
         val_M0 <= val_M0;
@@ -296,23 +297,28 @@ module lab3_cache_CacheBaseCtrl
 
 
   // Possible Stall Signal
-    logic ostall_M0;
+    logic ostall_miss;
     logic ostall_notrdy;
+    logic ostall_M0;
     logic stall_M0;
 
     always_comb begin
         if(!tarray_match) begin
-        ostall_M0 = 1'b1;
+        ostall_miss = 1'b1;
         end
         else begin
-        ostall_M0 = 1'b0;
+        ostall_miss = 1'b0;
         end
     end
 
     assign ostall_notrdy = !memresp_rdy;
-    assign stall_M0 = val_M0 && (ostall_M0 || ostall_notrdy);
+    assign ostall_M0 = val_M0 && (ostall_miss || ostall_notrdy);
+
+    assign stall_M0 = val_M0 && ostall_M0;
 
     assign memreq_rdy = !stall_M0;
+
+    assign flush_done = flush;
 
 
 

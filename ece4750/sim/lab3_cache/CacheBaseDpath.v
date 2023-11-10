@@ -44,10 +44,8 @@ module lab3_cache_CacheBaseDpath
   output logic         current_dirty,
   output logic         spill_done,
   output logic         refill_req_done,
-  output logic         refill_resp_done,
+  output logic         refill_resp_done
 
-  // extra signal
-  input  logic         flush
 );
 
 

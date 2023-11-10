@@ -50,6 +50,7 @@ module top(  input logic clk, input logic linetrace );
   logic        refill_resp_done;
 
   // extra ports
+  logic        flush;
   logic        flush_done;
 
   // Instantiate the processor datapath
@@ -76,6 +77,7 @@ module top(  input logic clk, input logic linetrace );
     spill_done = 1'b0;
     refill_req_done = 1'b0;
     refill_resp_done = 1'b0;
+    flush = 1'b0;
 
     // Simulate Read Hit
     #20
@@ -174,9 +176,10 @@ module top(  input logic clk, input logic linetrace );
     refill_resp_done = 1'b0;
     refill_req_done = 1'b0;
     tarray_match = 1'b1;
+    memresp_rdy = 1'b0;
 
-    #2
-    tarray_match = 1'b0;
+    // #2
+    // tarray_match = 1'b0;
 
 
 
