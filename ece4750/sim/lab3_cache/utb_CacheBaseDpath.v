@@ -40,9 +40,6 @@ module top(  input logic clk, input logic linetrace );
   logic        refill_req_done;
   logic        refill_resp_done;
 
-  // extra ports
-  logic        flush;
-
   // Instantiate the processor datapath
   lab3_cache_CacheBaseDpath DUT
   ( 
