@@ -44,8 +44,11 @@ module lab3_cache_CacheBaseDpath
   output logic         current_dirty,
   output logic         spill_done,
   output logic         refill_req_done,
-  output logic         refill_resp_done
+  output logic         refill_resp_done,
 
+  // extra signals
+  input  logic        flush,
+  output logic        flush_done
 );
 
 
@@ -91,12 +94,8 @@ module lab3_cache_CacheBaseDpath
   always_comb begin
     if(tarray_en && valid_array[index_M0]) begin
       current_dirty = dirty_array[index_M0];
-      if(current_tag == tag_array[index_M0]) begin
-        tarray_match = 1'b1;
-      end
-      else begin
-        tarray_match = 1'b0;
-      end
+      if(current_tag == tag_array[index_M0])    tarray_match = 1'b1;      // Hit
+      else                                      tarray_match = 1'b0;      // Miss
     end
     else begin
       tarray_match = 1'b0;
@@ -112,14 +111,14 @@ module lab3_cache_CacheBaseDpath
       end
     end
     else begin
+      tag_array[index_M0] <= tag_array[index_M0];
+      valid_array[index_M0] <= valid_array[index_M0];
+
       if(tarray_wen) begin
         tag_array[index_M0] <= current_tag;
         valid_array[index_M0] <= 1'b1;
       end
-      else begin
-        tag_array[index_M0] <= tag_array[index_M0];
-        valid_array[index_M0] <= valid_array[index_M0];
-      end
+
     end
   end
   
@@ -145,113 +144,115 @@ module lab3_cache_CacheBaseDpath
   logic [31:0] spill_initial_addr;
   logic [31:0] spill_addr;
   logic [4:0] spill_counter;
+  logic [5:0] flush_counter;
 
-  assign spill_initial_addr = {{tag_array[index_M0]}, {index_M0},{6'b0}};
 
 
-  // Updating Spill Counter
+  // Updating Spill Counter and Flush Counter
   always_ff@(posedge clk) begin
     if(reset) begin
         spill_counter <= 0;
-        // spill_addr <= 0;
+        flush_counter <= 0;
     end
     else begin
-
         spill_counter <= spill_counter;
-        // spill_addr <= spill_addr;
+        flush_counter <= flush_counter;
 
-        // if(spill_counter == 0) begin
-        //   spill_addr <= spill_initial_addr;
-        // end
-
-        if(spill_one_word_done) begin
-            spill_counter <= spill_counter + 1;
-            // spill_addr <= spill_initial_addr + {{26{1'b0}}, {spill_counter[3:0]}, {2'b0}} + 32'h4;
-        end
-
-        if(spill_done) begin
-            spill_counter <= 0;
-            // spill_addr <= 0;
-        end
-
+        if(spill_one_word_done)                    spill_counter <= spill_counter + 1;
+        if(spill_done)                             spill_counter <= 0;
+        if(flush && spill_done && !flush_done)     flush_counter <= flush_counter + 1;
+        if(!flush)                                 flush_counter <= 0;
     end
   end
 
   // Calculate Spill address
+  vc_Mux2#(5) spill_index_mux
+  (
+    .in0  (index_M0),
+    .in1  (flush_counter[4:0]),
+    .sel  (flush),
+    .out  (index_spill)
+  );
+
+  assign spill_initial_addr = {{tag_array[index_spill]}, {index_spill},{6'b0}};
+
   assign spill_addr = spill_initial_addr + {{26{1'b0}}, {spill_counter[3:0]}, {2'b0}};
-
-
 
 
   // Calculate Spill Data
   logic [31:0] cache_to_mem_data;
+  logic [4:0]  index_spill;
+
+
 
   always_comb begin
       if(spill_counter ==  5'd0) begin
-          cache_to_mem_data = data_array[index_M0][31:0];
+          cache_to_mem_data = data_array[index_spill][31:0];
       end
       else if(spill_counter ==  5'd1) begin
-          cache_to_mem_data = data_array[index_M0][63:32];
+          cache_to_mem_data = data_array[index_spill][63:32];
       end
       else if(spill_counter ==  5'd2) begin
-          cache_to_mem_data = data_array[index_M0][95:64];
+          cache_to_mem_data = data_array[index_spill][95:64];
       end
       else if(spill_counter ==  5'd3) begin
-          cache_to_mem_data = data_array[index_M0][127:96];
+          cache_to_mem_data = data_array[index_spill][127:96];
       end
       else if(spill_counter ==  5'd4) begin
-          cache_to_mem_data = data_array[index_M0][159:128];
+          cache_to_mem_data = data_array[index_spill][159:128];
       end
       else if(spill_counter ==  5'd5) begin
-          cache_to_mem_data = data_array[index_M0][191:160];
+          cache_to_mem_data = data_array[index_spill][191:160];
       end
       else if(spill_counter ==  5'd6) begin
-          cache_to_mem_data = data_array[index_M0][223:192];
+          cache_to_mem_data = data_array[index_spill][223:192];
       end
       else if(spill_counter ==  5'd7) begin
-          cache_to_mem_data = data_array[index_M0][255:224];
+          cache_to_mem_data = data_array[index_spill][255:224];
       end
       else if(spill_counter ==  5'd8) begin
-          cache_to_mem_data = data_array[index_M0][287:256];
+          cache_to_mem_data = data_array[index_spill][287:256];
       end
       else if(spill_counter ==  5'd9) begin
-          cache_to_mem_data = data_array[index_M0][319:288];
+          cache_to_mem_data = data_array[index_spill][319:288];
       end
       else if(spill_counter ==  5'd10) begin
-          cache_to_mem_data = data_array[index_M0][351:320];
+          cache_to_mem_data = data_array[index_spill][351:320];
       end
       else if(spill_counter ==  5'd11) begin
-          cache_to_mem_data = data_array[index_M0][383:352];
+          cache_to_mem_data = data_array[index_spill][383:352];
       end
       else if(spill_counter ==  5'd12) begin
-          cache_to_mem_data = data_array[index_M0][415:384];
+          cache_to_mem_data = data_array[index_spill][415:384];
       end
       else if(spill_counter ==  5'd13) begin
-          cache_to_mem_data = data_array[index_M0][447:416];
+          cache_to_mem_data = data_array[index_spill][447:416];
       end
       else if(spill_counter ==  5'd14) begin
-          cache_to_mem_data = data_array[index_M0][479:448];
+          cache_to_mem_data = data_array[index_spill][479:448];
       end
       else if(spill_counter ==  5'd15) begin
-          cache_to_mem_data = data_array[index_M0][511:480];
+          cache_to_mem_data = data_array[index_spill][511:480];
       end
       else begin
           cache_to_mem_data = 32'bx;
       end
   end
 
-
   // Assign Spill Data to Cache_to_Memory_Request Data 
   assign cache_req_msg_data = cache_to_mem_data;
 
-  // Issue Spill Finish Signal
+  // Issue Spill Done Signal
   always_comb begin
-    if(spill_counter >= 5'd16) begin
-        spill_done =1'b1;
-    end
-    else begin
-        spill_done =1'b0;
-    end
+    if(spill_counter >= 5'd16)                            spill_done =1'b1;
+    else if(flush && !dirty_array[index_spill])           spill_done =1'b1;
+    else                                                  spill_done =1'b0;
+  end
+
+  // Issue Flush Done Signal
+  always_comb begin
+    if(flush_counter >= 6'd32)                            flush_done =1'b1;
+    else                                                  flush_done =1'b0;
   end
 
 
@@ -261,65 +262,44 @@ module lab3_cache_CacheBaseDpath
   assign repl_cachereq_data = {{16{cache_request_data_M0}}};
 
 
-
-
   // Update Refill Req Counter
   logic [31:0] refill_addr;
   logic [4:0] refill_req_counter;
 
   always_ff@(posedge clk) begin
     if(reset) begin
-        refill_req_counter <= 0;
+      refill_req_counter <= 0;
     end
     else begin
-
-        refill_req_counter <= refill_req_counter;
-
-        if(refill_one_word_req_sent) begin
-            refill_req_counter <= refill_req_counter + 1;
-        end
-
-        if(refill_resp_done) begin
-            refill_req_counter <= 0;
-        end
-
+      refill_req_counter <= refill_req_counter;
+      if(refill_one_word_req_sent)        refill_req_counter <= refill_req_counter + 1;
+      if(refill_resp_done)                refill_req_counter <= 0;
     end
   end
+
 
   // Calculate Refill Req Address
   assign refill_addr = z6b_mux_result + {{26{1'b0}}, {refill_req_counter[3:0]}, {2'b0}};
 
   // Issue Refill Req End Signal
   always_comb begin
-    if(refill_req_counter >= 5'd16) begin
-        refill_req_done = 1'b1;
-    end
-    else begin
-        refill_req_done = 1'b0;
-    end
+    if(refill_req_counter >= 5'd16)       refill_req_done = 1'b1;
+    else                                  refill_req_done = 1'b0;
   end
-
 
   // Get 512 bits Refill data from cache_resp_msg_data
   logic [4:0] refill_resp_counter;
   logic [511:0] refill_data;
 
+  // Update Refill Respone Counter
   always_ff@(posedge clk) begin
     if(reset) begin
         refill_resp_counter <= 0;
     end
     else begin
-
         refill_resp_counter <= refill_resp_counter;
-
-        if(refill_one_word_resp_received) begin
-            refill_resp_counter <= refill_resp_counter + 1;
-        end
-
-        if(refill_resp_done) begin
-            refill_resp_counter <= 0;
-        end
-
+        if(refill_one_word_resp_received)   refill_resp_counter <= refill_resp_counter + 1;
+        if(refill_resp_done)                refill_resp_counter <= 0;
     end
   end
 
@@ -384,12 +364,8 @@ module lab3_cache_CacheBaseDpath
 
   // Issue Refill Resp End Signal
   always_comb begin
-    if(refill_resp_counter >= 5'd16) begin
-        refill_resp_done =1'b1;
-    end
-    else begin
-        refill_resp_done =1'b0;
-    end
+    if(refill_resp_counter >= 5'd16)    refill_resp_done =1'b1;
+    else                                refill_resp_done =1'b0;
   end
 
 
@@ -453,9 +429,8 @@ module lab3_cache_CacheBaseDpath
       dirty_array[index_M0] <= dirty_array[index_M0];
       data_array[index_M0] <= data_array[index_M0];
 
-      if(darray_wen && tarray_match) begin
-        dirty_array[index_M0] <= 1'b1;
-      end
+      if(darray_wen && tarray_match)            dirty_array[index_M0] <= 1'b1;
+      if(flush && spill_done)                   dirty_array[index_spill] <= 1'b0;
 
       if(write_word_enable[0] && darray_wen) begin 
         data_array[index_M0][31:0] <= write_data[31:0];

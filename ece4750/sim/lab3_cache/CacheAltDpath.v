@@ -97,7 +97,6 @@ module lab3_cache_CacheAltDpath
   logic [4:0] index_M0;
   logic [3:0] offset_M0;
 
-  // Extra Addition
   logic tarray_match1;
   logic tarray_match2;
 
@@ -105,107 +104,49 @@ module lab3_cache_CacheAltDpath
   assign index_M0 = cache_request_addr_M0[10:6];
   assign offset_M0 = cache_request_addr_M0[5:2];
   
-//   always_comb begin
-//     if(tarray_en && valid_array[index_M0]) begin
-//       current_dirty = dirty_array[index_M0];
-//       if(current_tag == tag_array[index_M0]) begin
-//         tarray_match = 1'b1;
-//       end
-//       else begin
-//         tarray_match = 1'b0;
-//       end
-//     end
-//     else begin
-//       tarray_match = 1'b0;
-//       current_dirty = 1'bx;
-//     end
-//   end
-
     // Extra addition
     always_comb begin
         if(tarray_en && valid_array[index_M0]) begin
-            if(current_tag == tag_array[index_M0]) begin
-                tarray_match1 = 1'b1;
-            end
-            else begin
-                tarray_match1 = 1'b0;
-            end
+            if(current_tag == tag_array[index_M0])      tarray_match1 = 1'b1;             // Way 0 Hit
+            else                                        tarray_match1 = 1'b0;             // Way 0 Miss
         end 
-        else begin
-            tarray_match1 = 1'b0;
-        end
+        else if(tarray_en2 && valid_array2[index_M0]) begin
+            if(current_tag == tag_array2[index_M0])     tarray_match1 = 1'b1;             // Way 1 Hit
+            else                                        tarray_match1 = 1'b0;             // Way 1 Miss
+        end 
+        else                                            tarray_match1 = 1'b0;
 
-        if(tarray_en2 && valid_array2[index_M0]) begin
-            if(current_tag == tag_array2[index_M0]) begin
-                tarray_match2 = 1'b1;
-            end
-            else begin
-                tarray_match2 = 1'b0;
-            end
-        end 
-        else begin
-            tarray_match2 = 1'b0;
-        end
         // Decide tarray_match and current_way
-        if (tarray_match1 == 1'b1 && tarray_match2 == 1'b0) begin
+        if (tarray_match1 == 1'b1) begin
             tarray_match = 1'b1;
             current_way = 1'b0; 
+            current_dirty = dirty_array[index_M0];
+            current_lru = 1'b0;
         end
-        else if (tarray_match1 == 1'b0 && tarray_match2 == 1'b1) begin
+        else if (tarray_match2 == 1'b1) begin
             tarray_match = 1'b1;
             current_way = 1'b1;
+            current_dirty = dirty_array2[index_M0];
+            current_lru = 1'b1;
         end
-        else if (tarray_match1 == 1'b0 && tarray_match2 == 1'b0) begin
+        else begin
             tarray_match = 1'b0;
             current_way = 1'bx;
+            current_dirty = 1'bx;
+            current_lru = lru_array[index_M0];
         end
-        else begin
-            tarray_match = 1'bx;
-            current_way = 1'bx;
-        end
-        // Decide current_dirty
-        if (current_lru) begin
-            if(tarray_en && valid_array[index_M0]) begin
-                current_dirty = 1'b1;
-            end
-            else begin
-                current_dirty = 1'bx;
-            end
-        end
-        else begin
-            if(tarray_en2 && valid_array2[index_M0]) begin
-                current_dirty = 1'b1;
-            end
-            else begin
-                current_dirty = 1'bx;
-            end
-        end
-
-        
     end
 
   always_ff @(posedge clk) begin
     if (reset) begin
       for (logic[5:0] i = 0; i < 32; i++) begin
         tag_array[i[4:0]] <= 0;
-        valid_array[i[4:0]] <= 1'b0;
-
-        // Extra Addition
         tag_array2[i[4:0]] <= 0;
+        valid_array[i[4:0]] <= 1'b0;
         valid_array2[i[4:0]] <= 1'b0;
       end
     end
     else begin
-    //   if(tarray_wen) begin
-    //     tag_array[index_M0] <= current_tag;
-    //     valid_array[index_M0] <= 1'b1;
-    //   end
-    //   else begin
-    //     tag_array[index_M0] <= tag_array[index_M0];
-    //     valid_array[index_M0] <= valid_array[index_M0];
-    //   end
-
-        // Extra Addition
         if (tarray_wen) begin
             tag_array[index_M0] <= current_tag;
             valid_array[index_M0] <= 1'b1;
@@ -221,7 +162,6 @@ module lab3_cache_CacheAltDpath
     end
   end
 
-  
   
 
   // Address Get through z6b Mux
@@ -239,41 +179,33 @@ module lab3_cache_CacheAltDpath
     );
 
 
-
-
   // Get Spill Address
   logic [31:0] spill_initial_addr;
   logic [31:0] spill_addr;
   logic [4:0] spill_counter;
 
-  assign spill_initial_addr = {{tag_array[index_M0]}, {index_M0},{6'b0}};
+  logic [20:0] Spill_tag;
+  vc_Mux2#(21) Spill_tag_mux
+    (
+      .in0  (tag_array2[index_M0]),
+      .in1  (tag_array[index_M0]),
+      .sel  (current_lru),
+      .out  (Spill_tag)
+    );
+
+
+  assign spill_initial_addr = {{Spill_tag}, {index_M0},{6'b0}};
 
 
   // Updating Spill Counter
   always_ff@(posedge clk) begin
     if(reset) begin
         spill_counter <= 0;
-        // spill_addr <= 0;
     end
     else begin
-
-        spill_counter <= spill_counter;
-        // spill_addr <= spill_addr;
-
-        // if(spill_counter == 0) begin
-        //   spill_addr <= spill_initial_addr;
-        // end
-
-        if(spill_one_word_done) begin
-            spill_counter <= spill_counter + 1;
-            // spill_addr <= spill_initial_addr + {{26{1'b0}}, {spill_counter[3:0]}, {2'b0}} + 32'h4;
-        end
-
-        if(spill_done) begin
-            spill_counter <= 0;
-            // spill_addr <= 0;
-        end
-
+        spill_counter <= spill_counter; 
+        if(spill_one_word_done)             spill_counter <= spill_counter + 1;
+        if(spill_done)                      spill_counter <= 0;
     end
   end
 
@@ -281,12 +213,11 @@ module lab3_cache_CacheAltDpath
   assign spill_addr = spill_initial_addr + {{26{1'b0}}, {spill_counter[3:0]}, {2'b0}};
 
 
-
-
   // Calculate Spill Data
   logic [31:0] cache_to_mem_data;
 
   always_comb begin
+    if(current_lru) begin
       if(spill_counter ==  5'd0) begin
           cache_to_mem_data = data_array[index_M0][31:0];
       end
@@ -338,6 +269,60 @@ module lab3_cache_CacheAltDpath
       else begin
           cache_to_mem_data = 32'bx;
       end
+    end
+    else begin
+      if(spill_counter ==  5'd0) begin
+          cache_to_mem_data = data_array2[index_M0][31:0];
+      end
+      else if(spill_counter ==  5'd1) begin
+          cache_to_mem_data = data_array2[index_M0][63:32];
+      end
+      else if(spill_counter ==  5'd2) begin
+          cache_to_mem_data = data_array2[index_M0][95:64];
+      end
+      else if(spill_counter ==  5'd3) begin
+          cache_to_mem_data = data_array2[index_M0][127:96];
+      end
+      else if(spill_counter ==  5'd4) begin
+          cache_to_mem_data = data_array2[index_M0][159:128];
+      end
+      else if(spill_counter ==  5'd5) begin
+          cache_to_mem_data = data_array2[index_M0][191:160];
+      end
+      else if(spill_counter ==  5'd6) begin
+          cache_to_mem_data = data_array2[index_M0][223:192];
+      end
+      else if(spill_counter ==  5'd7) begin
+          cache_to_mem_data = data_array2[index_M0][255:224];
+      end
+      else if(spill_counter ==  5'd8) begin
+          cache_to_mem_data = data_array2[index_M0][287:256];
+      end
+      else if(spill_counter ==  5'd9) begin
+          cache_to_mem_data = data_array2[index_M0][319:288];
+      end
+      else if(spill_counter ==  5'd10) begin
+          cache_to_mem_data = data_array2[index_M0][351:320];
+      end
+      else if(spill_counter ==  5'd11) begin
+          cache_to_mem_data = data_array2[index_M0][383:352];
+      end
+      else if(spill_counter ==  5'd12) begin
+          cache_to_mem_data = data_array2[index_M0][415:384];
+      end
+      else if(spill_counter ==  5'd13) begin
+          cache_to_mem_data = data_array2[index_M0][447:416];
+      end
+      else if(spill_counter ==  5'd14) begin
+          cache_to_mem_data = data_array2[index_M0][479:448];
+      end
+      else if(spill_counter ==  5'd15) begin
+          cache_to_mem_data = data_array2[index_M0][511:480];
+      end
+      else begin
+          cache_to_mem_data = 32'bx;
+      end
+    end
   end
 
 
@@ -346,20 +331,14 @@ module lab3_cache_CacheAltDpath
 
   // Issue Spill Finish Signal
   always_comb begin
-    if(spill_counter >= 5'd16) begin
-        spill_done =1'b1;
-    end
-    else begin
-        spill_done =1'b0;
-    end
+    if(spill_counter >= 5'd16)    spill_done =1'b1;
+    else                          spill_done =1'b0;
   end
-
 
 
   // Data Replicate itself for Write Hit
   logic [511:0] repl_cachereq_data;
   assign repl_cachereq_data = {{16{cache_request_data_M0}}};
-
 
 
 
@@ -369,20 +348,12 @@ module lab3_cache_CacheAltDpath
 
   always_ff@(posedge clk) begin
     if(reset) begin
-        refill_req_counter <= 0;
+      refill_req_counter <= 0;
     end
     else begin
-
-        refill_req_counter <= refill_req_counter;
-
-        if(refill_one_word_req_sent) begin
-            refill_req_counter <= refill_req_counter + 1;
-        end
-
-        if(refill_resp_done) begin
-            refill_req_counter <= 0;
-        end
-
+      refill_req_counter <= refill_req_counter;
+      if(refill_one_word_req_sent)    refill_req_counter <= refill_req_counter + 1;
+      if(refill_resp_done)            refill_req_counter <= 0;
     end
   end
 
@@ -391,12 +362,8 @@ module lab3_cache_CacheAltDpath
 
   // Issue Refill Req End Signal
   always_comb begin
-    if(refill_req_counter >= 5'd16) begin
-        refill_req_done = 1'b1;
-    end
-    else begin
-        refill_req_done = 1'b0;
-    end
+    if(refill_req_counter >= 5'd16)         refill_req_done = 1'b1;
+    else                                    refill_req_done = 1'b0;
   end
 
 
@@ -409,17 +376,9 @@ module lab3_cache_CacheAltDpath
         refill_resp_counter <= 0;
     end
     else begin
-
         refill_resp_counter <= refill_resp_counter;
-
-        if(refill_one_word_resp_received) begin
-            refill_resp_counter <= refill_resp_counter + 1;
-        end
-
-        if(refill_resp_done) begin
-            refill_resp_counter <= 0;
-        end
-
+        if(refill_one_word_resp_received)           refill_resp_counter <= refill_resp_counter + 1;
+        if(refill_resp_done)                        refill_resp_counter <= 0;
     end
   end
 
@@ -484,12 +443,8 @@ module lab3_cache_CacheAltDpath
 
   // Issue Refill Resp End Signal
   always_comb begin
-    if(refill_resp_counter >= 5'd16) begin
-        refill_resp_done =1'b1;
-    end
-    else begin
-        refill_resp_done =1'b0;
-    end
+    if(refill_resp_counter >= 5'd16)      refill_resp_done =1'b1;
+    else                                  refill_resp_done =1'b0;
   end
 
 
@@ -541,60 +496,36 @@ module lab3_cache_CacheAltDpath
 
   logic [511:0] data_array_output;
 
-
-  // Extra Addition
-
+  // Store Current LRU
   always_ff @(posedge clk) begin
     if (reset) begin
-        for (logic[5:0] i = 0; i < 32; i++) begin
-            lru_array[i[4:0]] <= 1'b0;
-        end
+      for (logic[5:0] i = 0; i < 32; i++) begin
+        lru_array[i[4:0]] <= 1'b0;
+      end
     end
     else begin
-        if (tarray_match) begin
-            if (tarray_match1) begin
-                lru_array[index_M0] <= 1'b0;
-            end
-            else if (tarray_match2)begin
-                lru_array[index_M0] <= 1'b1;
-            end
-            else begin
-                lru_array[index_M0] <= lru_array[index_M0];
-            end
-        end
-        else begin 
-            lru_array[index_M0] <= lru_array[index_M0];
-        end
+      lru_array[index_M0] <= current_lru;
     end
   end
 
 
   always_ff@(posedge clk) begin
-
     if (reset) begin
       for (logic[5:0] i = 0; i < 32; i++) begin
         data_array[i[4:0]] <= 0;
-        dirty_array[i[4:0]] <= 1'b0;
-        // Extra Addition
         data_array2[i[4:0]] <= 0;
+        dirty_array[i[4:0]] <= 1'b0;
         dirty_array2[i[4:0]] <= 1'b0;
-        
       end
     end
-
     else begin
-    
       dirty_array[index_M0] <= dirty_array[index_M0];
+      dirty_array2[index_M0] <= dirty_array2[index_M0];
       data_array[index_M0] <= data_array[index_M0];
-
-      // Extra Addition
+      data_array2[index_M0] <= data_array2[index_M0];
        
-      if(darray_wen && tarray_match) begin
-        dirty_array[index_M0] <= 1'b1;
-      end
-      else if(darray_wen2 && tarray_match) begin
-        dirty_array2[index_M0] <= 1'b1;
-      end
+      if(darray_wen && tarray_match)              dirty_array[index_M0] <= 1'b1;
+      else if(darray_wen2 && tarray_match)        dirty_array2[index_M0] <= 1'b1;
       
 
       if(write_word_enable[0] && darray_wen) begin 
@@ -712,7 +643,13 @@ module lab3_cache_CacheAltDpath
     end
   end
 
-  assign data_array_output = data_array[index_M0];
+  vc_Mux2#(512) way_output_sel_mux
+    (
+      .in0  (data_array2[index_M0]),
+      .in1  (data_array[index_M0]),
+      .sel  (current_lru),
+      .out  (data_array_output)
+    );
 
   lab3_cache_Mux16#(32) output_mux
       (

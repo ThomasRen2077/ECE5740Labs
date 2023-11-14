@@ -40,6 +40,11 @@ module top(  input logic clk, input logic linetrace );
   logic        refill_req_done;
   logic        refill_resp_done;
 
+  // Extra Signals
+  logic        flush;
+  logic        flush_done;
+
+
   // Instantiate the processor datapath
   lab3_cache_CacheBaseDpath DUT
   ( 
@@ -536,23 +541,92 @@ module top(  input logic clk, input logic linetrace );
     tarray_wen = 1'b0; // Assert memresp = FFFFFFF0
     darray_wen = 1'b0;
 
+    // Simulate flush
+    flush = 1'b1;
+    Spill_or_Refill_sel = 1'b0;
+
+    #64
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;  // Assert Spill Done
 
 
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-    #20
+    #200
     $finish();
 
   end

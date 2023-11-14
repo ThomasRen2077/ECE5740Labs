@@ -187,11 +187,9 @@ module lab3_cache_CacheAltCtrl
                 if (val_M0 && mem_req_type_M0 == 1'b1) begin                                                      // WRITE HIT
                     if(tarray_match) begin
                       write_en_sel = 1'b1; 
-                      // Extra addition
                       if (current_way == 1'b0) begin
                         darray_wen = 1'b1;
                         darray_wen2 = 1'b0;
-
                       end
                       else begin
                         darray_wen = 1'b0;
@@ -201,8 +199,6 @@ module lab3_cache_CacheAltCtrl
                     else begin
                       write_en_sel = 1'b0; 
                       darray_wen = 1'b0;
-
-                      // Extra addition
                       darray_wen2 = 1'b0;
                     end
                     memresp_type = 1'b1;
@@ -210,7 +206,6 @@ module lab3_cache_CacheAltCtrl
                 else begin                                                                                       // READ HIT
                     write_en_sel = 1'bx;
                     darray_wen = 1'b0;
-                    // Extra addition
                     darray_wen2 = 1'b0;
                     memresp_type = 1'b0;
                 end
@@ -255,40 +250,29 @@ module lab3_cache_CacheAltCtrl
 
                 write_en_sel = 1'b0; 
                 darray_wen = 1'b0;
-                // Extra Addition
                 darray_wen2 = 1'b0;
                 memresp_type =  1'b0;
                 memresp_val = 1'b0;
                 cache_resp_rdy = 1'b0;
-
             end
 
             else begin
 
                 tarray_en = 1'b0;
-                tarray_en2 = 1'b0; // Extra Addition
-                
-                // if(refill_resp_done) begin
-                //   tarray_wen = 1'b1;
-                // end
-                // else begin
-                //   tarray_wen = 1'b0;
-                // end
-
-                // Extra Addition
+                tarray_en2 = 1'b0; 
                 if(refill_resp_done) begin
                     if(current_lru) begin
-                        tarray_wen = 1'b1;
-                        tarray_wen2 = 1'b0;
+                      tarray_wen = 1'b1;
+                      tarray_wen2 = 1'b0;
                     end
                     else begin
-                        tarray_wen = 1'b0;
-                        tarray_wen2 = 1'b1;
+                      tarray_wen = 1'b0;
+                      tarray_wen2 = 1'b1;
                     end
                 end
                 else begin
                   tarray_wen = 1'b0;
-                  tarray_wen2 = 1'b0;   // Extra Addition
+                  tarray_wen2 = 1'b0;  
                 end
 
                 z6b_sel = 1'b1;

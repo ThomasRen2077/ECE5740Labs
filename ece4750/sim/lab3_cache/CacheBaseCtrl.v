@@ -51,8 +51,7 @@ module lab3_cache_CacheBaseCtrl
 
 
   // Extra Signal
-  input  logic        flush,
-  output logic        flush_done
+  input  logic        flush
 );
 
 
@@ -131,22 +130,18 @@ module lab3_cache_CacheBaseCtrl
     // State Transition Logic
         always_comb begin
             case ( state_reg )
-                STATE_PIPE:     if (val_M0 && (tarray_match == 1'b0) && current_dirty)                
-                                    state_next = STATE_SPILL;                                   // If Miss and the Victim is Dirty.
-                                else if(val_M0 && (tarray_match == 1'b0) && !current_dirty)           
-                                    state_next = STATE_REFILL;                                  // If Miss and the Victim is Clean.
-                                else 
-                                    state_next = state_reg;                                     // State Remain Itself.
-                STATE_SPILL:    if (val_M0 && spill_done)                                                   
-                                    state_next = STATE_REFILL;                                  // SPILL State Ends.
-                                else
-                                    state_next = state_reg;                                     // State Remain Itself.
-                STATE_REFILL:   if (val_M0 && refill_resp_done)                                                  
-                                    state_next = STATE_PIPE;                                    // REFILL State Ends.
-                                else
-                                    state_next = state_reg;                                     // State Remain Itself.
+                STATE_PIPE:     if ((val_M0 && (tarray_match == 1'b0) && current_dirty) || flush)   state_next = STATE_SPILL;     // If Miss and the Victim is Dirty Or Flush
+                                else if(val_M0 && (tarray_match == 1'b0) && !current_dirty)         state_next = STATE_REFILL;    // If Miss and the Victim is Clean.
+                                else                                                                state_next = state_reg;       // State Remain Itself.
+                STATE_SPILL:    if (val_M0 && spill_done)                                           state_next = STATE_REFILL;    // Normal Operation. SPILL State Ends and Turns to REFILL State.
+                                else if(flush && spill_done)                                        state_next = STATE_PIPE;      // Flush Operation. SPILL State Ends and Returns to PIPE State.
+                                else                                                                state_next = state_reg;       // State Remain Itself.
+                STATE_REFILL:   if (val_M0 && refill_resp_done)                                     state_next = STATE_PIPE;      // REFILL State Ends.
+                                else                                                                state_next = state_reg;       // State Remain Itself.
 
-                default:        state_next = 2'bx;                                              // Unknown State.
+                default:        begin                                                               $stop;                        // This Line Will Never Get Run. 
+                                                                                                    state_next = 2'bx;            // Unknown State.
+                end
             endcase
         end
  
@@ -317,8 +312,6 @@ module lab3_cache_CacheBaseCtrl
     assign stall_M0 = val_M0 && ostall_M0;
 
     assign memreq_rdy = !stall_M0;
-
-    assign flush_done = flush;
 
 
 
