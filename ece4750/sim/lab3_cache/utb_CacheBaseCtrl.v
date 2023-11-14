@@ -263,6 +263,11 @@ module top(  input logic clk, input logic linetrace );
     end
 
 
+    #20
+    flush = 1'b1;
+
+
+
 
     #20
 

@@ -52,7 +52,6 @@ module lab3_cache_CacheAltCtrl
   input  logic        refill_req_done,
   input  logic        refill_resp_done,
   input  logic        current_lru,
-  input  logic        current_way,
 
 
   // Extra Signal
@@ -187,7 +186,7 @@ module lab3_cache_CacheAltCtrl
                 if (val_M0 && mem_req_type_M0 == 1'b1) begin                                                      // WRITE HIT
                     if(tarray_match) begin
                       write_en_sel = 1'b1; 
-                      if (current_way == 1'b0) begin
+                      if (current_lru) begin
                         darray_wen = 1'b1;
                         darray_wen2 = 1'b0;
                       end

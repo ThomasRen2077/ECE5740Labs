@@ -48,8 +48,7 @@ module lab3_cache_CacheAltDpath
   output logic         spill_done,
   output logic         refill_req_done,
   output logic         refill_resp_done,
-  output logic         current_lru,
-  output logic         current_way
+  output logic         current_lru
 
 );
 
@@ -119,19 +118,16 @@ module lab3_cache_CacheAltDpath
         // Decide tarray_match and current_way
         if (tarray_match1 == 1'b1) begin
             tarray_match = 1'b1;
-            current_way = 1'b0; 
             current_dirty = dirty_array[index_M0];
             current_lru = 1'b0;
         end
         else if (tarray_match2 == 1'b1) begin
             tarray_match = 1'b1;
-            current_way = 1'b1;
             current_dirty = dirty_array2[index_M0];
             current_lru = 1'b1;
         end
         else begin
             tarray_match = 1'b0;
-            current_way = 1'bx;
             current_dirty = 1'bx;
             current_lru = lru_array[index_M0];
         end
