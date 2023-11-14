@@ -89,6 +89,7 @@ assign cache_req_msg.len = 2'b0;
   logic        refill_one_word_req_sent;
   logic        refill_one_word_resp_received;
   logic        Spill_or_Refill_sel;
+  
 
   // Status signals
   logic        tarray_match;
@@ -96,6 +97,7 @@ assign cache_req_msg.len = 2'b0;
   logic        spill_done;
   logic        refill_req_done;
   logic        refill_resp_done;
+  
 
 
 // Instantiate and connect datapath

@@ -105,15 +105,23 @@ module lab3_cache_CacheBaseDpath
   end
 
   always_ff @(posedge clk) begin
-    if(tarray_wen) begin
-      tag_array[index_M0] <= current_tag;
-      valid_array[index_M0] <= 1'b1;
+    if (reset) begin
+      for (logic[5:0] i = 0; i < 32; i++) begin
+        tag_array[i[4:0]] <= 0;
+        valid_array[i[4:0]] <= 1'b0;
+      end
     end
     else begin
-      tag_array[index_M0] <= tag_array[index_M0];
-      valid_array[index_M0] <= valid_array[index_M0];
+      if(tarray_wen) begin
+        tag_array[index_M0] <= current_tag;
+        valid_array[index_M0] <= 1'b1;
+      end
+      else begin
+        tag_array[index_M0] <= tag_array[index_M0];
+        valid_array[index_M0] <= valid_array[index_M0];
+      end
     end
-    end
+  end
   
 
   // Address Get through z6b Mux
@@ -432,76 +440,86 @@ module lab3_cache_CacheBaseDpath
   logic [511:0] data_array_output;
 
   always_ff@(posedge clk) begin
+
+    if (reset) begin
+      for (logic[5:0] i = 0; i < 32; i++) begin
+        data_array[i[4:0]] <= 0;
+        dirty_array[i[4:0]] <= 1'b0;
+      end
+    end
+
+    else begin
     
-    dirty_array[index_M0] <= dirty_array[index_M0];
-    data_array[index_M0] <= data_array[index_M0];
+      dirty_array[index_M0] <= dirty_array[index_M0];
+      data_array[index_M0] <= data_array[index_M0];
 
-    if(darray_wen && tarray_match) begin
-      dirty_array[index_M0] <= 1'b1;
-    end
+      if(darray_wen && tarray_match) begin
+        dirty_array[index_M0] <= 1'b1;
+      end
 
-    if(write_word_enable[0] && darray_wen) begin 
-      data_array[index_M0][31:0] <= write_data[31:0];
-    end
+      if(write_word_enable[0] && darray_wen) begin 
+        data_array[index_M0][31:0] <= write_data[31:0];
+      end
 
-    if(write_word_enable[1] && darray_wen) begin
-      data_array[index_M0][63:32] <= write_data[63:32];
-    end
+      if(write_word_enable[1] && darray_wen) begin
+        data_array[index_M0][63:32] <= write_data[63:32];
+      end
 
-    if(write_word_enable[2] && darray_wen) begin
-      data_array[index_M0][95:64] <= write_data[95:64];
-    end
+      if(write_word_enable[2] && darray_wen) begin
+        data_array[index_M0][95:64] <= write_data[95:64];
+      end
 
-    if(write_word_enable[3] && darray_wen) begin
-      data_array[index_M0][127:96] <= write_data[127:96];
-    end
+      if(write_word_enable[3] && darray_wen) begin
+        data_array[index_M0][127:96] <= write_data[127:96];
+      end
 
-    if(write_word_enable[4] && darray_wen) begin
-      data_array[index_M0][159:128] <= write_data[159:128];
-    end
+      if(write_word_enable[4] && darray_wen) begin
+        data_array[index_M0][159:128] <= write_data[159:128];
+      end
 
-    if(write_word_enable[5] && darray_wen) begin
-      data_array[index_M0][191:160] <= write_data[191:160];
-    end
+      if(write_word_enable[5] && darray_wen) begin
+        data_array[index_M0][191:160] <= write_data[191:160];
+      end
 
-    if(write_word_enable[6] && darray_wen) begin
-      data_array[index_M0][223:192] <= write_data[223:192];
-    end
+      if(write_word_enable[6] && darray_wen) begin
+        data_array[index_M0][223:192] <= write_data[223:192];
+      end
 
-    if(write_word_enable[7] && darray_wen) begin
-      data_array[index_M0][255:224] <= write_data[255:224];
-    end
+      if(write_word_enable[7] && darray_wen) begin
+        data_array[index_M0][255:224] <= write_data[255:224];
+      end
 
-    if(write_word_enable[8] && darray_wen) begin
-      data_array[index_M0][287:256] <= write_data[287:256];
-    end
+      if(write_word_enable[8] && darray_wen) begin
+        data_array[index_M0][287:256] <= write_data[287:256];
+      end
 
-    if(write_word_enable[9] && darray_wen) begin
-      data_array[index_M0][319:288] <= write_data[319:288];
-    end
+      if(write_word_enable[9] && darray_wen) begin
+        data_array[index_M0][319:288] <= write_data[319:288];
+      end
 
-    if(write_word_enable[10] && darray_wen) begin
-      data_array[index_M0][351:320] <= write_data[351:320];
-    end
+      if(write_word_enable[10] && darray_wen) begin
+        data_array[index_M0][351:320] <= write_data[351:320];
+      end
 
-    if(write_word_enable[11] && darray_wen) begin
-      data_array[index_M0][383:352] <= write_data[383:352];
-    end
+      if(write_word_enable[11] && darray_wen) begin
+        data_array[index_M0][383:352] <= write_data[383:352];
+      end
 
-    if(write_word_enable[12] && darray_wen) begin
-      data_array[index_M0][415:384] <= write_data[415:384];
-    end
+      if(write_word_enable[12] && darray_wen) begin
+        data_array[index_M0][415:384] <= write_data[415:384];
+      end
 
-    if(write_word_enable[13] && darray_wen) begin
-      data_array[index_M0][447:416] <= write_data[447:416];
-    end
+      if(write_word_enable[13] && darray_wen) begin
+        data_array[index_M0][447:416] <= write_data[447:416];
+      end
 
-    if(write_word_enable[14] && darray_wen) begin
-      data_array[index_M0][479:448] <= write_data[479:448];
-    end
+      if(write_word_enable[14] && darray_wen) begin
+        data_array[index_M0][479:448] <= write_data[479:448];
+      end
 
-    if(write_word_enable[15] && darray_wen) begin
-      data_array[index_M0][511:480] <= write_data[511:480];
+      if(write_word_enable[15] && darray_wen) begin
+        data_array[index_M0][511:480] <= write_data[511:480];
+      end
     end
   end
 

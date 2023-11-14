@@ -86,12 +86,29 @@ module top(  input logic clk, input logic linetrace );
     memresp_rdy = 1'b1;
 
     #2;
-    memreq_val = 1'b0;
-    tarray_match = 1'b1;
+    memreq_val = 1'b0; // How the val signal change from 1 to 0?
+    tarray_match = 1'b1; // Assert memresp_val == 1
+
+    // Check the result ?
+    @(posedge clk);
+    assert (memresp_val != 1) begin
+      $display("Error in Memory Response Valid Test. Expected %b, got %b", 1'b1, memresp_val);fail(); $finish(); 
+    end else begin
+      $display("Memory Response Test Passed. Result is %b", memresp_val);pass();
+    end
 
 
     #2;
-    tarray_match = 1'b0;
+    @(negedge clk);
+    tarray_match = 1'b0; // Assert memresp_val == 0
+
+    // Check the result
+    @(posedge clk);
+    assert (memresp_val != 0) begin
+      $display("Error in Memory Response Valid Test. Expected %b, got %b", 1'b1, memresp_val);fail(); $finish();
+    end else begin
+      $display("Memory Response Valid Test Passed. Result is %b", memresp_val);pass();
+    end
 
 
     // Simulate Write Hit
@@ -103,11 +120,26 @@ module top(  input logic clk, input logic linetrace );
     #2;
     memreq_val = 1'b0;
     memreq_type = 1'b0;
-    tarray_match = 1'b1;
+    tarray_match = 1'b1; // Assert Data Array Write Enable = 1;
+
+    // Check the result
+    @(posedge clk);
+    assert (darray_wen != 1) begin
+      $display("Error in Data Array Write Enable Test. Expected %b, got %b", 1'b1, darray_wen);fail(); $finish();
+    end else begin
+      $display("Data Array Write Enable Test Passed. Result is %b", darray_wen);pass();
+    end
 
     #2;
-    tarray_match = 1'b0;
+    @(negedge clk);
+    tarray_match = 1'b0; // Assert Data Array Write Enable = 0;
 
+    // Check the result
+    assert (darray_wen != 0) begin
+      $display("Error in Data Array Write Enable Test. Expected %b, got %b", 1'b0, darray_wen);fail(); $finish();
+    end else begin
+      $display("Data Array Write Enable Test Passed. Result is %b", darray_wen);pass();
+    end
 
     // Simulate Read Miss
     #20
@@ -135,19 +167,48 @@ module top(  input logic clk, input logic linetrace );
     #32
     refill_resp_done = 1'b1;
     cache_resp_val = 1'b0;
-    cache_resp_type = 1'b0;
+    cache_resp_type = 1'b0; // Assert tarray_wen and darray_wen == 1;
+
+    // Check the result
+    @(posedge clk);
+    assert (tarray_wen != 1 || darray_wen != 1) begin
+      $display("Error in Tag or Data Array Write Enable Test. Expected %b, %b, got %b, %b", 1'b1, 1'b1, tarray_wen, darray_wen);fail(); $finish();
+    end else begin
+      $display("Tag or Data Array Write Enable Test Passed. Result is %b, %b", tarray_wen, darray_wen);pass();
+    end
 
 
-    #2
-    refill_resp_done = 1'b0;
+    @(negedge clk);
+    refill_resp_done = 1'b0; // Assert memresp_val == 1; Assert tarray_wen and darray_wen == 0;
     refill_req_done = 1'b0;
-    tarray_match = 1'b1;
+    tarray_match = 1'b1; 
+
+    // Check the result
+    @(posedge clk);
+    assert (memresp_val != 1 ) begin
+      $display("Error in Memory Response Valid Test. Expected %b, got %b", 1'b1, memresp_val);fail(); $finish();
+    end else begin
+      $display("Memory Response Valid Test Passed. Result is %b", memresp_val);pass();
+    end
+
+
+
+
+
+    // Check the result
+    @(posedge clk);
+    assert (tarray_wen != 0 || darray_wen != 0) begin
+      $display("Error in Tag or Data Array Write Enable Test. Expected %b, %b, got %b, %b", 1'b0, 1'b0, tarray_wen, darray_wen);fail(); $finish();
+    end else begin
+      $display("Tag and Data Array Write Enable Test Passed. Result is %b, %b", tarray_wen, darray_wen);pass();
+    end
 
     #2
     tarray_match = 1'b0;
 
     // Simulate Write Miss
     #20
+    @(negedge clk);
     memreq_val = 1'b1;
     memreq_type = 1'b1;
 
@@ -160,7 +221,6 @@ module top(  input logic clk, input logic linetrace );
     #2
     cache_req_rdy = 1'b1;
 
-
     #32
     refill_req_done = 1'b1;
     cache_resp_val = 1'b1;
@@ -169,34 +229,38 @@ module top(  input logic clk, input logic linetrace );
     #32
     refill_resp_done = 1'b1;
     cache_resp_val = 1'b0;
-    cache_resp_type = 1'b0;
+    cache_resp_type = 1'b0; // Assert tarray_wen and darray_wen == 1;
 
+    // Check the result
+    @(posedge clk);
+    assert (tarray_wen != 1 || darray_wen != 1) begin
+      $display("Error in Tag or Data Array Write Enable Test. Expected %b, %b, got %b, %b", 1'b1, 1'b1, tarray_wen, darray_wen);fail(); $finish();
+    end else begin
+      $display("Tag and Data Array Write Enable Test Passed. Result is %b, %b", tarray_wen, darray_wen);pass();
+    end
 
-    #2
+    
+
+    @(negedge clk);
     refill_resp_done = 1'b0;
     refill_req_done = 1'b0;
-    tarray_match = 1'b1;
-    memresp_rdy = 1'b0;
+    tarray_match = 1'b1; //  Assert tarray_wen == 0 and darray_wen == 1;
+    memresp_rdy = 1'b0;  // Assert memresp_val == 1; 
 
-    // #2
-    // tarray_match = 1'b0;
+    // Check the result
+    assert (tarray_wen != 0 || darray_wen != 0) begin
+      $display("Error in Tag or Data Array Write Enable Test. Expected %b, %b, got %b, %b", 1'b0, 1'b0, tarray_wen, darray_wen);fail(); $finish();
+    end else begin
+      $display("Tag and Data Array Write Enable Test Passed. Result is %b, %b", tarray_wen, darray_wen);pass();
+    end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    #2
+    //Check the result
+    assert (memresp_val != 1) begin
+      $display("Error in Memory Response Valid Test. Expected %b, got %b", 1'b1, memresp_val);fail(); $finish();
+    end else begin
+      $display("Memory Response Valid Test Passed. Result is %b", memresp_val);pass();
+    end
 
 
 
