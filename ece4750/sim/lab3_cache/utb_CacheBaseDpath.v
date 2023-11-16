@@ -541,6 +541,9 @@ module top(  input logic clk, input logic linetrace );
     tarray_wen = 1'b0; // Assert memresp = FFFFFFF0
     darray_wen = 1'b0;
 
+
+    #20
+
     // Simulate flush
     flush = 1'b1;
     Spill_or_Refill_sel = 1'b0;

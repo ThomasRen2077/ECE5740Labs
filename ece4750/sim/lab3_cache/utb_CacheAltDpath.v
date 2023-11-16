@@ -43,6 +43,8 @@ module top(  input logic clk, input logic linetrace );
   logic        refill_req_done;
   logic        refill_resp_done;
   logic        current_lru;
+  logic        flush_dirty;
+
 
   // Extra Signals
   logic        flush;
@@ -84,7 +86,7 @@ module top(  input logic clk, input logic linetrace );
 
     
     #20
-    // Simulate Write one tag and data
+    // Simulate Write one tag and data in both way
     @(negedge clk);
     reset = 1'b0;
     memreq_msg_addr = 32'hFFFFFFFF; 
@@ -124,9 +126,8 @@ module top(  input logic clk, input logic linetrace );
     darray_wen = 1'b0;
 
     #2
-    // Check the result
-    //$display("124 Result is %h", memresp_msg_data);
-    assert (memresp_msg_data != 32'h00000000) begin
+    // Check the output
+    assert (memresp_msg_data != 32'hFFFFFFFF) begin
       $display("Error in Write CacheLine Test. Expected %h, got %h", 32'hFFFFFFFF, memresp_msg_data);fail(); $finish();
     end else begin
       $display("Write CacheLine Test Test Passed. Result is %h", memresp_msg_data);pass();
@@ -136,18 +137,17 @@ module top(  input logic clk, input logic linetrace );
     // ---------------------
     // Write one tag and data
     #2
-    tarray_wen = 1'b1;
-    darray_wen = 1'b1;
+    tarray_wen2 = 1'b1;
+    darray_wen2 = 1'b1;
 
     // End Write
     #2
-    tarray_wen = 1'b0;
-    darray_wen = 1'b0;
+    tarray_wen2 = 1'b0;
+    darray_wen2 = 1'b0;
 
     #2
     // Check the result
-    // $display("144 Result is %h", memresp_msg_data);
-    assert (memresp_msg_data != 32'h00000000) begin
+    assert (memresp_msg_data != 32'hFFFFFFFF) begin
       $display("Error in Write CacheLine Test. Expected %h, got %h", 32'hFFFFFFFF, memresp_msg_data);fail(); $finish();
     end else begin
       $display("Write CacheLine Test Test Passed. Result is %h", memresp_msg_data);pass();
@@ -200,7 +200,6 @@ module top(  input logic clk, input logic linetrace );
     memreq_msg_addr = 32'h0; 
 
     // Check the result
-    // $display("197 Result is %b", tarray_match);
     assert (tarray_match != 1'b1) begin
       $display("Error in Tag Match Test. Expected %b, got %b", 1'b1, tarray_match);fail(); $finish();
     end else begin
@@ -241,8 +240,7 @@ module top(  input logic clk, input logic linetrace );
     memreq_msg_addr = 32'h0; 
 
     // Check the result
-    // $display("237 Result is %b", tarray_match);
-    assert (tarray_match != 1'b0) begin
+    assert (tarray_match != 1'b1) begin
       $display("Error in Tag Match Test. Expected %b, got %b", 1'b1, tarray_match);fail(); $finish();
     end else begin
       $display("Tag Match Test Passed. Result is %b", tarray_match);pass();
@@ -284,7 +282,6 @@ module top(  input logic clk, input logic linetrace );
     write_en_sel = 1'b1; // Assert dirty bit = 1;
 
     // Check the result
-    // $display("279 Result is %b", tarray_match);
     assert (tarray_match != 1'b1) begin
       $display("Error in Tag Match Test. Expected %b, got %b", 1'b1, tarray_match);fail(); $finish();
     end else begin
@@ -295,7 +292,6 @@ module top(  input logic clk, input logic linetrace );
 
     #2
     // Check the result
-    // $display("289 Result is %b", current_dirty);
     assert (current_dirty != 1'b1) begin
       $display("Error in Current Dirty Test. Expected %b, got %b", 1'b1, current_dirty);fail(); $finish();
     end else begin
@@ -326,17 +322,16 @@ module top(  input logic clk, input logic linetrace );
     spill_one_word_done = 1'b0;
     refill_one_word_req_sent = 1'b0;
     refill_one_word_resp_received = 1'b0;
-    Spill_or_Refill_sel = 1'b0; // Assert tag match;
+    Spill_or_Refill_sel = 1'b0; 
 
     
 
     #2
     darray_wen2 = 1'b1;
-    write_en_sel = 1'b1; // Assert dirty bit = 1;
+    write_en_sel = 1'b1; 
 
-    // Check the result
-    // $display("328 Result is %b", tarray_match);
-    assert (tarray_match != 1'b0) begin
+    // Check Tag Match;
+    assert (tarray_match != 1'b1) begin
       $display("Error in Tag Match Test. Expected %b, got %b", 1'b1, tarray_match);fail(); $finish();
     end else begin
       $display("Tag Match Test Passed. Result is %b", tarray_match);pass();
@@ -345,9 +340,8 @@ module top(  input logic clk, input logic linetrace );
     
 
     #2
-    // Check the result
-    // $display("339 Result is %b", current_dirty);
-    assert (current_dirty != 1'b0) begin
+    // Check dirty bit
+    assert (current_dirty != 1'b1) begin
       $display("Error in Current Dirty Test. Expected %b, got %b", 1'b1, current_dirty);fail(); $finish();
     end else begin
       $display("Current Dirty Test Passed. Result is %b", current_dirty);pass();
@@ -455,10 +449,9 @@ module top(  input logic clk, input logic linetrace );
     #4
     spill_one_word_done = 1'b1;
     #2
-    spill_one_word_done = 1'b0;  // Assert Spill Done
+    spill_one_word_done = 1'b0;  
 
-    // Check the result
-    // $display("449 Result is %b", spill_done);
+    // Check Spill Done Signal
     assert (spill_done != 1'b1) begin
       $display("Error in Spill Done Test. Expected %b, got %b", 1'b1, spill_done);fail(); $finish();
     end else begin
@@ -556,10 +549,9 @@ module top(  input logic clk, input logic linetrace );
     #4
     spill_one_word_done = 1'b1;
     #2
-    spill_one_word_done = 1'b0;  // Assert Spill Done
+    spill_one_word_done = 1'b0; 
 
-    // Check the result
-    // $display("550 Result is %b", spill_done);
+    // Check Spill Done Signal
     assert (spill_done != 1'b1) begin
       $display("Error in Spill Done Test. Expected %b, got %b", 1'b1, spill_done);fail(); $finish();
     end else begin
@@ -655,10 +647,9 @@ module top(  input logic clk, input logic linetrace );
     #4
     refill_one_word_req_sent = 1'b1;
     #2
-    refill_one_word_req_sent = 1'b0; // assert refill request done
+    refill_one_word_req_sent = 1'b0; 
 
-    // Check the result
-    // $display("647 Result is %b", refill_req_done);
+    // Check refill request done signal
     assert (refill_req_done != 1'b1) begin
       $display("Error in Refill Request Done Test. Expected %b, got %b", 1'b1, refill_req_done);fail(); $finish();
     end else begin
@@ -757,14 +748,13 @@ module top(  input logic clk, input logic linetrace );
 
     #12
     refill_one_word_resp_received = 1'b1;
-    cache_resp_msg_data = 32'hFFFFFFF0; // Assert refill response done
+    cache_resp_msg_data = 32'hFFFFFFF0; 
 
 
 
     
     #2
-    // Check the result
-    // $display("753 Result is %b", refill_resp_done);
+    // Check refill response done signal
     assert (refill_resp_done != 1'b1) begin
       $display("Error in Refill Response Done Test. Expected %b, got %b", 1'b1, refill_resp_done);fail(); $finish();
     end else begin
@@ -779,18 +769,28 @@ module top(  input logic clk, input logic linetrace );
 
     #2
 
-    // Check the result
-    // $display("769 Result is %h", memresp_msg_data);
+    // Check memresp_msg_data
     assert (memresp_msg_data != 32'hFFFFFFF0) begin
       $display("Error in Memory Response Data Test. Expected %h, got %h", 32'hFFFFFFF0, memresp_msg_data);fail(); $finish();
     end else begin
       $display("Memory Response Data Test Passed. Result is %h", memresp_msg_data);pass();
     end
-    tarray_wen = 1'b0; // Assert memresp = FFFFFFF0
+    tarray_wen = 1'b0; 
     darray_wen = 1'b0;
     tarray_wen2 = 1'b0;
     darray_wen2 = 1'b0;
     
+
+
+
+    #20
+    memreq_msg_addr = 32'h0; 
+    memreq_msg_data = 32'h0; 
+    reg_en_M0 = 1'b1;
+
+    #2
+    reg_en_M0 = 1'b0;
+
 
     // Simulate flush
     flush = 1'b1;
@@ -874,7 +874,93 @@ module top(  input logic clk, input logic linetrace );
     #4
     spill_one_word_done = 1'b1;
     #2
-    spill_one_word_done = 1'b0;  // Assert Spill Done
+    spill_one_word_done = 1'b0;
+
+    #64
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
+    #4
+    spill_one_word_done = 1'b1;
+    #2
+    spill_one_word_done = 1'b0;
+
 
 
     #200

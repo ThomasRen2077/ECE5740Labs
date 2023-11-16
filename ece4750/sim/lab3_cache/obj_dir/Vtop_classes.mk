@@ -25,35 +25,58 @@ VM_TRACE_FST = 1
 VM_CLASSES_FAST += \
 	Vtop \
 	Vtop___024root__DepSet_h84412442__0 \
-	Vtop___024root__DepSet_h84412442__1 \
-	Vtop___024root__DepSet_h84412442__2 \
-	Vtop___024root__DepSet_h84412442__3 \
-	Vtop___024root__DepSet_h84412442__4 \
-	Vtop___024root__DepSet_h84412442__5 \
-	Vtop___024root__DepSet_h84412442__6 \
-	Vtop___024root__DepSet_h84412442__7 \
 	Vtop___024root__DepSet_heccd7ead__0 \
-	Vtop___024root__DepSet_heccd7ead__1 \
-	Vtop___024root__DepSet_heccd7ead__2 \
-	Vtop___024root__DepSet_heccd7ead__3 \
-	Vtop___024root__DepSet_heccd7ead__4 \
-	Vtop___024root__DepSet_heccd7ead__5 \
+	Vtop_top__DepSet_h0f993197__0 \
 	Vtop___024unit__DepSet_hab9af801__0 \
+	Vtop_lab3_cache_CacheAltDpath__DepSet_h3b8b3710__0 \
+	Vtop_lab3_cache_CacheAltDpath__DepSet_h3b8b3710__1 \
+	Vtop_vc_Mux2__DepSet_he18cade2__0 \
+	Vtop_vc_EnResetReg__P20__DepSet_hdfb29509__0 \
+	Vtop_vc_Mux2__P20__DepSet_h42d00b19__0 \
+	Vtop_vc_Mux2__P5__DepSet_hda44f92a__0 \
+	Vtop_vc_Mux2__P15__DepSet_h8c3a4948__0 \
+	Vtop_vc_Mux2__P200__DepSet_h7f4ee6ca__0 \
+	Vtop_vc_Mux2__P10__DepSet_h82688ee8__0 \
+	Vtop_lab3_cache_Mux16__P20__DepSet_h2a674dd0__0 \
 
 # Generated module classes, non-fast-path, compile with low/medium optimization
 VM_CLASSES_SLOW += \
 	Vtop__ConstPool_0 \
 	Vtop___024root__Slow \
 	Vtop___024root__DepSet_h84412442__0__Slow \
-	Vtop___024root__DepSet_h84412442__1__Slow \
-	Vtop___024root__DepSet_h84412442__2__Slow \
-	Vtop___024root__DepSet_h84412442__3__Slow \
-	Vtop___024root__DepSet_h84412442__4__Slow \
-	Vtop___024root__DepSet_h84412442__5__Slow \
 	Vtop___024root__DepSet_heccd7ead__0__Slow \
-	Vtop___024root__DepSet_heccd7ead__1__Slow \
+	Vtop_top__Slow \
+	Vtop_top__DepSet_h0f993197__0__Slow \
+	Vtop_top__DepSet_h6315917a__0__Slow \
 	Vtop___024unit__Slow \
 	Vtop___024unit__DepSet_hff17caec__0__Slow \
+	Vtop_lab3_cache_CacheAltDpath__Slow \
+	Vtop_lab3_cache_CacheAltDpath__DepSet_h3b8b3710__0__Slow \
+	Vtop_lab3_cache_CacheAltDpath__DepSet_h6f078bfb__0__Slow \
+	Vtop_vc_Mux2__Slow \
+	Vtop_vc_Mux2__DepSet_he18cade2__0__Slow \
+	Vtop_vc_Mux2__DepSet_h4901f50d__0__Slow \
+	Vtop_vc_EnResetReg__P20__Slow \
+	Vtop_vc_EnResetReg__P20__DepSet_hdfb29509__0__Slow \
+	Vtop_vc_EnResetReg__P20__DepSet_h12ffedf4__0__Slow \
+	Vtop_vc_Mux2__P20__Slow \
+	Vtop_vc_Mux2__P20__DepSet_h42d00b19__0__Slow \
+	Vtop_vc_Mux2__P20__DepSet_ha65e5804__0__Slow \
+	Vtop_vc_Mux2__P5__Slow \
+	Vtop_vc_Mux2__P5__DepSet_hda44f92a__0__Slow \
+	Vtop_vc_Mux2__P5__DepSet_h0ec9c9d5__0__Slow \
+	Vtop_vc_Mux2__P15__Slow \
+	Vtop_vc_Mux2__P15__DepSet_h8c3a4948__0__Slow \
+	Vtop_vc_Mux2__P15__DepSet_he47819b3__0__Slow \
+	Vtop_vc_Mux2__P200__Slow \
+	Vtop_vc_Mux2__P200__DepSet_h7f4ee6ca__0__Slow \
+	Vtop_vc_Mux2__P200__DepSet_hb3c3bc35__0__Slow \
+	Vtop_vc_Mux2__P10__Slow \
+	Vtop_vc_Mux2__P10__DepSet_h82688ee8__0__Slow \
+	Vtop_vc_Mux2__P10__DepSet_he6a5d413__0__Slow \
+	Vtop_lab3_cache_Mux16__P20__Slow \
+	Vtop_lab3_cache_Mux16__P20__DepSet_h2a674dd0__0__Slow \
+	Vtop_lab3_cache_Mux16__P20__DepSet_h7eab153b__0__Slow \
 
 # Generated support classes, fast-path, compile with highest optimization
 VM_SUPPORT_FAST += \

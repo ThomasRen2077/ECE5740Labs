@@ -509,7 +509,6 @@ module lab3_cache_CacheAltDpath
 // M1 part
 //--------------------------------------------------------------------
 
-  logic LRU_Way;
   logic [15:0] write_word_enable;
   logic [15:0] offset_write;
 

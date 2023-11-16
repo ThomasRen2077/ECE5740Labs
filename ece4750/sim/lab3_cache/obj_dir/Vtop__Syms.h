@@ -15,7 +15,17 @@
 
 // INCLUDE MODULE CLASSES
 #include "Vtop___024root.h"
+#include "Vtop_top.h"
 #include "Vtop___024unit.h"
+#include "Vtop_lab3_cache_CacheAltDpath.h"
+#include "Vtop_vc_Mux2.h"
+#include "Vtop_vc_EnResetReg__P20.h"
+#include "Vtop_vc_Mux2__P20.h"
+#include "Vtop_vc_Mux2__P5.h"
+#include "Vtop_vc_Mux2__P15.h"
+#include "Vtop_vc_Mux2__P200.h"
+#include "Vtop_vc_Mux2__P10.h"
+#include "Vtop_lab3_cache_Mux16__P20.h"
 
 // DPI TYPES for DPI Export callbacks (Internal use)
 
@@ -32,9 +42,22 @@ class alignas(VL_CACHE_LINE_BYTES)Vtop__Syms final : public VerilatedSyms {
     // MODULE INSTANCE STATE
     Vtop___024root                 TOP;
     Vtop___024unit                 TOP____024unit;
+    Vtop_top                       TOP__top;
+    Vtop_lab3_cache_CacheAltDpath  TOP__top__DUT;
+    Vtop_vc_Mux2                   TOP__top__DUT__FLush_dirty_mux;
+    Vtop_vc_Mux2__P20              TOP__top__DUT__Spill_or_Refill_Mux;
+    Vtop_vc_Mux2__P15              TOP__top__DUT__Spill_tag_mux;
+    Vtop_vc_EnResetReg__P20        TOP__top__DUT__cache_request_addr_reg_M0;
+    Vtop_vc_EnResetReg__P20        TOP__top__DUT__cache_request_data_reg_M0;
+    Vtop_vc_Mux2__P200             TOP__top__DUT__darray_write_mux;
+    Vtop_lab3_cache_Mux16__P20     TOP__top__DUT__output_mux;
+    Vtop_vc_Mux2__P5               TOP__top__DUT__spill_index_mux;
+    Vtop_vc_Mux2__P200             TOP__top__DUT__way_output_sel_mux;
+    Vtop_vc_Mux2__P10              TOP__top__DUT__word_en_mux;
+    Vtop_vc_Mux2__P20              TOP__top__DUT__z6b_mux;
 
     // COVERAGE
-    std::atomic<uint32_t> __Vcoverage[8969];
+    std::atomic<uint32_t> __Vcoverage[2031];
 
     // CONSTRUCTORS
     Vtop__Syms(VerilatedContext* contextp, const char* namep, Vtop* modelp);
