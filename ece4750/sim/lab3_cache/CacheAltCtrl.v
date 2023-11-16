@@ -1,5 +1,5 @@
-`ifndef LAB3_CACHE_CACHE_BASE_CTRL_V
-`define LAB3_CACHE_CACHE_BASE_CTRL_V
+`ifndef LAB3_CACHE_CACHE_ALT_CTRL_V
+`define LAB3_CACHE_CACHE_ALT_CTRL_V
 
 `include "vc/mem-msgs.v"
 
@@ -52,11 +52,11 @@ module lab3_cache_CacheAltCtrl
   input  logic        refill_req_done,
   input  logic        refill_resp_done,
   input  logic        current_lru,
+  input  logic        flush_dirty,
 
 
   // Extra Signal
-  input  logic        flush,
-  output logic        flush_done
+  input  logic        flush
 );
 
 
@@ -135,22 +135,18 @@ module lab3_cache_CacheAltCtrl
     // State Transition Logic
         always_comb begin
             case ( state_reg )
-                STATE_PIPE:     if (val_M0 && (tarray_match == 1'b0) && current_dirty)                
-                                    state_next = STATE_SPILL;                                   // If Miss and the Victim is Dirty.
-                                else if(val_M0 && (tarray_match == 1'b0) && !current_dirty)           
-                                    state_next = STATE_REFILL;                                  // If Miss and the Victim is Clean.
-                                else 
-                                    state_next = state_reg;                                     // State Remain Itself.
-                STATE_SPILL:    if (val_M0 && spill_done)                                                   
-                                    state_next = STATE_REFILL;                                  // SPILL State Ends.
-                                else
-                                    state_next = state_reg;                                     // State Remain Itself.
-                STATE_REFILL:   if (val_M0 && refill_resp_done)                                                  
-                                    state_next = STATE_PIPE;                                    // REFILL State Ends.
-                                else
-                                    state_next = state_reg;                                     // State Remain Itself.
+                STATE_PIPE:     if ((val_M0 && (tarray_match == 1'b0) && current_dirty) || (flush && flush_dirty))    state_next = STATE_SPILL;     // If Miss and the Victim is Dirty Or Flush
+                                else if(val_M0 && (tarray_match == 1'b0) && !current_dirty)                           state_next = STATE_REFILL;    // If Miss and the Victim is Clean.
+                                else                                                                                  state_next = state_reg;       // State Remain Itself.
+                STATE_SPILL:    if (val_M0 && spill_done)                                                             state_next = STATE_REFILL;    // Normal Operation. SPILL State Ends and Turns to REFILL State.
+                                else if(flush && spill_done)                                                          state_next = STATE_PIPE;      // Flush Operation. SPILL State Ends and Returns to PIPE State.
+                                else                                                                                  state_next = state_reg;       // State Remain Itself.
+                STATE_REFILL:   if (val_M0 && refill_resp_done)                                                       state_next = STATE_PIPE;      // REFILL State Ends.
+                                else                                                                                  state_next = state_reg;       // State Remain Itself.
 
-                default:        state_next = 2'bx;                                              // Unknown State.
+                default:        begin                                                                                 $stop;                        // This Line Will Never Get Run. 
+                                                                                                                      state_next = 2'bx;            // Unknown State.
+                end
             endcase
         end
  
@@ -186,7 +182,7 @@ module lab3_cache_CacheAltCtrl
                 if (val_M0 && mem_req_type_M0 == 1'b1) begin                                                      // WRITE HIT
                     if(tarray_match) begin
                       write_en_sel = 1'b1; 
-                      if (current_lru) begin
+                      if (!current_lru) begin
                         darray_wen = 1'b1;
                         darray_wen2 = 1'b0;
                       end
@@ -252,7 +248,7 @@ module lab3_cache_CacheAltCtrl
                 darray_wen2 = 1'b0;
                 memresp_type =  1'b0;
                 memresp_val = 1'b0;
-                cache_resp_rdy = 1'b0;
+                cache_resp_rdy = 1'b1;
             end
 
             else begin
@@ -352,9 +348,6 @@ module lab3_cache_CacheAltCtrl
     assign stall_M0 = val_M0 && ostall_M0;
 
     assign memreq_rdy = !stall_M0;
-
-    assign flush_done = flush;
-
 
 
 endmodule

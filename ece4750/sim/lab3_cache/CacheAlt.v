@@ -102,10 +102,11 @@ assign cache_req_msg.len = 2'b0;
   logic        refill_resp_done;
   logic        current_way;
   logic        current_lru;
+  logic        flush_dirty;
 
 
 // Instantiate and connect datapath
-lab3_cache_CacheAltDpath dpath
+lab3_cache_CacheAltDpath datapath
 (
   .memreq_msg_addr(memreq_msg.addr),
   .memreq_msg_data(memreq_msg.data),
@@ -119,7 +120,7 @@ lab3_cache_CacheAltDpath dpath
 );
 
 // Instantiate and connect control unit
-lab3_cache_CacheAltCtrl ctrl
+lab3_cache_CacheAltCtrl ctrlunit
 (
   .memreq_type(memreq_msg.type_[0]),
   .memresp_type(mem_resp_msg_type),

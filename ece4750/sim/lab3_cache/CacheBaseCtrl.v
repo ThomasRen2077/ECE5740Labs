@@ -227,7 +227,7 @@ module lab3_cache_CacheBaseCtrl
                 darray_wen = 1'b0;
                 memresp_type =  1'b0;
                 memresp_val = 1'b0;
-                cache_resp_rdy = 1'b0;
+                cache_resp_rdy = 1'b1;
 
             end
 

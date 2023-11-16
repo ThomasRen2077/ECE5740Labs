@@ -53,7 +53,7 @@ module lab3_cache_CacheBaseDpath
 
 
 //--------------------------------------------------------------------
-// M0 part
+// PIPE
 //--------------------------------------------------------------------
 
   localparam c_reset_vector = 32'h0; 
@@ -91,17 +91,20 @@ module lab3_cache_CacheBaseDpath
   assign index_M0 = cache_request_addr_M0[10:6];
   assign offset_M0 = cache_request_addr_M0[5:2];
 
+  // Check Hit or Miss
   always_comb begin
     if(tarray_en && valid_array[index_M0]) begin
-      current_dirty = dirty_array[index_M0];
       if(current_tag == tag_array[index_M0])    tarray_match = 1'b1;      // Hit
       else                                      tarray_match = 1'b0;      // Miss
     end
     else begin
       tarray_match = 1'b0;
-      current_dirty = 1'bx;
     end
   end
+
+  // Decide Current Dirty
+  assign current_dirty = dirty_array[index_M0];
+
 
   always_ff @(posedge clk) begin
     if (reset) begin
@@ -121,30 +124,25 @@ module lab3_cache_CacheBaseDpath
 
     end
   end
+
+  // Data Replicate itself for Write Hit
+  logic [511:0] repl_cachereq_data;
+  assign repl_cachereq_data = {{16{cache_request_data_M0}}};
+
   
 
-  // Address Get through z6b Mux
-  localparam mask = 32'hFFFFFFC0; 
-  logic [31:0] z6b_result;
-  assign z6b_result = cache_request_addr_M0 & mask;
 
-  logic [31:0] z6b_mux_result;
-  vc_Mux2#(32) z6b_mux
-    (
-      .in0  (cache_request_addr_M0),
-      .in1  (z6b_result),
-      .sel  (z6b_sel),
-      .out  (z6b_mux_result)
-    );
-
-
-
+//--------------------------------------------------------------------
+// SPILL
+//--------------------------------------------------------------------
 
   // Get Spill Address
-  logic [31:0] spill_initial_addr;
-  logic [31:0] spill_addr;
-  logic [4:0] spill_counter;
-  logic [5:0] flush_counter;
+  logic [31:0]  spill_initial_addr;
+  logic [31:0]  spill_addr;
+  logic [4:0]   spill_counter;
+  logic [5:0]   flush_counter;
+  logic [4:0]   index_spill;
+
 
 
 
@@ -175,13 +173,12 @@ module lab3_cache_CacheBaseDpath
   );
 
   assign spill_initial_addr = {{tag_array[index_spill]}, {index_spill},{6'b0}};
-
   assign spill_addr = spill_initial_addr + {{26{1'b0}}, {spill_counter[3:0]}, {2'b0}};
+
 
 
   // Calculate Spill Data
   logic [31:0] cache_to_mem_data;
-  logic [4:0]  index_spill;
 
 
 
@@ -255,15 +252,11 @@ module lab3_cache_CacheBaseDpath
     else                                                  flush_done =1'b0;
   end
 
-
-
-  // Data Replicate itself for Write Hit
-  logic [511:0] repl_cachereq_data;
-  assign repl_cachereq_data = {{16{cache_request_data_M0}}};
-
-
-  // Update Refill Req Counter
-  logic [31:0] refill_addr;
+//--------------------------------------------------------------------
+// REFILL
+//--------------------------------------------------------------------
+  
+  // Set Refill Req Counter
   logic [4:0] refill_req_counter;
 
   always_ff@(posedge clk) begin
@@ -277,8 +270,22 @@ module lab3_cache_CacheBaseDpath
     end
   end
 
+  // Address Get through z6b Mux for Refill request
+  localparam mask = 32'hFFFFFFC0; 
+  logic [31:0] z6b_result;
+  assign z6b_result = cache_request_addr_M0 & mask;
+
+  logic [31:0] z6b_mux_result;
+  vc_Mux2#(32) z6b_mux
+    (
+      .in0  (cache_request_addr_M0),
+      .in1  (z6b_result),
+      .sel  (z6b_sel),
+      .out  (z6b_mux_result)
+    );
 
   // Calculate Refill Req Address
+  logic [31:0] refill_addr;
   assign refill_addr = z6b_mux_result + {{26{1'b0}}, {refill_req_counter[3:0]}, {2'b0}};
 
   // Issue Refill Req End Signal
@@ -291,7 +298,7 @@ module lab3_cache_CacheBaseDpath
   logic [4:0] refill_resp_counter;
   logic [511:0] refill_data;
 
-  // Update Refill Respone Counter
+  // Set Refill Respone Counter
   always_ff@(posedge clk) begin
     if(reset) begin
         refill_resp_counter <= 0;
@@ -369,6 +376,11 @@ module lab3_cache_CacheBaseDpath
   end
 
 
+//--------------------------------------------------------------------
+// Return to PIPE
+//--------------------------------------------------------------------
+
+
   // Select Cache to Memory Request Address 
   vc_Mux2#(32) Spill_or_Refill_Mux
   (
@@ -377,7 +389,6 @@ module lab3_cache_CacheBaseDpath
     .sel  (Spill_or_Refill_sel),
     .out  (cache_req_msg_addr)
   );
-
 
 
   // Walk through Write Data Select Mux
@@ -390,20 +401,13 @@ module lab3_cache_CacheBaseDpath
     .out  (write_data)
   );
 
-
-
-
-//--------------------------------------------------------------------
-// M1 part
-//--------------------------------------------------------------------
-
-
   logic [15:0] write_word_enable;
   logic [15:0] offset_write;
 
   // This creates a one-hot code with a '1' at the desired offset
   assign offset_write = 16'b1 << offset_M0;         
 
+  // Select which word in cache line to write
   vc_Mux2#(16) word_en_mux
     (
       .in0  (16'hFFFF),
@@ -415,23 +419,23 @@ module lab3_cache_CacheBaseDpath
   logic [511:0] data_array [0:31];
   logic [511:0] data_array_output;
 
+  // Write data to CacheLine
   always_ff@(posedge clk) begin
-
     if (reset) begin
       for (logic[5:0] i = 0; i < 32; i++) begin
         data_array[i[4:0]] <= 0;
         dirty_array[i[4:0]] <= 1'b0;
       end
     end
-
     else begin
-    
       dirty_array[index_M0] <= dirty_array[index_M0];
       data_array[index_M0] <= data_array[index_M0];
 
+      // Set dirty bit
       if(darray_wen && tarray_match)            dirty_array[index_M0] <= 1'b1;
       if(flush && spill_done)                   dirty_array[index_spill] <= 1'b0;
 
+      // Write Data
       if(write_word_enable[0] && darray_wen) begin 
         data_array[index_M0][31:0] <= write_data[31:0];
       end
@@ -498,8 +502,9 @@ module lab3_cache_CacheBaseDpath
     end
   end
 
-  assign data_array_output = data_array[index_M0];
 
+  // Select output word
+  assign data_array_output = data_array[index_M0];
   lab3_cache_Mux16#(32) output_mux
       (
         .in0   (data_array_output[31:0]),
@@ -521,6 +526,7 @@ module lab3_cache_CacheBaseDpath
         .sel   (offset_M0),
         .out   (memresp_msg_data)
       );
+
 
 endmodule
 

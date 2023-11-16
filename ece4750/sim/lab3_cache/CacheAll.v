@@ -10,6 +10,7 @@
 `include "CacheBase.v"
 `include "CacheAlt.v"
 
+
 module lab3_cache_CacheAll
 (
   input  logic                    clk,
@@ -63,8 +64,7 @@ module lab3_cache_CacheAll
 logic flush_done1, flush_done2;
 assign  flush_done = flush_done1 & flush_done2;
 
-lab3_cache_CacheBase
-icache (
+lab3_cache_CacheBase icache (
   .clk(clk),
   .reset(reset),  
   
@@ -92,8 +92,8 @@ icache (
   .flush_done(flush_done1)
 );
 
-lab3_cache_CacheAlt
-dcache (
+lab3_cache_CacheAlt dcache 
+(
   .clk(clk),
   .reset(reset),  
   
