@@ -28,13 +28,13 @@ module lab3_cache_CacheAltDpath
   // control signals
   input  logic         reg_en_M0,
   input  logic         tarray_en,
-  input  logic         tarray_en2,
+  input  logic         tarray_en2, // new
   input  logic         tarray_wen,
-  input  logic         tarray_wen2,
+  input  logic         tarray_wen2, // new
   input  logic         z6b_sel,
-  input  logic         darray_write_mux_sel,
+  input  logic         darray_write_mux_sel, 
   input  logic         darray_wen,
-  input  logic         darray_wen2,
+  input  logic         darray_wen2, // new 
   input  logic         write_en_sel,
   input  logic         spill_one_word_done,
   input  logic         refill_one_word_req_sent,
