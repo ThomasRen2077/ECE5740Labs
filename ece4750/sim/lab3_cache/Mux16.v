@@ -31,7 +31,10 @@ module lab3_cache_Mux16
       4'd13 : out = in13;
       4'd14 : out = in14;
       4'd15 : out = in15;
-      default : out = {p_nbits{1'bx}};
+      default : begin
+        $stop();
+        out = {p_nbits{1'bx}};
+      end
     endcase
   end
 
