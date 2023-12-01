@@ -94,7 +94,7 @@ export VERILATOR_ROOT
 	VERILATOR = $(VERILATOR_ROOT)/bin/verilator
 	VERILATOR_COVERAGE = $(VERILATOR_ROOT)/bin/verilator_coverage
 endif
-VERSION= 2.3 
+VERSION= 2.4 
 
 VERILATOR_FLAGS =
 VERILATOR_FLAGS += -cc --exe
@@ -434,16 +434,18 @@ ub_%.v.sim utb_%.v.sim tb_%.v.sim: FORCE  check-setup
 coverage-report: FORCE check-setup
 	@echo
 	@echo "-- COVERAGE ----------------"
-
-	$(VERILATOR_COVERAGE) --annotate-min 1 --annotate-all --annotate logs/annotated logs/*.dat --write-info logs/coverage.info
-
+  
+	for res in $(wildcard logs/*.dat) ; do  \
+		$(VERILATOR_COVERAGE) -write-info $$res.info $$res  ;\
+	done;
 	@echo
 	@echo "-- GENHTML --------------------"
-	$(GENHTML) logs/coverage.info --output-directory logs/$(COVERAGE)/html
+	$(GENHTML) logs/*.info --output-directory logs/$(COVERAGE)/html
 
 lab1_exist=$(wildcard lab1_imul/.)
 lab2_exist=$(wildcard lab2_proc/.)
 lab3_exist=$(wildcard lab3_cache/.)
+lab4_exist=$(wildcard lab4_branch/.)
 tut4_exist=$(wildcard tut4_verilog/.)
 show-results: FORCE check-setup
 	@echo
@@ -478,6 +480,12 @@ ifneq ($(lab3_exist),)
 		@ln -s ../verilator.cpp lab3_cache/verilator.cpp
 		@ln -s ../lab2_proc/asm lab3_cache/asm
 		@ln -s ../lab2_proc/tinyrv2_encoding_assembler.py lab3_cache/tinyrv2_encoding_assembler.py
+endif 
+
+ifneq ($(lab4_exist),) 
+		@echo Creating symlink for lab4_branch
+		@ln -s ../Makefile lab4_branch/Makefile
+		@ln -s ../verilator.cpp lab4_branch/verilator.cpp
 endif 
 
 ifneq ($(tut4_exist),) 
@@ -560,6 +568,7 @@ build-tar: real FORCE check-setup-root-ignore
 	lab1_files="lab1_imul/*.v lab1_imul/*.config" 
 	lab2_files="lab1_imul/*.v lab1_imul/*.config lab2_proc/*.v lab2_proc/*.config lab2_proc/asm " 
 	lab3_files="lab1_imul/*.v lab1_imul/*.config lab2_proc/*.v lab2_proc/*.config lab2_proc/asm lab3_cache/*.v lab3_cache/*.config" 
+	lab4_files="lab4_branch/*.v lab4_branch/*.config" 
 	echo "Enter your group number: [1-99]"
 	read groupnum 
 	echo "Enter partner #1 netID:"
@@ -579,6 +588,8 @@ build-tar: real FORCE check-setup-root-ignore
 		tar czf lab2.tar.gz $$lab2_files Makefile verilator.cpp group$$groupnum.txt 
 	elif [ "$$input" -eq "3" ] ; then 
 		tar czf lab3.tar.gz $$lab3_files Makefile verilator.cpp group$$groupnum.txt 
+	elif [ "$$input" -eq "4" ] ; then 
+		tar czf lab4.tar.gz $$lab4_files Makefile verilator.cpp group$$groupnum.txt 
 	else 
 		echo "Unkown lab number. Contact a member of course staff if you need assistance." 
 	fi
@@ -589,5 +600,3 @@ clean:
 	-rm -rf obj_dir obj_dir_FL logs *.log *.dmp *.vpd coverage.dat core.* results waves *hex
 
 FORCE:
-
-
