@@ -4,6 +4,7 @@
 #include "Vtop.h"
 #include "Vtop__Syms.h"
 #include "verilated_fst_c.h"
+#include "verilated_dpi.h"
 
 //============================================================
 // Constructors
@@ -13,6 +14,7 @@ Vtop::Vtop(VerilatedContext* _vcontextp__, const char* _vcname__)
     , vlSymsp{new Vtop__Syms(contextp(), _vcname__, this)}
     , clk{vlSymsp->TOP.clk}
     , linetrace{vlSymsp->TOP.linetrace}
+    , __PVT____024unit{vlSymsp->TOP.__PVT____024unit}
     , rootp{&(vlSymsp->TOP)}
 {
     // Register model with the context
@@ -95,10 +97,6 @@ VL_ATTR_COLD void Vtop::final() {
 const char* Vtop::hierName() const { return vlSymsp->name(); }
 const char* Vtop::modelName() const { return "Vtop"; }
 unsigned Vtop::threads() const { return 1; }
-void Vtop::prepareClone() const { contextp()->prepareClone(); }
-void Vtop::atClone() const {
-    contextp()->threadPoolpOnClone();
-}
 std::unique_ptr<VerilatedTraceConfig> Vtop::traceConfig() const {
     return std::unique_ptr<VerilatedTraceConfig>{new VerilatedTraceConfig{false, false, false}};
 };

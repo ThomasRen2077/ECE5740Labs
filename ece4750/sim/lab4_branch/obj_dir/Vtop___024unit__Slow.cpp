@@ -7,31 +7,30 @@
 
 #include "Vtop__Syms.h"
 #include "Vtop__Syms.h"
-#include "Vtop___024root.h"
+#include "Vtop___024unit.h"
 
-void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf);
+void Vtop___024unit___ctor_var_reset(Vtop___024unit* vlSelf);
 
-Vtop___024root::Vtop___024root(Vtop__Syms* symsp, const char* v__name)
+Vtop___024unit::Vtop___024unit(Vtop__Syms* symsp, const char* v__name)
     : VerilatedModule{v__name}
-    , __VdlySched{*symsp->_vm_contextp__}
     , vlSymsp{symsp}
  {
     // Reset structure values
-    Vtop___024root___ctor_var_reset(this);
+    Vtop___024unit___ctor_var_reset(this);
 }
 
-void Vtop___024root___configure_coverage(Vtop___024root* vlSelf, bool first);
+void Vtop___024unit___configure_coverage(Vtop___024unit* vlSelf, bool first);
 
-void Vtop___024root::__Vconfigure(bool first) {
+void Vtop___024unit::__Vconfigure(bool first) {
     if (false && first) {}  // Prevent unused
-    Vtop___024root___configure_coverage(this, first);
+    Vtop___024unit___configure_coverage(this, first);
 }
 
-Vtop___024root::~Vtop___024root() {
+Vtop___024unit::~Vtop___024unit() {
 }
 
 // Coverage
-void Vtop___024root::__vlCoverInsert(std::atomic<uint32_t>* countp, bool enable, const char* filenamep, int lineno, int column,
+void Vtop___024unit::__vlCoverInsert(std::atomic<uint32_t>* countp, bool enable, const char* filenamep, int lineno, int column,
     const char* hierp, const char* pagep, const char* commentp, const char* linescovp) {
     assert(sizeof(uint32_t) == sizeof(std::atomic<uint32_t>));
     uint32_t* count32p = reinterpret_cast<uint32_t*>(countp);

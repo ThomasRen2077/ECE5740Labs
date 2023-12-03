@@ -8,12 +8,15 @@
 #include "verilated.h"
 #include "verilated_cov.h"
 #include "verilated_timing.h"
+class Vtop___024unit;
 
 
 class Vtop__Syms;
 
 class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule {
   public:
+    // CELLS
+    Vtop___024unit* __PVT____024unit;
 
     // DESIGN SPECIFIC STATE
     VL_IN8(clk,0,0);
