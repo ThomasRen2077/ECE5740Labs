@@ -5,9 +5,8 @@
 `ifndef LAB4_BRANCH_BRANCH_BIMODAL_V
 `define LAB4_BRANCH_BRANCH_BIMODAL_V
 
-`include "vc/mem-msgs.v"
-`include "vc/queues.v"
-`include "vc/trace.v"
+
+`include "CalcShamt.v"
 
 
 module lab4_branch_BranchBimodal
@@ -25,9 +24,19 @@ module lab4_branch_BranchBimodal
 );
 
 // Needs to be fix, not sure whether to use a function to get log2(2048), permitted?
-logic [1:0] PHT [0:PHT_size-1];
+logic [4:0] PHT_nbits; 
+
+lab4_branch_CalcShamt calc_shamt
+  (
+   .in_ (PHT_size),
+   .out (PHT_nbits)
+  );
+  
+logic [1:0] PHT [0:PHT_nbits];
 logic [10:0] BH [0:3];
 logic [1:0] current_PHT;
+
+
 
 assign BH_index = PC[3:2];
 assign PHT_index = BH[BH_index];
