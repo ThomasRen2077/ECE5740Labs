@@ -24,12 +24,16 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule
     CData/*0:0*/ top__DOT__reset;
     CData/*0:0*/ top__DOT__update_en;
     CData/*0:0*/ top__DOT__update_val;
+    CData/*5:0*/ top__DOT__counter;
+    CData/*5:0*/ top__DOT__correct_counter;
     CData/*0:0*/ top__DOT____Vtogcov__clk;
     CData/*0:0*/ top__DOT____Vtogcov__linetrace;
     CData/*0:0*/ top__DOT____Vtogcov__reset;
     CData/*0:0*/ top__DOT____Vtogcov__update_en;
     CData/*0:0*/ top__DOT____Vtogcov__update_val;
     CData/*0:0*/ top__DOT____Vtogcov__prediction;
+    CData/*5:0*/ top__DOT____Vtogcov__counter;
+    CData/*5:0*/ top__DOT____Vtogcov__correct_counter;
     CData/*1:0*/ top__DOT__DUT__DOT__current_PHT;
     CData/*1:0*/ top__DOT__DUT__DOT____Vtogcov__current_PHT;
     CData/*0:0*/ __Vtrigprevexpr___TOP__clk__0;

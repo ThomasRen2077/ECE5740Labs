@@ -144,6 +144,8 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__update_en = VL_RAND_RESET_I(1);
     vlSelf->top__DOT__update_val = VL_RAND_RESET_I(1);
     vlSelf->top__DOT__PC = VL_RAND_RESET_I(32);
+    vlSelf->top__DOT__counter = VL_RAND_RESET_I(6);
+    vlSelf->top__DOT__correct_counter = VL_RAND_RESET_I(6);
     vlSelf->top__DOT____Vtogcov__clk = VL_RAND_RESET_I(1);
     vlSelf->top__DOT____Vtogcov__linetrace = VL_RAND_RESET_I(1);
     vlSelf->top__DOT____Vtogcov__reset = VL_RAND_RESET_I(1);
@@ -151,6 +153,8 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->top__DOT____Vtogcov__update_val = VL_RAND_RESET_I(1);
     vlSelf->top__DOT____Vtogcov__PC = VL_RAND_RESET_I(32);
     vlSelf->top__DOT____Vtogcov__prediction = VL_RAND_RESET_I(1);
+    vlSelf->top__DOT____Vtogcov__counter = VL_RAND_RESET_I(6);
+    vlSelf->top__DOT____Vtogcov__correct_counter = VL_RAND_RESET_I(6);
     VL_RAND_RESET_W(4096, vlSelf->top__DOT__DUT__DOT__PHT);
     vlSelf->top__DOT__DUT__DOT__GHR = VL_RAND_RESET_I(11);
     vlSelf->top__DOT__DUT__DOT__current_PHT = VL_RAND_RESET_I(2);
