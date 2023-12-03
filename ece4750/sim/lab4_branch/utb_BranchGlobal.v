@@ -34,30 +34,30 @@ module top(  input logic clk, input logic linetrace );
         update_en = 1'b1;
         update_val = 1'b1;
         PC = 32'b0;
-        assert (prediction == update_val) begin
-            $display("Correct Prediction. PC: %h, resolution: %b, prediction: %b", PC, update_val, prediction);pass();
-        end else begin
+        assert (prediction != update_val) begin
             $display("Incorrect Prediction. PC: %h, resolution: %b, prediction: %b", PC, update_val, prediction);fail();
+        end else begin
+            $display("Correct Prediction. PC: %h, resolution: %b, prediction: %b", PC, update_val, prediction);pass();
         end
 
         #20
         update_en = 1'b1;
         update_val = 1'b1;
         PC = 32'b0;
-        assert (prediction == update_val) begin
-            $display("Correct Prediction. PC: %h, resolution: %b, prediction: %b", PC, update_val, prediction);pass();
-        end else begin
+        assert (prediction != update_val) begin
             $display("Incorrect Prediction. PC: %h, resolution: %b, prediction: %b", PC, update_val, prediction);fail();
+        end else begin
+            $display("Correct Prediction. PC: %h, resolution: %b, prediction: %b", PC, update_val, prediction);pass();
         end
 
         #20
         update_en = 1'b1;
         update_val = 1'b1;
         PC = 32'b0;
-        assert (prediction == update_val) begin
-            $display("Correct Prediction. PC: %h, resolution: %b, prediction: %b", PC, update_val, prediction);pass();
-        end else begin
+        assert (prediction != update_val) begin
             $display("Incorrect Prediction. PC: %h, resolution: %b, prediction: %b", PC, update_val, prediction);fail();
+        end else begin
+            $display("Correct Prediction. PC: %h, resolution: %b, prediction: %b", PC, update_val, prediction);pass();
         end
 
 

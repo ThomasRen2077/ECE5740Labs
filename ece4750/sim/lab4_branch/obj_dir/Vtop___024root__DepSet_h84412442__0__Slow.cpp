@@ -631,7 +631,7 @@ VL_ATTR_COLD void Vtop___024root___configure_coverage(Vtop___024root* vlSelf, bo
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[47]), first, "utb_BranchGlobal.v", 15, 19, ".top", "v_toggle/top", "correct_counter[3]", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[48]), first, "utb_BranchGlobal.v", 15, 19, ".top", "v_toggle/top", "correct_counter[4]", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[49]), first, "utb_BranchGlobal.v", 15, 19, ".top", "v_toggle/top", "correct_counter[5]", "");
-    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[50]), first, "utb_BranchGlobal.v", 23, 5, ".top", "v_line/top", "block", "23-24,26-30,32-40,43-51,54-62,68-69");
+    vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[50]), first, "utb_BranchGlobal.v", 23, 5, ".top", "v_line/top", "block", "23-24,26-30,32-40,43-50,53-60,66-67");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[0]), first, "BranchGlobal.v", 19, 23, ".top.DUT", "v_toggle/lab4_branch_BranchGlobal", "clk", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[2]), first, "BranchGlobal.v", 20, 23, ".top.DUT", "v_toggle/lab4_branch_BranchGlobal", "reset", "");
     vlSelf->__vlCoverInsert(&(vlSymsp->__Vcoverage[3]), first, "BranchGlobal.v", 21, 23, ".top.DUT", "v_toggle/lab4_branch_BranchGlobal", "update_en", "");

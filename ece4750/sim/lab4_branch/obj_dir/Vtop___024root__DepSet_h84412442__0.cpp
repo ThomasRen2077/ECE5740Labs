@@ -9,8 +9,8 @@
 #include "Vtop__Syms.h"
 #include "Vtop___024root.h"
 
-void Vtop___024unit____Vdpiimwrap_pass_TOP____024unit();
 void Vtop___024unit____Vdpiimwrap_fail_TOP____024unit();
+void Vtop___024unit____Vdpiimwrap_pass_TOP____024unit();
 
 VL_INLINE_OPT VlCoroutine Vtop___024root___eval_initial__TOP__0(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
@@ -34,79 +34,77 @@ VL_INLINE_OPT VlCoroutine Vtop___024root___eval_initial__TOP__0(Vtop___024root* 
     vlSelf->top__DOT__PC = 0U;
     if (vlSymsp->_vm_contextp__->assertOn()) {
         if (VL_LIKELY(((1U & ((IData)(vlSelf->top__DOT__DUT__DOT__current_PHT) 
-                              >> 1U)) == (IData)(vlSelf->top__DOT__update_val)))) {
+                              >> 1U)) != (IData)(vlSelf->top__DOT__update_val)))) {
             if (VL_UNLIKELY(vlSymsp->_vm_contextp__->assertOn())) {
-                VL_WRITEF("Correct Prediction. PC: %x, resolution: %b, prediction: %b\n",
+                VL_WRITEF("Incorrect Prediction. PC: %x, resolution: %b, prediction: %b\n",
                           32,vlSelf->top__DOT__PC,1,
                           (IData)(vlSelf->top__DOT__update_val),
                           1,(1U & ((IData)(vlSelf->top__DOT__DUT__DOT__current_PHT) 
                                    >> 1U)));
-                Vtop___024unit____Vdpiimwrap_pass_TOP____024unit();
+                Vtop___024unit____Vdpiimwrap_fail_TOP____024unit();
             }
         } else if (VL_UNLIKELY(vlSymsp->_vm_contextp__->assertOn())) {
-            VL_WRITEF("Incorrect Prediction. PC: %x, resolution: %b, prediction: %b\n",
+            VL_WRITEF("Correct Prediction. PC: %x, resolution: %b, prediction: %b\n",
                       32,vlSelf->top__DOT__PC,1,(IData)(vlSelf->top__DOT__update_val),
                       1,(1U & ((IData)(vlSelf->top__DOT__DUT__DOT__current_PHT) 
                                >> 1U)));
-            Vtop___024unit____Vdpiimwrap_fail_TOP____024unit();
+            Vtop___024unit____Vdpiimwrap_pass_TOP____024unit();
         }
     }
     co_await vlSelf->__VdlySched.delay(0x14ULL, nullptr, 
                                        "utb_BranchGlobal.v", 
                                        43);
-    vlSelf->top__DOT__reset = 0U;
     vlSelf->top__DOT__update_en = 1U;
     vlSelf->top__DOT__update_val = 1U;
     vlSelf->top__DOT__PC = 0U;
     if (vlSymsp->_vm_contextp__->assertOn()) {
         if (VL_LIKELY(((1U & ((IData)(vlSelf->top__DOT__DUT__DOT__current_PHT) 
-                              >> 1U)) == (IData)(vlSelf->top__DOT__update_val)))) {
+                              >> 1U)) != (IData)(vlSelf->top__DOT__update_val)))) {
             if (VL_UNLIKELY(vlSymsp->_vm_contextp__->assertOn())) {
-                VL_WRITEF("Correct Prediction. PC: %x, resolution: %b, prediction: %b\n",
+                VL_WRITEF("Incorrect Prediction. PC: %x, resolution: %b, prediction: %b\n",
                           32,vlSelf->top__DOT__PC,1,
                           (IData)(vlSelf->top__DOT__update_val),
                           1,(1U & ((IData)(vlSelf->top__DOT__DUT__DOT__current_PHT) 
                                    >> 1U)));
-                Vtop___024unit____Vdpiimwrap_pass_TOP____024unit();
+                Vtop___024unit____Vdpiimwrap_fail_TOP____024unit();
             }
         } else if (VL_UNLIKELY(vlSymsp->_vm_contextp__->assertOn())) {
-            VL_WRITEF("Incorrect Prediction. PC: %x, resolution: %b, prediction: %b\n",
+            VL_WRITEF("Correct Prediction. PC: %x, resolution: %b, prediction: %b\n",
                       32,vlSelf->top__DOT__PC,1,(IData)(vlSelf->top__DOT__update_val),
                       1,(1U & ((IData)(vlSelf->top__DOT__DUT__DOT__current_PHT) 
                                >> 1U)));
-            Vtop___024unit____Vdpiimwrap_fail_TOP____024unit();
+            Vtop___024unit____Vdpiimwrap_pass_TOP____024unit();
         }
     }
     co_await vlSelf->__VdlySched.delay(0x14ULL, nullptr, 
                                        "utb_BranchGlobal.v", 
-                                       54);
-    vlSelf->top__DOT__reset = 0U;
+                                       53);
     vlSelf->top__DOT__update_en = 1U;
     vlSelf->top__DOT__update_val = 1U;
     vlSelf->top__DOT__PC = 0U;
     if (vlSymsp->_vm_contextp__->assertOn()) {
         if (VL_LIKELY(((1U & ((IData)(vlSelf->top__DOT__DUT__DOT__current_PHT) 
-                              >> 1U)) == (IData)(vlSelf->top__DOT__update_val)))) {
+                              >> 1U)) != (IData)(vlSelf->top__DOT__update_val)))) {
             if (VL_UNLIKELY(vlSymsp->_vm_contextp__->assertOn())) {
-                VL_WRITEF("Correct Prediction. PC: %x, resolution: %b, prediction: %b\n",
+                VL_WRITEF("Incorrect Prediction. PC: %x, resolution: %b, prediction: %b\n",
                           32,vlSelf->top__DOT__PC,1,
                           (IData)(vlSelf->top__DOT__update_val),
                           1,(1U & ((IData)(vlSelf->top__DOT__DUT__DOT__current_PHT) 
                                    >> 1U)));
-                Vtop___024unit____Vdpiimwrap_pass_TOP____024unit();
+                Vtop___024unit____Vdpiimwrap_fail_TOP____024unit();
             }
         } else if (VL_UNLIKELY(vlSymsp->_vm_contextp__->assertOn())) {
-            VL_WRITEF("Incorrect Prediction. PC: %x, resolution: %b, prediction: %b\n",
+            VL_WRITEF("Correct Prediction. PC: %x, resolution: %b, prediction: %b\n",
                       32,vlSelf->top__DOT__PC,1,(IData)(vlSelf->top__DOT__update_val),
                       1,(1U & ((IData)(vlSelf->top__DOT__DUT__DOT__current_PHT) 
                                >> 1U)));
-            Vtop___024unit____Vdpiimwrap_fail_TOP____024unit();
+            Vtop___024unit____Vdpiimwrap_pass_TOP____024unit();
         }
     }
     co_await vlSelf->__VdlySched.delay(0x14ULL, nullptr, 
                                        "utb_BranchGlobal.v", 
-                                       68);
-    VL_FINISH_MT("utb_BranchGlobal.v", 69, "");
+                                       66);
+    VL_FINISH_MT("utb_BranchGlobal.v", 67, "");
     vlSymsp->__Vcoverage[50].fetch_add(1, std::memory_order_relaxed);
 }
 
