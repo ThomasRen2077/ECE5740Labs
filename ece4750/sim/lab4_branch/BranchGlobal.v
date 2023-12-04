@@ -48,8 +48,8 @@ always_ff@(posedge clk) begin
     GHR <= '0;
   end
   else begin
-      PHT <= PHT;
-      GHR <= GHR;
+    PHT <= PHT;
+    GHR <= GHR;
 
     if (update_en) begin
       GHR <= (GHR << 1) + GHR_update_value;

@@ -5,7 +5,9 @@
 `ifndef LAB4_BRANCH_BRANCH_GSHARE_V
 `define LAB4_BRANCH_BRANCH_GSHARE_V
 
-
+`include "vc/mem-msgs.v"
+`include "vc/queues.v"
+`include "vc/trace.v"
 
 
 module lab4_branch_BranchGshare
@@ -22,59 +24,58 @@ module lab4_branch_BranchGshare
 
 );
 
-logic [1:0] PHT [0:PHT_size-1];
-logic [10:0] PHT_index;
-logic [10:0] GHR;
-logic [10:0] PC_factor;
-logic [1:0] current_PHT;
-assign PC_factor = PC[12:2];
+parameter  PHT_nbits = $clog2(PHT_size);
+
+logic [2*PHT_size-1:0]      PHT;
+logic [PHT_nbits - 1 : 0]   GHR;
+logic [PHT_nbits - 1 : 0]   PC_factor;
+logic [1:0]                 current_PHT;
+logic [PHT_nbits - 1 : 0]   GHR_update_value;
+logic [PHT_nbits - 1 : 0]   PHT_index;
+
+assign PC_factor = PC[1+PHT_nbits:2];
 assign PHT_index = GHR ^ PC_factor;
-assign current_PHT = PHT[PHT_index]; 
+assign current_PHT = PHT[2*PHT_index +: 2]; 
+assign GHR_update_value[0] = update_val;
+
 
 // Combinational prediction
 always_comb begin
-  if (current_PHT[1] == 1) begin
-    prediction = 1'b1;
-  end
-  else begin
-    prediction = 1'b0;
-  end
+  if (current_PHT[1] == 1)    prediction = 1'b1;
+  else                        prediction = 1'b0;
 end
 
 // Update internal state
 always_ff@(posedge clk) begin
-  // Need to be fixed: Not sure whether a for loop is allowed for this lab
   if (reset) begin
-    GHR <= 11'b0;
+    PHT <= '0;
+    GHR <= '0;
   end
   else begin
+    PHT <= PHT;
+    GHR <= GHR;
+
     if (update_en) begin
+      GHR <= (GHR << 1) + GHR_update_value;
       if (update_val) begin
-        GHR <= (GHR << 1) + 11'b1;
-        if (PHT[PHT_index] == 2'b11) begin
-          PHT[PHT_index] <= 2'b11;
+        if (PHT[2*PHT_index +: 2] == 2'b11) begin
+          PHT[2*PHT_index +: 2] <= 2'b11;
         end 
         else begin
-          PHT[PHT_index] <= PHT[PHT_index] + 2'b01;
+          PHT[2*PHT_index +: 2] <= PHT[2*PHT_index +: 2] + 2'b01;
         end
       end 
       else begin
-        GHR <= GHR << 1;
-        if (PHT[PHT_index] == 2'b00) begin
-          PHT[PHT_index] <= 2'b00;
+        if (PHT[2*PHT_index +: 2] == 2'b00) begin
+          PHT[2*PHT_index +: 2] <= 2'b00;
         end 
         else begin
-          PHT[PHT_index] <= PHT[PHT_index] - 2'b01;
+          PHT[2*PHT_index +: 2] <= PHT[2*PHT_index +: 2] - 2'b01;
         end
       end
     end
-    else begin
-      GHR <= GHR;
-      PHT[PHT_index] <= PHT[PHT_index];
-    end
   end
 end
-
 endmodule
 
 `endif

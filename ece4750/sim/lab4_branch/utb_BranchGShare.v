@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ps/1ps
 
-`include "BranchGlobal.v"
+`include "BranchGShare.v"
 
 
 module top(  input logic clk, input logic linetrace );
@@ -19,7 +19,7 @@ module top(  input logic clk, input logic linetrace );
     logic[31:0]   shift_factor;
 
 
-    lab4_branch_BranchGlobal DUT
+    lab4_branch_BranchGshare DUT
     (
        .*
     );
@@ -259,10 +259,8 @@ module top(  input logic clk, input logic linetrace );
         for( integer x = 0; x < 12; x++ ) begin
             my_pc = x*4;
             my_update_en = 1'b1;
-            if (x % 4 == 0)      my_update_val = 1'b1;
-            else if (x % 4 == 1) my_update_val = 1'b0;
-            else if (x % 4 == 2) my_update_val = 1'b1;
-            else                 my_update_val = 1'b0;
+            if (x % 2 == 0) my_update_val = 1'b1;
+            else            my_update_val = 1'b0;
             test_task(my_pc, my_update_en, my_update_val);
         end
 
@@ -275,14 +273,100 @@ module top(  input logic clk, input logic linetrace );
         #20;
 
         reset = 1'b0;
-
-        shift_factor = 32'b10000;
         my_pc = 32'b1100;
+        shift_factor = 32'b10000;
         for( integer x = 0; x < 10; x++ ) begin
             my_pc = my_pc + (shift_factor << x);
             my_update_en = 1'b1;
             my_update_val = 1'b0;
             test_task(my_pc, my_update_en, my_update_val);
+        end
+
+        // Test Case 13
+
+        $display("Test Case: Loop with N-branches, all taken");
+
+        reset = 1'b1;
+
+        #20;
+
+        reset = 1'b0;
+
+        
+        for( integer x = 0; x < 10; x++ ) begin
+            my_pc = '0;
+            for( integer y = 0; y < 4; y++ ) begin
+                my_pc = my_pc + 4;
+                my_update_en = 1'b1;
+                my_update_val = 1'b1;
+                test_task(my_pc, my_update_en, my_update_val);
+            end
+        end
+
+        // Test Case 14
+
+        $display("Test Case: Loop with N-branches, all not taken");
+
+        reset = 1'b1;
+
+        #20;
+
+        reset = 1'b0;
+
+        
+        for( integer x = 0; x < 10; x++ ) begin
+            my_pc = '0;
+            for( integer y = 0; y < 4; y++ ) begin
+                my_pc = my_pc + 4;
+                my_update_en = 1'b1;
+                my_update_val = 1'b0;
+                test_task(my_pc, my_update_en, my_update_val);
+            end
+        end
+
+        // Test Case 15
+
+        $display("Test Case: Loop with N-branches, alternating between taken and not taken");
+
+        reset = 1'b1;
+
+        #20;
+
+        reset = 1'b0;
+
+        
+        for( integer x = 0; x < 10; x++ ) begin
+            my_pc = '0;
+            for( integer y = 0; y < 4; y++ ) begin
+                my_pc = my_pc + 4;
+                my_update_en = 1'b1;
+                if (y % 2 == 0) my_update_val = 1'b1;
+                else            my_update_val = 1'b0;
+                test_task(my_pc, my_update_en, my_update_val);
+            end
+        end
+
+        // Test Case 16
+
+        $display("Test Case: Loop with N-branches with pattern AAAB");
+
+        reset = 1'b1;
+
+        #20;
+
+        reset = 1'b0;
+
+        for( integer x = 0; x < 10; x++ ) begin
+            my_pc = '0;
+            for( integer y = 0; y < 8; y++ ) begin
+                my_pc = my_pc + 4;
+                my_update_en = 1'b1;
+                if (y % 4 == 0)      my_update_val = 1'b1;
+                else if (y % 4 == 1) my_update_val = 1'b1;
+                else if (y % 4 == 2) my_update_val = 1'b1;
+                else                 my_update_val = 1'b0;
+                test_task(my_pc, my_update_en, my_update_val);
+            end
         end
 
 
