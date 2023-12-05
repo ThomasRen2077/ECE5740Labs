@@ -30,10 +30,10 @@ parameter  PHT_nbits = $clog2(PHT_size);
 logic [2*PHT_size-1:0]      PHT;
 logic [PHT_nbits - 1 : 0]   GHR;
 logic [1:0]                 current_PHT;
-logic [PHT_nbits - 1 : 0]   GHR_update_value;
+logic                       GHR_update_value;
 
 assign current_PHT = PHT[2*GHR +: 2]; 
-assign GHR_update_value[0] = update_val;
+assign GHR_update_value = update_val;
 
 // Combinational prediction
 always_comb begin
@@ -52,7 +52,7 @@ always_ff@(posedge clk) begin
     GHR <= GHR;
 
     if (update_en) begin
-      GHR <= (GHR << 1) + GHR_update_value;
+      GHR <= (GHR << 1) + {{(PHT_nbits - 1){1'b0}},{GHR_update_value}};
       if (update_val) begin
         if (PHT[2*GHR +: 2] == 2'b11) begin
           PHT[2*GHR +: 2] <= 2'b11;

@@ -32,7 +32,7 @@ parameter  PHT_nbits = $clog2(PHT_size);
 logic [2*PHT_size-1:0]      PHT;
 logic [4*PHT_nbits-1:0]     BH;
 logic [1:0]                 current_PHT;
-logic [PHT_nbits - 1 : 0]   PHT_index_update_value;
+logic                       PHT_index_update_value;
 logic [1:0]                 BH_index;
 logic [PHT_nbits-1:0]       PHT_index;
 
@@ -42,7 +42,7 @@ assign BH_index = PC[3:2];
 assign PHT_index = BH[PHT_nbits*BH_index +: PHT_nbits];
 assign current_PHT = PHT[2*PHT_index +: 2]; 
 
-assign PHT_index_update_value[0] = update_val;
+assign PHT_index_update_value = update_val;
 // Combinational prediction
 always_comb begin
   if (current_PHT[1] == 1) begin
@@ -65,7 +65,7 @@ always_ff@(posedge clk) begin
     BH <= BH;
 
     if (update_en) begin
-      BH[PHT_nbits*BH_index +: PHT_nbits] <= (BH[PHT_nbits*BH_index +: PHT_nbits] << 1) + PHT_index_update_value;
+      BH[PHT_nbits*BH_index +: PHT_nbits] <= (BH[PHT_nbits*BH_index +: PHT_nbits] << 1) + {{(PHT_nbits - 1){1'b0}},{PHT_index_update_value}};
       if (update_val) begin
         if (PHT[2*PHT_index +: 2] == 2'b11) begin
           PHT[2*PHT_index +: 2] <= 2'b11;
