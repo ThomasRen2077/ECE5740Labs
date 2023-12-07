@@ -2,7 +2,7 @@
 `timescale 1ps/1ps
 
 `include "BranchGShare.v"
-
+`include "vc/trace.v"
 
 module top(  input logic clk, input logic linetrace );
 
