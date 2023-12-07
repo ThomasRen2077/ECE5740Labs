@@ -285,9 +285,95 @@ module top(  input logic clk, input logic linetrace );
             test_task(my_pc, my_update_en, my_update_val);
         end
 
+        // Test Case 13
 
+        $display("Test Case: Loop with N-branches, all taken");
+
+        reset = 1'b1;
+
+        #20;
+
+        reset = 1'b0;
 
         
+        for( integer x = 0; x < 10; x++ ) begin
+            my_pc = '0;
+            for( integer y = 0; y < 4; y++ ) begin
+                my_pc = my_pc + 4;
+                my_update_en = 1'b1;
+                my_update_val = 1'b1;
+                test_task(my_pc, my_update_en, my_update_val);
+            end
+        end
+
+        // Test Case 14
+
+        $display("Test Case: Loop with N-branches, all not taken");
+
+        reset = 1'b1;
+
+        #20;
+
+        reset = 1'b0;
+
+        
+        for( integer x = 0; x < 10; x++ ) begin
+            my_pc = '0;
+            for( integer y = 0; y < 4; y++ ) begin
+                my_pc = my_pc + 4;
+                my_update_en = 1'b1;
+                my_update_val = 1'b0;
+                test_task(my_pc, my_update_en, my_update_val);
+            end
+        end
+
+        // Test Case 15
+
+        $display("Test Case: Loop with N-branches, alternating between taken and not taken");
+
+        reset = 1'b1;
+
+        #20;
+
+        reset = 1'b0;
+
+        
+        for( integer x = 0; x < 10; x++ ) begin
+            my_pc = '0;
+            for( integer y = 0; y < 4; y++ ) begin
+                my_pc = my_pc + 4;
+                my_update_en = 1'b1;
+                if (y % 2 == 0) my_update_val = 1'b1;
+                else            my_update_val = 1'b0;
+                test_task(my_pc, my_update_en, my_update_val);
+            end
+        end
+
+        // Test Case 16
+
+        $display("Test Case: Loop with N-branches with pattern AAAB");
+
+        reset = 1'b1;
+
+        #20;
+
+        reset = 1'b0;
+
+        for( integer x = 0; x < 10; x++ ) begin
+            my_pc = '0;
+            for( integer y = 0; y < 8; y++ ) begin
+                my_pc = my_pc + 4;
+                my_update_en = 1'b1;
+                if (y % 4 == 0)      my_update_val = 1'b1;
+                else if (y % 4 == 1) my_update_val = 1'b1;
+                else if (y % 4 == 2) my_update_val = 1'b1;
+                else                 my_update_val = 1'b0;
+                test_task(my_pc, my_update_en, my_update_val);
+            end
+        end
+
+
+
 
         #20
         $finish();
