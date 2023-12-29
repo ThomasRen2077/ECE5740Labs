@@ -94,7 +94,7 @@ export VERILATOR_ROOT
 	VERILATOR = $(VERILATOR_ROOT)/bin/verilator
 	VERILATOR_COVERAGE = $(VERILATOR_ROOT)/bin/verilator_coverage
 endif
-VERSION= 2.3 
+VERSION= 2.4 
 
 VERILATOR_FLAGS =
 VERILATOR_FLAGS += -cc --exe
@@ -112,6 +112,7 @@ VERILATOR_FLAGS += --timing
 VERILATOR_FLAGS +=  -y ..
 VERILATOR_FLAGS +=  -y test
 VERILATOR_FLAGS +=  -y ../lab1_imul
+VERILATOR_FLAGS +=  -y ../lab2_proc
 VERILATOR_FLAGS +=  -Wno-DECLFILENAME
 VERILATOR_FLAGS +=  -Wno-UNUSEDSIGNAL
 VERILATOR_FLAGS +=  -Wno-VARHIDDEN
@@ -144,6 +145,12 @@ ifndef SYS_TB
 endif
 ifndef FL
 	FL=ProcFLMultiCycle
+endif
+ifndef FL_CACHE
+	FL_CACHE=CacheNone
+endif
+ifndef SYS_TB_CACHE
+	SYS_TB_CACHE=tb_Cache.v
 endif
 
 COMMAND_ARG=$(RUN_ARG) +mem=$(MEM) +memdump=$(MEMDUMP)
@@ -189,7 +196,14 @@ ifeq ($(notdir $(CURDIR) ), lab2_proc)
 				$(MAKE) $$hex.diff DESIGN=$$designs OUTDIR=obj_dir/$$designs ; \
 			done; \
 		done;
-else 
+else ifeq ($(notdir $(CURDIR) ), lab3_cache) 
+		for hex in $(HEX_LIST); do \
+			for designs in $(DESIGN_LIST) ; do \
+				mkdir -p obj_dir/$$designs ;\
+				$(MAKE) $$hex.diff DESIGN=$$designs OUTDIR=obj_dir/$$designs ; \
+			done; \
+		done;
+else
 		for designs in $(DESIGN_CONFIG_LIST) ; do \
 			$(MAKE) run-design DESIGN_CONFIG=$$designs --no-print-directory; \
 		done; 
@@ -218,6 +232,43 @@ run-design: check-setup
 	@mkdir -p hex 
 	@python3 tinyrv2_encoding_assembler.py asm/$(basename $@ ).asm hex/$@  
 %.hex.sim: %.hex FORCE  check-setup
+ifeq ($(notdir $(CURDIR) ), lab3_cache) 
+	@echo $(basename $@)
+	@echo "-- VERILATE ----------------"
+	$(VERILATOR) $(VERILATOR_FLAGS)  --Mdir $(OUTDIR) --$(COVERAGE) --top-module top $(SYS_TB_CACHE) verilator.cpp  +define+DESIGN=$(DESIGN)  
+	cp verilator.?pp $(OUTDIR) 
+
+	@echo
+	@echo "-- COMPILE -----------------"
+
+	$(MAKE)  -C $(OUTDIR) -f Vtop.mk 
+
+	@echo
+	@echo "-- RUN ---------------------"
+	@mkdir -p logs
+	@echo 
+	$(OUTDIR)/Vtop +trace --all --design $(DESIGN) $(RUN_ARG) +mem=hex/$(basename $@) +memdump=$(MEMDUMP) --outname $(DESIGN).$(SYS_TB_CACHE).$(basename $@) 
+
+	@echo $(basename $@)
+	@echo "-- VERILATE ----------------"
+	$(VERILATOR) $(VERILATOR_FLAGS)  --Mdir $(OUTDIR) --$(COVERAGE) --top-module top $(SYS_TB_CACHE) verilator.cpp  +define+DESIGN=$(DESIGN)  
+	cp verilator.?pp $(OUTDIR) 
+
+	@echo
+	@echo "-- COMPILE -----------------"
+
+	$(MAKE)  -C $(OUTDIR) -f Vtop.mk 
+
+	@echo
+	@echo "-- RUN ---------------------"
+	@mkdir -p logs
+	@echo 
+	$(OUTDIR)/Vtop +trace --all --design $(DESIGN) $(RUN_ARG) +mem=hex/$(basename $@) +memdump=$(MEMDUMP) --outname $(DESIGN).$(SYS_TB_CACHE).$(basename $@) 
+	@echo
+	@echo "-- DONE --------------------"
+	printf "To see waveforms, open waves/%s.waves.fst in a waveform viewer" $(DESIGN).$(SYS_TB_CACHE).$(basename $@)
+	@echo
+else
 	@echo $(basename $@)
 	@echo "-- VERILATE ----------------"
 	$(VERILATOR) $(VERILATOR_FLAGS)  --Mdir $(OUTDIR) --$(COVERAGE) --top-module top $(SYS_TB) verilator.cpp  +define+DESIGN=$(DESIGN)  
@@ -253,8 +304,59 @@ run-design: check-setup
 	@echo "-- DONE --------------------"
 	printf "To see waveforms, open waves/%s.waves.fst in a waveform viewer" $(DESIGN).$(SYS_TB).$(basename $@)
 	@echo
+endif
 
 %.hex.diff: %.hex FORCE  check-setup
+ifeq ($(notdir $(CURDIR) ), lab3_cache) 
+	@echo $(basename $@)
+	@echo "-- VERILATE FL ----------------"
+	$(VERILATOR) $(VERILATOR_FLAGS)  --Mdir $(OUTDIR)_FL --$(COVERAGE) --top-module top $(SYS_TB_CACHE) verilator.cpp  +define+DESIGN=$(FL_CACHE)  
+	cp verilator.?pp $(OUTDIR)_FL 
+
+	@echo
+	@echo "-- COMPILE FL-----------------"
+
+	$(MAKE)  -C $(OUTDIR)_FL -f Vtop.mk 
+
+	@echo
+	@echo "-- RUN FL ---------------------"
+	@mkdir -p logs
+	@echo 
+	$(OUTDIR)_FL/Vtop +trace --all --design $(FL) $(RUN_ARG) +mem=hex/$(basename $@) +memdump=$(MEMDUMP).fl --outname $(FL_CACHE).$(SYS_TB_CACHE).$(basename $@) 
+
+	@echo $(basename $@)
+	@echo "-- VERILATE ----------------"
+	$(VERILATOR) $(VERILATOR_FLAGS)  --Mdir $(OUTDIR) --$(COVERAGE) --top-module top $(SYS_TB_CACHE) verilator.cpp  +define+DESIGN=$(DESIGN)  
+	cp verilator.?pp $(OUTDIR) 
+
+	@echo
+	@echo "-- COMPILE -----------------"
+
+	$(MAKE)  -C $(OUTDIR) -f Vtop.mk 
+
+	@echo
+	@echo "-- RUN ---------------------"
+	@mkdir -p logs
+	@echo 
+	$(OUTDIR)/Vtop +trace --all --design $(DESIGN) $(RUN_ARG) +mem=hex/$(basename $@) +memdump=$(MEMDUMP) --outname $(DESIGN).$(SYS_TB_CACHE).$(basename $@) 
+
+	@echo
+	@echo "-- Diff ---------------------"
+	@mkdir -p logs
+	@echo 
+	@diff -y $(MEMDUMP) $(MEMDUMP).fl ;
+	@if [ $$? -eq 0 ] ; then \
+	printf "+" >>results/$(DESIGN).$(SYS_TB_CACHE).$(basename $@).txt ;\
+	echo "[ passed ] Memory Image is the same" ;\
+	else \
+	printf "-" >>results/$(DESIGN).$(SYS_TB_CACHE).$(basename $@).txt ; \
+	echo "[ failed ] Memory Image is different" ;\
+	fi
+	@echo
+	@echo "-- DONE --------------------"
+	@printf "To see waveforms, open waves/%s.waves.fst in a waveform viewer" $(DESIGN).$(SYS_TB_CACHE).$(basename $@)
+	@echo
+else
 	@echo $(basename $@)
 	@echo "-- VERILATE FL ----------------"
 	$(VERILATOR) $(VERILATOR_FLAGS)  --Mdir $(OUTDIR)_FL --$(COVERAGE) --top-module top $(SYS_TB) verilator.cpp  +define+DESIGN=$(FL)  
@@ -303,6 +405,7 @@ run-design: check-setup
 	@echo "-- DONE --------------------"
 	@printf "To see waveforms, open waves/%s.waves.fst in a waveform viewer" $(DESIGN).$(SYS_TB).$(basename $@)
 	@echo
+endif
 ub_%.v utb_%.v tb_%.v: FORCE  
 	@echo decapitated call.  Use make $@.sim instead 
 
@@ -331,15 +434,18 @@ ub_%.v.sim utb_%.v.sim tb_%.v.sim: FORCE  check-setup
 coverage-report: FORCE check-setup
 	@echo
 	@echo "-- COVERAGE ----------------"
-
-	$(VERILATOR_COVERAGE) --annotate-min 1 --annotate-all --annotate logs/annotated logs/*.dat --write-info logs/coverage.info
-
+  
+	for res in $(wildcard logs/*.dat) ; do  \
+		$(VERILATOR_COVERAGE) -write-info $$res.info $$res  ;\
+	done;
 	@echo
 	@echo "-- GENHTML --------------------"
-	$(GENHTML) logs/coverage.info --output-directory logs/$(COVERAGE)/html
+	$(GENHTML) logs/*.info --output-directory logs/$(COVERAGE)/html
 
 lab1_exist=$(wildcard lab1_imul/.)
 lab2_exist=$(wildcard lab2_proc/.)
+lab3_exist=$(wildcard lab3_cache/.)
+lab4_exist=$(wildcard lab4_branch/.)
 tut4_exist=$(wildcard tut4_verilog/.)
 show-results: FORCE check-setup
 	@echo
@@ -366,6 +472,20 @@ ifneq ($(lab2_exist),)
 		@echo Creating symlink for lab2_proc
 		@ln -s ../Makefile lab2_proc/Makefile
 		@ln -s ../verilator.cpp lab2_proc/verilator.cpp
+endif 
+
+ifneq ($(lab3_exist),) 
+		@echo Creating symlink for lab3_cache
+		@ln -s ../Makefile lab3_cache/Makefile
+		@ln -s ../verilator.cpp lab3_cache/verilator.cpp
+		@ln -s ../lab2_proc/asm lab3_cache/asm
+		@ln -s ../lab2_proc/tinyrv2_encoding_assembler.py lab3_cache/tinyrv2_encoding_assembler.py
+endif 
+
+ifneq ($(lab4_exist),) 
+		@echo Creating symlink for lab4_branch
+		@ln -s ../Makefile lab4_branch/Makefile
+		@ln -s ../verilator.cpp lab4_branch/verilator.cpp
 endif 
 
 ifneq ($(tut4_exist),) 
@@ -446,7 +566,9 @@ build-tar: real FORCE check-setup-root-ignore
 	@echo "######################################################################" 
 	
 	lab1_files="lab1_imul/*.v lab1_imul/*.config" 
-	lab2_files="lab1_imul/*.v lab1_imul/*.config lab2_proc/*.v lab2_proc/*.config lab2_proc/asm lab2_proc/ubmark" 
+	lab2_files="lab1_imul/*.v lab1_imul/*.config lab2_proc/*.v lab2_proc/*.config lab2_proc/asm " 
+	lab3_files="lab1_imul/*.v lab1_imul/*.config lab2_proc/*.v lab2_proc/*.config lab2_proc/asm lab3_cache/*.v lab3_cache/*.config" 
+	lab4_files="lab4_branch/*.v lab4_branch/*.config" 
 	echo "Enter your group number: [1-99]"
 	read groupnum 
 	echo "Enter partner #1 netID:"
@@ -464,6 +586,10 @@ build-tar: real FORCE check-setup-root-ignore
 		tar czf lab1.tar.gz $$lab1_files Makefile verilator.cpp group$$groupnum.txt 
 	elif [ "$$input" -eq "2" ] ; then 
 		tar czf lab2.tar.gz $$lab2_files Makefile verilator.cpp group$$groupnum.txt 
+	elif [ "$$input" -eq "3" ] ; then 
+		tar czf lab3.tar.gz $$lab3_files Makefile verilator.cpp group$$groupnum.txt 
+	elif [ "$$input" -eq "4" ] ; then 
+		tar czf lab4.tar.gz $$lab4_files Makefile verilator.cpp group$$groupnum.txt 
 	else 
 		echo "Unkown lab number. Contact a member of course staff if you need assistance." 
 	fi

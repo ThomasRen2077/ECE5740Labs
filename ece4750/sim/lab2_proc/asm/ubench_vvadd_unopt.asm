@@ -17,7 +17,7 @@ add   x5, x0, x1
 
 loop:
 lw    x6, 0(x2)
-lw    x7, 0(x3)
+lw    x7, 0(x2)
 add   x8, x6, x7
 sw    x8, 0(x4)
 addi  x2, x2, 4
@@ -27,7 +27,7 @@ addi  x5, x5, -1
 bne   x5, x0, loop
 
 # end of the program
-csrw  proc2mngr, x0 > 0
+csrw  proc2mngr, x5 > 0
 nop
 nop
 nop

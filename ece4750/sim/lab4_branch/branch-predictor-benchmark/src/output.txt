@@ -1,0 +1,1159 @@
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchBimodal  +define+PHT=16 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/164.gzip/gzip.trace.bz2  --outname temp +trace --all --design BranchBimodal --PHT 16
+37.097 MPKI
+0.755 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchBimodal  +define+PHT=16 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/175.vpr/vpr.trace.bz2  --outname temp +trace --all --design BranchBimodal --PHT 16
+42.304 MPKI
+0.670 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchBimodal  +define+PHT=16 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/176.gcc/gcc.trace.bz2  --outname temp +trace --all --design BranchBimodal --PHT 16
+62.829 MPKI
+0.632 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchBimodal  +define+PHT=16 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/181.mcf/mcf.trace.bz2  --outname temp +trace --all --design BranchBimodal --PHT 16
+44.392 MPKI
+0.795 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchBimodal  +define+PHT=16 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/186.crafty/crafty.trace.bz2  --outname temp +trace --all --design BranchBimodal --PHT 16
+40.422 MPKI
+0.547 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchGlobal  +define+PHT=16 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/164.gzip/gzip.trace.bz2  --outname temp +trace --all --design BranchGlobal --PHT 16
+37.704 MPKI
+0.751 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchGlobal  +define+PHT=16 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/175.vpr/vpr.trace.bz2  --outname temp +trace --all --design BranchGlobal --PHT 16
+41.542 MPKI
+0.676 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchGlobal  +define+PHT=16 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/176.gcc/gcc.trace.bz2  --outname temp +trace --all --design BranchGlobal --PHT 16
+60.699 MPKI
+0.645 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchGlobal  +define+PHT=16 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/181.mcf/mcf.trace.bz2  --outname temp +trace --all --design BranchGlobal --PHT 16
+38.560 MPKI
+0.822 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchGlobal  +define+PHT=16 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/186.crafty/crafty.trace.bz2  --outname temp +trace --all --design BranchGlobal --PHT 16
+38.134 MPKI
+0.573 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=S  +define+PHT=16 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/164.gzip/gzip.trace.bz2  --outname temp +trace --all --design S --PHT 16
+43.088 MPKI
+0.715 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=S  +define+PHT=16 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/175.vpr/vpr.trace.bz2  --outname temp +trace --all --design S --PHT 16
+41.205 MPKI
+0.679 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=S  +define+PHT=16 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/176.gcc/gcc.trace.bz2  --outname temp +trace --all --design S --PHT 16
+62.113 MPKI
+0.636 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=S  +define+PHT=16 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/181.mcf/mcf.trace.bz2  --outname temp +trace --all --design S --PHT 16
+39.940 MPKI
+0.816 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=S  +define+PHT=16 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/186.crafty/crafty.trace.bz2  --outname temp +trace --all --design S --PHT 16
+39.701 MPKI
+0.555 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchBimodal  +define+PHT=32 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/164.gzip/gzip.trace.bz2  --outname temp +trace --all --design BranchBimodal --PHT 32
+31.204 MPKI
+0.794 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchBimodal  +define+PHT=32 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/175.vpr/vpr.trace.bz2  --outname temp +trace --all --design BranchBimodal --PHT 32
+40.527 MPKI
+0.684 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchBimodal  +define+PHT=32 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/176.gcc/gcc.trace.bz2  --outname temp +trace --all --design BranchBimodal --PHT 32
+61.901 MPKI
+0.638 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchBimodal  +define+PHT=32 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/181.mcf/mcf.trace.bz2  --outname temp +trace --all --design BranchBimodal --PHT 32
+35.417 MPKI
+0.837 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchBimodal  +define+PHT=32 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/186.crafty/crafty.trace.bz2  --outname temp +trace --all --design BranchBimodal --PHT 32
+38.709 MPKI
+0.566 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchGlobal  +define+PHT=32 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/164.gzip/gzip.trace.bz2  --outname temp +trace --all --design BranchGlobal --PHT 32
+27.209 MPKI
+0.820 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchGlobal  +define+PHT=32 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/175.vpr/vpr.trace.bz2  --outname temp +trace --all --design BranchGlobal --PHT 32
+40.106 MPKI
+0.687 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchGlobal  +define+PHT=32 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/176.gcc/gcc.trace.bz2  --outname temp +trace --all --design BranchGlobal --PHT 32
+57.762 MPKI
+0.662 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchGlobal  +define+PHT=32 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/181.mcf/mcf.trace.bz2  --outname temp +trace --all --design BranchGlobal --PHT 32
+27.861 MPKI
+0.872 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchGlobal  +define+PHT=32 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/186.crafty/crafty.trace.bz2  --outname temp +trace --all --design BranchGlobal --PHT 32
+34.912 MPKI
+0.609 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=S  +define+PHT=32 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/164.gzip/gzip.trace.bz2  --outname temp +trace --all --design S --PHT 32
+30.260 MPKI
+0.800 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=S  +define+PHT=32 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/175.vpr/vpr.trace.bz2  --outname temp +trace --all --design S --PHT 32
+36.825 MPKI
+0.713 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=S  +define+PHT=32 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/176.gcc/gcc.trace.bz2  --outname temp +trace --all --design S --PHT 32
+59.937 MPKI
+0.649 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=S  +define+PHT=32 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/181.mcf/mcf.trace.bz2  --outname temp +trace --all --design S --PHT 32
+31.572 MPKI
+0.855 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=S  +define+PHT=32 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/186.crafty/crafty.trace.bz2  --outname temp +trace --all --design S --PHT 32
+37.275 MPKI
+0.582 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchBimodal  +define+PHT=64 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/164.gzip/gzip.trace.bz2  --outname temp +trace --all --design BranchBimodal --PHT 64
+29.974 MPKI
+0.802 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchBimodal  +define+PHT=64 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/175.vpr/vpr.trace.bz2  --outname temp +trace --all --design BranchBimodal --PHT 64
+38.766 MPKI
+0.698 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchBimodal  +define+PHT=64 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/176.gcc/gcc.trace.bz2  --outname temp +trace --all --design BranchBimodal --PHT 64
+59.766 MPKI
+0.650 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchBimodal  +define+PHT=64 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/181.mcf/mcf.trace.bz2  --outname temp +trace --all --design BranchBimodal --PHT 64
+34.249 MPKI
+0.842 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchBimodal  +define+PHT=64 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/186.crafty/crafty.trace.bz2  --outname temp +trace --all --design BranchBimodal --PHT 64
+36.477 MPKI
+0.591 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchGlobal  +define+PHT=64 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/164.gzip/gzip.trace.bz2  --outname temp +trace --all --design BranchGlobal --PHT 64
+17.437 MPKI
+0.885 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchGlobal  +define+PHT=64 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/175.vpr/vpr.trace.bz2  --outname temp +trace --all --design BranchGlobal --PHT 64
+39.253 MPKI
+0.694 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchGlobal  +define+PHT=64 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/176.gcc/gcc.trace.bz2  --outname temp +trace --all --design BranchGlobal --PHT 64
+54.995 MPKI
+0.678 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchGlobal  +define+PHT=64 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/181.mcf/mcf.trace.bz2  --outname temp +trace --all --design BranchGlobal --PHT 64
+25.673 MPKI
+0.882 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchGlobal  +define+PHT=64 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/186.crafty/crafty.trace.bz2  --outname temp +trace --all --design BranchGlobal --PHT 64
+31.890 MPKI
+0.643 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=S  +define+PHT=64 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/164.gzip/gzip.trace.bz2  --outname temp +trace --all --design S --PHT 64
+24.609 MPKI
+0.837 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=S  +define+PHT=64 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/175.vpr/vpr.trace.bz2  --outname temp +trace --all --design S --PHT 64
+34.669 MPKI
+0.730 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=S  +define+PHT=64 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/176.gcc/gcc.trace.bz2  --outname temp +trace --all --design S --PHT 64
+56.472 MPKI
+0.669 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=S  +define+PHT=64 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/181.mcf/mcf.trace.bz2  --outname temp +trace --all --design S --PHT 64
+28.914 MPKI
+0.867 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=S  +define+PHT=64 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/186.crafty/crafty.trace.bz2  --outname temp +trace --all --design S --PHT 64
+34.149 MPKI
+0.617 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchBimodal  +define+PHT=128 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/164.gzip/gzip.trace.bz2  --outname temp +trace --all --design BranchBimodal --PHT 128
+28.743 MPKI
+0.810 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchBimodal  +define+PHT=128 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/175.vpr/vpr.trace.bz2  --outname temp +trace --all --design BranchBimodal --PHT 128
+37.492 MPKI
+0.708 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchBimodal  +define+PHT=128 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/176.gcc/gcc.trace.bz2  --outname temp +trace --all --design BranchBimodal --PHT 128
+57.505 MPKI
+0.663 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchBimodal  +define+PHT=128 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/181.mcf/mcf.trace.bz2  --outname temp +trace --all --design BranchBimodal --PHT 128
+33.697 MPKI
+0.845 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchBimodal  +define+PHT=128 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/186.crafty/crafty.trace.bz2  --outname temp +trace --all --design BranchBimodal --PHT 128
+33.059 MPKI
+0.630 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchGlobal  +define+PHT=128 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/164.gzip/gzip.trace.bz2  --outname temp +trace --all --design BranchGlobal --PHT 128
+15.898 MPKI
+0.895 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchGlobal  +define+PHT=128 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/175.vpr/vpr.trace.bz2  --outname temp +trace --all --design BranchGlobal --PHT 128
+33.550 MPKI
+0.738 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchGlobal  +define+PHT=128 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/176.gcc/gcc.trace.bz2  --outname temp +trace --all --design BranchGlobal --PHT 128
+50.756 MPKI
+0.703 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchGlobal  +define+PHT=128 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/181.mcf/mcf.trace.bz2  --outname temp +trace --all --design BranchGlobal --PHT 128
+24.118 MPKI
+0.889 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchGlobal  +define+PHT=128 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/186.crafty/crafty.trace.bz2  --outname temp +trace --all --design BranchGlobal --PHT 128
+29.067 MPKI
+0.674 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=S  +define+PHT=128 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/164.gzip/gzip.trace.bz2  --outname temp +trace --all --design S --PHT 128
+18.015 MPKI
+0.881 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=S  +define+PHT=128 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/175.vpr/vpr.trace.bz2  --outname temp +trace --all --design S --PHT 128
+32.325 MPKI
+0.748 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=S  +define+PHT=128 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/176.gcc/gcc.trace.bz2  --outname temp +trace --all --design S --PHT 128
+51.364 MPKI
+0.699 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=S  +define+PHT=128 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/181.mcf/mcf.trace.bz2  --outname temp +trace --all --design S --PHT 128
+28.229 MPKI
+0.870 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=S  +define+PHT=128 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/186.crafty/crafty.trace.bz2  --outname temp +trace --all --design S --PHT 128
+30.804 MPKI
+0.655 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer
+
+-- VERILATE ----------------
+verilator --trace-fst -cc --exe -O3  -x-assign 0 -Wall --assert --timing -y .. -y ../../.. -y test -y ../lab1_imul -y ../lab2_proc -y . -Wno-DECLFILENAME -Wno-UNUSEDSIGNAL -Wno-VARHIDDEN -Wno-UNDRIVEN -Wno-GENUNNAMED -Wno-UNUSEDPARAM -Wno-PINCONNECTEMPTY   --trace --top-module top tb_Branch.v predict.cpp traces.cpp   +define+DESIGN=BranchBimodal  +define+PHT=256 
+
+-- COMPILE -----------------
+cp *.?pp obj_dir 
+/Library/Developer/CommandLineTools/usr/bin/make  -C obj_dir  -f Vtop.mk 
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o predict.o predict.cpp
+c++  -I.  -MMD -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include -I/opt/homebrew/Cellar/verilator/5.016/share/verilator/include/vltstd -DVM_COVERAGE=0 -DVM_SC=0 -DVM_TRACE=1 -DVM_TRACE_FST=1 -DVM_TRACE_VCD=0 -faligned-new -fbracket-depth=4096 -fcf-protection=none -Qunused-arguments -Wno-bool-operation -Wno-tautological-bitwise-compare -Wno-parentheses-equality -Wno-sign-compare -Wno-uninitialized -Wno-unused-but-set-variable -Wno-unused-parameter -Wno-unused-variable -Wno-shadow      -std=gnu++17 -Os -c -o traces.o traces.cpp
+c++   -Wl,-U,__Z15vl_time_stamp64v,-U,__Z13sc_time_stampv   predict.o traces.o verilated.o verilated_fst_c.o verilated_threads.o Vtop__ALL.a   -lz  -pthread -lpthread   -o Vtop
+
+-- RUN ---------------------
+
+obj_dir/Vtop  ../traces/164.gzip/gzip.trace.bz2  --outname temp +trace --all --design BranchBimodal --PHT 256
+27.524 MPKI
+0.818 Prediction accuarcy 
+
+-- DONE --------------------
+To see waveforms, open waves/temp.waves.fst in a waveform viewer

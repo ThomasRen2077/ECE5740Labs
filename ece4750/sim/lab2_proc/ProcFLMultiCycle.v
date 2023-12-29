@@ -11,7 +11,7 @@
 
 `include "tinyrv2_encoding.v"
 
-
+/* verilator lint_off UNOPTFLAT */
 module lab2_proc_ProcFLMultiCycle
 #(
   parameter p_num_cores = 1
@@ -385,7 +385,7 @@ module lab2_proc_ProcFLMultiCycle
             end
             `TINYRV2_INST_JALR  : begin
               n_rf[ rd ] = PC+4;
-              n_PC = ($signed(rf[rs1]) + $signed(imm_i(inst)))& 32'hfffffffe;
+              n_PC = ($signed(rf[rs1]) + $signed(imm_i(inst)))& $signed(32'hfffffffe);
             end
             `TINYRV2_INST_BEQ   : begin
               if (rf[rs1]==rf[rs2]) n_PC=$signed(PC) +$signed(imm_b(inst));
@@ -534,6 +534,5 @@ module lab2_proc_ProcFLMultiCycle
   `endif
 
 endmodule
-
+/* verilator lint_on UNOPTFLAT */
 `endif /* LAB2_PROC_PROC_BASE_V */
-
