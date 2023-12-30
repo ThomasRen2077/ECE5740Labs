@@ -1,8 +1,3 @@
-//========================================================================
-// tb_ProcSimple
-//========================================================================
-// A basic Verilog test bench for the multiplier
-
 `default_nettype none
 `timescale 1ps/1ps
 

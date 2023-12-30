@@ -16,6 +16,14 @@
 //------------------------------------------------------------------------
 // Top-level module
 //------------------------------------------------------------------------
+// class first;
+  
+//   int data; 
+//   int data2;
+//   int data3;
+  
+  
+// endclass
 
 module top(  input logic clk, input logic linetrace );
 
@@ -64,6 +72,25 @@ module top(  input logic clk, input logic linetrace );
   //----------------------------------------------------------------------
   // Run the Test Bench
   //----------------------------------------------------------------------
+
+  // first f;
+  
+  // initial begin
+  //   f = new(); 
+  //   f.data = 45;
+  //   f.data2 = 78;
+  //   f.data3 = 90;
+
+  //   #1;
+  //   $display("Value of data : %0d, data2 : %0d, data3 : %0d ",f.data, f.data2, f.data3);
+  //   f = null;
+  // end
+  
+  // initial begin
+  //   $dumpfile("dump.vcd");
+  //   $dumpvars;
+  // end
+
 
   initial begin
 

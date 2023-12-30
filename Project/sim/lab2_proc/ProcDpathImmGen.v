@@ -37,4 +37,4 @@ module lab2_proc_ProcDpathImmGen
 
 endmodule
 
-`endif /* LAB2_PROC_DPATH_IMM_GEN_V */
+`endif
