@@ -1,24 +1,12 @@
-//=========================================================================
-// Integer Multiplier Variable-Latency Implementation
-//=========================================================================
-
 `ifndef LAB1_IMUL_INT_MUL_ALT_V
 `define LAB1_IMUL_INT_MUL_ALT_V
 
 `include "vc/trace.v"
-
-// ''' LAB TASK ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-// Define datapath and control unit here.
-// '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''\/
-
 `include "vc/muxes.v"
 `include "vc/regs.v"
 `include "vc/arithmetic.v"
 `include "CalcShamt.v"
 
-//========================================================================
-// Integer Multiplier Variable-Latency Datapath
-//========================================================================
 
 module lab1_imul_IntMulAltDpath
 (
@@ -83,7 +71,7 @@ module lab1_imul_IntMulAltDpath
 
   lab1_imul_CalcShamt calc_shamt
   (
-   .in_ (b_reg_out[7:0]),
+   .in (b_reg_out[7:0]),
    .out (calc_shamt_out)
   );
 
@@ -186,9 +174,7 @@ module lab1_imul_IntMulAltDpath
 
 endmodule
 
-//========================================================================
-// Integer Multiplier Variable-Latency Control Unit
-//========================================================================
+
 
 module lab1_imul_IntMulAltCtrl
 (
@@ -224,17 +210,6 @@ module lab1_imul_IntMulAltCtrl
   localparam STATE_IDLE = 2'd0;
   localparam STATE_CALC = 2'd1;
   localparam STATE_DONE = 2'd2;
-
-  /*
-  typedef enum logic [$clog2(3)-1:0] {
-    STATE_IDLE,
-    STATE_CALC,
-    STATE_DONE
-  } state_t;
-
-  state_t state_reg;
-  state_t state_next;
-  */
 
   logic [1:0] state_reg;
   logic [1:0] state_next;
@@ -339,11 +314,6 @@ default:                     cs('x, 'x,   a_x,   b_x,   res_x,  'x,     add_x   
 
 endmodule
 
-// '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''/\
-
-//=========================================================================
-// Integer Multiplier Variable-Latency Implementation
-//=========================================================================
 
 module lab1_imul_IntMulAlt
 (
@@ -358,11 +328,6 @@ module lab1_imul_IntMulAlt
   input  logic        ostream_rdy,
   output logic [31:0] ostream_msg
 );
-
-  // ''' LAB TASK ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-  // Instantiate datapath and control models here and then connect them
-  // together.
-  // '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''\/
 
   // Control signals
 
@@ -398,74 +363,6 @@ module lab1_imul_IntMulAlt
 
   assign ostream_msg = product & {32{ostream_val}};
 
-  // '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''/\
-
-  //----------------------------------------------------------------------
-  // Line Tracing
-  //----------------------------------------------------------------------
-
-  `ifndef SYNTHESIS
-
-  logic [`VC_TRACE_NBITS-1:0] str;
-  `VC_TRACE_BEGIN
-  begin
-
-    $sformat( str, "%x", istream_msg );
-    vc_trace.append_val_rdy_str( trace_str, istream_val, istream_rdy, str );
-
-    vc_trace.append_str( trace_str, "(" );
-
-    // ''' LAB TASK ''''''''''''''''''''''''''''''''''''''''''''''''''''''
-    // Add additional line tracing using the helper tasks for
-    // internal state including the current FSM state.
-    // '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''\/
-
-    $sformat( str, "%x", dpath.a_reg_out );
-    vc_trace.append_str( trace_str, str );
-    vc_trace.append_str( trace_str, " " );
-
-    $sformat( str, "%x", dpath.b_reg_out );
-    vc_trace.append_str( trace_str, str );
-    vc_trace.append_str( trace_str, " " );
-
-    $sformat( str, "%x", dpath.result_reg_out );
-    vc_trace.append_str( trace_str, str );
-    vc_trace.append_str( trace_str, " " );
-
-    case ( ctrl.state_reg )
-      ctrl.STATE_IDLE:
-        vc_trace.append_str( trace_str, "I " );
-
-      ctrl.STATE_CALC:
-      begin
-        if ( ctrl.do_sh_add )
-          vc_trace.append_str( trace_str, "C+" );
-        else if ( ctrl.do_sh )
-          vc_trace.append_str( trace_str, "C " );
-        else
-          vc_trace.append_str( trace_str, "C?" );
-      end
-
-      ctrl.STATE_DONE:
-        vc_trace.append_str( trace_str, "D " );
-
-      default:
-        vc_trace.append_str( trace_str, "? " );
-
-    endcase
-
-    // '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''/\
-
-    vc_trace.append_str( trace_str, ")" );
-
-    $sformat( str, "%x", ostream_msg );
-    vc_trace.append_val_rdy_str( trace_str, ostream_val, ostream_rdy, str );
-
-  end
-  `VC_TRACE_END
-
-  `endif /* SYNTHESIS */
-
 endmodule
 
-`endif /* LAB1_IMUL_INT_MUL_ALT_V */
+`endif

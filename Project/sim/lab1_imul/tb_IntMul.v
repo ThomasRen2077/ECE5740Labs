@@ -61,16 +61,6 @@ module top(  input logic clk, input logic linetrace );
     .ostream_msg   (ostream_msg)
   );
 
-  initial begin 
-    while(1) begin
-      @(negedge clk);  
-      if (linetrace) begin
-           imul.display_trace;
-      end
-    end 
-    $stop;
-   end
-
   //----------------------------------------------------------------------
   // Run the Test Bench
   //----------------------------------------------------------------------
