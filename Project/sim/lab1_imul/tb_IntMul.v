@@ -1,8 +1,3 @@
-//========================================================================
-// tb_IntMul
-//========================================================================
-// A basic Verilog test bench for the multiplier
-
 `default_nettype none
 `timescale 1ps/1ps
 
@@ -12,312 +7,248 @@
 
 `include `"`DESIGN.v`"
 `include "vc/trace.v"
+`include "vc/TestRandDelaySource.v"
+`include "vc/TestRandDelaySink.v"
 
 //------------------------------------------------------------------------
-// Top-level module
+// Testbench classes
 //------------------------------------------------------------------------
-// class first;
-  
-//   int data; 
-//   int data2;
-//   int data3;
-  
-  
-// endclass
+
+class mul_interface;
+  logic               clk;
+  logic               reset;
+
+  logic               istream_val;
+  logic               istream_rdy;
+  logic [63:0]        istream_msg;
+
+  logic               ostream_rdy;
+  logic               ostream_val;
+  logic signed [31:0] ostream_msg;
+endclass
+
+
+class driver;
+  int i = 0;
+  int count_cycles = 0;
+  int current_time = 0;
+  mul_interface mif;
+
+  function new(mul_interface mif);
+    this.mif = mif;
+  endfunction
+
+  task run(input logic signed [31:0] a, input logic signed [31:0] b );
+  begin
+
+
+    // Change inputs at the negedge
+    @(negedge mif.clk);
+    // Record Start Time
+    current_time = $time;
+
+    // Set inputs
+    mif.istream_msg[63:32] = a;
+    mif.istream_msg[31:0] = b;
+    mif.istream_val   = 1'b1;
+    mif.ostream_rdy   = 1'b0;
+
+    // Wait until ready is asserted
+    while(!mif.istream_rdy) @(negedge mif.clk); 
+    // Move to next cycle.
+    @(negedge mif.clk); 
+
+    // No more ready input
+    mif.istream_val = 1'b0; 
+    // Ready for output  
+    mif.ostream_rdy = 1'b1; 
+    // Wait for response
+    if(!mif.ostream_val) @(mif.ostream_val);
+    // accumulate the cycle time;
+    count_cycles += (($time - current_time) / 2);
+
+    // Check the result
+    assert ( (a * b) == mif.ostream_msg) begin
+      pass(); 
+      $display( "Test # %0d Passed: in0 = %d, in1 = %d, out = %d", i, a, b, mif.ostream_msg );
+      i++;
+    end
+    else begin
+      fail();
+      $error( "Test # %0d Failed: in0 = %d, in1 = %d, out = %d", i, a, b, mif.ostream_msg );
+      i++;
+    end
+
+    @(negedge mif.clk);
+  end
+  endtask
+
+  task reset();
+  begin
+    // Send reset and init values of all signals
+    mif.reset         = '1;
+    mif.istream_msg   = '0;
+    mif.istream_val   = '0;
+
+    // After a moment, de-assert reset
+    #10; 
+    mif.reset = '0;
+  end
+  endtask
+
+  task display_cycles();
+    begin
+      $display("The Above Testcases Cost %d cycles", count_cycles );
+      count_cycles = 0;
+    end
+  endtask
+
+endclass
 
 module top(  input logic clk, input logic linetrace );
 
-  // DUT signals
-  logic        reset;
+  mul_interface mif;
+  driver drv;
 
-  logic        istream_val;
-  logic        istream_rdy;
-  logic [63:0] istream_msg;
+  // Test Signals
+  logic [31:0] a;
+  logic [31:0] b;
 
-  logic        ostream_rdy;
-  logic        ostream_val;
-  logic [31:0] ostream_msg;
-
-  // Testbench signals
-  logic        istream_val_f;
-  logic        ostream_rdy_f;
-
-  logic [31:0] istream_msg_a;
-  logic [31:0] istream_msg_b;
-
-  // Form istream_msg
-  always_comb begin
-    istream_msg[63:32] = istream_msg_a;
-    istream_msg[31: 0] = istream_msg_b;
+  always @(*) begin
+    mif.clk = clk;
   end
 
-  //----------------------------------------------------------------------
-  // Module instantiations
-  //----------------------------------------------------------------------
-  
-  // Instantiate the multiplier
 
   lab1_imul_`DESIGN imul
   (
-    .clk   (clk),
-    .reset (reset),
-    .istream_val(istream_val),
-    .istream_rdy(istream_rdy),
-    .istream_msg(istream_msg),
-    .ostream_val   (ostream_val),
-    .ostream_rdy   (ostream_rdy),
-    .ostream_msg   (ostream_msg)
+    .clk   (mif.clk),
+    .reset (mif.reset),
+    .istream_val(mif.istream_val),
+    .istream_rdy(mif.istream_rdy),
+    .istream_msg(mif.istream_msg),
+    .ostream_val   (mif.ostream_val),
+    .ostream_rdy   (mif.ostream_rdy),
+    .ostream_msg   (mif.ostream_msg)
   );
 
   //----------------------------------------------------------------------
-  // Run the Test Bench
+  // Run the TestBench
   //----------------------------------------------------------------------
-
-  // first f;
-  
-  // initial begin
-  //   f = new(); 
-  //   f.data = 45;
-  //   f.data2 = 78;
-  //   f.data3 = 90;
-
-  //   #1;
-  //   $display("Value of data : %0d, data2 : %0d, data3 : %0d ",f.data, f.data2, f.data3);
-  //   f = null;
-  // end
-  
-  // initial begin
-  //   $dumpfile("dump.vcd");
-  //   $dumpvars;
-  // end
-
 
   initial begin
 
     $display("Start of Testbench");
-    // Send reset and init values of all signals
-    reset         = 1;
-    istream_msg_a = 0;
-    istream_msg_b = 0;
-    istream_val   = 0;
+    mif = new();
+    drv = new(mif);
 
-    // After a moment, de-assert reset
-    #10 
-    reset = 0;
+    drv.reset();
 
-    //--------------------------------------------------------------------
-    // Test cases
-    //--------------------------------------------------------------------
-
-    // Align test bench with negedge so that it looks better
     #10
     @(negedge clk); 
 
     //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    // Test #1
+    // Example Tests
     //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-    $display("Example Test #1");
-
-    //Set inputs
-    istream_msg_a = 32'd2;
-    istream_msg_b = 32'd3;
-    istream_val   =  1'b1;
-    ostream_rdy   =  1'b1;
-
-    while(!istream_rdy) @(negedge clk); // Wait until ready is asserted
-    @(negedge clk); // Move to next cycle.
-    
-    istream_val = 1'b0; // Deassert ready input
-    if(!ostream_val) @(ostream_val);// Wait for response
-    @(negedge clk); // read at low clk
-    
-    // Check the result
-    assert ( 6 == ostream_msg) begin
-      pass(); // Book keeping
-      $display( "OK: in0 = %d, in1 = %d, out = %d", 
-                istream_msg_a, istream_msg_b, ostream_msg );
-    end
-    else begin
-      fail(); // Book keeping
-      $error( "Failed: in0 = %d, in1 = %d, out = %d", 
-              istream_msg_a, istream_msg_b, ostream_msg );
-    end
-   
-    #10
-    @(negedge clk);
-
-    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    // Test #2
-    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    $display("Example Test #2");
-    
-    //Set inputs
-    istream_msg_a = 32'd4;
-    istream_msg_b = 32'd5;
-    istream_val   =  1'b1;
-    ostream_rdy   =  1'b1;
-
-    while(!istream_rdy) @(negedge clk); // Wait until ready is asserted
-    @(negedge clk); // Move to next cycle.
-    
-    istream_val = 1'b0; // Deassert ready input
-    if(!ostream_val) @(ostream_val);// Wait for response
-    @(negedge clk); // read at low clk
-    
-    // Check the result
-    assert ( 20 == ostream_msg) begin
-      pass(); // Book keeping
-      $display( "OK: in0 = %d, in1 = %d, out = %d", 
-                istream_msg_a, istream_msg_b, ostream_msg );
-    end
-    else begin
-      fail(); // Book keeping
-      $error( "Failed: in0 = %d, in1 = %d, out = %d", 
-              istream_msg_a, istream_msg_b, ostream_msg );
-    end
-   
-    #10
-    @(negedge clk);
-
-    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    // Test #3
-    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    $display("Example Test #3");
-
-    //Set inputs
-    istream_msg_a = 32'd3;
-    istream_msg_b = 32'd4;
-    istream_val   =  1'b1;
-    ostream_rdy   =  1'b1;
-    
-    while(!istream_rdy) @(negedge clk); // Wait until ready is asserted
-    @(negedge clk); // Move to next cycle.
-    
-    istream_val = 1'b0; // Deassert ready input
-    if(!ostream_val) @(ostream_val);// Wait for response
-    @(negedge clk); // read at low clk
-    
-    // Check the result
-    assert ( 12 == ostream_msg) begin
-      pass(); // Book keeping
-      $display( "OK: in0 = %d, in1 = %d, out = %d", 
-                istream_msg_a, istream_msg_b, ostream_msg );
-    end
-    else begin
-      fail(); // Book keeping
-      $error( "Failed: in0 = %d, in1 = %d, out = %d", 
-              istream_msg_a, istream_msg_b, ostream_msg );
-    end
-   
-    #10
-    @(negedge clk);
-
-    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    // Test #4
-    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    $display("Example Test #4");
-
-    //Set inputs
-    istream_msg_a = 32'd10;
-    istream_msg_b = 32'd13;
-    istream_val   =  1'b1;
-    ostream_rdy   =  1'b1;
-    
-    while(!istream_rdy) @(negedge clk); // Wait until ready is asserted
-    @(negedge clk); // Move to next cycle.
-    
-    istream_val = 1'b0; // Deassert ready input
-    if(!ostream_val) @(ostream_val);// Wait for response
-    @(negedge clk); // read at low clk
-    
-    // Check the result
-    assert ( 130 == ostream_msg) begin
-      pass(); // Book keeping
-      $display( "OK: in0 = %d, in1 = %d, out = %d", 
-                istream_msg_a, istream_msg_b, ostream_msg );
-    end
-    else begin
-      fail(); // Book keeping
-      $error( "Failed: in0 = %d, in1 = %d, out = %d", 
-              istream_msg_a, istream_msg_b, ostream_msg );
-    end
-   
-    #10
-    @(negedge clk);
-
-    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    // Test #5
-    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-    $display("Example Test #5");
-    
-    // We can simplify Testbench with tasks (declared below)
-    test_task(8,7);
-
+    $display("Fixed Number Tests");
+    drv.run(32'd2, 32'd3);
+    drv.run(32'd4, 32'd5);
+    drv.run(32'd3, 32'd4);
+    drv.run(32'd10, 32'd13);
+    drv.run(32'd8, 32'd7);
+    drv.display_cycles();
     #10;
 
-    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    // Random Tests
-    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    
-    $display("Random Test");
+    $display("Random Tests");
+    drv.i = 0;
     for( integer x = 0; x < 5; x++ ) begin
-      test_task( $random, $random );
+      drv.run( $random, $random );
     end
-
-    // Finish the testbench
-    
-    @(negedge clk);
-    $display("Testbench finished at %d cycles", ($time()-10)/2 );
-    
-    // Delay for a better waveform
+    drv.display_cycles();
     #10;
+
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    // Student Tests
+    //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+    $display("Student Tests");
+    drv.i = 0;
+    // Multiply by zero
+    a = 32'h00000000; b = 32'h12345678; 
+    drv.run(a,b);
+
+    // Multiply by one
+    a = 32'h00000001; b = 32'h12345678; 
+    drv.run(a,b);
+
+    // Multiply by negative one
+    a = 32'hFFFFFFFF; b = 32'h12345678; 
+    drv.run(a,b);
+
+    // Mask off the low 16 bits of a and b
+    a = 32'h12340000; b = 32'h56780000;
+    drv.run(a,b);
+
+    // Mask off the middle 16 bits of a and b
+    a = 32'h34000056; b = 32'h12000034;
+    drv.run(a,b);
+
+    // Sparse numbers
+    a = 32'h10000001; b = 32'h80000001;
+    drv.run(a,b);
+
+    a = 32'h10010001; b = 32'h80001001;
+    drv.run(a,b);
+
+
+    // Dense numbers
+    a = 32'hFFFFFFFE; b = 32'h7FFFFFFF;
+    drv.run(a,b);
+
+    a = 32'hFFFCFFFE; b = 32'h7FFBFFFF;
+    drv.run(a,b);
+
+    //Corner Case
+    a = 32'h00000001; b = 32'hFFFFFFFF;
+    drv.run(a,b);
+
+    a = 32'h80000000; b = 32'hFFFFFFFF;
+    drv.run(a,b);
+
+    a = 32'hFFFFFFFF; b = 32'hFFFFFFFF;
+    drv.run(a,b);
+
+    a = 32'hFFFFFFFF; b = 32'h80000000;
+    drv.run(a,b);
+
+    a = 32'hFFFFFFFF; b = 32'h00000001;
+    drv.run(a,b);
+
+    a = 32'h80000000; b = 32'h80000000;
+    drv.run(a,b);
+
+    a = 32'h80000000; b = 32'h00000001;
+    drv.run(a,b);
+
+    a = 32'h00000001; b = 32'h80000000;
+    drv.run(a,b);
+
+    a = 32'h00000001; b = 32'h00000001;
+    drv.run(a,b);
+
+    drv.display_cycles();
+
+    #10;
+    $finish();
+  end
+
+  initial begin
+    for( integer i = 0; i < 1000000; i = i + 1 ) begin
+      @( negedge clk );
+    end
+
+    $error( "TIMEOUT: Testbench didn't finish in time" );
     $finish;
-
   end
-
-  //--------------------------------------------------------------------
-  // test_task definition
-  //--------------------------------------------------------------------
-  // Here is a tasks that test the DUT when given 2 numbers a and b 
-  //
-  // Notice that the functionality is identical to the examples above
-
-  task test_task( [31:0] a,  [31:0] b );
-  begin
-
-    // Change inputs at the negedge
-    @(negedge clk);
-
-    // Set inputs
-    istream_msg_a = a;
-    istream_msg_b = b;
-    istream_val   = 1'b1;
-    ostream_rdy   = 1'b0;
-
-    while(!istream_rdy) @(negedge clk); // Wait until ready is asserted
-    @(negedge clk); // Move to next cycle.
-    
-    istream_val = 1'b0; // No more ready input
-    ostream_rdy = 1'b1; // Ready for output
-
-    if(!ostream_val) @(ostream_val);// Wait for response
-    
-    // Check the result
-    assert ( (a * b) == ostream_msg) begin
-      pass(); // Book keeping
-      $display( "OK: in0 = %d, in1 = %d, out = %d", a, b, ostream_msg );
-    end
-    else begin
-      fail(); // Book keeping
-      $error( "Failed: in0 = %d, in1 = %d, out = %d", a, b, ostream_msg );
-    end
-
-    @(negedge clk);
-  end
-  endtask
 endmodule
+
