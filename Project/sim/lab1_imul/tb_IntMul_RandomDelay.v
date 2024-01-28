@@ -1,9 +1,3 @@
-//========================================================================
-// tb_Imul_RandDelay
-//========================================================================
-// A Verilog test bench for our latency-insensitive IntMul with random
-// source/sink delays
-
 `default_nettype none
 `timescale 1ps/1ps
 
@@ -17,7 +11,7 @@
 `include "vc/TestRandDelaySink.v"
 
 //------------------------------------------------------------------------
-// Testbench defines
+// Testbench parameters
 //------------------------------------------------------------------------
 
 localparam NUM_TESTS = 28;

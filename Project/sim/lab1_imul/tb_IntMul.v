@@ -41,7 +41,6 @@ class driver;
   task run(input logic signed [31:0] a, input logic signed [31:0] b );
   begin
 
-
     // Change inputs at the negedge
     @(negedge mif.clk);
     // Record Start Time
@@ -105,8 +104,10 @@ class driver;
 
 endclass
 
+//------------------------------------------------------------------------
+// Top-level Module
+//------------------------------------------------------------------------
 module top(  input logic clk, input logic linetrace );
-
   mul_interface mif;
   driver drv;
 
@@ -235,6 +236,12 @@ module top(  input logic clk, input logic linetrace );
 
     a = 32'h00000001; b = 32'h00000001;
     drv.run(a,b);
+
+    //More Random Cases
+    for( integer x = 0; x < 20; x++ ) begin
+      drv.run( $random, $random );
+    end
+
 
     drv.display_cycles();
 
