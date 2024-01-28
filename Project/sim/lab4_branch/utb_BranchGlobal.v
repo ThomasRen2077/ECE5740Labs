@@ -397,8 +397,7 @@ module top(  input logic clk, input logic linetrace );
         
         
         // Check the result
-        
-         assert (prediction != update_val) begin
+        assert (prediction != update_val) begin
             $display("Incorrect Prediction. PC: %h, resolution: %b, prediction: %b", PC, update_val, prediction);fail();
         end else begin
             $display("Correct Prediction. PC: %h, resolution: %b, prediction: %b", PC, update_val, prediction);pass();
