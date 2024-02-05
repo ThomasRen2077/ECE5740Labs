@@ -1,37 +1,55 @@
-# Lab 2: Pipelined Processor
+# ECE 4750 Computer Architecture Lab Implementations
 
-## Introduction
+This repository contains the implementation of four lab assignments from the ECE 4750 Computer Architecture course at Cornell University. These labs cover a broad range of fundamental concepts in computer architecture, including iterative integer multiplication, pipelined processors, caching mechanisms, and branch prediction strategies. Each lab is designed to provide hands-on experience with the Verilog hardware description language, exploring different architectural designs, optimization techniques, and testing strategies.
 
-Designed two pipelined processor microarchitectures for the TinyRV2 instruction set architecture.
+## Lab Overview
 
-Baseline design is a five-stage processor pipeline that uses stalling.
+### Lab 1: Iterative Integer Multiplier
 
-Alternative design is a five-stage processor pipeline that uses bypassing.
+- **Objective:** Implement and evaluate two versions of an integer iterative multiplier: a baseline fixed-latency design and an alternative variable-latency design.
+- **Key Concepts:** Verilog modeling, abstraction levels, design principles, and agile methodologies.
 
-## Supported TinyRV2 instrcuctions
+### Lab 2: Pipelined Processor
 
-    CSR: csrr(done), csrw(done)
+- **Objective:** Design two pipelined processor microarchitectures for the TinyRV2 ISA, focusing on stalling and bypassing data hazards.
+- **Key Concepts:** Instruction set architecture, pipelined processor microarchitecture, data and control hazards.
 
-    Reg-Reg: add(done), sub(done), mul(done), and(done), or(done), xor(done), slt(done), sltu(done), sra(done), srl(done), sll(done)
+### Lab 3: Cache
 
-    Reg-Imm: addi(done), ori, andi(done), xori(done), slti(done), sltiu(done), srai(done), srli(done), slli(done), lui(done), auipc(done)
+- **Objective:** Enhance the pipelined processor with a data cache (D-cache) and an instruction cache (I-cache), implementing direct-mapped and set-associative caches.
+- **Key Concepts:** Memory system design, cache associativity, cache controllers.
 
-    Memory: lw(done), sw(done)
+### Lab 4: Branch Predictors
 
-    Jump: jal(done), jalr(done)
+- **Objective:** Implement three branch prediction mechanisms (Bimodal, Global, GShare) to optimize processor throughput.
+- **Key Concepts:** Dynamic branch prediction, predictor design and evaluation.
 
-    Branch: bne(done), beq(done), blt(done), bltu(done), bge(done), bgeu(done)
+## Repository Structure
 
-## Baseline Design
+Each lab is contained in its own directory, structured as follows:
 
-### Setup
+- `lab1_imul/` - Iterative Integer Multiplier
+- `lab2_proc/` - Pipelined Processor
+- `lab3_cache/` - Cache Implementation
+- `lab4_branch/` - Branch Predictors
 
-Decomposed the baseline design into two separate modules: **Datapath and Control unit**.
+Within each lab directory, you will find:
 
-Control unit did not use an FSM but instead used **pipelined control logic**.
+- Verilog source files (`*.v`)
+- Testbenches (`tb_*.v` for system-level tests, `utb_*.v` for unit tests)
+- A Makefile for running simulations and tests
+- A configuration file (`default.config`) for testbench reuse
+- Additional documentation specific to each lab
 
-Used modules in **_vclib_**.
+## Getting Started
 
-### Implementation
+To run any lab simulation:
 
-Used the variable-latency integer multiplier in the first lab to implement the mul instruction.
+1. Clone this repository to your local machine.
+2. Navigate to the desired lab directory.
+3. Use the provided Makefile to run simulations and tests. For example:
+
+```bash
+cd lab1_imul/
+make run-all
+```
