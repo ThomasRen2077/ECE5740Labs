@@ -1,6 +1,4 @@
-# ECE 4750 Computer Architecture Lab Implementations
-
-This repository contains the implementation of four lab assignments from the ECE 4750 Computer Architecture course at Cornell University. These labs cover a broad range of fundamental concepts in computer architecture, including iterative integer multiplication, pipelined processors, caching mechanisms, and branch prediction strategies. Each lab is designed to provide hands-on experience with the Verilog hardware description language, exploring different architectural designs, optimization techniques, and testing strategies.
+# A RISC-V Pipeline Processor Implementations
 
 ## Lab Overview
 
@@ -39,15 +37,15 @@ Within each lab directory, you will find:
 - Testbenches (`tb_*.v` for system-level tests, `utb_*.v` for unit tests)
 - A Makefile for running simulations and tests
 - A configuration file (`default.config`) for testbench reuse
-- Additional documentation specific to each lab
 
 ## Getting Started
 
 To run any lab simulation:
 
 1. Clone this repository to your local machine.
-2. Navigate to the desired lab directory.
-3. Use the provided Makefile to run simulations and tests. For example:
+2. Install Verilator
+3. Navigate to the desired lab directory.
+4. Use the provided Makefile to run simulations and tests. For example:
 
 ```bash
 cd lab1_imul/
